@@ -1,0 +1,89 @@
+<head>
+    <title>Unifide</title>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/media/css/bootstrap.css">
+    <link rel="stylesheet" href="/media/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="/media/css/styles.css">
+
+</head>
+
+<body>
+    {{> page_controller}}
+</body>
+
+<template name="header">
+    <div id="header">
+        <div class="container">Unifide</div>
+    </div>
+</template>
+
+<template name="page_controller">
+    {{#if Meteor.userId}}
+        {{{display_page}}}
+    {{else}}
+        {{{login_page}}}
+    {{/if}}
+</template>
+
+<template name="page_login">
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <div class="login-title">
+                    UNIFIDE
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span8 offset2">
+                <div class="login-box">
+                    <div class="row">
+                        <div class="span4">
+                            <div class="log-in">
+                                <h4>Welcome Back!</h4>
+                                <div class="input-prepend">
+                                    <span class="add-on"><i class="icon-user"></i></span>
+                                    <input id="loginUser" type="text" placeholder="username">
+                                </div>
+                                <br>
+                                <div class="input-prepend">
+                                    <span class="add-on"><i class="icon-user"></i></span>
+                                    <input id="loginPass" type="text" placeholder="password">
+                                </div>
+                                <br><br>
+                                <button id="login" class="btn btn-primary log-btn" type="button">Login</button>
+                                <br><br><br>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="signup">
+                                <h4>Join us now</h4>
+                                <div class="input-prepend">
+                                    <span class="add-on"><i class="icon-user"></i></span>
+                                    <input id="signupUser" type="text" placeholder="username">
+                                </div>
+                                <br>
+                                <div class="input-prepend">
+                                    <span class="add-on"><i class="icon-envelope"></i></span>
+                                    <input id="signupEmail" type="text" placeholder="e-mail">
+                                </div>
+                                <br>
+                                <div class="input-prepend">
+                                    <span class="add-on"><i class="icon-user"></i></span>
+                                    <input id="signupPass" type="text" placeholder="password">
+                                </div>
+                                <br><br>
+                                <button id="signup" class="btn btn-primary log-btn" type="button">Sign Up</button>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="page_index">
+    <h1>Bye World !</h1>
+</template>
