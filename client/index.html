@@ -1,6 +1,7 @@
 <head>
-    <title>Unifide</title>
+    <title>Unifide - Dashboard</title>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,700,300' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="/media/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/media/css/bootstrap.css">
     <link rel="stylesheet" href="/media/css/bootstrap-responsive.css">
     <link rel="stylesheet" href="/media/css/styles.css">
@@ -11,79 +12,104 @@
     {{> page_controller}}
 </body>
 
+<template name="page_controller">
+    {{{view}}}
+</template>
+
 <template name="header">
     <div id="header">
-        <div class="container">Unifide</div>
-    </div>
-</template>
-
-<template name="page_controller">
-    {{#if Meteor.userId}}
-        {{{display_page}}}
-    {{else}}
-        {{{login_page}}}
-    {{/if}}
-</template>
-
-<template name="page_login">
-    <div class="container">
+        <div class="container">
         <div class="row">
-            <div class="span12">
-                <div class="login-title">
-                    UNIFIDE
-                </div>
+            <div class="span9">
+                <div class="logo">UNIFIDE</div>
             </div>
+            <div class="span3">{{{username}}} | <span id="logout">Logout</span></div>
         </div>
-        <div class="row">
-            <div class="span8 offset2">
-                <div class="login-box">
-                    <div class="row">
-                        <div class="span4">
-                            <div class="log-in">
-                                <h4>Welcome Back!</h4>
-                                <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-user"></i></span>
-                                    <input id="loginUser" type="text" placeholder="username">
-                                </div>
-                                <br>
-                                <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-user"></i></span>
-                                    <input id="loginPass" type="text" placeholder="password">
-                                </div>
-                                <br><br>
-                                <button id="login" class="btn btn-primary log-btn" type="button">Login</button>
-                                <br><br><br>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="signup">
-                                <h4>Join us now</h4>
-                                <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-user"></i></span>
-                                    <input id="signupUser" type="text" placeholder="username">
-                                </div>
-                                <br>
-                                <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-envelope"></i></span>
-                                    <input id="signupEmail" type="text" placeholder="e-mail">
-                                </div>
-                                <br>
-                                <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-user"></i></span>
-                                    <input id="signupPass" type="text" placeholder="password">
-                                </div>
-                                <br><br>
-                                <button id="signup" class="btn btn-primary log-btn" type="button">Sign Up</button>
-                                <br>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </template>
 
 <template name="page_index">
-    <h1>Bye World !</h1>
+    {{> header}}
+    {{> page_content}}
+</template>
+
+<template name="page_content">
+    <div class="container">
+        {{> menu}}
+        {{{view}}}
+    </div>
+</template>
+
+<template name="menu">
+    <div class="row menu">
+        <div class="span12">
+            <div class="menubar">
+                <ul class="inline">
+                    <li><span class="welcome">Welcome back</span>, <span class="welcomeuser">{{{username}}}</span></li>
+                    <li><a><i class="icon-list menuicon"></i>OVERVIEW</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown"><i class="icon-pencil menuicon"></i>CAMPAIGN</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                        <li><a class="menuitem" role="menuitem">NEW STATUS CAMPAIGN</a></li>
+                        <li><a class="menuitem" role="menuitem">NEW EVENT CAMPAIGN</a></li>
+                        <li><div class="divider"></div></li>
+                        <li><a class="menuitem" role="menuitem">VIEW/EDIT CAMPAIGNS</a></li>
+                    </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" id="drop3" role="button" data-toggle="dropdown"><i class="icon-th menuicon"></i>MANAGE</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                        <li><a class="menuitem" role="menuitem">BUSINESS INFORMATION</a></li>
+                        <li><a class="menuitem" role="menuitem">RESERVATIONS</a></li>
+                        <li><a class="menuitem" role="menuitem">ITEMS</a></li>
+                    </ul>
+                    </li>
+                    <li><a><i class="icon-user menuicon"></i>ACCOUNT</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="overview">
+    <div class="overview">
+        <div class="row">
+            <div class="span6">
+                <div class="overview-widget">
+                    Facebook Overview
+                </div>
+            </div>
+            <div class="span6">
+                <div class="overview-widget">
+                    Twitter Overview
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="overview-widget">
+                    Foursquare Overview
+                </div>
+            </div>
+            <div class="span6">
+                <div class="overview-widget">
+                    Brand Mentions Overview
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span8">
+                <div class="overview-website">
+                    Website Overview
+                </div>
+            </div>
+            <div class="span4">
+                <div class="overview-mobile">
+                    iPhone Overview
+                </div>
+                <div class="overview-mobile">
+                    Android Overview
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

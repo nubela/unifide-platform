@@ -1,59 +1,59 @@
+/* 1. Router set page
+*  2. Template loads page (check auth)
+*/
+
 var myAppRouter = Backbone.Router.extend({
     routes: {
+        "" : "page_index",
         "login": "page_login",
-        "" : "page_index"
+        "campaign": "campaign",
+        "manage": "manage",
+        "account": "account"
     },
     page_index: view_index,
     page_login: view_login
 });
 
+function view_index(url_path) { Session.set("page", "index"); };
+function view_login(url_path) { Session.set("page", "login"); };
+
 function isAuth() {
-    return Meteor.userId == null ? true : false;
+    return (Meteor.user() != null) ? true : false;
 }
 
-function view_index(url_path) {
-    if (!isAuth()) {
-        Router.navigate("login", true)
-    }
-};
-
-function view_login(url_path) {
-    Session.set('view', 'login');
-}
-
-Template.page_controller.display_page = function() {
-    return Template['page_index']();
-}
-
-Template.page_controller.login_page = function() {
-    return Template['page_login']();
-}
-
-Template.page_login.events = {
-    'click #login': function() {
-        alert('tested and working');
-    },
-    'click #signup': function() {
-        Accounts.createUser({
-            username: $('#signupUser').val(),
-            email: $('#signupEmail').val(),
-            password: $('#signupPass').val()
-        }, createUser_callback)
-    }
-}
-
-function createUser_callback(error) {
-    if (error == null) {
-        Router.navigate("cp", true);
+Template.page_controller.view = function() {
+    if (isAuth()) {
+        Router.navigate('');
+        return Template['page_index']();
     } else {
-        alert('error signing up');
+        Router.navigate('login');
+        return Template['page_login']();
     }
 }
 
-/*Template.index.events = {
- 'click .myapp' : router_navigation
- };*/
+Template.header.events = {
+    'click #logout': function() {
+        Meteor.logout();
+    }
+}
 
+Template.header.username = function() {
+    return getUsername();
+}
+
+Template.menu.username = function() {
+    return getUsername();
+}
+
+function getUsername() {
+    return Meteor.user() != null ? Meteor.user().username : "Loading...";
+}
+
+Template.page_content.view = function() {
+    /*var p = Session.get("page");
+    if (p == "index") { return Template['overview'](); }*/
+    return Template['overview']();
+}
 
 /*----------------------- init ---------------------------*/
 
@@ -72,3 +72,7 @@ function router_navigation(event) {
     // route the URL
     Router.navigate(pathname, true);
 }
+
+/*Template.index.events = {
+ 'click .myapp' : router_navigation
+ };*/
