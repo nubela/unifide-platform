@@ -18,8 +18,14 @@ a, a:hover, a:visited {
 }
 
 #header .logo {
+    margin-left: 10px;
     font-size: 18px;
     font-weight: bold;
+}
+
+#header .cp {
+    margin-right: 10px;
+    text-align: right;
 }
 
 #header #logout {
@@ -107,6 +113,7 @@ a, a:hover, a:visited {
 
 .menu .welcomeuser {
     margin-left: 5px;
+    margin-right: 10px;
 }
 
 .menu li.dropdown:hover > ul.dropdown-menu{
