@@ -45,7 +45,39 @@ Template.page_content.view = function() {
     if (p == "campaign") { return Template['campaign'](); }
     else if (p == "manage") { return Template['manage'](); }
     else if (p == "account") { return Template['account'](); }
+
+    return load_overview();
+}
+
+Meteor.autorun(function() {
+    Meteor.subscribe("facebook", {posts_offset: 0, comments_offset: 0});
+})
+
+function load_overview(){
     return Template['overview']();
+}
+
+Template.overview.facebook_overview = function() {
+    _FBOverview.remove({});
+    var client_FBPosts = FBPosts.find().fetch();
+    for (var i=0;i<client_FBPosts.length;i++) {
+        var client_FBComments = FBComments.find({post_id: client_FBPosts[i].post_id}).fetch();
+        if (client_FBComments.length == 0) { continue; } // no comments/conversations, skip post
+        for (var x=0;x<client_FBComments.length;x++) {
+            if (i+1 < client_FBPosts.length) {
+                if (client_FBComments[x].created_time > client_FBPosts[i+1].updated_time) {
+                    _FBOverview.insert({post: client_FBPosts[i], comment: client_FBComments[x]});
+                }
+            } else {
+                _FBOverview.insert({post: client_FBPosts[i], comment: client_FBComments[x]});
+            }
+
+            if (_FBOverview.find({}, {reactive: false}).count() == 5) { break; }
+        }
+        if (_FBOverview.find({}, {reactive: false}).count() == 5) { break; }
+    }
+
+    return _FBOverview.find();
 }
 
 Template.page_controller.events = {
@@ -71,7 +103,6 @@ function getUsername() {
 }
 
 function router_navigation(event) {
-    alert('triggered');
     // prevent default browser link click behavior
     event.preventDefault();
     // get the path from the link

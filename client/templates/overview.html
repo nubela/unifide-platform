@@ -4,6 +4,26 @@
             <div class="span6">
                 <div class="overview-widget">
                     Facebook Overview
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>page_id</th>
+                            <th>page_name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each facebook_overview}}
+                        <tr>
+                            <td>{{post.message}}</td>
+                            <td>{{comment.text}}</td>
+                        </tr>
+                        {{/each}}
+                        <tr>
+                            <td>2222222</td>
+                            <td>asdsdasd</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="span6">
