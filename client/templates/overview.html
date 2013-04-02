@@ -29,6 +29,22 @@
             <div class="span6">
                 <div class="overview-widget">
                     Twitter Overview
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>tweeter</th>
+                            <th>tweet message</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each twitter_overview}}
+                        <tr>
+                            <td>{{tweeter.screen_name}}</td>
+                            <td>{{tweet.text}}</td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

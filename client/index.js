@@ -49,9 +49,12 @@ Template.page_content.view = function() {
     return load_overview();
 }
 
-Meteor.autorun(function() {
-    Meteor.subscribe("facebook", {posts_offset: 0, comments_offset: 0});
-})
+Meteor.startup(function() {
+    Deps.autorun(function() {
+        Meteor.subscribe("facebook", {posts_offset: 0, comments_offset: 0});
+        Meteor.subscribe("twitter");
+    });
+});
 
 function load_overview(){
     return Template['overview']();
@@ -78,6 +81,18 @@ Template.overview.facebook_overview = function() {
     }
 
     return _FBOverview.find();
+}
+
+Template.overview.twitter_overview = function() {
+    _TWOverview.remove({});
+    var client_TWTweets = TWTweets.find({}, {sort:{created_at: -1}}).fetch();
+    for (var i=0;i<client_TWTweets.length;i++) {
+        if (_TWOverview.find({}, {reactive: false}).count() == 0) { _TWOverview.insert({tweet: client_TWTweets[i], tweeter: _TWUsers.findOne({tw_id: client_TWTweets[i].user})}); continue; }
+        if (client_TWTweets[i].created_at < client_TWTweets[i-1].created_at) { _TWOverview.insert({tweet: client_TWTweets[i], tweeter: _TWUsers.findOne({tw_id: client_TWTweets[i].user})});}
+        if (_TWOverview.find({}, {reactive: false}).count() == 5) { break;}
+    }
+
+    return _TWOverview.find();
 }
 
 Template.page_controller.events = {

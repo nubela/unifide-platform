@@ -14,7 +14,7 @@ Meteor.publish("facebook", function(posts_offset, comments_offset) {
     var pageid_list = [];
     var page_objs = page_list.fetch();
     for (var i=0;i<page_objs.length;i++) { pageid_list.push(page_objs[i].page_id); }
-    var post_list = FBPosts.find({page_id: {$exists: true, $in: pageid_list}}, {sort: {updated_time: 0}}, {limit: 50}, {skip: posts_offset});
+    var post_list = FBPosts.find({page_id: {$exists: true, $in: pageid_list}}, {sort: {updated_time: -1}}, {limit: 50}, {skip: posts_offset});
     var postid_list = [];
     var post_objs = post_list.fetch();
     for (var i=0;i<post_objs.length;i++) { postid_list.push(post_objs[i].post_id); }
@@ -22,7 +22,7 @@ Meteor.publish("facebook", function(posts_offset, comments_offset) {
     return [
         page_list,  // FBPages.find()
         post_list,  // FBPosts.find()
-        FBComments.find({post_id: {$exists: true, $in: postid_list}}, {sort: {updated_time: 0}}, {limit: 50}, {skip: comments_offset})  // FBComments.find()
+        FBComments.find({post_id: {$exists: true, $in: postid_list}}, {sort: {updated_time: -1}}, {limit: 50}, {skip: comments_offset})  // FBComments.find()
     ];
 });
 
@@ -31,4 +31,27 @@ Meteor.publish("facebook", function(posts_offset, comments_offset) {
  */
 Meteor.publish("facebook_attr", function(fb_ids) {
     return _FBUsers.find({id: {$exists: true, $in: fb_ids}}, {fields: {id: 1, name: 1}}).limit(50); // _FBUsers.find()
+});
+
+Meteor.publish("twitter", function() {
+    var twitter_list = TWUsers.find({u_id: this.userId}, {fields: {tw_id: 1}});
+
+    if (twitter_list.count() == 0) { return []; }
+    else { twitter_list = twitter_list.fetch(); }
+
+    // get latest 50 tweets
+    var tw_list = []
+    for (var i=0;i<twitter_list.length;i++) { tw_list.push(twitter_list[i].tw_id); }
+    tweets_list = TWTweets.find({tw_id: {$exists: true, $in: tw_list}}, {sort: {created_at: -1}, limit: 50});
+
+    // get cached users for the latest 50 tweets
+    tweets = tweets_list.fetch();
+    var user_list = []
+    for (var i=0;i<tweets.length;i++) { user_list.push(tweets[i].user); }
+    tweeter_list = _TWUsers.find({tw_id: {$exists: true, $in: user_list}});
+
+    return [
+        tweets_list,
+        tweeter_list
+    ];
 });
