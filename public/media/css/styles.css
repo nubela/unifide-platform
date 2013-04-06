@@ -11,10 +11,12 @@ a, a:hover, a:visited {
 #header {
     padding: 22px 0 18px 0;
     background: #292929;
-    font-family: 'Merriweather',Georgia,serif;
+    font-family: "Helvetica Neue",Helvetica,Verdana,Arial,sans-serif;
     height: 20px;
     width: 100%;
     color: #ffffff;
+    font-size: 12px;
+    letter-spacing: 2px;
 }
 
 #header .logo {
@@ -132,14 +134,43 @@ a, a:hover, a:visited {
     color: #0088B0;
 }
 
+.overview {
+    color: #4d4d4d;
+}
+
+.overview .title {
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 5px;
+    padding-left: 1px;
+}
+
+.overview .viewmore {
+    font-size: 12px;
+    font-weight: bold;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 6px;
+    padding-left: 1px;
+    display: block;
+    color: #7f7f7f;
+}
+
 .overview .overview-widget {
     background: #ffffff;
     margin-bottom: 30px;
-    padding: 10px;
+    padding: 8px 13px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    height: 200px;
+    height: 300px;
+}
+
+.overview-widget .table-hover {
+    margin-top:10px;
+    margin-bottom: 10px;
+    height: 230px;
+    font-size: 12px;
 }
 
 .overview .overview-website {
@@ -160,4 +191,112 @@ a, a:hover, a:visited {
     -moz-border-radius: 3px;
     border-radius: 3px;
     height: 200px;
+}
+
+.container-shadow {
+    border: 1px solid #d9d9d9;
+    -moz-box-shadow:  rgba(0, 0, 0, 0.1) 0 0 2px 0px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 0px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 0px;
+}
+
+/*      campaign     */
+
+.campaign {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    margin-bottom: 30px;
+    padding: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.campaign .span9 {
+    margin-left: 20px;
+}
+
+.campaign-nav {
+    background: #f7f7f7;
+    /*border-right: 2px solid #d9d9d9;*/
+    padding: 20px 15px;
+    display: block;
+}
+
+.campaign-content {
+    padding: 20px 15px 20px 0;
+}
+
+.campaign-title {
+    font-weight: bold;
+    font-size: 26px;
+    letter-spacing: 1px;
+}
+
+.campaign-grey-title {
+    margin-top: 40px;
+    margin-left: 10px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    color: #878b8a;
+}
+
+.campaign-nav-submenu {
+    font-size: 14px;
+}
+
+.campaign-nav-submenu li {
+    width: 100%;
+}
+
+.campaign-recent {
+    font-size: 13px;
+}
+
+.campaign-recent p {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.campaign-section {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    border-bottom: 2px solid #f2f2f2;
+    display: block;
+    font-size: 16px;
+}
+
+.campaign-section-spacing {
+    padding-left: 8px;
+    margin-bottom: 20px;
+    font-size: 12px;
+}
+
+.campaign-type {
+    padding-left: 5px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.campaign-post-header {
+    font-size: 10px;
+    color: #878b8a;
+}
+
+.campaign-publish li a {
+    width: 250px;
+    height: 100px;
+}
+
+/*      bootstrap overrides       */
+
+.dropdown-menu {
+    top: 90%;
+}
+
+.table td {
+    border: none;
 }

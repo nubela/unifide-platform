@@ -6,19 +6,40 @@ var myAppRouter = Backbone.Router.extend({
     routes: {
         "" : "page_index",
         "login": "page_login",
+        "facebook": "page_facebook",
+        "twitter": "page_twitter",
+        "foursquare": "page_foursquare",
+        "brand_mention": "page_brand_mention",
+        "web_platform": "page_web_platform",
+        "ios_platform": "page_ios_platform",
+        "android_platform": "page_android_platform",
         "campaign": "page_campaign",
         "manage": "page_manage",
         "account": "page_account"
     },
     page_index: view_index,
     page_login: view_login,
+    page_facebook: view_facebook,
+    page_twitter: view_twitter,
+    page_foursquare: view_foursquare,
+    page_brand_mention: view_brand_mention,
+    page_web_platform: view_web_platform,
+    page_ios_platform: view_ios_platform,
+    page_android_platform: view_android_platform,
     page_campaign: view_campaign,
     page_manage: view_manage,
     page_account: view_account
 });
 
-function view_index(url_path) { Session.set("page", "index"); };
+function view_index(url_path) { Session.set("page", "overview"); };
 function view_login(url_path) { Session.set("page", "login"); };
+function view_facebook(url_path) { Session.set("page", "facebook"); };
+function view_twitter(url_path) { Session.set("page", "twitter"); };
+function view_foursquare(url_path) { Session.set("page", "foursquare"); };
+function view_brand_mention(url_path) { Session.set("page", "brand_mention"); };
+function view_web_platform(url_path) { Session.set("page", "web_platform"); };
+function view_ios_platform(url_path) { Session.set("page", "ios_platform"); };
+function view_android_platform(url_path) { Session.set("page", "android_platform"); };
 function view_campaign(url_path) { Session.set("page", "campaign"); };
 function view_manage(url_path) { Session.set("page", "manage"); };
 function view_account(url_path) { Session.set("page", "account"); };
@@ -32,7 +53,7 @@ Template.page_controller.view = function() {
     if (Meteor.loggingIn()) { return; }
 
     if (isAuth()) {
-        Router.navigate('', true);
+        Router.navigate(Session.get("page"), true);
         return Template['page_index']();
     } else {
         Router.navigate('login', true);
@@ -41,17 +62,20 @@ Template.page_controller.view = function() {
 }
 
 Template.page_content.view = function() {
-    var p = Session.get("page");
-    if (p == "campaign") { return Template['campaign'](); }
+    /*var p = Session.get("page");
+    if (p == "index") { return Template['overview'](); }
+    else if (p == "campaign") { return Template['campaign'](); }
     else if (p == "manage") { return Template['manage'](); }
     else if (p == "account") { return Template['account'](); }
+    return load_overview();*/
 
-    return load_overview();
+    return Template[Session.get("page")]();
 }
 
 Meteor.startup(function() {
     Deps.autorun(function() {
         Meteor.subscribe("facebook", {posts_offset: 0, comments_offset: 0});
+        Meteor.subscribe("facebook_attr");
         Meteor.subscribe("twitter");
     });
 });
@@ -69,10 +93,12 @@ Template.overview.facebook_overview = function() {
         for (var x=0;x<client_FBComments.length;x++) {
             if (i+1 < client_FBPosts.length) {
                 if (client_FBComments[x].created_time > client_FBPosts[i+1].updated_time) {
-                    _FBOverview.insert({post: client_FBPosts[i], comment: client_FBComments[x]});
+                    var user_name = (_FBUsers.findOne({id: client_FBComments[x].user}) != undefined) ? _FBUsers.findOne({id: client_FBComments[x].user}).name : ""
+                    _FBOverview.insert({post: client_FBPosts[i], comment: client_FBComments[x], username: user_name});
                 }
             } else {
-                _FBOverview.insert({post: client_FBPosts[i], comment: client_FBComments[x]});
+                var user_name = (_FBUsers.findOne({id: client_FBComments[x].user}) != undefined) ? _FBUsers.findOne({id: client_FBComments[x].user}).name : ""
+                _FBOverview.insert({post: client_FBPosts[i], comment: client_FBComments[x], username: user_name});
             }
 
             if (_FBOverview.find({}, {reactive: false}).count() == 5) { break; }
@@ -89,7 +115,7 @@ Template.overview.twitter_overview = function() {
     for (var i=0;i<client_TWTweets.length;i++) {
         if (_TWOverview.find({}, {reactive: false}).count() == 0) { _TWOverview.insert({tweet: client_TWTweets[i], tweeter: _TWUsers.findOne({tw_id: client_TWTweets[i].user})}); continue; }
         if (client_TWTweets[i].created_at < client_TWTweets[i-1].created_at) { _TWOverview.insert({tweet: client_TWTweets[i], tweeter: _TWUsers.findOne({tw_id: client_TWTweets[i].user})});}
-        if (_TWOverview.find({}, {reactive: false}).count() == 5) { break;}
+        if (_TWOverview.find({}, {reactive: false}).count() == 4) { break;}
     }
 
     return _TWOverview.find();
@@ -106,7 +132,7 @@ Template.header.events = {
 }
 
 Template.header.username = function() {
-    return getUsername();
+    return getUsername().toUpperCase();
 }
 
 Template.menu.username = function() {

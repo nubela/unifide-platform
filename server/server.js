@@ -1,6 +1,7 @@
 /*
     Publish facebook page, posts, comments based on user's facebook pages added
  */
+
 Meteor.publish("facebook", function(posts_offset, comments_offset) {
     posts_offset = typeof posts_offset !== 'undefined' ? posts_offset : 0;
     comments_offset = typeof comments_offset !== 'undefined' ? comments_offset : 0;
@@ -29,8 +30,8 @@ Meteor.publish("facebook", function(posts_offset, comments_offset) {
 /*
     Publish previously cached user info for use in facebook posts, comments
  */
-Meteor.publish("facebook_attr", function(fb_ids) {
-    return _FBUsers.find({id: {$exists: true, $in: fb_ids}}, {fields: {id: 1, name: 1}}).limit(50); // _FBUsers.find()
+Meteor.publish("facebook_attr", function() {
+    return _FBUsers.find({}, {fields: {id: 1, name: 1}}); // _FBUsers.find()
 });
 
 Meteor.publish("twitter", function() {

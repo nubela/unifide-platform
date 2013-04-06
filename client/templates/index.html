@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="span3">
-                    <div class="cp">{{{username}}} | <span id="logout">Logout</span></div>
+                    <div class="cp">{{{username}}} | <span id="logout">LOGOUT</span></div>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
 <template name="menu">
     <div class="row menu">
         <div class="span12">
-            <div class="menubar">
+            <div class="menubar container-shadow">
                 <ul class="inline">
                     <li><span class="welcome">Welcome back</span>, <span class="welcomeuser">{{{username}}}</span><div class="clear"></div></li>
                     <li class="dropdown"><a class="dropdown-toggle" id="drop1" role="button" data-toggle="dropdown"><i class="icon-list menuicon"></i>OVERVIEW</a>
@@ -59,11 +59,11 @@
                             <li><a class="menuitem appnav" role="menuitem" href="/facebook">FACEBOOK</a></li>
                             <li><a class="menuitem appnav" role="menuitem" href="/twitter">TWITTER</a></li>
                             <li><a class="menuitem appnav" role="menuitem" href="/foursquare">FOURSQUARE</a></li>
-                            <li><a class="menuitem appnav" role="menuitem" href="/brand">BRAND MENTIONS</a></li>
+                            <li><a class="menuitem appnav" role="menuitem" href="/brand_mention">BRAND MENTIONS</a></li>
                             <li><div class="divider"></div></li>
-                            <li><a class="menuitem appnav" role="menuitem" href="/website">WEBSITE</a></li>
-                            <li><a class="menuitem appnav" role="menuitem" href="/iphone">iPHONE</a></li>
-                            <li><a class="menuitem appnav" role="menuitem" href="/android">ANDROID</a></li>
+                            <li><a class="menuitem appnav" role="menuitem" href="/web_platform">WEBSITE</a></li>
+                            <li><a class="menuitem appnav" role="menuitem" href="/ios_platform">iPHONE</a></li>
+                            <li><a class="menuitem appnav" role="menuitem" href="/android_platform">ANDROID</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown"><i class="icon-pencil menuicon"></i>CAMPAIGN</a>
@@ -71,17 +71,24 @@
                             <li><a class="menuitem appnav" role="menuitem" href="/campaign">NEW STATUS CAMPAIGN</a></li>
                             <li><a class="menuitem" role="menuitem">NEW EVENT CAMPAIGN</a></li>
                             <li><div class="divider"></div></li>
-                            <li><a class="menuitem" role="menuitem">VIEW/EDIT CAMPAIGNS</a></li>
+                            <li><a class="menuitem" role="menuitem">MANAGE CAMPAIGNS</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown"><a class="dropdown-toggle" id="drop3" role="button" data-toggle="dropdown"><i class="icon-th menuicon"></i>MANAGE</a>
+                    <li class="dropdown"><a class="dropdown-toggle" id="drop3" role="button" data-toggle="dropdown"><i class="icon-th menuicon"></i>MODULES</a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
                         <li><a class="menuitem" role="menuitem">BUSINESS INFORMATION</a></li>
                         <li><a class="menuitem" role="menuitem">RESERVATIONS</a></li>
+                        <li><div class="divider"></div></li>
                         <li><a class="menuitem" role="menuitem">ITEMS</a></li>
                     </ul>
                     </li>
-                    <li><a><i class="icon-user menuicon"></i>ACCOUNT</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown"><i class="icon-user menuicon"></i>ACCOUNT</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                        <li><a class="menuitem" role="menuitem">VIEW ACCOUNT DETAILS</a></li>
+                        <li><div class="divider"></div></li>
+                        <li><a class="menuitem" role="menuitem">UPDATE SETTINGS</a></li>
+                    </ul>
+                    </li>
                 </ul>
             </div>
         </div>

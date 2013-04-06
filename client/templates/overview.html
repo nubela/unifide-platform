@@ -2,40 +2,26 @@
     <div class="overview">
         <div class="row">
             <div class="span6">
-                <div class="overview-widget">
-                    Facebook Overview
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>page_id</th>
-                            <th>page_name</th>
-                        </tr>
-                        </thead>
+                <div class="overview-widget container-shadow">
+                    <div class="title">FACEBOOK - LATEST ACTIVITIES</div>
+                    <table class="table table-hover">
                         <tbody>
                         {{#each facebook_overview}}
                         <tr>
+                            <td><a href="http://www.facebook.com/profile.php?id={{comment.user}}" onclick="window.open(this.href,'_blank');return false;"><img src="http://graph.facebook.com/{{comment.user}}/picture"></a></td>
+                            <td><strong>{{username}}</strong> commented on your status: "{{comment.text}}"</td>
                             <td>{{post.message}}</td>
-                            <td>{{comment.text}}</td>
                         </tr>
                         {{/each}}
-                        <tr>
-                            <td>2222222</td>
-                            <td>asdsdasd</td>
-                        </tr>
                         </tbody>
                     </table>
+                    <a class="viewmore">VIEW ALL</a>
                 </div>
             </div>
             <div class="span6">
-                <div class="overview-widget">
-                    Twitter Overview
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>tweeter</th>
-                            <th>tweet message</th>
-                        </tr>
-                        </thead>
+                <div class="overview-widget container-shadow">
+                    <div class="title">TWITTER - LATEST ACTIVITIES</div>
+                    <table class="table table-hover">
                         <tbody>
                         {{#each twitter_overview}}
                         <tr>
@@ -45,33 +31,36 @@
                         {{/each}}
                         </tbody>
                     </table>
+                    <a class="viewmore">VIEW ALL</a>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="span6">
-                <div class="overview-widget">
-                    Foursquare Overview
+                <div class="overview-widget container-shadow">
+                    <div class="title">FOURSQUARE - LATEST ACTIVITIES</div>
+                    <a class="viewmore">VIEW ALL</a>
                 </div>
             </div>
             <div class="span6">
-                <div class="overview-widget">
-                    Brand Mentions Overview
+                <div class="overview-widget container-shadow">
+                    <div class="title">BRAND MENTIONS - LATEST ACTIVITIES</div>
+                    <a class="viewmore">VIEW ALL</a>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="span8">
-                <div class="overview-website">
-                    Website Overview
+                <div class="overview-website container-shadow">
+                    <div class="title">WEB PLATFORM - LATEST ACTIVITIES</div>
                 </div>
             </div>
             <div class="span4">
-                <div class="overview-mobile">
-                    iPhone Overview
+                <div class="overview-mobile container-shadow">
+                    <div class="title">iOS PLATFORM - LATEST ACTIVITIES</div>
                 </div>
-                <div class="overview-mobile">
-                    Android Overview
+                <div class="overview-mobile container-shadow">
+                    <div class="title">ANDROID PLATFORM - LATEST ACTIVITIES</div>
                 </div>
             </div>
         </div>

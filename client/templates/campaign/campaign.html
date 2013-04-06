@@ -1,0 +1,117 @@
+<template name="campaign">
+    <div class="campaign container-shadow">
+        <div class="row">
+            <div class="span12">
+                <div class="row">
+                    <div class="span3">
+                        <div class="campaign-nav">
+                            <div class="campaign-title">Campaigns</div>
+                            <div class="campaign-grey-title">Choose a campaign to create</div>
+                            <ul class="unstyled campaign-nav-submenu nav nav-pills">
+                                <li class="active"><a href="#">Status Updates</a></li>
+                                <li><a href="#">Events Campaign</a></li>
+                                <li><a href="#">Promotional Campaign</a></li>
+                            </ul>
+                            <div class="campaign-grey-title">Manage campaigns</div>
+                            <ul class="unstyled campaign-nav-submenu nav nav-pills">
+                                <li><a href="#">All Campaigns<div class="pull-right">0</div></a></li>
+                                <li><a href="#">Status Updates<div class="pull-right">0</div></a></li>
+                                <li><a href="#">Events Campaign<div class="pull-right">0</div></a></li>
+                                <li><a href="#">Promotional Campaign<div class="pull-right">0</div></a></li>
+                            </ul>
+                            <div class="campaign-grey-title">Recent Campaigns</div>
+                            <ul class="unstyled campaign-nav-submenu nav nav-pills campaign-recent">
+                                <li><a href="#"><strong>The standard Lorem Ipsum passage, used since the 1500s</strong><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ...</p></a></li>
+                                <li><a href="#"><strong>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</strong><p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem  ...</p></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="span9">
+                        <div class="campaign-content">
+                            <div class="campaign-title">New Status Update</div>
+                            <div class="campaign-section">Campaign Type</div>
+                            <div class="campaign-type campaign-section-spacing">
+                                <label class="radio inline">
+                                    <input type="radio" name="campaignType" id="campaign-type-status" value="type-status" checked>
+                                    Status Update
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="campaignType" id="campaign-type-event" value="type-event">
+                                    Events Campaign
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="campaignType" id="campaign-type-promo" value="type-promo">
+                                    Promotional Campaign
+                                </label>
+                            </div>
+                            <div class="campaign-section">Platforms</div>
+                            <div class="campaign-platform campaign-section-spacing">
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="platform-facebook" value="platform-facebook">
+                                    Facebook
+                                </label>
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="platform-twitter" value="platform-twitter">
+                                    Twitter
+                                </label>
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="platform-foursquare" value="platform-foursquare">
+                                    Foursquare
+                                </label>
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="platform-web" value="platform-web">
+                                    Web
+                                </label>
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="platform-ios" value="platform-ios">
+                                    iOS
+                                </label>
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="platform-android" value="platform-android">
+                                    Android
+                                </label>
+                            </div>
+                            <div class="campaign-section">Content</div>
+                            <div class="campaign-post campaign-section-spacing">
+                                <form class>
+                                    <div class="row">
+                                    <div class="span4">
+                                        <div class="control-group">
+                                            <label class="control-label campaign-post-header" for="contentTitle">title</label>
+                                            <div class="controls">
+                                                <input type="text" id="contentTitle" placeholder="enter a title">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label campaign-post-header" for="contentDescription">description</label>
+                                            <div class="controls">
+                                                <input type="text" id="contentDescription" placeholder="enter a description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="span4">
+                                        <div class="control-group">
+                                            <label class="control-label campaign-post-header" for="contentMedia">photo/video</label>
+                                            <div class="controls">
+                                                <input type="text" id="contentMedia" placeholder="select a photo/video">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="campaign-section">When to publish</div>
+                            <div class="campaign-publish campaign-section-spacing">
+                                <ul class="nav nav-pills">
+                                    <li class="text-center"><a href="#">Schedule</a></li>
+                                    <li class="text-center"><a href="#">Review</a></li>
+                                    <li class="text-center"><a href="#">Publish</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
