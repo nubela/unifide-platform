@@ -14,6 +14,7 @@ var myAppRouter = Backbone.Router.extend({
         "ios_platform": "page_ios_platform",
         "android_platform": "page_android_platform",
         "campaign": "page_campaign",
+        "campaign/new/status": "campaign_new_status",
         "manage": "page_manage",
         "account": "page_account"
     },
@@ -27,6 +28,7 @@ var myAppRouter = Backbone.Router.extend({
     page_ios_platform: view_ios_platform,
     page_android_platform: view_android_platform,
     page_campaign: view_campaign,
+    campaign_new_status: view_campaign_new_status,
     page_manage: view_manage,
     page_account: view_account
 });
@@ -36,11 +38,12 @@ function view_login(url_path) { Session.set("page", "login"); };
 function view_facebook(url_path) { Session.set("page", "facebook"); };
 function view_twitter(url_path) { Session.set("page", "twitter"); };
 function view_foursquare(url_path) { Session.set("page", "foursquare"); };
-function view_brand_mention(url_path) { Session.set("page", "brand_mention"); };
-function view_web_platform(url_path) { Session.set("page", "web_platform"); };
-function view_ios_platform(url_path) { Session.set("page", "ios_platform"); };
-function view_android_platform(url_path) { Session.set("page", "android_platform"); };
+function view_brand_mention(url_path) { Session.set("page", "brand-mention"); };
+function view_web_platform(url_path) { Session.set("page", "web-platform"); };
+function view_ios_platform(url_path) { Session.set("page", "ios-platform"); };
+function view_android_platform(url_path) { Session.set("page", "android-platform"); };
 function view_campaign(url_path) { Session.set("page", "campaign"); };
+function view_campaign_new_status(url_path) { Session.set("page", "campaign_new_status"); };
 function view_manage(url_path) { Session.set("page", "manage"); };
 function view_account(url_path) { Session.set("page", "account"); };
 
@@ -51,9 +54,14 @@ function isAuth() {
 Template.page_controller.view = function() {
 
     if (Meteor.loggingIn()) { return; }
+    if (Session.get("page") == undefined) { return; }
 
     if (isAuth()) {
-        Router.navigate(Session.get("page"), true);
+        var parse = Session.get("page").split("_");
+        var parse_url = "";
+        for (var i=0;i<parse.length;i++) { parse_url += parse[i] + "/"; }
+        if (parse_url[parse_url.length-1] == '/') { parse_url = parse_url.substring(0, parse_url.length-1); }
+        Router.navigate(parse_url, true);
         return Template['page_index']();
     } else {
         Router.navigate('login', true);
@@ -68,8 +76,12 @@ Template.page_content.view = function() {
     else if (p == "manage") { return Template['manage'](); }
     else if (p == "account") { return Template['account'](); }
     return load_overview();*/
-
-    return Template[Session.get("page")]();
+    var parse = Session.get("page").split("_");
+    if (parse.length == 1) {
+        return Template[Session.get("page").split("_")[0]]();
+    } else {
+        return Template[Session.get("page")]();
+    }
 }
 
 Meteor.startup(function() {
@@ -119,6 +131,17 @@ Template.overview.twitter_overview = function() {
     }
 
     return _TWOverview.find();
+}
+
+Template.campaign.view = function() {
+    var parse = Session.get("page").split("_");
+    if (parse.length > 1) {
+        if (parse[1] == "new") {
+            return Template['campaign-new-status']();
+        }
+    }
+
+    return Template['campaign-manage']();
 }
 
 Template.page_controller.events = {

@@ -258,20 +258,57 @@ a, a:hover, a:visited {
     font-size: 12px;
 }
 
+.campaign-compose-box {
+    background: #eeeeee;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.campaign-compose-box .input-prepend {
+
+}
+
+.campaign-compose-field {
+
+}
+
 .campaign-section {
     margin-top: 20px;
     margin-bottom: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 5px;
-    border-bottom: 2px solid #f2f2f2;
+    /*border-bottom: 2px solid #f2f2f2;*/
+    background: #f7f7f7;
     display: block;
-    font-size: 16px;
+    font-size: 12px;
+    color: #ffffff;
+}
+
+.campaign-section-title {
+    padding: 5px 10px;
+    width: 100px;
+}
+
+.campaign-section-title1 {
+    background: #ee5f5b;
+}
+
+.campaign-section-title2 {
+    background: #fbb450;
+}
+
+.campaign-section-title3 {
+    background: #5bc0de;
+}
+
+.campaign-section-title4 {
+    background: #444444;
 }
 
 .campaign-section-spacing {
     padding-left: 8px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 30px;
     font-size: 12px;
 }
 
@@ -281,14 +318,78 @@ a, a:hover, a:visited {
     font-size: 12px;
 }
 
+.campaign-post label {
+    margin-bottom: 0px;
+}
+
 .campaign-post-header {
     font-size: 10px;
     color: #878b8a;
 }
 
-.campaign-publish li a {
-    width: 250px;
-    height: 100px;
+.campaign-post .select-image {
+    background: url("/media/img/select-image.png") 0 0 no-repeat;
+    width: 150px;
+    height: 90px;
+    color: #acacac;
+    padding-top: 60px;
+    cursor: pointer;
+}
+
+.campaign-publish {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.campaign-publish-submit-info li a {
+    background: #eeeeee;
+    width: 235px;
+    height: 80px;
+    margin-right: 20px;
+}
+
+.campaign-publish .inline li {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.campaign-publish-submit li a {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.campaign-search-box {
+    background: #eeeeee;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    display: block;
+}
+
+.campaign-list-title {
+    margin-top: 30px;
+    font-size: 22px;
+    padding: 10px 8px;
+    border-bottom: 2px solid #f2f2f2;
+    display: block;
+}
+
+.campaign-list {
+    display: block;
+}
+
+.campaign-list li {
+    min-height: 50px;
+    border-bottom: 1px solid #f2f2f2;
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    width: 850px;
 }
 
 /*      bootstrap overrides       */
@@ -299,4 +400,8 @@ a, a:hover, a:visited {
 
 .table td {
     border: none;
+}
+
+textarea {
+    resize: none;
 }

@@ -8,7 +8,7 @@
                         <tbody>
                         {{#each facebook_overview}}
                         <tr>
-                            <td><a href="http://www.facebook.com/profile.php?id={{comment.user}}" onclick="window.open(this.href,'_blank');return false;"><img src="http://graph.facebook.com/{{comment.user}}/picture"></a></td>
+                            <td><a href="http://www.facebook.com/profile.php?id={{comment.user}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{comment.user}}/picture"></a></td>
                             <td><strong>{{username}}</strong> commented on your status: "{{comment.text}}"</td>
                             <td>{{post.message}}</td>
                         </tr>
