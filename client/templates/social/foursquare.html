@@ -1,3 +1,31 @@
 <template name="foursquare">
-    foursquare
+    <div class="campaign container-shadow">
+        <div class="row">
+            <div class="span12">
+                <div class="row">
+                    <div class="span2">
+                        <div class="campaign-nav">
+                            <div class="campaign-title">Foursquare</div>
+                            <div class="campaign-grey-title">Manage tips</div>
+                            <ul class="unstyled campaign-nav-submenu nav nav-pills">
+                                <li class="active"><a class="appnav" href="/foursquare">All tips<div class="pull-right">12</div></a></li>
+                                <li><a class="appnav" href="/foursquare">Recent tips</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="span10">
+                        {{{view}}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="foursquare_list">
+    <div class="campaign-content">
+        <div class="campaign-title">
+            All Tips
+        </div>
+    </div>
 </template>

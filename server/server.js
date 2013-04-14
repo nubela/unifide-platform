@@ -1,4 +1,12 @@
 /*
+    Navigation Menu
+ */
+
+Meteor.publish("cp_menu", function() {
+   return CPMenu.find({uid: this.userId});
+});
+
+/*
     Publish facebook page, posts, comments based on user's facebook pages added
  */
 

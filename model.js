@@ -1,4 +1,10 @@
 /*
+    Menu Collections
+ */
+
+CPMenu = new Meteor.Collection("cp_menu");
+
+/*
     Facebook Collections
  */
 

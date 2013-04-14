@@ -1,4 +1,69 @@
 <template name="page_login">
+    <div class="login-box">
+        <div class="slide-login">
+        <div class="login-box-home">
+            <a href="http://www.unifide.sg"><i class="icon-home"></i></a>
+        </div>
+        <div class="login-box-title">Login to your account</div>
+        <div class="login-box-input">
+            <div class="login-box-input-container">
+                <i class="icon-user"></i><input class="login-input" id="loginUser" type="text" placeholder="username">
+            </div>
+        </div>
+        <div class="login-box-input">
+            <div class="login-box-input-container">
+                <i class="icon-lock"></i><input class="login-input" id="loginPass" type="password" placeholder="password">
+            </div>
+        </div>
+        <div class="login-box-button">
+            <button class="btn btn-success btn-large pull-left" id="login" type="button">
+                <div class="login-box-button-left pull-left"><i class="icon-off icon-white"></i></div>
+                <div class="login-box-button-right pull-right">Login</div>
+            </button>
+            <div class="login-box-register pull-right">
+                <a id="register-nav">
+                    <div class="login-box-register-text pull-left">Sign up</div>
+                    <div class="login-box-register-icon pull-left"></div>
+                </a>
+            </div>
+        </div>
+        </div>
+    </div>
+</template>
+
+<template name="page_login_register">
+    <div class="login-box-register login-box-register-view">
+        <a id="login-nav">
+            <div class="login-box-login-icon pull-left"></div>
+            <div class="login-box-register-text pull-left">Login</div>
+            <div class="clearfix"></div>
+        </a>
+    </div>
+    <div class="login-box-title">Sign up for your new account</div>
+    <div class="login-box-input">
+        <div class="login-box-input-container">
+            <i class="icon-user"></i><input class="login-input" id="signupUser" type="text" placeholder="enter your username">
+        </div>
+    </div>
+    <div class="login-box-input">
+        <div class="login-box-input-container">
+            <i class="icon-envelope"></i><input class="login-input" id="signupEmail" type="text" placeholder="enter your email">
+        </div>
+    </div>
+    <div class="login-box-input">
+        <div class="login-box-input-container">
+            <i class="icon-lock"></i><input class="login-input" id="signupPass" type="password" placeholder="enter your password">
+        </div>
+    </div>
+    <div class="login-box-button">
+        <button class="btn btn-success btn-large" id="signup" type="button">
+            <div class="login-box-button-left pull-left"><i class="icon-pencil icon-white"></i></div>
+            <div class="login-box-button-right pull-right">Sign Up</div>
+        </button>
+    </div>
+</template>
+
+<!--<template name="page_login">
     <div class="container">
         <div class="row">
             <div class="span12">
@@ -55,4 +120,4 @@
             </div>
         </div>
     </div>
-</template>
+</template>-->

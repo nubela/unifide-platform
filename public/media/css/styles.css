@@ -1,5 +1,12 @@
 body {
+    margin: 0;
+    padding: 0;
     background: #eaeaea url("/media/img/pattern_noise.png") 0 0 repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Open Sans', sans-serif;
 }
 
 a, a:hover, a:visited {
@@ -32,48 +39,6 @@ a, a:hover, a:visited {
 
 #header #logout {
     cursor: pointer;
-}
-
-.login-title {
-    font-family: 'Merriweather',Georgia,serif;
-    margin-top: 190px;
-    margin-bottom: 60px;
-    font-size: 60px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.login-box {
-    padding-bottom: 30px;
-    background-color: #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    width: 100%;
- }
-
-.login-box .span4 {
-    font-family: 'Merriweather',Georgia,serif;
-}
-
-.login-box .log-in {
-    margin-top: 30px;
-    margin-left: 30px;
-    border-right: 1px solid #000b15;
-}
-
-.login-box .log-btn {
-    width: 247px;
-}
-
-.log-in h4, .signup h4 {
-    margin-bottom: 20px;
-}
-
-.signup {
-    margin-top: 30px;
-    margin-left: 30px;
-    font-family: 'Merriweather',Georgia,serif;
 }
 
 .menu .menubar {
@@ -219,30 +184,39 @@ a, a:hover, a:visited {
 .campaign-nav {
     background: #f7f7f7;
     /*border-right: 2px solid #d9d9d9;*/
-    padding: 20px 15px;
+    padding: 20px 10px;
     display: block;
+    height: 600px;
 }
 
 .campaign-content {
-    padding: 20px 15px 20px 0;
+    padding: 20px 30px 20px 0;
 }
 
 .campaign-title {
-    font-weight: bold;
-    font-size: 26px;
+    font-size: 22px;
     letter-spacing: 1px;
+    margin-bottom: 40px;
+}
+
+.campaign-nav .campaign-title {
+    margin-left: 10px;
+}
+
+.campaign-content .campaign-title {
+    margin-bottom: 30px;
 }
 
 .campaign-grey-title {
-    margin-top: 40px;
     margin-left: 10px;
     margin-bottom: 2px;
-    font-size: 12px;
+    font-size: 10px;
     color: #878b8a;
 }
 
 .campaign-nav-submenu {
-    font-size: 14px;
+    margin-bottom: 40px;
+    font-size: 12px;
 }
 
 .campaign-nav-submenu li {
@@ -287,6 +261,7 @@ a, a:hover, a:visited {
 .campaign-section-title {
     padding: 5px 10px;
     width: 100px;
+    margin-bottom: 20px;
 }
 
 .campaign-section-title1 {
@@ -323,8 +298,16 @@ a, a:hover, a:visited {
 }
 
 .campaign-post-header {
-    font-size: 10px;
-    color: #878b8a;
+    font-size: 100%;
+    color: #000000;
+}
+
+.campaign-post .control-group {
+    margin-left: 10px;
+}
+
+.campaign-post .controls .span9 {
+    margin-left: 0;
 }
 
 .campaign-post .select-image {
@@ -337,7 +320,7 @@ a, a:hover, a:visited {
 }
 
 .campaign-publish {
-    margin-top: 40px;
+    margin-top: 30px;
     margin-bottom: 10px;
     font-size: 12px;
 }
