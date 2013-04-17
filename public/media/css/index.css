@@ -109,7 +109,6 @@ a, a:hover, a:visited {
 }
 
 .sidebar-nav-fixed {
-    padding-top: 10px;
     position: fixed;
     left: 0;
     top: 40px;
@@ -121,9 +120,8 @@ a, a:hover, a:visited {
 .span-fixed-sidebar {
     margin-left: 20px !important;
     margin-right: 0px;
-    padding-left: 180px !important;
+    padding-left: 190px !important;
     padding-right: 20px !important;
     background-color: #ffffff;
     height: 1500px;
-    text-align: right;
 }

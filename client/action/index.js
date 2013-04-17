@@ -28,8 +28,12 @@ Template.header.username = function() {
 };
 
 Template.header.brands = function() {
-    Session.setDefault('selected-brand', (BrandMappings.find().fetch())[0].brand_name);
+    Session.setDefault('selected_brand', (BrandMappings.find().fetch())[0].brand_name);
     return BrandMappings.find();
+}
+
+Template.header.selected_brand = function() {
+    return Session.get("selected_brand");
 }
 
 Template.page_index.view = function() {

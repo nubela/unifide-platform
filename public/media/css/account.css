@@ -3,5 +3,69 @@
 }
 
 .side-nav {
-    line-height: 142%;
+    padding-top: 30px;
+}
+
+.side-nav li {
+    padding:5px 20px;
+    display: block;
+}
+
+.side-nav a {
+    display: block;
+}
+
+.side-nav .side-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #444444;
+    font-size: 140%;
+    font-weight: 300;
+}
+
+.side-nav li {
+    cursor: pointer;
+}
+
+.side-nav li:hover {
+    background-color: #dddddd;
+    display: block;
+}
+
+.side-nav .active {
+    font-weight: 600;
+    font-size: 100%;
+    background-color: #CDCDCD !important;
+}
+
+.side-nav-line {
+    border-top: 1px solid #CDCDCD;
+    margin:20px 20px -20px 20px;
+    width: 160px;
+    display: block;
+}
+
+.account-brand-title {
+    margin-top: 30px;
+    font-weight: 300;
+    font-size: 140%;
+    color: #444444;
+}
+
+.account-brand-sub-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.account-brand-container {
+    padding: 15px;
+    width: 610px;
+    display: block;
+    border: 1px solid #CCCCCC;
+}
+
+.account-brand-add-desc {
+    margin-top: 15px;
+    width: 640px;
 }

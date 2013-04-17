@@ -22,15 +22,22 @@ var myAppRouter = Backbone.Router.extend({
         "campaign/new/promo": "static_url",
         "campaign/new/event": "static_url",
         "manage": "static_url",
-        "account": "static_url"
+        "account/:str": "account_url",
+        "profile": "static_url"
     },
-    static_url: static_url
+    static_url: static_url,
+    account_url: account_url
 });
 
 function static_url() {
     var url = Backbone.history.fragment;
     Session.set("page", url);
     Session.set("page_template", (url == "") ? "overview" : parse_url(url));
+};
+
+function account_url(str) {
+    Session.set("account_brand", str);
+    static_url();
 };
 
 function parse_url(url) {

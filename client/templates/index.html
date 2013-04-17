@@ -2,7 +2,7 @@
     <title>Unifide - Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,700,300' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="/media/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/media/css/bootstrap.css">
     <link rel="stylesheet" href="/media/css/bootstrap-responsive.css">
@@ -50,7 +50,7 @@
             <div class="dropdown">
             <a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown">{{{username}}}<img src="/media/img/placeholder_64.png" class="profile-pic"></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                <li><a class="menuitem appnav" role="menuitem" href="/account">Update Account</a></li>
+                <li><a class="menuitem appnav" role="menuitem" href="/account/{{{selected_brand}}}">Update Account</a></li>
                 <li><div class="divider"></div></li>
                 {{#each brands}}
                 <li><a id="switch-brand" class="menuitem appnav" role="menuitem" href="#">{{brand_name}}</a></li>

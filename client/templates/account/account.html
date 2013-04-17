@@ -4,16 +4,35 @@
             <div class="account">
                 <div class="sidebar-nav-fixed">
                     <ul class="unstyled side-nav">
-                        <li>Accounts</li>
-                        <li>Profile</li>
+                        <li class="side-header">Accounts</li>
+                        {{#each brands}}
+                        <a class="appnav" href="/account/{{brand_name}}"><li class="active">{{brand_name}}</li></a>
+                        {{/each}}
+                    </ul>
+                    <div class="side-nav-line"></div>
+                    <ul class="unstyled side-nav">
+                        <a class="appnav" href="/brand-mention/update"><li>Brand Mention</li></a>
+                        <a class="appnav" href="/profile"><li>Profile</li></a>
                     </ul>
                 </div>
                 <div class="span12 span-fixed-sidebar">
-                    <div class="account">
-                        Account dasdasdadas
-                    </div>
+                    {{{view}}}
                 </div>
             </div>
         </div>
+    </div>
+</template>
+
+<template name="account_brand">
+    <div class="account_brand">
+        <div class="account-brand-title">Your social accounts</div>
+        <div class="account-brand-sub-title">Facebook account</div>
+        <div class="account-brand-container">{{{facebook_account}}}</div>
+        <div class="account-brand-sub-title">Twitter account</div>
+        <div class="account-brand-container">{{{twitter_account}}}</div>
+        <div class="account-brand-sub-title">Foursquare account</div>
+        <div class="account-brand-container">{{{foursquare_account}}}</div>
+        <div class="account-brand-title">Add a social account</div>
+        <div class="account-brand-add-desc">Add a send-only account if you are forwarding email from your other account, or if your account does not support receiving email through POP.</div>
     </div>
 </template>
