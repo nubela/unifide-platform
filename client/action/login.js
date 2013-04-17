@@ -1,6 +1,6 @@
 Template.page_login.rendered = function() {
     $('body').css('background', 'url("/media/img/login-bg.png") no-repeat center center fixed');
-}
+};
 
 Template.page_login.events = {
     'click #login': function() {
@@ -52,7 +52,7 @@ Template.page_login.events = {
     'mouseleave .login-box-register': function(event) {
         $(event.target).css({'-moz-opacity': '0.25', '-webkit-opacity': '0.25', 'opacity': '0.25'});
     }
-}
+};
 
 function createUser_callback(error) {
     if (error == null) {
@@ -60,7 +60,7 @@ function createUser_callback(error) {
     } else {
         alert("error signing up");
     }
-}
+};
 
 function loginUser_callback(error) {
     if (error == null) {
@@ -68,4 +68,4 @@ function loginUser_callback(error) {
     } else {
         alert("Error logging in.");
     }
-}
+};

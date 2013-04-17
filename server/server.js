@@ -7,6 +7,18 @@ Meteor.publish("cp_menu", function() {
 });
 
 /*
+    Campaigns
+ */
+
+Meteor.publish("mapping", function() {
+    return [
+        BrandMappings.find({uid: this.userId}),
+        Mappings.find({uid: this.userId}),
+        Campaigns.find({uid: this.userId})
+    ];
+});
+
+/*
     Publish facebook page, posts, comments based on user's facebook pages added
  */
 
@@ -63,4 +75,12 @@ Meteor.publish("twitter", function() {
         tweets_list,
         tweeter_list
     ];
+});
+
+
+// Add a record for brand mapping on new user registration
+Accounts.onCreateUser(function(options, user) {
+    var obj_id = new Meteor.Collection.ObjectID();
+    BrandMapping.insert({_id: obj_id, uid: user._id})
+    return user;
 });

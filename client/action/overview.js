@@ -21,7 +21,7 @@ Template.overview.facebook_overview = function() {
     }
 
     return _FBOverview.find();
-}
+};
 
 Template.overview.twitter_overview = function() {
     _TWOverview.remove({});
@@ -33,4 +33,4 @@ Template.overview.twitter_overview = function() {
     }
 
     return _TWOverview.find();
-}
+};

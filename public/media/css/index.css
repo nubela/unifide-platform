@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Open Sans', sans-serif;
+}
+
+a, a:hover, a:visited {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header {
+    padding: 0 10px;
+    height: 40px;
+    width: 100%;
+    background-color: #0072C6;
+    color: #ffffff;
+    font-size: 100%;
+    min-width: 768px;
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    top: 0;
+}
+
+.header .logo {
+    margin-top: 9px;
+    margin-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #ffffff;
+    font-size: 180%;
+    font-weight: bold;
+    float: left;
+}
+
+.header-nav {
+    margin-left: 10px;
+    padding-top: 10px;
+    position:relative;
+    left: 60px;
+    display: inline-block;
+}
+
+.header-nav-chevron {
+    background-image: url("/media/img/appbar.chevron.down.white.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.header ul.inline > li {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.header-nav li.dropdown:hover > ul.dropdown-menu, .header-user .dropdown:hover > ul.dropdown-menu{
+    display: block;
+}
+
+.dropdown-menu {
+    top: 92%;
+}
+
+/*a.dropdown-toggle:hover {
+    background-color: #00709f;
+}*/
+
+.header-user {
+    margin-right: 20px;
+    padding-top: 10px;
+    font-size: 90%;
+    letter-spacing: 1px;
+}
+
+.header-user .profile-pic {
+    height:20px;
+    width: 20px;
+    margin-left: 10px;
+    margin-top: -4px;
+}
+
+.header-user .dropdown-menu {
+    left: -86%;
+}
+
+.header-settings {
+    margin-right: 3px;
+    margin-top: 3px;
+    background-image: url("/media/img/appbar.cog.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 35px;
+    height: 35px;
+    display: block;
+}
+
+.container, .container-fluid {
+    margin-top: 40px;
+    min-width: 768px;
+}
+
+.sidebar-nav-fixed {
+    padding-top: 10px;
+    position: fixed;
+    left: 0;
+    top: 40px;
+    width: 200px;
+    background-color: #F3F3F3;
+    height: 100%;
+}
+
+.span-fixed-sidebar {
+    margin-left: 20px !important;
+    margin-right: 0px;
+    padding-left: 180px !important;
+    padding-right: 20px !important;
+    background-color: #ffffff;
+    height: 1500px;
+    text-align: right;
+}

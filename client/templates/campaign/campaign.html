@@ -13,7 +13,7 @@
                             </ul>
                             <div class="campaign-grey-title">Manage campaigns</div>
                             <ul class="unstyled campaign-nav-submenu nav nav-pills">
-                                <li class="active"><a class="appnav" href="/campaign">All Campaigns<div class="pull-right">12</div></a></li>
+                                <li class="active"><a class="appnav" href="/campaign">All Campaigns<div class="pull-right">{{{all_campaigns_count}}}</div></a></li>
                                 <li><a class="appnav" href="/campaign/draft">Drafts<div class="pull-right">2</div></a></li>
                                 <li><a class="appnav" href="/campaign/scheduled">Scheduled<div class="pull-right">4</div></a></li>
                             </ul>
@@ -46,7 +46,12 @@
     </div>
     <div class="campaign-list">
         <ul class="nav nav-pills">
+            {{#each campaigns_list}}
             <li>
+                {{campaign.title}} | {{campaign.description}}
+            </li>
+            {{/each}}
+            <!--<li>
                 <a href="#">
                     <div class="media">
                         <div class="pull-left">
@@ -93,7 +98,7 @@
                         </div>
                     </div>
                 </a>
-            </li>
+            </li>-->
         </ul>
     </div>
 </div>
@@ -243,16 +248,12 @@
         </div>
         <br>
         <label class="checkbox inline">
-            <input type="checkbox" id="platform-web" value="platform-web">
-            Web
+            <input type="checkbox" id="platform-campaign" value="platform-web">
+            Web/Mobile
         </label>
-        <label class="checkbox inline">
-            <input type="checkbox" id="platform-ios" value="platform-ios">
-            iOS
-        </label>
-        <label class="checkbox inline">
-            <input type="checkbox" id="platform-android" value="platform-android">
-            Android
+        <label class="checkbox inline checkbox-push">
+            <input type="checkbox" id="platform-push" value="platform-ios">
+            Push Notification (*Web/Mobile required)
         </label>
         <br>
         <label class="checkbox inline">
