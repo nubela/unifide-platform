@@ -58,7 +58,7 @@ function createUser_callback(error) {
     if (error == null) {
         Router.navigate("", true);
     } else {
-        alert("error signing up");
+        alert("error signing up. Error: " + error);
     }
 };
 
@@ -66,6 +66,6 @@ function loginUser_callback(error) {
     if (error == null) {
         Router.navigate("", true);
     } else {
-        alert("Error logging in.");
+        alert("Error logging in. Error: " + error);
     }
 };

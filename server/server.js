@@ -1,3 +1,5 @@
+BACKEND_URL = "http://127.0.0.1:5000/";
+
 /*
     Navigation Menu
  */
@@ -80,7 +82,10 @@ Meteor.publish("twitter", function() {
 
 // Add a record for brand mapping on new user registration
 Accounts.onCreateUser(function(options, user) {
-    var obj_id = new Meteor.Collection.ObjectID();
-    BrandMapping.insert({_id: obj_id, uid: user._id})
+    var result = Meteor.http.put(BACKEND_URL + "account/user/", {params: {user_id: user._id}});
+    if (result.statusCode !== 200) {
+        console.log(result.error);
+    }
+
     return user;
 });

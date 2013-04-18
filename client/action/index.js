@@ -28,7 +28,10 @@ Template.header.username = function() {
 };
 
 Template.header.brands = function() {
-    Session.setDefault('selected_brand', (BrandMappings.find().fetch())[0].brand_name);
+    if (BrandMappings.find().count() == 0) { return; }
+    var brand_mapping_obj = BrandMappings.findOne();
+    if (brand_mapping_obj != undefined) { Session.setDefault('selected_brand', brand_mapping_obj.brand_name); }
+
     return BrandMappings.find();
 }
 
