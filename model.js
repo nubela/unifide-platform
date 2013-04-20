@@ -26,7 +26,6 @@ FBPosts = new Meteor.Collection("fb_post");
 FBComments = new Meteor.Collection("fb_comment");
 _FBUsers = new Meteor.Collection("_fb_user");
 
-
 /*
     Twitter Collections
  */
@@ -36,9 +35,16 @@ TWTweets = new Meteor.Collection("tw_tweet");
 _TWUsers = new Meteor.Collection("_tw_user");
 
 /*
+    Foursquare Collections
+ */
+
+FSQUsers = new Meteor.Collection("fsq_user");
+
+/*
     Temp Facebook Collections
  */
 _FBOverview = new Meteor.Collection(null);
+_FBPages = new Meteor.Collection(null);
 
 
 /*
@@ -52,3 +58,9 @@ _TWOverview = new Meteor.Collection(null);
  */
 
 BrandMappings = new Meteor.Collection("brand_mapping");
+
+/*
+    Settings collection
+*/
+
+_Settings = new Meteor.Collection(null);

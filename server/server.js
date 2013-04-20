@@ -1,4 +1,5 @@
 BACKEND_URL = "http://127.0.0.1:5000/";
+PLATFORM_URL = "http://127.0.0.1:3000/"
 
 /*
     Navigation Menu
@@ -6,6 +7,18 @@ BACKEND_URL = "http://127.0.0.1:5000/";
 
 Meteor.publish("cp_menu", function() {
    return CPMenu.find({uid: this.userId});
+});
+
+/*
+    Accounts
+ */
+
+Meteor.publish("accounts", function() {
+    return [
+        FBUsers.find({u_id: this.userId}),
+        TWUsers.find({u_id: this.userId}),
+        FSQUsers.find({u_id: this.userId})
+    ]
 });
 
 /*
@@ -89,3 +102,59 @@ Accounts.onCreateUser(function(options, user) {
 
     return user;
 });
+
+Meteor.methods({
+    get_platform_url: function() {
+        return PLATFORM_URL;
+    },
+    get_facebook_auth_url: function(p, b) {
+        this.unblock();
+        var result = Meteor.http.get(BACKEND_URL + "social_connect/facebook/auth/", {params: {platform: p, brand_name: b}});
+        if (result.statusCode !== 200) {
+            console.log(result.error);
+            return;
+        } else {
+            return result.data.auth_url;
+        }
+    },
+    connect_facebook_auth: function(c, brand_name) {
+        this.unblock();
+        var result = Meteor.http.put(BACKEND_URL + "social_connect/facebook/", {params: {user_id: this.userId, code: c, brand_name: brand_name}});
+        if (result.statusCode !== 200) {
+            console.log(result.error);
+        }
+    },
+    get_facebook_pages: function(brand_name) {
+        this.unblock();
+        var result = Meteor.http.get(BACKEND_URL + "social_connect/facebook/page/", {params: {user_id: this.userId, brand_name: brand_name}});
+        if (result.statusCode !== 200) {
+            console.log(result.error);
+            return;
+        }
+        else {
+            return result.data.page_list;
+        }
+    },
+    put_facebook_page: function(brand_name, page_id) {
+        this.unblock();
+        var result = Meteor.http.put(BACKEND_URL + "social_connect/facebook/page/", {params: {user_id: this.userId, brand_name: brand_name, page_id: page_id}});
+        if (result.statusCode !== 200) {
+            console.log(result.error);
+        }
+        _FBPages.remove({});
+    },
+    del_facebook_user: function(brand_name) {
+        this.unblock();
+        var result = Meteor.http.del(BACKEND_URL + "social_connect/facebook/user/?user_id=" + this.userId + "&brand_name=" + brand_name);
+        if (result.statusCode !== 200) {
+            console.log(result.error);
+        }
+    },
+    del_facebook_page: function(brand_name) {
+        this.unblock();
+        var result = Meteor.http.del(BACKEND_URL + "social_connect/facebook/page/?user_id=" + this.userId + "&brand_name=" + brand_name);
+        if (result.statusCode !== 200) {
+            console.log(result.error);
+        }
+    }
+})
