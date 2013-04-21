@@ -28,18 +28,52 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    height: 300px;
+    height: 320px;
 }
 
 .overview-widget .table-hover {
-    margin-top:10px;
+    margin-top:2px;
     margin-bottom: 10px;
-    height: 230px;
+    height: 250px;
     font-size: 12px;
+}
+
+.overview-widget .overflow {
+    overflow: hidden;
+    height: 270px;
+}
+
+.overview-widget table.table-hover td {
+    height: 50px;
 }
 
 table.table-hover > tbody > tr:first-child > td {
     border-top: none;
+}
+
+.overview-widget .facebook-profile-pic {
+    width: 50px;
+}
+
+.overview-widget .facebook-profile {
+    width: 160px;
+}
+
+.overview-widget .facebook-profile-name {
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.overview-widget .facebook-post-time {
+    font-size: 10px;
+}
+
+.overview-widget .facebook-post-content {
+    width: 390px;
+}
+
+.overview-widget .facebook-view-post {
+    color: #0072C6;
 }
 
 .overview .overview-website {

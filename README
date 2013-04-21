@@ -1,0 +1,2 @@
+To run, type:
+PORT=3000 MONGO_URL=mongodb://kianwei:thisisnotsecureatall@localhost:27017/unifide-backend ROOT_URL=~/1platform/unifide-platform/ meteor run

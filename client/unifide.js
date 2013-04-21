@@ -65,7 +65,7 @@ Meteor.startup(function() {
         Meteor.subscribe("cp_menu");
         Meteor.subscribe("accounts");
         Meteor.subscribe("mapping");
-        Meteor.subscribe("facebook", {posts_offset: 0, comments_offset: 0});
+        Meteor.subscribe("facebook", Session.get("selected_brand"));
         Meteor.subscribe("facebook_attr");
         Meteor.subscribe("twitter");
     });
