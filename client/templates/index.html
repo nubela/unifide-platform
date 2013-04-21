@@ -1,5 +1,5 @@
 <head>
-    <title>Unifide - Dashboard</title>
+    <title>Unifide Control Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,700,300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
@@ -29,7 +29,7 @@
 
 <template name="header">
     <div class="header">
-        <div class="logo">UNIFIDE</div>
+        <a href="/"><div class="logo">UNIFIDE</div></a>
         <ul class="header-nav inline">
             {{#each menu_list}}
             <li class="dropdown"><a class="dropdown-toggle" id="drop1" role="button" data-toggle="dropdown">{{first_lvl}}<div class="header-nav-chevron pull-right"></div></a>
@@ -48,21 +48,21 @@
         </ul>
         <div class="header-user pull-right">
             <div class="dropdown">
-            <a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown">{{{username}}}<img src="/media/img/placeholder_64.png" class="profile-pic"></a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                <li><a class="menuitem appnav" role="menuitem" href="/account/b/{{{selected_brand}}}">Update Account</a></li>
-                <li><div class="divider"></div></li>
-                {{#each brands}}
-                <li><a id="switch-brand" class="menuitem appnav" role="menuitem" href="#">{{brand_name}}</a></li>
-                {{/each}}
-                {{#if brands}}
-                <li><div class="divider"></div></li>
-                {{/if}}
-                <li><a id="logout" class="menuitem appnav" role="menuitem" href="#">Log out</a></li>
-            </ul>
+                <div class="header-settings"></div>
+                <a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown">{{{username}}}<img src="/media/img/placeholder_64.png" class="profile-pic"></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                    <li><a class="menuitem appnav" role="menuitem" href="/account/b/{{{selected_brand}}}">Update Account</a></li>
+                    <li><div class="divider"></div></li>
+                    {{#each brands}}
+                    <li><a id="switch-brand" class="menuitem appnav" role="menuitem" href="#">{{brand_name}}</a></li>
+                    {{/each}}
+                    {{#if brands}}
+                    <li><div class="divider"></div></li>
+                    {{/if}}
+                    <li><a id="logout" class="menuitem appnav" role="menuitem" href="#">Log out</a></li>
+                </ul>
             </div>
         </div>
-        <div class="header-settings pull-right"></div>
         <div class="clearfix"></div>
     </div>
 </template>

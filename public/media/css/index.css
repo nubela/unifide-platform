@@ -70,10 +70,6 @@ a, a:hover, a:visited {
     top: 92%;
 }
 
-/*a.dropdown-toggle:hover {
-    background-color: #00709f;
-}*/
-
 .header-user {
     margin-right: 20px;
     padding-top: 10px;
@@ -89,18 +85,23 @@ a, a:hover, a:visited {
 }
 
 .header-user .dropdown-menu {
-    left: -86%;
+    left: -45px
+}
+
+.dropdown {
+    float: left;
 }
 
 .header-settings {
-    margin-right: 3px;
-    margin-top: 3px;
+    float: left;
     background-image: url("/media/img/appbar.cog.png");
     background-repeat: no-repeat;
     background-size: cover;
     width: 35px;
     height: 35px;
     display: block;
+    position: relative;
+    top: -7px;
 }
 
 .container, .container-fluid {

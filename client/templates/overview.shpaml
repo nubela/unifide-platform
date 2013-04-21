@@ -1,0 +1,111 @@
+template name="overview"
+    .container-fluid
+        .overview
+            .row-fluid
+
+
+                <!--- facebook block --->
+                .span6
+                    .overview-widget.container-shadow
+                        .title | FACEBOOK
+                        table.table.table-hover
+                            tbody
+                                {{#each facebook_overview}}
+                                tr
+                                    td
+                                        <a href="http://www.facebook.com/profile.php?id={{comment.user}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{comment.user}}/picture"></a>
+                                    td
+                                        strong | {{username}}</strong> commented on your status: "{{comment.text}}"
+                                    td
+                                        {{post.message}}
+                                {{/each}}
+
+
+                <!--- twitter block --->
+                .span6
+                    .overview-widget.container-shadow
+                        .title | TWITTER
+                        table.table.table-hover
+                            tbody
+                                {{#each twitter_overview}}
+                                tr
+                                    td
+                                        {{tweeter.screen_name}}
+                                    td
+                                        {{tweeter.text}}
+                                {{/each}}
+
+            .row-fluid
+
+                <!--- 4sq block --->
+                .span6
+                    .overview-widget.container-shadow
+                        .title | FOURSQUARE
+                        table.table.table-hover
+                            tbody
+                                {{#each foursquare_overview}}
+
+                                {{/each}}
+
+
+                <!--- web mentions block --->
+                .span6
+                    .overview-widget.container-shadow
+                        .title | WEB MENTIONS
+                        table.table.table-hover.entry-table
+                            tbody
+                                tr
+                                    td
+                                        span.badge | Detected Keyword
+                                    td
+                                        p | In India, 'no frills' hospitals offer $800 heart surgery
+                                        p.url
+                                            i | globalpost.com
+
+                                tr
+                                    td
+                                        span.badge | Detected Keyword
+                                    td
+                                        p | In India, 'no frills' hospitals offer $800 heart surgery
+                                        p.url
+                                            i | globalpost.com
+                                            
+                                tr
+                                    td
+                                        span.badge | Detected Keyword
+                                    td
+                                        p | In India, 'no frills' hospitals offer $800 heart surgery
+                                        p.url
+                                            i | globalpost.com
+
+
+
+            .row-fluid
+
+                <!--- website block --->
+                .span8
+                    .overview-website.container-shadow
+                        .title | WEBSITE
+                        table.table.table-hover
+                            tbody
+                                {{#each foursquare_overview}}
+                                {{/each}}
+
+
+                .span4
+
+                    <!--- iOS block --->
+                    .overview-mobile.container-shadow
+                        .title | iOS
+                        table.table.table-hover
+                            tbody
+                                {{#each ios_mentions_overview}}
+                                {{/each}}
+
+                    <!--- android block --->
+                    .overview-mobile.container-shadow
+                        .title | ANDROID
+                        table.table.table-hover
+                            tbody
+                                {{#each ios_mentions_overview}}
+                                {{/each}}
