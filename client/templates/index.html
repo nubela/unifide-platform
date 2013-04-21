@@ -50,7 +50,7 @@
             <div class="dropdown">
             <a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown">{{{username}}}<img src="/media/img/placeholder_64.png" class="profile-pic"></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                <li><a class="menuitem appnav" role="menuitem" href="/account/{{{selected_brand}}}">Update Account</a></li>
+                <li><a class="menuitem appnav" role="menuitem" href="/account/b/{{{selected_brand}}}">Update Account</a></li>
                 <li><div class="divider"></div></li>
                 {{#each brands}}
                 <li><a id="switch-brand" class="menuitem appnav" role="menuitem" href="#">{{brand_name}}</a></li>
@@ -66,52 +66,3 @@
         <div class="clearfix"></div>
     </div>
 </template>
-
-<!--<template name="page_content">
-    <div class="container">
-        {{> menu}}
-        {{{view}}}
-    </div>
-</template>-->
-
-<!--<template name="header">
-    <div id="header">
-        <div class="container">
-            <div class="row">
-                <div class="span9">
-                    <div class="logo">
-                        <a class="appnav" href="/">UNIFIDE</a>
-                    </div>
-                </div>
-                <div class="span3">
-                    <div class="cp">{{{username}}} | <span id="logout">LOGOUT</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template name="menu">
-    <div class="row menu">
-        <div class="span12">
-            <div class="menubar container-shadow">
-                <ul class="inline">
-                    <li><span class="welcome">Welcome back</span>, <span class="welcomeuser">{{{username}}}</span><div class="clear"></div></li>
-                    {{#each menu_list}}
-                    <li class="dropdown"><a class="dropdown-toggle" id="drop1" role="button" data-toggle="dropdown"><i class="icon-list menuicon"></i>{{first_lvl}}</a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                            {{#each second_lvl}}
-                            {{#if link}}
-                            <li><a class="menuitem appnav" role="menuitem" href="{{link}}">{{name}}</a></li>
-                            {{else}}
-                            <li><div class="divider"></div></li>
-                            {{/if}}
-                            {{/each}}
-                        </ul>
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
-        </div>
-    </div>
-</template>-->

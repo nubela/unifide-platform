@@ -65,6 +65,34 @@
     border: 1px solid #CCCCCC;
 }
 
+.account-brand-container table {
+    width: 100%;
+}
+
+.account-brand-container .social-page {
+    padding-top: 10px;
+}
+
+.account-brand-container .social-page a {
+    color: #0072C6;
+}
+
+.account-brand-container .delete-icon {
+    width: 20px;
+}
+
+.account-brand-container .table {
+    margin-bottom: 0px;
+}
+
+.account-brand-container .add_facebook_page {
+    cursor: pointer;
+}
+
+.account-brand-container .modal-body td {
+    border: none;
+}
+
 .account-brand-add-desc {
     margin-top: 15px;
     width: 640px;
@@ -73,4 +101,12 @@
 .account-brand-add {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.account-brand-break {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border-top: 1px solid #cccccc;
+    width: 640px;
+    display: block;
 }
