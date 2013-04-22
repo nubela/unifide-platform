@@ -82,6 +82,16 @@ Template.account_brand.events = {
         bootbox.prompt("What is the keyword?", function (kw) {
             Meteor.call("put_brand_mention_keyword", kw);
         });
+    },
+    'click .brand-keywords': function (event) {
+        var span = event.target;
+        var keyword_text = $(span).text();
+        bootbox.confirm("Would you like to delete " + keyword_text + "?", function (res) {
+            if (res) {
+                Meteor.call("del_brand_mention_keyword", keyword_text);
+//                $(span).remove();
+            }
+        });
     }
 }
 

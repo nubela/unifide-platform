@@ -121,6 +121,17 @@ Accounts.onCreateUser(function (options, user) {
     return user;
 });
 
+serialize = function (obj) {
+    var str = [];
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+    }
+    return str.join("&");
+}
+
+
 function put_brand_mention_keyword(keyword) {
     this.unblock();
     Meteor.http.put(BACKEND_URL + "brand_mention/keyword/", {params: {
@@ -130,15 +141,14 @@ function put_brand_mention_keyword(keyword) {
 
 function del_brand_mention_keyword(keyword) {
     this.unblock();
-    Meteor.http.del(BACKEND_URL + "brand_mention/keyword/", {params: {
+    Meteor.http.del(BACKEND_URL + "brand_mention/keyword/?" + serialize({
         keyword: keyword
-    }});
+    }));
 }
 
 Meteor.methods({
     put_brand_mention_keyword: put_brand_mention_keyword,
     del_brand_mention_keyword: del_brand_mention_keyword,
-
     get_platform_url: function () {
         return PLATFORM_URL;
     },
