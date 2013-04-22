@@ -1,2 +1,22 @@
-To run, type:
-PORT=3000 MONGO_URL=mongodb://kianwei:thisisnotsecureatall@localhost:27017/unifide-backend ROOT_URL=~/1platform/unifide-platform/ meteor run
+To run
+------
+1. Modify the args in `RunMeteor` script
+2. ./RunMeteor
+
+[SHPAML]
+
+This package uses SHPAML as a transcompilable middleman language for HTML. (Because HTML is too verbose)
+You can learn more about SHPAML at http://shpaml.com/#Shpaml
+
+How to dev with SHPAML
+----------------------
+
+1. You need a watcher to monitor *.SHPAML files when they are modified
+   You can use the one at https://github.com/nubela/transcompiler-watcher.git
+2. Add a WATCHER.sh script in your folder, the code is as follows:
+
+#!/bin/bash
+python /Users/nubela/Workspace/transcompiler-watcher/src/watch.py /Users/nubela/Workspace/unifide-platform/client
+
+3. Run it by doing ./WATCHER.sh
+4. Feel free to modify it, it also watches for SASS files too.
