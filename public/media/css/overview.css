@@ -1,92 +1,71 @@
 .overview {
   color: #4d4d4d;
   padding-top: 30px; }
-
-.overview .title {
-  font-size: 12px;
-  font-weight: bold;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 5px;
-  padding-left: 1px; }
-
-.overview .viewmore {
-  font-size: 12px;
-  font-weight: bold;
-  border-top: 1px solid #e0e0e0;
-  padding-top: 6px;
-  padding-left: 1px;
-  display: block;
-  color: #7f7f7f; }
-
-.overview .overview-widget {
-  background: white;
-  margin-bottom: 30px;
-  padding: 8px 13px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  height: 300px; }
+  .overview .title {
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 5px;
+    padding-left: 1px; }
+  .overview .viewmore {
+    font-size: 12px;
+    font-weight: bold;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 6px;
+    padding-left: 1px;
+    display: block;
+    color: #7f7f7f; }
+  .overview .overview-widget {
+    background: white;
+    margin-bottom: 30px;
+    padding: 8px 13px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    height: 320px; }
+  .overview .overview-website {
+    background: white;
+    margin-bottom: 30px;
+    padding: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    height: 450px; }
+  .overview .overview-mobile {
+    background: white;
+    margin-bottom: 30px;
+    padding: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    height: 200px; }
 
 .overview-widget .table-hover {
-  margin-top: 10px;
+  margin-top: 2px;
   margin-bottom: 10px;
-  height: 230px;
+  height: 250px;
   font-size: 12px; }
-
 .overview-widget .overflow {
-    overflow: hidden;
-    height: 270px;
-}
-
+  overflow: hidden;
+  height: 270px; }
 .overview-widget table.table-hover td {
-    height: 50px;
-}
+  height: 50px; }
+.overview-widget .facebook-profile-pic {
+  width: 50px; }
+.overview-widget .facebook-profile {
+  width: 160px; }
+.overview-widget .facebook-profile-name {
+  font-weight: bold;
+  font-size: 11px; }
+.overview-widget .facebook-post-time {
+  font-size: 10px; }
+.overview-widget .facebook-post-content {
+  width: 390px; }
+.overview-widget .facebook-view-post {
+  color: #0072c6; }
 
 table.table-hover > tbody > tr:first-child > td {
   border-top: none; }
-
-.overview-widget .facebook-profile-pic {
-    width: 50px;
-}
-
-.overview-widget .facebook-profile {
-    width: 160px;
-}
-
-.overview-widget .facebook-profile-name {
-    font-weight: bold;
-    font-size: 11px;
-}
-
-.overview-widget .facebook-post-time {
-    font-size: 10px;
-}
-
-.overview-widget .facebook-post-content {
-    width: 390px;
-}
-
-.overview-widget .facebook-view-post {
-    color: #0072C6;
-}
-
-.overview .overview-website {
-  background: white;
-  margin-bottom: 30px;
-  padding: 10px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  height: 450px; }
-
-.overview .overview-mobile {
-  background: white;
-  margin-bottom: 30px;
-  padding: 10px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  height: 200px; }
 
 .container-shadow {
   border: 1px solid #d9d9d9;

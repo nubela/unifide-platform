@@ -66,7 +66,6 @@ Meteor.startup(function() {
         Meteor.subscribe("accounts");
         Meteor.subscribe("mapping");
         Meteor.subscribe("facebook", Session.get("selected_brand"));
-        Meteor.subscribe("facebook_attr");
         Meteor.subscribe("twitter");
         Meteor.subscribe("brand_mention");
         Meteor.subscribe("keyword");

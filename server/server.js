@@ -72,13 +72,6 @@ Meteor.publish("facebook", function (brand) {
     ];
 });
 
-/*
- Publish previously cached user info for use in facebook posts, comments
- */
-Meteor.publish("facebook_attr", function () {
-    return _FBUsers.find({}, {fields: {id: 1, name: 1}}); // _FBUsers.find()
-});
-
 Meteor.publish("twitter", function () {
     var twitter_list = TWUsers.find({u_id: this.userId}, {fields: {tw_id: 1}});
 
@@ -191,5 +184,15 @@ Meteor.methods({
         if (result.statusCode !== 200) {
             console.log(result.error);
         }
+    },
+    get_twitter_auth_url: function (platform, brand) {
+        this.unblock();
+        var result = Meteor.http.get(BACKEND_URL + "social_connect/twitter/auth", {params: {platform: platform, brand: brand}});
+        if (result.statusCode !== 200) {
+            console.log(result.error);
+            return;
+        } else {
+            return result.data;
+        }
     }
-})
+});

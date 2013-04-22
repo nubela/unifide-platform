@@ -76,7 +76,9 @@ Template.account_brand.events = {
         });
     },
     'click #add_twitter': function (event) {
-
+        Meteor.call("get_twitter_auth_url", "twitter", Session.get("account_brand"), function (error, result) {
+           window.location.href = result.auth_url;
+        });
     },
     'click #set-brand-keywords': function (event) {
         bootbox.prompt("What is the keyword?", function (kw) {

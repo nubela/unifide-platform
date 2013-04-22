@@ -21,7 +21,6 @@ FBUsers = new Meteor.Collection("fb_user");
 FBPages = new Meteor.Collection("fb_page");
 FBPosts = new Meteor.Collection("fb_post");
 FBComments = new Meteor.Collection("fb_comment");
-_FBUsers = new Meteor.Collection("_fb_user");
 _FBOverview = new Meteor.Collection(null);
 _FBPages = new Meteor.Collection(null);
 
