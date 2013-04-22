@@ -78,9 +78,9 @@ Template.account_brand.events = {
     'click #add_twitter': function (event) {
 
     },
-    'click #set-brand-keywords': function(event) {
-        bootbox.prompt("What is the keyword?", function(kw) {
-
+    'click #set-brand-keywords': function (event) {
+        bootbox.prompt("What is the keyword?", function (kw) {
+            Meteor.call("put_brand_mention_keyword", kw);
         });
     }
 }

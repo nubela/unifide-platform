@@ -136,7 +136,24 @@ Accounts.onCreateUser(function (options, user) {
     return user;
 });
 
+function put_brand_mention_keyword(keyword) {
+    this.unblock();
+    Meteor.http.put(BACKEND_URL + "brand_mention/keyword/", {params: {
+        keyword: keyword
+    }});
+}
+
+function del_brand_mention_keyword(keyword) {
+    this.unblock();
+    Meteor.http.del(BACKEND_URL + "brand_mention/keyword/", {params: {
+        keyword: keyword
+    }});
+}
+
 Meteor.methods({
+    put_brand_mention_keyword: put_brand_mention_keyword,
+    del_brand_mention_keyword: del_brand_mention_keyword,
+
     get_platform_url: function () {
         return PLATFORM_URL;
     },
