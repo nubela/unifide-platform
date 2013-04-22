@@ -6,34 +6,13 @@ template name="overview"
 
                 <!--- facebook block --->
                 .span6
-                    .overview-widget.container-shadow
-                        .title | FACEBOOK
-                        table.table.table-hover
-                            tbody
-                                {{#each facebook_overview}}
-                                tr
-                                    td
-                                        <a href="http://www.facebook.com/profile.php?id={{comment.user}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{comment.user}}/picture"></a>
-                                    td
-                                        strong | {{username}}</strong> commented on your status: "{{comment.text}}"
-                                    td
-                                        {{post.message}}
-                                {{/each}}
+                    {{> overview_facebook}}
 
 
                 <!--- twitter block --->
                 .span6
-                    .overview-widget.container-shadow
-                        .title | TWITTER
-                        table.table.table-hover
-                            tbody
-                                {{#each twitter_overview}}
-                                tr
-                                    td
-                                        {{tweeter.screen_name}}
-                                    td
-                                        {{tweeter.text}}
-                                {{/each}}
+                    {{> overview_twitter}}
+
 
             .row-fluid
 
@@ -94,3 +73,39 @@ template name="overview"
                             tbody
                                 {{#each ios_mentions_overview}}
                                 {{/each}}
+
+
+
+template name="overview_facebook"
+    .overview-widget.container-shadow
+        .title | FACEBOOK
+        table.table.table-hover
+            tbody
+                {{#each facebook_overview}}
+                tr
+                    td.facebook-profile-pic
+                        <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
+                    td.facebook-profile
+                        .facebook-profile-name
+                            {{name}}
+                        .facebook-post-time
+                            {{datetime}}
+                    td.facebook-post-content
+                        {{message}}
+                        <br>
+                        <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
+                {{/each}}
+
+
+template name="overview_twitter"
+    .overview-widget.container-shadow
+        .title | TWITTER
+        table.table.table-hover
+            tbody
+                {{#each twitter_overview}}
+                tr
+                    td
+                        {{tweeter.screen_name}}
+                    td
+                        {{tweeter.text}}
+                {{/each}}

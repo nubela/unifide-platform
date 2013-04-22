@@ -85,7 +85,7 @@ a, a:hover, a:visited {
 }
 
 .header-user .dropdown-menu {
-    left: -45px
+    left: -101%;
 }
 
 .dropdown {
@@ -93,15 +93,13 @@ a, a:hover, a:visited {
 }
 
 .header-settings {
-    float: left;
+    margin-top: -7px;
     background-image: url("/media/img/appbar.cog.png");
     background-repeat: no-repeat;
     background-size: cover;
     width: 35px;
     height: 35px;
     display: block;
-    position: relative;
-    top: -7px;
 }
 
 .container, .container-fluid {
