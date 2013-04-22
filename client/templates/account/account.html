@@ -53,16 +53,16 @@
 
             {{#if brand_keywords}}
             {{#each brand_keywords}}
-            <span class="badge badge-info">{{keyword}}</span>
+            <span class="badge badge-info">{{keyword}}<i class="icon-remove icon-white"></i></span>
             {{/each}}
             {{else}}
-            None
+            No keywords added
             {{/if}}
 
         </div>
         <div class="account-brand-title">Set business keywords</div>
         <div class="account-brand-add-desc">The Unifide platform will search the web and notify you of any brand mentions based on your specified keywords.</div>
-        <button class="btn account-brand-add" type="button">Set your business keywords</button>
+        <button class="btn account-brand-add" id="set-brand-keywords" type="button">Set your business keywords</button>
     </div>
 </template>
 

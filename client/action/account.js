@@ -77,6 +77,11 @@ Template.account_brand.events = {
     },
     'click #add_twitter': function (event) {
 
+    },
+    'click #set-brand-keywords': function(event) {
+        bootbox.prompt("What is the keyword?", function(kw) {
+
+        });
     }
 }
 
