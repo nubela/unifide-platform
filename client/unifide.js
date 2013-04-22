@@ -68,6 +68,8 @@ Meteor.startup(function() {
         Meteor.subscribe("facebook", Session.get("selected_brand"));
         Meteor.subscribe("facebook_attr");
         Meteor.subscribe("twitter");
+        Meteor.subscribe("brand_mention");
+        Meteor.subscribe("keyword");
     });
 });
 

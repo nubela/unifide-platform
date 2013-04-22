@@ -2,4 +2,8 @@
 rm -r bundle/
 meteor bundle unifide.tgz
 tar -zxvf unifide.tgz
-PORT=3000 MONGO_URL=mongodb://kianwei:thisisnotsecureatall@localhost:27017/unifide-backend ROOT_URL=~/1platform/unifide-platform/ node bundle/main.js
+cd bundle/server
+npm uninstall fibers
+npm install fibers
+cd ../..
+PORT=3000 MONGO_URL=mongodb://localhost:27017/unifide ROOT_URL=. node bundle/main.js

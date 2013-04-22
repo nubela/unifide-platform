@@ -110,3 +110,12 @@
     width: 640px;
     display: block;
 }
+
+.account-brand-container .badge {
+    margin: 2px 0;
+    cursor: pointer;
+    line-height: 13px;
+}
+.account-brand-container .badge i {
+    margin-left: 5px;
+}
