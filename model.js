@@ -52,3 +52,4 @@ _Settings = new Meteor.Collection(null);
  Brand Mentions mentions
  */
 BrandMentions = new Meteor.Collection("mention");
+Keywords = new Meteor.Collection("keyword");

@@ -33,11 +33,22 @@ Meteor.publish("mapping", function () {
     ];
 });
 
+/*
+ Brand Mentions
+ */
+
+Meteor.publish("keyword", function () {
+    return [
+        Keywords.find({})
+    ];
+});
+
 Meteor.publish("brand_mention", function () {
     return [
         BrandMentions.find({})
     ];
 });
+
 
 /*
  Publish facebook page, posts, comments based on user's facebook pages added

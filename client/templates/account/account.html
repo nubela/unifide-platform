@@ -49,7 +49,17 @@
         <div class="account-brand-break"></div>
         <div class="account-brand-title">Brand Mention</div>
         <div class="account-brand-sub-title">Business keywords</div>
-        <div class="account-brand-container">{{{brand_keywords}}}</div>
+        <div class="account-brand-container">
+
+            {{#if brand_keywords}}
+            {{#each brand_keywords}}
+            <span class="badge badge-info">{{keyword}}</span>
+            {{/each}}
+            {{else}}
+            None
+            {{/if}}
+
+        </div>
         <div class="account-brand-title">Set business keywords</div>
         <div class="account-brand-add-desc">The Unifide platform will search the web and notify you of any brand mentions based on your specified keywords.</div>
         <button class="btn account-brand-add" type="button">Set your business keywords</button>

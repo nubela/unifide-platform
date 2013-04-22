@@ -69,6 +69,7 @@ Meteor.startup(function() {
         Meteor.subscribe("facebook_attr");
         Meteor.subscribe("twitter");
         Meteor.subscribe("brand_mention");
+        Meteor.subscribe("keyword");
     });
 });
 
