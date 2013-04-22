@@ -60,7 +60,6 @@
                         <table class="table table-hover">
                             <tbody>
                                 {{#each foursquare_overview}}
-
                                 {{/each}}
                             </tbody>
                         </table>
@@ -74,47 +73,26 @@
                         <div class="title">WEB MENTIONS</div>
                         <table class="table table-hover entry-table">
                             <tbody>
+                                {{#each web_mentions_overview}}
                                 <tr>
                                     <td>
-                                        <span class="badge">Detected Keyword</span>
+                                        <span class="badge">{{keyword}}</span>
                                     </td>
                                     <td>
-                                        <p>In India, 'no frills' hospitals offer $800 heart surgery</p>
-                                        <p class="url">
-                                            <i>globalpost.com</i>
-                                        </p>
+                                        <a href="{{url}}" target="_blank">
+                                            <p>{{title}}</p>
+                                            <p class="url">
+                                                <i>{{url}}</i>
+                                            </p>
+                                        </a>
                                     </td>
                                 </tr>
-
-                                <tr>
-                                    <td>
-                                        <span class="badge">Detected Keyword</span>
-                                    </td>
-                                    <td>
-                                        <p>In India, 'no frills' hospitals offer $800 heart surgery</p>
-                                        <p class="url">
-                                            <i>globalpost.com</i>
-                                        </p>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <span class="badge">Detected Keyword</span>
-                                    </td>
-                                    <td>
-                                        <p>In India, 'no frills' hospitals offer $800 heart surgery</p>
-                                        <p class="url">
-                                            <i>globalpost.com</i>
-                                        </p>
-                                    </td>
-                                </tr>
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
 
 
             <div class="row-fluid">

@@ -44,7 +44,6 @@ template name="overview"
                         table.table.table-hover
                             tbody
                                 {{#each foursquare_overview}}
-
                                 {{/each}}
 
 
@@ -54,30 +53,16 @@ template name="overview"
                         .title | WEB MENTIONS
                         table.table.table-hover.entry-table
                             tbody
+                                {{#each web_mentions_overview}}
                                 tr
                                     td
-                                        span.badge | Detected Keyword
+                                        span.badge | {{keyword}}
                                     td
-                                        p | In India, 'no frills' hospitals offer $800 heart surgery
-                                        p.url
-                                            i | globalpost.com
-
-                                tr
-                                    td
-                                        span.badge | Detected Keyword
-                                    td
-                                        p | In India, 'no frills' hospitals offer $800 heart surgery
-                                        p.url
-                                            i | globalpost.com
-                                            
-                                tr
-                                    td
-                                        span.badge | Detected Keyword
-                                    td
-                                        p | In India, 'no frills' hospitals offer $800 heart surgery
-                                        p.url
-                                            i | globalpost.com
-
+                                        a href="{{url}}" target="_blank"
+                                            p | {{title}}
+                                            p.url
+                                                i | {{url}}
+                                {{/each}}
 
 
             .row-fluid
