@@ -1,3 +1,6 @@
+.clear {
+  clear: both; }
+
 .overview {
   color: #4d4d4d;
   padding-top: 30px; }
@@ -63,6 +66,14 @@
   width: 390px; }
 .overview-widget .facebook-view-post {
   color: #0072c6; }
+.overview-widget .twitter-profile-pic {
+  width: 50px; }
+.overview-widget .twitter-profile-name {
+  font-weight: bold; }
+.overview-widget .twitter-profile-handle {
+  margin-left: 5px;
+  font-size: 10px;
+  color: #cccccc; }
 
 table.table-hover > tbody > tr:first-child > td {
   border-top: none; }

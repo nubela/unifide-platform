@@ -29,7 +29,6 @@ _FBPages = new Meteor.Collection(null);
  */
 TWUsers = new Meteor.Collection("tw_user");
 TWTweets = new Meteor.Collection("tw_tweet");
-_TWUsers = new Meteor.Collection("_tw_user");
 _TWOverview = new Meteor.Collection(null);
 
 /*

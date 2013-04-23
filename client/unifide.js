@@ -25,12 +25,14 @@ var myAppRouter = Backbone.Router.extend({
         "account/b/:brand": "account_url",
         "account/update": "static_url",
         "account/usage": "static_url",
+        "account/auth/twitter/:brand/:str": "social_auth_twitter",
         "account/auth/:str": "social_auth",
         "profile": "static_url"
     },
     static_url: static_url,
     account_url: account_url,
-    social_auth: social_auth
+    social_auth: social_auth,
+    social_auth_twitter: social_auth_twitter
 });
 
 function static_url() {
@@ -60,13 +62,22 @@ function social_auth(str) {
     });
 };
 
+function social_auth_twitter(brand, str) {
+    var oauth_verifier = str.substring(str.indexOf("oauth_verifier=")+15);
+    Meteor.call("connect_twitter_auth", oauth_verifier, brand, function() {
+        Meteor.call("get_platform_url", function(error, result) {
+            window.location.href = result + "account/b/" + brand;
+        });
+    });
+};
+
 Meteor.startup(function() {
     Deps.autorun(function() {
         Meteor.subscribe("cp_menu");
         Meteor.subscribe("accounts");
         Meteor.subscribe("mapping");
         Meteor.subscribe("facebook", Session.get("selected_brand"));
-        Meteor.subscribe("twitter");
+        Meteor.subscribe("twitter", Session.get("selected_brand"));
         Meteor.subscribe("brand_mention");
         Meteor.subscribe("keyword");
     });

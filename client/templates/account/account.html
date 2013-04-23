@@ -73,7 +73,7 @@
                 {{{facebook_name}}} (Facebook user)
             </td>
             <td class="delete-icon">
-                <a id="del_facebook_user" href="#"><i class="icon-remove"></i></a>
+                <a id="del_facebook_user" class="appnav" href="#"><i class="icon-remove"></i></a>
             </td>
         </tr>
         <tr>
@@ -82,7 +82,7 @@
                 {{facebook_page.id}} (Facebook page)
             </td>
             <td class="delete-icon social-page">
-                <a href="#" id="del_facebook_page"><i class="icon-remove"></i></a>
+                <a href="#" class="appnav" id="del_facebook_page"><i class="icon-remove"></i></a>
             </td>
             {{else}}
             <td class="social-page">
@@ -109,6 +109,19 @@
                 </div>
             </td>
             {{/if}}
+        </tr>
+    </table>
+</template>
+
+<template name="account_brand_twitter">
+    <table>
+        <tr>
+            <td>
+                {{{twitter_name}}} (Twitter user)
+            </td>
+            <td class="delete-icon">
+                <a id="del_twitter_user" class="appnav" href="#"><i class="icon-remove"></i></a>
+            </td>
         </tr>
     </table>
 </template>

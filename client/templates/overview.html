@@ -111,30 +111,33 @@
 <template name="overview_facebook">
     <div class="overview-widget container-shadow">
         <div class="title">FACEBOOK</div>
-        <table class="table table-hover">
-            <tbody>
-                {{#each facebook_overview}}
-                <tr>
-                    <td class="facebook-profile-pic">
-                        <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
-                    </td>
-                    <td class="facebook-profile">
-                        <div class="facebook-profile-name">
-                            {{name}}
-                        </div>
-                        <div class="facebook-post-time">
-                            {{datetime}}
-                        </div>
-                    </td>
-                    <td class="facebook-post-content">
-                        {{message}}
-                        <br>
-                        <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+        <div class="overflow">
+            <table class="table table-hover">
+                <tbody>
+                    {{#each facebook_overview}}
+                    <tr>
+                        <td class="facebook-profile-pic">
+                            <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
+                        </td>
+                        <td class="facebook-profile">
+                            <div class="facebook-profile-name">
+                                {{name}}
+                            </div>
+                            <div class="facebook-post-time">
+                                {{datetime}}
+                            </div>
+                        </td>
+                        <td class="facebook-post-content">
+                            {{message}}
+                            <br>
+                            <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <a href="/facebook" class="appnav viewmore">VIEW ALL</a>
     </div>
 </template>
 
@@ -142,19 +145,32 @@
 <template name="overview_twitter">
     <div class="overview-widget container-shadow">
         <div class="title">TWITTER</div>
-        <table class="table table-hover">
-            <tbody>
-                {{#each twitter_overview}}
-                <tr>
-                    <td>
-                        {{tweeter.screen_name}}
-                    </td>
-                    <td>
-                        {{tweeter.text}}
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+        <div class="overflow">
+            <table class="table table-hover">
+                <tbody>
+                    {{#each twitter_overview}}
+                    <tr>
+                        <td class="twitter-profile-pic">
+                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
+                        </td>
+                        <td>
+                            <div class="pull-left">
+                                <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
+                                <div class="twitter-profile-name pull-left">{{user.name}}</div>
+                                <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
+                                </a>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="pull-right">{{created_at}}</div>
+                            <div class="clear"></div>
+                            {{fields.text}}
+                        </td>
+                    </tr>
+
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <a href="/twitter" class="appnav viewmore">VIEW ALL</a>
     </div>
 </template>

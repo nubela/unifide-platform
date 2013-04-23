@@ -3,6 +3,8 @@
 
  - selected_brand (currently selected brand globally)
  - account_brand (the selected brand to view account settings)
+ - twitter_token (used for twitter oauth)
+ - twitter_token_secret (used for twitter oauth)
 
  */
 
@@ -77,7 +79,11 @@ Template.account_brand.events = {
     },
     'click #add_twitter': function (event) {
         Meteor.call("get_twitter_auth_url", "twitter", Session.get("account_brand"), function (error, result) {
-           window.location.href = result.auth_url;
+            window.location.href = result.auth_url;
+        });
+    },
+    'click #del_twitter_user': function (event) {
+        Meteor.call("del_twitter_user", Session.get("account_brand"), function (error, result) {
         });
     },
     'click #set-brand-keywords': function (event) {
@@ -110,10 +116,6 @@ Template.account_brand_facebook.facebook_page = function () {
     return brand_mapping.facebook
 }
 
-Template.account_brand_facebook.page = function () {
-    return _FBPages.find();
-}
-
 Template.account_brand.facebook_add = function () {
     if (FBUsers.findOne() == undefined) {
         return true;
@@ -124,7 +126,16 @@ Template.account_brand.facebook_add = function () {
 }
 
 Template.account_brand.twitter_account = function () {
-    return no_account_added;
+    var user_tw = TWUsers.findOne({brand_name: Session.get("account_brand")});
+    if (user_tw == undefined) {
+        return no_account_added
+    } else {
+        return Template["account_brand_twitter"]();
+    }
+}
+
+Template.account_brand_twitter.twitter_name = function() {
+    return TWUsers.findOne({brand_name: Session.get("account_brand")}).tw_id;
 }
 
 Template.account_brand.twitter_add = function () {

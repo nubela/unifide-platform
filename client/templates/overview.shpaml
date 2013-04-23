@@ -79,33 +79,47 @@ template name="overview"
 template name="overview_facebook"
     .overview-widget.container-shadow
         .title | FACEBOOK
-        table.table.table-hover
-            tbody
-                {{#each facebook_overview}}
-                tr
-                    td.facebook-profile-pic
-                        <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
-                    td.facebook-profile
-                        .facebook-profile-name
-                            {{name}}
-                        .facebook-post-time
-                            {{datetime}}
-                    td.facebook-post-content
-                        {{message}}
-                        <br>
-                        <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
-                {{/each}}
+        .overflow
+            table.table.table-hover
+                tbody
+                    {{#each facebook_overview}}
+                    tr
+                        td.facebook-profile-pic
+                            <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
+                        td.facebook-profile
+                            .facebook-profile-name
+                                {{name}}
+                            .facebook-post-time
+                                {{datetime}}
+                        td.facebook-post-content
+                            {{message}}
+                            <br>
+                            <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
+                    {{/each}}
+        <a href="/facebook" class="appnav viewmore">VIEW ALL</a>
 
 
 template name="overview_twitter"
     .overview-widget.container-shadow
         .title | TWITTER
-        table.table.table-hover
-            tbody
-                {{#each twitter_overview}}
-                tr
-                    td
-                        {{tweeter.screen_name}}
-                    td
-                        {{tweeter.text}}
-                {{/each}}
+        .overflow
+            table.table.table-hover
+                tbody
+                    {{#each twitter_overview}}
+                    tr
+                        td.twitter-profile-pic
+                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
+                        td
+                            <div class="pull-left">
+                                <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
+                                <div class="twitter-profile-name pull-left">{{user.name}}</div>
+                                <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
+                                </a>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="pull-right">{{created_at}}</div>
+                            <div class="clear"></div>
+                            {{fields.text}}
+
+                    {{/each}}
+        <a href="/twitter" class="appnav viewmore">VIEW ALL</a>

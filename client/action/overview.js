@@ -49,18 +49,9 @@ Template.overview_facebook.facebook_overview = function() {
 
 Template.overview_twitter.twitter_overview = function() {
     _TWOverview.remove({});
-    var client_TWTweets = TWTweets.find({}, {sort: {created_at: -1}}).fetch();
+    var client_TWTweets = TWTweets.find({}, {limit: 4}).fetch();
     for (var i = 0; i < client_TWTweets.length; i++) {
-        if (_TWOverview.find({}, {reactive: false}).count() == 0) {
-            _TWOverview.insert({tweet: client_TWTweets[i], tweeter: _TWUsers.findOne({tw_id: client_TWTweets[i].user})});
-            continue;
-        }
-        if (client_TWTweets[i].created_at < client_TWTweets[i - 1].created_at) {
-            _TWOverview.insert({tweet: client_TWTweets[i], tweeter: _TWUsers.findOne({tw_id: client_TWTweets[i].user})});
-        }
-        if (_TWOverview.find({}, {reactive: false}).count() == 4) {
-            break;
-        }
+        _TWOverview.insert(client_TWTweets[i]);
     }
 
     return _TWOverview.find();
