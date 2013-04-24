@@ -35,7 +35,9 @@ _TWOverview = new Meteor.Collection(null);
  Foursquare Collections
  */
 FSQUsers = new Meteor.Collection("fsq_user");
-
+FSQTips = new Meteor.Collection("fsq_tip");
+_FSQVenues = new Meteor.Collection(null);
+_FSQOverview = new Meteor.Collection(null);
 /*
  Account Collections
  */

@@ -18,30 +18,27 @@ template name="overview"
 
                 <!--- 4sq block --->
                 .span6
-                    .overview-widget.container-shadow
-                        .title | FOURSQUARE
-                        table.table.table-hover
-                            tbody
-                                {{#each foursquare_overview}}
-                                {{/each}}
+                    {{> overview_foursquare}}
 
 
                 <!--- web mentions block --->
                 .span6
                     .overview-widget.container-shadow
                         .title | WEB MENTIONS
-                        table.table.table-hover.entry-table
-                            tbody
-                                {{#each web_mentions_overview}}
-                                tr
-                                    td
-                                        span.badge | {{keyword}}
-                                    td
-                                        a href="{{url}}" target="_blank"
-                                            p | {{title}}
-                                            p.url
-                                                i | {{url}}
-                                {{/each}}
+                        .overflow
+                            table.table.table-hover.entry-table
+                                tbody
+                                    {{#each web_mentions_overview}}
+                                    tr
+                                        td
+                                            span.badge | {{keyword}}
+                                        td
+                                            a href="{{url}}" target="_blank"
+                                                p | {{title}}
+                                                p.url
+                                                    i | {{url}}
+                                    {{/each}}
+                        <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>
 
 
             .row-fluid
@@ -80,7 +77,7 @@ template name="overview_facebook"
     .overview-widget.container-shadow
         .title | FACEBOOK
         .overflow
-            table.table.table-hover
+            table.table.table-hover#overview-facebook
                 tbody
                     {{#each facebook_overview}}
                     tr
@@ -103,7 +100,7 @@ template name="overview_twitter"
     .overview-widget.container-shadow
         .title | TWITTER
         .overflow
-            table.table.table-hover
+            table.table.table-hover#overview-twitter
                 tbody
                     {{#each twitter_overview}}
                     tr
@@ -123,3 +120,21 @@ template name="overview_twitter"
 
                     {{/each}}
         <a href="/twitter" class="appnav viewmore">VIEW ALL</a>
+
+
+template name="overview_foursquare"
+    .overview-widget.container-shadow
+        .title | FOURSQUARE
+        .overflow
+            table.table.table-hover#overview-foursquare
+                tbody
+                    {{#each foursquare_overview}}
+                    tr
+                        td.foursquare-profile-pic
+                            <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{fields.user.photo.prefix}}64x64{{fields.user.photo.suffix}}"></a>
+                        td.foursquare-tip-content
+                            {{text}}
+                            .foursquare-profile-name
+                                <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;">{{fields.user.firstName}}</a> · <a href="https://foursquare.com/user/{{fields.canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;">{{createdAt}}</a>
+                    {{/each}}
+        <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>

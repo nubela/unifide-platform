@@ -10,11 +10,6 @@
                         <a class="appnav" href="/account/b/{{brand_name}}"><li class="active">{{brand_name}}</li></a>
                         {{/each}}
                     </ul>
-                    <div class="side-nav-line"></div>
-                    <ul class="unstyled side-nav">
-                        <a class="appnav" href="/account/update"><li>Account Details</li></a>
-                        <a class="appnav" href="/account/usage"><li>Usage Limits</li></a>
-                    </ul>
                 </div>
                 <div class="span12 span-fixed-sidebar">
                     {{{view}}}
@@ -33,7 +28,9 @@
         <div class="account-brand-container">{{{twitter_account}}}</div>
         <div class="account-brand-sub-title">Foursquare account</div>
         <div class="account-brand-container">{{{foursquare_account}}}</div>
+        {{#if accounts}}
         <div class="account-brand-title">Add a social network account</div>
+        {{/if}}
         {{#if facebook_add}}
         <div class="account-brand-add-desc">Add a Facebook account to start managing your business Facebook page.</div>
         <button id="add_facebook" class="btn account-brand-add" type="button">Add a Facebook account</button>
@@ -44,9 +41,11 @@
         {{/if}}
         {{#if foursquare_add}}
         <div class="account-brand-add-desc">Add a Foursquare account to start managing your business Foursquare venue.</div>
-        <button class="btn account-brand-add" type="button">Add a Foursquare account</button>
+        <button id="add_foursquare" class="btn account-brand-add" type="button">Add a Foursquare account</button>
         {{/if}}
+        {{#if accounts}}
         <div class="account-brand-break"></div>
+        {{/if}}
         <div class="account-brand-title">Brand Mention</div>
         <div class="account-brand-sub-title">Business keywords</div>
         <div class="account-brand-container">
@@ -86,7 +85,7 @@
             </td>
             {{else}}
             <td class="social-page">
-                <a id="get_facebook_pages" href="#">Add a business Facebook page</a>
+                <a id="get_facebook_pages" href="#">Add a Facebook page</a>
                 <div id="facebook_page_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
@@ -122,6 +121,53 @@
             <td class="delete-icon">
                 <a id="del_twitter_user" class="appnav" href="#"><i class="icon-remove"></i></a>
             </td>
+        </tr>
+    </table>
+</template>
+
+<template name="account_brand_foursquare">
+    <table>
+        <tr>
+            <td>
+                {{{foursquare_name}}} (Foursquare user)
+            </td>
+            <td class="delete-icon">
+                <a id="del_foursquare_user" class="appnav" href="#"><i class="icon-remove"></i></a>
+            </td>
+        </tr>
+        <tr>
+            {{#if foursquare_venue}}
+            <td class="social-page">
+                {{foursquare_venue}} (Foursquare venue)
+            </td>
+            <td class="delete-icon social-page">
+                <a href="#" class="appnav del_foursquare_venue" id="del_foursquare_venue_{{foursquare_venue_id}}"><i class="icon-remove"></i></a>
+            </td>
+            {{else}}
+            <td class="social-page">
+                <a id="get_foursquare_venues_managed" href="#">Add a Foursquare venue</a>
+                <div id="foursquare_venue_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h5>Select a Foursquare venue to manage</h5>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            {{#each venue}}
+                            <tr class="add_foursquare_venue" id="fsq_venue_{{id}}">
+                                <td>
+                                    <strong>{{name}}</strong>
+                                </td>
+                                <td>
+                                    <strong>{{location.address}}</strong>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </table>
+                    </div>
+                </div>
+            </td>
+            {{/if}}
         </tr>
     </table>
 </template>

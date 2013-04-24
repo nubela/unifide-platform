@@ -52,7 +52,6 @@
     .table-hover
         margin-top: 2px
         margin-bottom: 10px
-        height: 250px
         font-size: 12px
 
     .overflow
@@ -61,8 +60,9 @@
 
     table.table-hover td
         height: 50px
+        max-height: 90px
 
-    .facebook-profile-pic
+    .facebook-profile-pic, .twitter-profile-pic, .foursquare-profile-pic
         width: 50px
 
     .facebook-profile
@@ -81,9 +81,6 @@
     .facebook-view-post
         color: #0072C6
 
-    .twitter-profile-pic
-        width: 50px
-
     .twitter-profile-name
         font-weight: bold
 
@@ -91,6 +88,15 @@
         margin-left: 5px
         font-size:  10px
         color: #cccccc
+
+    .foursquare-tip-content
+        padding-top: 10px
+
+    .foursquare-profile-name
+        color: #999999
+
+    .foursquare-profile-name a:hover
+        text-decoration: underline
 
 table.table-hover > tbody > tr:first-child > td
     border-top: none

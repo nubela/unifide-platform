@@ -46,14 +46,14 @@
 .overview-widget .table-hover {
   margin-top: 2px;
   margin-bottom: 10px;
-  height: 250px;
   font-size: 12px; }
 .overview-widget .overflow {
   overflow: hidden;
   height: 270px; }
 .overview-widget table.table-hover td {
-  height: 50px; }
-.overview-widget .facebook-profile-pic {
+  height: 50px;
+  max-height: 90px; }
+.overview-widget .facebook-profile-pic, .overview-widget .twitter-profile-pic, .overview-widget .foursquare-profile-pic {
   width: 50px; }
 .overview-widget .facebook-profile {
   width: 160px; }
@@ -66,14 +66,18 @@
   width: 390px; }
 .overview-widget .facebook-view-post {
   color: #0072c6; }
-.overview-widget .twitter-profile-pic {
-  width: 50px; }
 .overview-widget .twitter-profile-name {
   font-weight: bold; }
 .overview-widget .twitter-profile-handle {
   margin-left: 5px;
   font-size: 10px;
   color: #cccccc; }
+.overview-widget .foursquare-tip-content {
+  padding-top: 10px; }
+.overview-widget .foursquare-profile-name {
+  color: #999999; }
+.overview-widget .foursquare-profile-name a:hover {
+  text-decoration: underline; }
 
 table.table-hover > tbody > tr:first-child > td {
   border-top: none; }

@@ -21,15 +21,7 @@
 
                 <!--- 4sq block --->
                 <div class="span6">
-                    <div class="overview-widget container-shadow">
-                        <div class="title">FOURSQUARE</div>
-                        <table class="table table-hover">
-                            <tbody>
-                                {{#each foursquare_overview}}
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
+                    {{> overview_foursquare}}
                 </div>
 
 
@@ -37,25 +29,28 @@
                 <div class="span6">
                     <div class="overview-widget container-shadow">
                         <div class="title">WEB MENTIONS</div>
-                        <table class="table table-hover entry-table">
-                            <tbody>
-                                {{#each web_mentions_overview}}
-                                <tr>
-                                    <td>
-                                        <span class="badge">{{keyword}}</span>
-                                    </td>
-                                    <td>
-                                        <a href="{{url}}" target="_blank">
-                                            <p>{{title}}</p>
-                                            <p class="url">
-                                                <i>{{url}}</i>
-                                            </p>
-                                        </a>
-                                    </td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
+                        <div class="overflow">
+                            <table class="table table-hover entry-table">
+                                <tbody>
+                                    {{#each web_mentions_overview}}
+                                    <tr>
+                                        <td>
+                                            <span class="badge">{{keyword}}</span>
+                                        </td>
+                                        <td>
+                                            <a href="{{url}}" target="_blank">
+                                                <p>{{title}}</p>
+                                                <p class="url">
+                                                    <i>{{url}}</i>
+                                                </p>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>
                     </div>
                 </div>
             </div>
@@ -112,7 +107,7 @@
     <div class="overview-widget container-shadow">
         <div class="title">FACEBOOK</div>
         <div class="overflow">
-            <table class="table table-hover">
+            <table class="table table-hover" id="overview-facebook">
                 <tbody>
                     {{#each facebook_overview}}
                     <tr>
@@ -146,7 +141,7 @@
     <div class="overview-widget container-shadow">
         <div class="title">TWITTER</div>
         <div class="overflow">
-            <table class="table table-hover">
+            <table class="table table-hover" id="overview-twitter">
                 <tbody>
                     {{#each twitter_overview}}
                     <tr>
@@ -172,5 +167,32 @@
             </table>
         </div>
         <a href="/twitter" class="appnav viewmore">VIEW ALL</a>
+    </div>
+</template>
+
+
+<template name="overview_foursquare">
+    <div class="overview-widget container-shadow">
+        <div class="title">FOURSQUARE</div>
+        <div class="overflow">
+            <table class="table table-hover" id="overview-foursquare">
+                <tbody>
+                    {{#each foursquare_overview}}
+                    <tr>
+                        <td class="foursquare-profile-pic">
+                            <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{fields.user.photo.prefix}}64x64{{fields.user.photo.suffix}}"></a>
+                        </td>
+                        <td class="foursquare-tip-content">
+                            {{text}}
+                            <div class="foursquare-profile-name">
+                                <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;">{{fields.user.firstName}}</a> · <a href="https://foursquare.com/user/{{fields.canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;">{{createdAt}}</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>
     </div>
 </template>

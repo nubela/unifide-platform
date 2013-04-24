@@ -55,7 +55,7 @@
     width: 20px; }
   .account-brand-container .table {
     margin-bottom: 0px; }
-  .account-brand-container .add_facebook_page {
+  .account-brand-container .add_facebook_page, .account-brand-container .add_foursquare_venue {
     cursor: pointer; }
   .account-brand-container .modal-body td {
     border: none; }

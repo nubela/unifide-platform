@@ -26,13 +26,15 @@ var myAppRouter = Backbone.Router.extend({
         "account/update": "static_url",
         "account/usage": "static_url",
         "account/auth/twitter/:brand/:str": "social_auth_twitter",
-        "account/auth/:str": "social_auth",
+        "account/auth/facebook/:str": "social_auth_facebook",
+        "account/auth/foursquare/:str": "social_auth_foursquare",
         "profile": "static_url"
     },
     static_url: static_url,
     account_url: account_url,
-    social_auth: social_auth,
-    social_auth_twitter: social_auth_twitter
+    social_auth_facebook: social_auth_facebook,
+    social_auth_twitter: social_auth_twitter,
+    social_auth_foursquare: social_auth_foursquare
 });
 
 function static_url() {
@@ -50,7 +52,7 @@ function parse_url(url) {
     return url.replace(/\//g, '_');
 };
 
-function social_auth(str) {
+function social_auth_facebook(str) {
     var state_idx = str.indexOf("&state=");
     var code = str.substring(6, state_idx).replace(/ /g, '');
     var state = str.substring(state_idx+7).split("%2C");
@@ -71,6 +73,16 @@ function social_auth_twitter(brand, str) {
     });
 };
 
+function social_auth_foursquare(str) {
+    var code = str.substring(str.indexOf("?code=")+6);
+    var brand = Session.get("account_brand") != undefined ? Session.get("account_brand") : "default";
+    Meteor.call("connect_foursquare_auth", code, brand, function() {
+        Meteor.call("get_platform_url", function(error, result) {
+           window.location.href = result + "account/b/" + brand;
+        });
+    });
+};
+
 Meteor.startup(function() {
     Deps.autorun(function() {
         Meteor.subscribe("cp_menu");
@@ -78,6 +90,7 @@ Meteor.startup(function() {
         Meteor.subscribe("mapping");
         Meteor.subscribe("facebook", Session.get("selected_brand"));
         Meteor.subscribe("twitter", Session.get("selected_brand"));
+        Meteor.subscribe("foursquare", Session.get("selected_brand"));
         Meteor.subscribe("brand_mention");
         Meteor.subscribe("keyword");
     });

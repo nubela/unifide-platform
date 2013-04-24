@@ -57,6 +57,16 @@ Template.overview_twitter.twitter_overview = function() {
     return _TWOverview.find();
 };
 
+Template.overview_foursquare.foursquare_overview = function() {
+    _FSQOverview.remove({});
+    var client_FSQTips = FSQTips.find({}, {limit: 4}).fetch();
+    for (var i=0; i < client_FSQTips.length;i++) {
+        _FSQOverview.insert(client_FSQTips[i]);
+        console.log(client_FSQTips[i]);
+    }
+
+    return _FSQOverview.find();
+}
 
 Template.overview.web_mentions_overview = function () {
     return BrandMentions.find({}, {sort: {modification_timestamp_utc: -1}, limit: 4});
