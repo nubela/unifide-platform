@@ -1,0 +1,123 @@
+template name="items"
+    .container-fluid
+        .row-fluid
+            .account
+                <!--- sidenav menu --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header | Go back <span class="icon">u</span>
+                        li | Pictures
+                        li | Videos
+                        li | Portfolio
+
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+
+                    <!--- breadcrumb --->
+                    .breadcrumb-holder
+                        ul.breadcrumb
+                            li
+                                a href="#" | Pictures
+                                span.divider | /
+                            li
+                                a href="#" | Sex
+                                span.divider | /
+                            li.active
+                                Girls
+
+                    <!--- item container --->
+                    .item-container
+
+                        .container-desc
+                            h2 | Girls
+                            p.lead | At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non providen
+                            p
+                                small | <span class="heydings">l</span> There are 5 items for Girls
+                            p
+                                small | Sort by: <a class="active" href="#">Recently added or modified</a> / <a href="#">Alphabetical order</a>
+
+                        .items
+                            .row-fluid
+                                .span2.item.empty
+                                    .thumbnail
+                                        div.empty-img
+                                            | <span class="heydings">+</span> New Item
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?2"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?3"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?4"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?4"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?4"
+                                        .text-caption
+                                            p | Sup
+
+                            <br>
+                            .row-fluid
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?2"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?2"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?3"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?4"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?4"
+                                        .text-caption
+                                            p | Sup
+
+                                .span2.item
+                                    .thumbnail
+                                        > img src="http://lorempixel.com/300/300?4"
+                                        .text-caption
+                                            p | Sup
+                        .pagination
+                            ul
+                                li
+                                    a href="#" | 1
+                                li
+                                    a href="#" | 2
+                                li
+                                    a href="#" | 3
+                                li
+                                    a href="#" | 4

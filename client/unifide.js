@@ -33,7 +33,9 @@ var myAppRouter = Backbone.Router.extend({
         "account/auth/twitter/:brand/:str": "social_auth_twitter",
         "account/auth/facebook/:str": "social_auth_facebook",
         "account/auth/foursquare/:str": "social_auth_foursquare",
-        "business-info": "static_url"
+        "business-info": "static_url",
+        "profile": "static_url",
+        "items": "static_url"
     },
     static_url: static_url,
     account_url: account_url,

@@ -124,3 +124,7 @@ a, a:hover, a:visited {
     background-color: #ffffff;
     height: 1500px;
 }
+
+.hidden {
+    display: none;
+}

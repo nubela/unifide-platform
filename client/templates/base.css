@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "heydings";
+  src: url("/media/fonts/heydings_icons.ttf"); }
+
+.breadcrumb-holder {
+  margin-top: 20px; }
+
+.heydings {
+  font-family: "heydings"; }
