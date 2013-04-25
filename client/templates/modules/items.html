@@ -1,3 +1,89 @@
+<template name="nubela">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="account">
+                <!--- sidenav menu --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">Go back <span class="icon">u</span></li>
+                        <li>Pictures</li>
+                        <li>Videos</li>
+                        <li>Portfolio</li>
+                    </ul>
+                </div>
+
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar">
+
+                    <!--- breadcrumb --->
+                    <div class="breadcrumb-holder">
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Pictures</a>
+                                <span class="divider">/</span>
+                            </li>
+                            <li>
+                                <a href="#">Sex</a>
+                                <span class="divider">/</span>
+                            </li>
+                            <li>
+                                <a href="#">Girls</a>
+                                <span class="divider">/</span>
+                            </li>
+                            <li class="active">
+                                New Item
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <!--- new item compose --->
+                    <div class="compose-new-item well">
+                        <form class="form-horizontal">
+                            <legend>New Item</legend>
+                            <fieldset>
+                                <div class="control-group">
+                                    <label>Item name</label>
+                                    <input type="text" placeholder="Item A" />
+                                </div>
+
+                                <div class="control-group">
+                                    <label>Media</label>
+                                    <input type="file" />
+                                    <p>
+                                        <small>Files with the extensions JPG, GIF and PNG will be treated as images.</small>
+                                    </p>
+                                </div>
+
+                                <div class="control-group">
+                                    <label>Description</label>
+                                    <textarea rows="3" />
+                                </div>
+
+                                <div class="control-group">
+                                    <label>Price ($)</label>
+                                    <input type="text" placeholder="4.95" />
+                                </div>
+
+                                <div class="control-group">
+                                    <label>Add a custom attribute</label>
+                                    <button class="btn btn-inverse">New custom attribute</button>
+                                </div>
+
+                                <div class="control-group">
+                                    <button type="submit" class="btn-large btn btn-primary">Done</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
 <template name="items">
     <div class="container-fluid">
         <div class="row-fluid">

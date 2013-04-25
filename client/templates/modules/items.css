@@ -42,3 +42,8 @@
   text-align: center;
   color: #999999;
   font-weight: 200; }
+
+.compose-new-item {
+  margin-top: 20px; }
+  .compose-new-item form input, .compose-new-item form textarea {
+    width: 60%; }
