@@ -1,0 +1,55 @@
+template name="facebook"
+    .container-fluid
+        .row-fluid
+            .facebook
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header
+                            Facebook
+                        a.appnav href="/facebook/page/activity"
+                            li
+                                Page activity
+                        a.appnav href="/facebook/event/activity"
+                            li
+                                Events activity
+
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+
+template name="facebook_page_activity"
+    .main-title
+        h4
+            Page activity
+
+    .input-append
+        <input class="search-input" type="text">
+        button.btn type=button
+            Search
+
+    table.table-striped.table-hover
+        thead
+            tr
+                td colspan="3"
+                    Activity
+        tbody
+            {{#each activity_list}}
+            tr
+                td.facebook-profile-pic
+                    <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
+                td.facebook-profile
+                    .facebook-profile-name
+                        {{name}}
+                    .facebook-post-time
+                        {{datetime}}
+                td.facebook-post-content
+                    {{message}}
+                    <br>
+                    <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
+            {{/each}}
+
+
+template name="facebook_event_activity"
+    .main-title
+        h4
+            Event activity

@@ -93,7 +93,7 @@ template name="overview_facebook"
                             <br>
                             <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
                     {{/each}}
-        <a href="/facebook" class="appnav viewmore">VIEW ALL</a>
+        <a href="/facebook/page/activity" class="appnav viewmore">VIEW ALL</a>
 
 
 template name="overview_twitter"
@@ -119,7 +119,7 @@ template name="overview_twitter"
                             {{fields.text}}
 
                     {{/each}}
-        <a href="/twitter" class="appnav viewmore">VIEW ALL</a>
+        <a href="/twitter/activity" class="appnav viewmore">VIEW ALL</a>
 
 
 template name="overview_foursquare"

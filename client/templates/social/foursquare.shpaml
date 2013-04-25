@@ -1,0 +1,40 @@
+template name="foursquare"
+    .container-fluid
+        .row-fluid
+            .foursquare
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header
+                            Foursquare
+                        li
+                            Venue activity
+
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+
+template name="foursquare_venue_activity"
+    .main-title
+        h4
+            Venue activity
+
+    .input-append
+        <input class="search-input" type="text">
+        button.btn type=button
+            Search
+
+    table.table-striped.table-hover
+        thead
+            tr
+                td colspan="3"
+                    Activity
+        tbody
+            {{#each activity_list}}
+            tr
+                td.foursquare-profile-pic
+                    <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{fields.user.photo.prefix}}64x64{{fields.user.photo.suffix}}"></a>
+                td.foursquare-tip-content
+                    {{text}}
+                    .foursquare-profile-name
+                        <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;">{{fields.user.firstName}}</a> · <a href="https://foursquare.com/user/{{fields.canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;">{{createdAt}}</a>
+            {{/each}}

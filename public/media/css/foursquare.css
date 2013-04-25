@@ -1,19 +1,19 @@
-.facebook .main-title {
+.foursquare .main-title {
   padding-top: 20px;
   padding-bottom: 20px;
   width: 100%;
   display: block;
   border-bottom: 1px solid #cccccc; }
-.facebook .input-append {
+.foursquare .input-append {
   margin-top: 30px !important; }
-.facebook .search-input {
+.foursquare .search-input {
   width: 300px; }
-.facebook table {
+.foursquare table {
   margin-top: 30px !important;
   width: 100%; }
-  .facebook table thead td {
+  .foursquare table thead td {
     background: #eeeeee;
     height: 20px !important;
     font-weight: bold; }
-  .facebook table td {
+  .foursquare table td {
     padding: 10px; }

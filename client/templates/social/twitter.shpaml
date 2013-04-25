@@ -1,0 +1,47 @@
+template name="twitter"
+    .container-fluid
+        .row-fluid
+            .twitter
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header
+                            Twitter
+                        li
+                            Tweets activity
+
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+
+template name="twitter_activity"
+    .main-title
+        h4
+            Tweet activity
+
+    .input-append
+        <input class="search-input" type="text">
+        button.btn type=button
+            Search
+
+    table.table-striped.table-hover
+        thead
+            tr
+                td colspan="3"
+                    Activity
+        tbody
+            {{#each activity_list}}
+            tr
+                td.twitter-profile-pic
+                    <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
+                td
+                    <div class="pull-left">
+                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
+                        <div class="twitter-profile-name pull-left">{{user.name}}</div>
+                        <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
+                        </a>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="pull-right">{{created_at}}</div>
+                    <div class="clear"></div>
+                    {{fields.text}}
+            {{/each}}

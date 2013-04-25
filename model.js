@@ -23,6 +23,7 @@ FBPosts = new Meteor.Collection("fb_post");
 FBComments = new Meteor.Collection("fb_comment");
 _FBOverview = new Meteor.Collection(null);
 _FBPages = new Meteor.Collection(null);
+_FBActivity = new Meteor.Collection(null);
 
 /*
  Twitter Collections
@@ -30,6 +31,7 @@ _FBPages = new Meteor.Collection(null);
 TWUsers = new Meteor.Collection("tw_user");
 TWTweets = new Meteor.Collection("tw_tweet");
 _TWOverview = new Meteor.Collection(null);
+_TWActivity = new Meteor.Collection(null);
 
 /*
  Foursquare Collections
@@ -38,6 +40,7 @@ FSQUsers = new Meteor.Collection("fsq_user");
 FSQTips = new Meteor.Collection("fsq_tip");
 _FSQVenues = new Meteor.Collection(null);
 _FSQOverview = new Meteor.Collection(null);
+_FSQActivity = new Meteor.Collection(null);
 /*
  Account Collections
  */

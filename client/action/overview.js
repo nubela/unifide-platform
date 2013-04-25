@@ -62,7 +62,6 @@ Template.overview_foursquare.foursquare_overview = function() {
     var client_FSQTips = FSQTips.find({}, {limit: 4}).fetch();
     for (var i=0; i < client_FSQTips.length;i++) {
         _FSQOverview.insert(client_FSQTips[i]);
-        console.log(client_FSQTips[i]);
     }
 
     return _FSQOverview.find();

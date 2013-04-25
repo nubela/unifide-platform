@@ -1,31 +1,63 @@
 <template name="foursquare">
-    <div class="campaign container-shadow">
-        <div class="row">
-            <div class="span12">
-                <div class="row">
-                    <div class="span2">
-                        <div class="campaign-nav">
-                            <div class="campaign-title">Foursquare</div>
-                            <div class="campaign-grey-title">Manage tips</div>
-                            <ul class="unstyled campaign-nav-submenu nav nav-pills">
-                                <li class="active"><a class="appnav" href="/foursquare">All tips<div class="pull-right">12</div></a></li>
-                                <li><a class="appnav" href="/foursquare">Recent tips</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="span10">
-                        {{{view}}}
-                    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="foursquare">
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">
+                            Foursquare
+                        </li>
+                        <li>
+                            Venue activity
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<template name="foursquare_list">
-    <div class="campaign-content">
-        <div class="campaign-title">
-            All Tips
-        </div>
+
+<template name="foursquare_venue_activity">
+    <div class="main-title">
+        <h4>
+            Venue activity
+        </h4>
     </div>
+
+    <div class="input-append">
+        <input class="search-input" type="text">
+        <button type="button" class="btn">
+            Search
+        </button>
+    </div>
+
+    <table class="table-striped table-hover">
+        <thead>
+            <tr>
+                <td colspan="3">
+                    Activity
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each activity_list}}
+            <tr>
+                <td class="foursquare-profile-pic">
+                    <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{fields.user.photo.prefix}}64x64{{fields.user.photo.suffix}}"></a>
+                </td>
+                <td class="foursquare-tip-content">
+                    {{text}}
+                    <div class="foursquare-profile-name">
+                        <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;">{{fields.user.firstName}}</a> · <a href="https://foursquare.com/user/{{fields.canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;">{{createdAt}}</a>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </template>

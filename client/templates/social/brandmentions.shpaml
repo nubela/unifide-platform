@@ -1,0 +1,17 @@
+template name="brand-mention"
+    .container-fluid
+        .row-fluid
+            .brand-mention
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header
+                            Brand Mention
+                        li
+                            Mention activity
+
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+
+template name="mention_list"
+        Mention activity

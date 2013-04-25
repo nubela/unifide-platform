@@ -1,31 +1,69 @@
 <template name="twitter">
-    <div class="campaign container-shadow">
-        <div class="row">
-            <div class="span12">
-                <div class="row">
-                    <div class="span2">
-                        <div class="campaign-nav">
-                            <div class="campaign-title">Twitter</div>
-                            <div class="campaign-grey-title">Manage tweets</div>
-                            <ul class="unstyled campaign-nav-submenu nav nav-pills">
-                                <li class="active"><a class="appnav" href="/twitter">All posts<div class="pull-right">12</div></a></li>
-                                <li><a class="appnav" href="/twitter">Recent tweets</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="span10">
-                        {{{view}}}
-                    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="twitter">
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">
+                            Twitter
+                        </li>
+                        <li>
+                            Tweets activity
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<template name="twitter_list">
-    <div class="campaign-content">
-        <div class="campaign-title">
-            All Tweets
-        </div>
+
+<template name="twitter_activity">
+    <div class="main-title">
+        <h4>
+            Tweet activity
+        </h4>
     </div>
+
+    <div class="input-append">
+        <input class="search-input" type="text">
+        <button type="button" class="btn">
+            Search
+        </button>
+    </div>
+
+    <table class="table-striped table-hover">
+        <thead>
+            <tr>
+                <td colspan="3">
+                    Activity
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each activity_list}}
+            <tr>
+                <td class="twitter-profile-pic">
+                    <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
+                </td>
+                <td>
+                    <div class="pull-left">
+                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
+                        <div class="twitter-profile-name pull-left">{{user.name}}</div>
+                        <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
+                        </a>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="pull-right">{{created_at}}</div>
+                    <div class="clear"></div>
+                    {{fields.text}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </template>

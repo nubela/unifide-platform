@@ -1,31 +1,86 @@
 <template name="facebook">
-    <div class="campaign container-shadow">
-        <div class="row">
-            <div class="span12">
-                <div class="row">
-                    <div class="span2">
-                        <div class="campaign-nav">
-                            <div class="campaign-title">Facebook</div>
-                            <div class="campaign-grey-title">Manage posts</div>
-                            <ul class="unstyled campaign-nav-submenu nav nav-pills">
-                                <li class="active"><a class="appnav" href="/facebook">All posts<div class="pull-right">12</div></a></li>
-                                <li><a class="appnav" href="/facebook">Recent comments</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="span10">
-                        {{{view}}}
-                    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="facebook">
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">
+                            Facebook
+                        </li>
+                        <a href="/facebook/page/activity" class="appnav">
+                            <li>
+                                Page activity
+                            </li>
+                        </a>
+                        <a href="/facebook/event/activity" class="appnav">
+                            <li>
+                                Events activity
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<template name="facebook_list">
-    <div class="campaign-content">
-        <div class="campaign-title">
-            All Posts
-        </div>
+
+<template name="facebook_page_activity">
+    <div class="main-title">
+        <h4>
+            Page activity
+        </h4>
+    </div>
+
+    <div class="input-append">
+        <input class="search-input" type="text">
+        <button type="button" class="btn">
+            Search
+        </button>
+    </div>
+
+    <table class="table-striped table-hover">
+        <thead>
+            <tr>
+                <td colspan="3">
+                    Activity
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each activity_list}}
+            <tr>
+                <td class="facebook-profile-pic">
+                    <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
+                </td>
+                <td class="facebook-profile">
+                    <div class="facebook-profile-name">
+                        {{name}}
+                    </div>
+                    <div class="facebook-post-time">
+                        {{datetime}}
+                    </div>
+                </td>
+                <td class="facebook-post-content">
+                    {{message}}
+                    <br>
+                    <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</template>
+
+
+<template name="facebook_event_activity">
+    <div class="main-title">
+        <h4>
+            Event activity
+        </h4>
     </div>
 </template>
