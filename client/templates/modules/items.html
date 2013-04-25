@@ -1,3 +1,67 @@
+<template name="nutella">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="account">
+                <!--- sidenav menu --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">Go back <span class="icon">u</span></li>
+                        <li>Pictures</li>
+                        <li>Videos</li>
+                        <li>Portfolio</li>
+                    </ul>
+                </div>
+
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar">
+
+                    <!--- breadcrumb --->
+                    <div class="breadcrumb-holder">
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Pictures</a>
+                                <span class="divider">/</span>
+                            </li>
+                            <li>
+                                <a href="#">Sex</a>
+                                <span class="divider">/</span>
+                            </li>
+                            <li>
+                                <a href="#">Girls</a>
+                                <span class="divider">/</span>
+                            </li>
+                            <li class="active">
+                                New Item
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="show-item">
+                        <div class="span4 item">
+                            <div class="thumbnail">
+                                <img src="http://lorempixel.com/400/400?4" />
+                            </div>
+                        </div>
+                        <div class="span6">
+                            <div class="login-form">
+                                <h3>Some Item</h3>
+                                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+                                <p>
+                                    <strong>S$1.60</strong>
+                                </p>
+                                <a class="btn btn-primary btn-large btn-block">Update</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
 <template name="nubela">
     <div class="container-fluid">
         <div class="row-fluid">
@@ -51,9 +115,6 @@
                                 <div class="control-group">
                                     <label>Media</label>
                                     <input type="file" />
-                                    <p>
-                                        <small>Files with the extensions JPG, GIF and PNG will be treated as images.</small>
-                                    </p>
                                 </div>
 
                                 <div class="control-group">
@@ -72,7 +133,7 @@
                                 </div>
 
                                 <div class="control-group">
-                                    <button type="submit" class="btn-large btn btn-primary">Done</button>
+                                    <button type="submit" class="btn-large btn btn-primary">Save item</button>
                                 </div>
                             </fieldset>
                         </form>

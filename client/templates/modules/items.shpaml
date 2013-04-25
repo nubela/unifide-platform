@@ -1,3 +1,48 @@
+template name="nutella"
+    .container-fluid
+        .row-fluid
+            .account
+                <!--- sidenav menu --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header | Go back <span class="icon">u</span>
+                        li | Pictures
+                        li | Videos
+                        li | Portfolio
+
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+
+                    <!--- breadcrumb --->
+                    .breadcrumb-holder
+                        ul.breadcrumb
+                            li
+                                a href="#" | Pictures
+                                span.divider | /
+                            li
+                                a href="#" | Sex
+                                span.divider | /
+                            li
+                                a href="#" | Girls
+                                span.divider | /
+                            li.active
+                                New Item
+
+                    .show-item
+                        .span4.item
+                            .thumbnail
+                                > img src="http://lorempixel.com/400/400?4"
+                        .span6
+                            .login-form
+                                h3 | Some Item
+                                p | At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate
+                                p
+                                    strong | S$1.60
+                                a.btn.btn-primary.btn-large.btn-block | Update
+
+
+
 template name="nubela"
     .container-fluid
         .row-fluid
@@ -42,8 +87,6 @@ template name="nubela"
                                 .control-group
                                     label | Media
                                     > input type="file"
-                                    p
-                                        small | Files with the extensions JPG, GIF and PNG will be treated as images.
 
                                 .control-group
                                     label | Description
@@ -58,7 +101,7 @@ template name="nubela"
                                     button.btn.btn-inverse | New custom attribute
 
                                 .control-group
-                                    button.btn-large.btn.btn-primary type="submit" | Done
+                                    button.btn-large.btn.btn-primary type="submit" | Save item
 
 
 template name="items"

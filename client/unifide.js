@@ -36,6 +36,7 @@ var myAppRouter = Backbone.Router.extend({
         "business-info": "static_url",
         "profile": "static_url",
         "nubela": "static_url",
+        "nutella": "static_url",
         "items": "static_url"
     },
     static_url: static_url,

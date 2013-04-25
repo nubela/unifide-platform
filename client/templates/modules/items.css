@@ -47,3 +47,6 @@
   margin-top: 20px; }
   .compose-new-item form input, .compose-new-item form textarea {
     width: 60%; }
+
+.show-item .login-form {
+  margin-top: 5px; }
