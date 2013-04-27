@@ -129,7 +129,16 @@ function del_brand_mention_keyword(keyword) {
     }));
 }
 
+function get_child_containers_and_items(path_lis) {
+    this.unblock();
+    var resp = Meteor.http.get(BACKEND_URL + "container+item/?" + serialize({
+        path_lis: path_lis
+    }));
+    return JSON.parse(resp.content);
+}
+
 Meteor.methods({
+    get_child_containers_and_items: get_child_containers_and_items,
     put_brand_mention_keyword: put_brand_mention_keyword,
     del_brand_mention_keyword: del_brand_mention_keyword,
     get_platform_url: function () {

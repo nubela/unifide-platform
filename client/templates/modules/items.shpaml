@@ -1,3 +1,47 @@
+template name="items"
+    .container-fluid
+        .row-fluid
+            .account
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header | Go back <span class="icon">u</span>
+                        {{#each child_containers}}
+                        li | {{name}}
+                        {{/each}}
+
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+
+                    <!--- breadcrumb --->
+                    {{#if is_root_container}}
+                    .breadcrumb-holder.hidden
+
+                        ul.breadcrumb
+                            li
+                                a href="#" | Items
+                            li
+                                span.divider | /
+                                a href="#" | Sex
+                            li
+                                span.divider | /
+                                a href="#" | Girls
+                            li.active
+                                span.divider | /
+                                New Item
+                    {{/if}}
+
+                    {{{view}}}
+
+
+template name="select-container"
+    .select-container
+        .tooltip.fade.right.in.span2.offset4
+            > div.tooltip-arrow style
+            .tooltip-inner
+                To begin, select container from the left
+
 template name="nutella"
     .container-fluid
         .row-fluid
@@ -104,7 +148,7 @@ template name="nubela"
                                     button.btn-large.btn.btn-primary type="submit" | Save item
 
 
-template name="items"
+template name="spare"
     .container-fluid
         .row-fluid
             .account

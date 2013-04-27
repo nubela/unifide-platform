@@ -35,8 +35,6 @@ var myAppRouter = Backbone.Router.extend({
         "account/auth/foursquare/:str": "social_auth_foursquare",
         "business-info": "static_url",
         "profile": "static_url",
-        "nubela": "static_url",
-        "nutella": "static_url",
         "items": "static_url"
     },
     static_url: static_url,
@@ -60,6 +58,10 @@ function account_url(brand) {
 function parse_url(url) {
     return url.replace(/\//g, '_');
 };
+
+Handlebars.registerHelper('session',function(input){
+    return Session.get(input);
+});
 
 function social_auth_facebook(str) {
     var state_idx = str.indexOf("&state=");

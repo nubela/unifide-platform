@@ -1,3 +1,64 @@
+<template name="items">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="account">
+                <!--- navbar --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">Go back <span class="icon">u</span></li>
+                        {{#each child_containers}}
+                        <li>{{name}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar">
+
+                    <!--- breadcrumb --->
+                    {{#if is_root_container}}
+                    <div class="breadcrumb-holder hidden">
+
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Items</a>
+                            </li>
+                            <li>
+                                <span class="divider">/</span>
+                                <a href="#">Sex</a>
+                            </li>
+                            <li>
+                                <span class="divider">/</span>
+                                <a href="#">Girls</a>
+                            </li>
+                            <li class="active">
+                                <span class="divider">/</span>
+                                New Item
+                            </li>
+                        </ul>
+                    </div>
+                    {{/if}}
+
+                    {{{view}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<template name="select-container">
+    <div class="select-container">
+        <div class="tooltip fade right in span2 offset4">
+            <div style class="tooltip-arrow" />
+            <div class="tooltip-inner">
+                To begin, select container from the left
+            </div>
+        </div>
+    </div>
+</template>
+
 <template name="nutella">
     <div class="container-fluid">
         <div class="row-fluid">
@@ -145,7 +206,7 @@
 </template>
 
 
-<template name="items">
+<template name="spare">
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="account">

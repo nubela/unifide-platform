@@ -54,3 +54,9 @@ _Settings = new Meteor.Collection(null);
  */
 BrandMentions = new Meteor.Collection("mention");
 Keywords = new Meteor.Collection("keyword");
+
+/*
+ Items
+ */
+ITMChildCategories = new Meteor.Collection(null);
+ITMItems = new Meteor.Collection(null);
