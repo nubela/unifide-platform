@@ -74,16 +74,28 @@ Template.items.back_url = function () {
 
     var back_path_lis = path_lis.splice(0, path_lis_len - 1);
     return url_from_path(back_path_lis);
-}
+};
 
-//------ item-container compose functions ------//
-
-Template.item_compose.events = {
-    "click #cancel-save-item": function (evt) {
-        evt.preventDefault();
-        window.location = "/items";
+Template.items.events = {
+    "click .new_container": function (evt) {
+        bootbox.prompt("Name of container to create?", function (container_name) {
+            if (!container_name) {
+                return;
+            }
+            var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
+            if (path_lis) {
+                path_lis.push(container_name);
+            } else {
+                path_lis = [container_name];
+            }
+            Meteor.call("put_container", path_lis, function() {
+                init_items();
+            });
+        });
     }
 };
+
+//------ item-container compose functions ------//
 
 Template.item_compose.back_url = url_to_current_path();
 
@@ -111,7 +123,7 @@ Template.item_breadcrumb.active = function () {
     } else if (is_view_type(VIEW_TYPE.CREATE)) {
         return "New Item";
     }
-}
+};
 
 //------ item_container template functions ------//
 
@@ -186,7 +198,6 @@ function url_to_current_path() {
 }
 
 function is_materialized_path_null() {
-    console.log(Session.get(ITEM_SESSION.MATERIALIZED_PATH));
     return Session.get(ITEM_SESSION.MATERIALIZED_PATH) == null;
 }
 

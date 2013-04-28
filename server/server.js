@@ -60,7 +60,7 @@ Meteor.publish("facebook", function (brand) {
     var page_id = brand_obj.id;
     var post_list = FBPosts.find({page_id: page_id}).fetch();
     var postid_list = [];
-    for (var i=0;i<post_list.length;i++) {
+    for (var i = 0; i < post_list.length; i++) {
         postid_list.push(post_list[i].post_id);
     }
 
@@ -137,7 +137,15 @@ function get_child_containers_and_items(path_lis) {
     return JSON.parse(resp.content);
 }
 
+function put_container(path_lis) {
+    this.unblock();
+    Meteor.http.put(BACKEND_URL + "container/", {params: {
+        path_lis: JSON.stringify(path_lis)
+    }});
+}
+
 Meteor.methods({
+    put_container: put_container,
     get_child_containers_and_items: get_child_containers_and_items,
     put_brand_mention_keyword: put_brand_mention_keyword,
     del_brand_mention_keyword: del_brand_mention_keyword,

@@ -48,7 +48,8 @@ var myAppRouter = Backbone.Router.extend({
 });
 
 function static_url() {
-    set_page_url();
+    var url = Backbone.history.fragment;
+    Session.set("page", url);
     Session.set("page_template", (url == "") ? "overview" : parse_url(url));
 };
 
