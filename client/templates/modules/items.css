@@ -34,6 +34,8 @@
   font-weight: 200; }
   .items .item .thumbnail .text-caption p {
     padding: 0 5px; }
+.items .empty .empty-img:hover {
+  background-color: #e4e4e9; }
 .items .empty .empty-img {
   background-color: whitesmoke;
   max-width: 100%;
@@ -41,7 +43,8 @@
   line-height: 165px;
   text-align: center;
   color: #999999;
-  font-weight: 200; }
+  font-weight: 200;
+  cursor: pointer; }
 
 .compose-new-item {
   margin-top: 20px; }
@@ -53,3 +56,9 @@
 
 .select-container {
   padding-top: 60px; }
+
+.container-entry .icon {
+  font-family: "heydings"; }
+
+.new_container {
+  font-size: 12px; }

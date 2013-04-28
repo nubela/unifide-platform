@@ -1,15 +1,15 @@
 /*
-    1. Router set page
-    2. Template loads page (check auth)
-*/
+ 1. Router set page
+ 2. Template loads page (check auth)
+ */
 
 /*
-    URL Routing should convert all url paths from '/' to '_' for templates
+ URL Routing should convert all url paths from '/' to '_' for templates
  */
 
 var myAppRouter = Backbone.Router.extend({
     routes: {
-        "" : "static_url",
+        "": "static_url",
         "login": "static_url",
         "facebook": "static_url",
         "facebook/page/activity": "static_url",
@@ -35,18 +35,20 @@ var myAppRouter = Backbone.Router.extend({
         "account/auth/foursquare/:str": "social_auth_foursquare",
         "business-info": "static_url",
         "profile": "static_url",
-        "items": "static_url"
+        "items": "items_url",
+        "items/*suburl": "items_url"
     },
     static_url: static_url,
     account_url: account_url,
     social_auth_facebook: social_auth_facebook,
     social_auth_twitter: social_auth_twitter,
-    social_auth_foursquare: social_auth_foursquare
+    social_auth_foursquare: social_auth_foursquare,
+    social_auth: social_auth,
+    items_url: items_url
 });
 
 function static_url() {
-    var url = Backbone.history.fragment;
-    Session.set("page", url);
+    set_page_url();
     Session.set("page_template", (url == "") ? "overview" : parse_url(url));
 };
 
@@ -55,21 +57,33 @@ function account_url(brand) {
     static_url();
 };
 
+function set_page_url() {
+    var url = Backbone.history.fragment;
+    Session.set("page", url);
+}
+
+function items_url(suburl) {
+    set_page_url();
+    Session.set(ITEM_SESSION.SUBURL, suburl);
+    Session.set("page_template", "items");
+    _init_items();
+}
+
 function parse_url(url) {
     return url.replace(/\//g, '_');
 };
 
-Handlebars.registerHelper('session',function(input){
+Handlebars.registerHelper('session', function (input) {
     return Session.get(input);
 });
 
 function social_auth_facebook(str) {
     var state_idx = str.indexOf("&state=");
     var code = str.substring(6, state_idx).replace(/ /g, '');
-    var state = str.substring(state_idx+7).split("%2C");
+    var state = str.substring(state_idx + 7).split("%2C");
 
-    Meteor.call("connect_facebook_auth", code, state[1], function(error, result) {
-        Meteor.call("get_platform_url", function(error, result) {
+    Meteor.call("connect_facebook_auth", code, state[1], function (error, result) {
+        Meteor.call("get_platform_url", function (error, result) {
             window.location.href = result + "account/b/" + state[1];
         });
     });
@@ -108,7 +122,7 @@ Meteor.startup(function() {
 });
 
 /*
-    Initialize Backbone routing
+ Initialize Backbone routing
  */
 
 Router = new myAppRouter;

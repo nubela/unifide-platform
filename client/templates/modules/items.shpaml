@@ -5,10 +5,16 @@ template name="items"
                 <!--- navbar --->
                 .sidebar-nav-fixed
                     ul.unstyled.side-nav
-                        li.side-header | Go back <span class="icon">u</span>
+                        {{#if is_root_container}}
+                        li.side-header | Item Containers
+                        {{else}}
+                        li.side-header#go-back-parent-nav | Go back <span class="icon">u</span>
+                        {{/if}}
                         {{#each child_containers}}
-                        li | {{name}}
+                        a.appnav href="{{url}}"
+                            li.container-entry | <span class="icon">F</span> {{name}}
                         {{/each}}
+                        li.container-entry.new_container | <span class="icon">+</span> Add Container
 
 
                 <!--- main area --->
@@ -16,258 +22,115 @@ template name="items"
 
                     <!--- breadcrumb --->
                     {{#if is_root_container}}
-                    .breadcrumb-holder.hidden
-
-                        ul.breadcrumb
-                            li
-                                a href="#" | Items
-                            li
-                                span.divider | /
-                                a href="#" | Sex
-                            li
-                                span.divider | /
-                                a href="#" | Girls
-                            li.active
-                                span.divider | /
-                                New Item
+                    {{else}}
+                    {{>item_breadcrumb}}
                     {{/if}}
 
                     {{{view}}}
 
 
+template name="item_breadcrumb"
+    .breadcrumb-holder
+        ul.breadcrumb
+            li
+                a href="/items" | Items{{nubela}}
+            {{#each breadcrumbs}}
+            li
+                span.divider | /
+                a href="{{url}}" | {{name}}
+            {{/each}}
+            li.active
+                span.divider | /
+                {{active}}
+
+
 template name="select-container"
     .select-container
-        .tooltip.fade.right.in.span2.offset4
+        .tooltip.fade.right.in.span2
             > div.tooltip-arrow style
             .tooltip-inner
-                To begin, select container from the left
+                To begin, select <strong>Container</strong> from the left
+
 
 template name="nutella"
-    .container-fluid
-        .row-fluid
-            .account
-                <!--- sidenav menu --->
-                .sidebar-nav-fixed
-                    ul.unstyled.side-nav
-                        li.side-header | Go back <span class="icon">u</span>
-                        li | Pictures
-                        li | Videos
-                        li | Portfolio
-
-
-                <!--- main area --->
-                .span12.span-fixed-sidebar
-
-                    <!--- breadcrumb --->
-                    .breadcrumb-holder
-                        ul.breadcrumb
-                            li
-                                a href="#" | Pictures
-                                span.divider | /
-                            li
-                                a href="#" | Sex
-                                span.divider | /
-                            li
-                                a href="#" | Girls
-                                span.divider | /
-                            li.active
-                                New Item
-
-                    .show-item
-                        .span4.item
-                            .thumbnail
-                                > img src="http://lorempixel.com/400/400?4"
-                        .span6
-                            .login-form
-                                h3 | Some Item
-                                p | At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate
-                                p
-                                    strong | S$1.60
-                                a.btn.btn-primary.btn-large.btn-block | Update
+    .show-item
+        .span4.item
+            .thumbnail
+                > img src="http://lorempixel.com/400/400?4"
+        .span6
+            .login-form
+                h3 | Some Item
+                p | At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate
+                p
+                    strong | S$1.60
+                a.btn.btn-primary.btn-large.btn-block | Update
 
 
 
-template name="nubela"
-    .container-fluid
-        .row-fluid
-            .account
-                <!--- sidenav menu --->
-                .sidebar-nav-fixed
-                    ul.unstyled.side-nav
-                        li.side-header | Go back <span class="icon">u</span>
-                        li | Pictures
-                        li | Videos
-                        li | Portfolio
+template name="item_compose"
+    <!--- new item compose --->
+    div.compose-new-item.well
+        form.form-horizontal
+            legend | New Item
+            fieldset
+                .control-group
+                    label | Item name
+                    > input type="text" placeholder="Item A"
+
+                .control-group
+                    label | Media
+                    > input type="file"
+
+                .control-group
+                    label | Description
+                    > textarea rows="3"
+
+                .control-group
+                    label | Price ($)
+                    > input type="text" placeholder="4.95"
+
+                .control-group
+                    label | Add a custom attribute
+                    button.btn.btn-inverse | New custom attribute
+
+                .control-group
+                    a.appnav href="{{back_url}}"
+                        button.btn-large.btn | Cancel
+                    button.btn-large.btn.btn-primary type="submit" | Save item
 
 
-                <!--- main area --->
-                .span12.span-fixed-sidebar
+template name="item_container"
+    <!--- item container --->
+    .item-container
 
-                    <!--- breadcrumb --->
-                    .breadcrumb-holder
-                        ul.breadcrumb
-                            li
-                                a href="#" | Pictures
-                                span.divider | /
-                            li
-                                a href="#" | Sex
-                                span.divider | /
-                            li
-                                a href="#" | Girls
-                                span.divider | /
-                            li.active
-                                New Item
+        .container-desc
 
+            h2
+                {{container_name}}
+            small | <span class="heydings">l</span> {{total_items}} items in {{container_name}}
+            {{#if desc}}
+            p.lead | At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non providen
+            {{/if}}
+            p
+                small | Sort by: <a class="active" href="#">Recently added or modified</a> / <a href="#">Alphabetical order</a>
 
-                    <!--- new item compose --->
-                    div.compose-new-item.well
-                        form.form-horizontal
-                            legend | New Item
-                            fieldset
-                                .control-group
-                                    label | Item name
-                                    > input type="text" placeholder="Item A"
-
-                                .control-group
-                                    label | Media
-                                    > input type="file"
-
-                                .control-group
-                                    label | Description
-                                    > textarea rows="3"
-
-                                .control-group
-                                    label | Price ($)
-                                    > input type="text" placeholder="4.95"
-
-                                .control-group
-                                    label | Add a custom attribute
-                                    button.btn.btn-inverse | New custom attribute
-
-                                .control-group
-                                    button.btn-large.btn.btn-primary type="submit" | Save item
-
-
-template name="spare"
-    .container-fluid
-        .row-fluid
-            .account
-                <!--- sidenav menu --->
-                .sidebar-nav-fixed
-                    ul.unstyled.side-nav
-                        li.side-header | Go back <span class="icon">u</span>
-                        li | Pictures
-                        li | Videos
-                        li | Portfolio
-
-
-                <!--- main area --->
-                .span12.span-fixed-sidebar
-
-                    <!--- breadcrumb --->
-                    .breadcrumb-holder
-                        ul.breadcrumb
-                            li
-                                a href="#" | Pictures
-                                span.divider | /
-                            li
-                                a href="#" | Sex
-                                span.divider | /
-                            li.active
-                                Girls
-
-                    <!--- item container --->
-                    .item-container
-
-                        .container-desc
-                            h2 | Girls
-                            p.lead | At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non providen
-                            p
-                                small | <span class="heydings">l</span> There are 5 items for Girls
-                            p
-                                small | Sort by: <a class="active" href="#">Recently added or modified</a> / <a href="#">Alphabetical order</a>
-
-                        .items
-                            .row-fluid
-                                .span2.item.empty
-                                    .thumbnail
-                                        div.empty-img
-                                            | <span class="heydings">+</span> New Item
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?2"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?3"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?4"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?4"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?4"
-                                        .text-caption
-                                            p | Sup
-
-                            <br>
-                            .row-fluid
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?2"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?2"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?3"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?4"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?4"
-                                        .text-caption
-                                            p | Sup
-
-                                .span2.item
-                                    .thumbnail
-                                        > img src="http://lorempixel.com/300/300?4"
-                                        .text-caption
-                                            p | Sup
-                        .pagination
-                            ul
-                                li
-                                    a href="#" | 1
-                                li
-                                    a href="#" | 2
-                                li
-                                    a href="#" | 3
-                                li
-                                    a href="#" | 4
+        .items
+            {{#each items}}
+            .row-fluid
+                {{#each individual_item}}
+                {{#if is_empty}}
+                .span2.item.empty
+                    a.appnav href="{{new_item_url}}"
+                        .thumbnail#create-new-item
+                            div.empty-img
+                                | <span class="heydings">+</span> New Item
+                {{else}}
+                .span2.item
+                    .thumbnail
+                        > img src="http://lorempixel.com/300/300?2"
+                        .text-caption
+                            p | Sup
+                {{/if}}
+                {{/each}}
+            </br>
+            {{/each}}

@@ -132,7 +132,7 @@ function del_brand_mention_keyword(keyword) {
 function get_child_containers_and_items(path_lis) {
     this.unblock();
     var resp = Meteor.http.get(BACKEND_URL + "container+item/?" + serialize({
-        path_lis: path_lis
+        path_lis: JSON.stringify(path_lis)
     }));
     return JSON.parse(resp.content);
 }

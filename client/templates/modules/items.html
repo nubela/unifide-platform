@@ -5,10 +5,17 @@
                 <!--- navbar --->
                 <div class="sidebar-nav-fixed">
                     <ul class="unstyled side-nav">
-                        <li class="side-header">Go back <span class="icon">u</span></li>
+                        {{#if is_root_container}}
+                        <li class="side-header">Item Containers</li>
+                        {{else}}
+                        <li class="side-header" id="go-back-parent-nav">Go back <span class="icon">u</span></li>
+                        {{/if}}
                         {{#each child_containers}}
-                        <li>{{name}}</li>
+                        <a href="{{url}}" class="appnav">
+                            <li class="container-entry"><span class="icon">F</span> {{name}}</li>
+                        </a>
                         {{/each}}
+                        <li class="container-entry new_container"><span class="icon">+</span> Add Container</li>
                     </ul>
                 </div>
 
@@ -18,26 +25,8 @@
 
                     <!--- breadcrumb --->
                     {{#if is_root_container}}
-                    <div class="breadcrumb-holder hidden">
-
-                        <ul class="breadcrumb">
-                            <li>
-                                <a href="#">Items</a>
-                            </li>
-                            <li>
-                                <span class="divider">/</span>
-                                <a href="#">Sex</a>
-                            </li>
-                            <li>
-                                <span class="divider">/</span>
-                                <a href="#">Girls</a>
-                            </li>
-                            <li class="active">
-                                <span class="divider">/</span>
-                                New Item
-                            </li>
-                        </ul>
-                    </div>
+                    {{else}}
+                    {{>item_breadcrumb}}
                     {{/if}}
 
                     {{{view}}}
@@ -48,74 +37,54 @@
 </template>
 
 
+<template name="item_breadcrumb">
+    <div class="breadcrumb-holder">
+        <ul class="breadcrumb">
+            <li>
+                <a href="/items">Items{{nubela}}</a>
+            </li>
+            {{#each breadcrumbs}}
+            <li>
+                <span class="divider">/</span>
+                <a href="{{url}}">{{name}}</a>
+            </li>
+            {{/each}}
+            <li class="active">
+                <span class="divider">/</span>
+                {{active}}
+            </li>
+        </ul>
+    </div>
+</template>
+
+
 <template name="select-container">
     <div class="select-container">
-        <div class="tooltip fade right in span2 offset4">
+        <div class="tooltip fade right in span2">
             <div style class="tooltip-arrow" />
             <div class="tooltip-inner">
-                To begin, select container from the left
+                To begin, select <strong>Container</strong> from the left
             </div>
         </div>
     </div>
 </template>
+
 
 <template name="nutella">
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="account">
-                <!--- sidenav menu --->
-                <div class="sidebar-nav-fixed">
-                    <ul class="unstyled side-nav">
-                        <li class="side-header">Go back <span class="icon">u</span></li>
-                        <li>Pictures</li>
-                        <li>Videos</li>
-                        <li>Portfolio</li>
-                    </ul>
-                </div>
-
-
-                <!--- main area --->
-                <div class="span12 span-fixed-sidebar">
-
-                    <!--- breadcrumb --->
-                    <div class="breadcrumb-holder">
-                        <ul class="breadcrumb">
-                            <li>
-                                <a href="#">Pictures</a>
-                                <span class="divider">/</span>
-                            </li>
-                            <li>
-                                <a href="#">Sex</a>
-                                <span class="divider">/</span>
-                            </li>
-                            <li>
-                                <a href="#">Girls</a>
-                                <span class="divider">/</span>
-                            </li>
-                            <li class="active">
-                                New Item
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="show-item">
-                        <div class="span4 item">
-                            <div class="thumbnail">
-                                <img src="http://lorempixel.com/400/400?4" />
-                            </div>
-                        </div>
-                        <div class="span6">
-                            <div class="login-form">
-                                <h3>Some Item</h3>
-                                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
-                                <p>
-                                    <strong>S$1.60</strong>
-                                </p>
-                                <a class="btn btn-primary btn-large btn-block">Update</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="show-item">
+        <div class="span4 item">
+            <div class="thumbnail">
+                <img src="http://lorempixel.com/400/400?4" />
+            </div>
+        </div>
+        <div class="span6">
+            <div class="login-form">
+                <h3>Some Item</h3>
+                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+                <p>
+                    <strong>S$1.60</strong>
+                </p>
+                <a class="btn btn-primary btn-large btn-block">Update</a>
             </div>
         </div>
     </div>
@@ -123,270 +92,95 @@
 
 
 
-<template name="nubela">
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="account">
-                <!--- sidenav menu --->
-                <div class="sidebar-nav-fixed">
-                    <ul class="unstyled side-nav">
-                        <li class="side-header">Go back <span class="icon">u</span></li>
-                        <li>Pictures</li>
-                        <li>Videos</li>
-                        <li>Portfolio</li>
-                    </ul>
+<template name="item_compose">
+    <!--- new item compose --->
+    <div class="compose-new-item well">
+        <form class="form-horizontal">
+            <legend>New Item</legend>
+            <fieldset>
+                <div class="control-group">
+                    <label>Item name</label>
+                    <input type="text" placeholder="Item A" />
                 </div>
 
-
-                <!--- main area --->
-                <div class="span12 span-fixed-sidebar">
-
-                    <!--- breadcrumb --->
-                    <div class="breadcrumb-holder">
-                        <ul class="breadcrumb">
-                            <li>
-                                <a href="#">Pictures</a>
-                                <span class="divider">/</span>
-                            </li>
-                            <li>
-                                <a href="#">Sex</a>
-                                <span class="divider">/</span>
-                            </li>
-                            <li>
-                                <a href="#">Girls</a>
-                                <span class="divider">/</span>
-                            </li>
-                            <li class="active">
-                                New Item
-                            </li>
-                        </ul>
-                    </div>
-
-
-                    <!--- new item compose --->
-                    <div class="compose-new-item well">
-                        <form class="form-horizontal">
-                            <legend>New Item</legend>
-                            <fieldset>
-                                <div class="control-group">
-                                    <label>Item name</label>
-                                    <input type="text" placeholder="Item A" />
-                                </div>
-
-                                <div class="control-group">
-                                    <label>Media</label>
-                                    <input type="file" />
-                                </div>
-
-                                <div class="control-group">
-                                    <label>Description</label>
-                                    <textarea rows="3" />
-                                </div>
-
-                                <div class="control-group">
-                                    <label>Price ($)</label>
-                                    <input type="text" placeholder="4.95" />
-                                </div>
-
-                                <div class="control-group">
-                                    <label>Add a custom attribute</label>
-                                    <button class="btn btn-inverse">New custom attribute</button>
-                                </div>
-
-                                <div class="control-group">
-                                    <button type="submit" class="btn-large btn btn-primary">Save item</button>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
+                <div class="control-group">
+                    <label>Media</label>
+                    <input type="file" />
                 </div>
-            </div>
-        </div>
+
+                <div class="control-group">
+                    <label>Description</label>
+                    <textarea rows="3" />
+                </div>
+
+                <div class="control-group">
+                    <label>Price ($)</label>
+                    <input type="text" placeholder="4.95" />
+                </div>
+
+                <div class="control-group">
+                    <label>Add a custom attribute</label>
+                    <button class="btn btn-inverse">New custom attribute</button>
+                </div>
+
+                <div class="control-group">
+                    <a href="{{back_url}}" class="appnav">
+                        <button class="btn-large btn">Cancel</button>
+                    </a>
+                    <button type="submit" class="btn-large btn btn-primary">Save item</button>
+                </div>
+            </fieldset>
+        </form>
     </div>
 </template>
 
 
-<template name="spare">
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="account">
-                <!--- sidenav menu --->
-                <div class="sidebar-nav-fixed">
-                    <ul class="unstyled side-nav">
-                        <li class="side-header">Go back <span class="icon">u</span></li>
-                        <li>Pictures</li>
-                        <li>Videos</li>
-                        <li>Portfolio</li>
-                    </ul>
+<template name="item_container">
+    <!--- item container --->
+    <div class="item-container">
+
+        <div class="container-desc">
+
+            <h2>
+                {{container_name}}
+            </h2>
+            <small><span class="heydings">l</span> {{total_items}} items in {{container_name}}</small>
+            {{#if desc}}
+            <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non providen</p>
+            {{/if}}
+            <p>
+                <small>Sort by: <a class="active" href="#">Recently added or modified</a> / <a href="#">Alphabetical order</a></small>
+            </p>
+        </div>
+
+        <div class="items">
+            {{#each items}}
+            <div class="row-fluid">
+                {{#each individual_item}}
+                {{#if is_empty}}
+                <div class="span2 item empty">
+                    <a href="{{new_item_url}}" class="appnav">
+                        <div class="thumbnail" id="create-new-item">
+                            <div class="empty-img">
+                                <span class="heydings">+</span> New Item
+                            </div>
+                        </div>
+                    </a>
                 </div>
-
-
-                <!--- main area --->
-                <div class="span12 span-fixed-sidebar">
-
-                    <!--- breadcrumb --->
-                    <div class="breadcrumb-holder">
-                        <ul class="breadcrumb">
-                            <li>
-                                <a href="#">Pictures</a>
-                                <span class="divider">/</span>
-                            </li>
-                            <li>
-                                <a href="#">Sex</a>
-                                <span class="divider">/</span>
-                            </li>
-                            <li class="active">
-                                Girls
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!--- item container --->
-                    <div class="item-container">
-
-                        <div class="container-desc">
-                            <h2>Girls</h2>
-                            <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non providen</p>
-                            <p>
-                                <small><span class="heydings">l</span> There are 5 items for Girls</small>
-                            </p>
-                            <p>
-                                <small>Sort by: <a class="active" href="#">Recently added or modified</a> / <a href="#">Alphabetical order</a></small>
-                            </p>
-                        </div>
-
-                        <div class="items">
-                            <div class="row-fluid">
-                                <div class="span2 item empty">
-                                    <div class="thumbnail">
-                                        <div class="empty-img">
-                                            <span class="heydings">+</span> New Item
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?2" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?3" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?4" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?4" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?4" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br>
-                            <div class="row-fluid">
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?2" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?2" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?3" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?4" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?4" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="span2 item">
-                                    <div class="thumbnail">
-                                        <img src="http://lorempixel.com/300/300?4" />
-                                        <div class="text-caption">
-                                            <p>Sup</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pagination">
-                            <ul>
-                                <li>
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-                                <li>
-                                    <a href="#">4</a>
-                                </li>
-                            </ul>
+                {{else}}
+                <div class="span2 item">
+                    <div class="thumbnail">
+                        <img src="http://lorempixel.com/300/300?2" />
+                        <div class="text-caption">
+                            <p>Sup</p>
                         </div>
                     </div>
                 </div>
+                {{/if}}
+                {{/each}}
             </div>
+            </br>
+            {{/each}}
         </div>
     </div>
 </template>
