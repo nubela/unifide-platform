@@ -88,7 +88,7 @@ Template.items.events = {
             } else {
                 path_lis = [container_name];
             }
-            Meteor.call("put_container", path_lis, function() {
+            Meteor.call("put_container", path_lis, function () {
                 init_items();
             });
         });
@@ -107,8 +107,7 @@ Template.item_breadcrumb.breadcrumbs = function () {
     var array_lis = [];
     for (var i = 0; i < lis.length; i++) {
         var itm = lis[i];
-        var sub_lis = lis.splice(0, i + 1);
-
+        var sub_lis = lis.slice(0, i + 1);
         array_lis.push({
             name: itm,
             url: url_from_path(sub_lis)
@@ -237,7 +236,7 @@ function init_items() {
     if (path_lis_str) {
         var keyword = path_lis.pop();
         if (_.contains(ITEM_RESERVED_KEYWORDS, keyword)) {
-            Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis.splice(0, path_lis.length));
+            Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis.slice(0, path_lis.length-1));
             if (keyword == "new") {
                 Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.CREATE);
             }
