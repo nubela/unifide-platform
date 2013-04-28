@@ -8,7 +8,9 @@
                         {{#if is_root_container}}
                         <li class="side-header">Item Containers</li>
                         {{else}}
-                        <li class="side-header" id="go-back-parent-nav">Go back <span class="icon">u</span></li>
+                        <a href="{{back_url}}" class="appnav">
+                            <li class="side-header">Go back <span class="icon">u</span></li>
+                        </a>
                         {{/if}}
                         {{#each child_containers}}
                         <a href="{{url}}" class="appnav">

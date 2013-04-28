@@ -8,7 +8,8 @@ template name="items"
                         {{#if is_root_container}}
                         li.side-header | Item Containers
                         {{else}}
-                        li.side-header#go-back-parent-nav | Go back <span class="icon">u</span>
+                        a.appnav href="{{back_url}}"
+                            li.side-header | Go back <span class="icon">u</span>
                         {{/if}}
                         {{#each child_containers}}
                         a.appnav href="{{url}}"

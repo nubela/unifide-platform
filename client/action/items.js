@@ -59,31 +59,22 @@ Template.items.view = function () {
     }
 };
 
-Template.items.events = {
-    'click #go-back-parent-nav': function () {
-        console.log("clicked");
-        var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
-        var path_lis_len = path_lis.length;
+Template.items.back_url = function () {
+    var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
+    var path_lis_len = path_lis.length;
 
-        //null check
-        if (path_lis == null) {
-            return;
-        }
-
-        //revert to root container
-        else if (path_lis_len == 1) {
-            Session.set(ITEM_SESSION.MATERIALIZED_PATH, null);
-        }
-
-        //splice path_lis
-        else {
-            Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis.splice(0, path_lis_len - 1));
-        }
-
-        rehash_container_items();
+    if (path_lis == null) {
+        return "#";
     }
 
-};
+    //revert to root container
+    else if (path_lis_len == 1) {
+        return "/items";
+    }
+
+    var back_path_lis = path_lis.splice(0, path_lis_len - 1);
+    return url_from_path(back_path_lis);
+}
 
 //------ item-container compose functions ------//
 
@@ -104,7 +95,7 @@ Template.item_breadcrumb.breadcrumbs = function () {
     var array_lis = [];
     for (var i = 0; i < lis.length; i++) {
         var itm = lis[i];
-        var sub_lis = lis.splice(0,i+1);
+        var sub_lis = lis.splice(0, i + 1);
 
         array_lis.push({
             name: itm,
