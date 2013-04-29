@@ -53,17 +53,18 @@ template name="select-container"
                 To begin, select <strong>Container</strong> from the left
 
 
-template name="nutella"
+template name="item_view"
     .show-item
         .span4.item
             .thumbnail
-                > img src="http://lorempixel.com/400/400?4"
+                > img src="{{item.media_url}}"
         .span6
             .login-form
-                h3 | Some Item
-                p | At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate
+                h3 | {{item.name}}
                 p
-                    strong | S$1.60
+                    strong | S${{item.price}}
+                p | {{item.description}}
+                <br>
                 a.btn.btn-primary.btn-large.btn-block | Update
 
 
@@ -71,24 +72,33 @@ template name="nutella"
 template name="item_compose"
     <!--- new item compose --->
     div.compose-new-item.well
-        form.form-horizontal
+        form.form-horizontal method="POST" action="{{form_submit_url}}" enctype="multipart/form-data"
             legend | New Item
             fieldset
-                .control-group
-                    label | Item name
-                    > input type="text" placeholder="Item A"
+
+                <!--- hidden fields --->
+                > input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}'
+                > input type="hidden" name="redirect_to" id="redirect_to" value='{{redirect_to}}'
 
                 .control-group
-                    label | Media
-                    > input type="file"
+                    label for="name" | Item name
+                    > input type="text" placeholder="Item A" name="name" id="name
 
                 .control-group
-                    label | Description
-                    > textarea rows="3"
+                    label for="media_file" | Media
+                    > input type="file" name="media_file" id="media_file"
 
                 .control-group
-                    label | Price ($)
-                    > input type="text" placeholder="4.95"
+                    label id="description" | Description
+                    > textarea rows="3" name="description" id="description"
+
+                .control-group
+                    label for="price" | Price ($)
+                    > input type="text" placeholder="4.95" name="price" id="price"
+
+                .control-group
+                    label for="quantity" | Quantity
+                    > input type="text" placeholder="100" name="quantity" id="quantity"
 
                 .control-group
                     label | Add a custom attribute
@@ -127,10 +137,11 @@ template name="item_container"
                                 | <span class="heydings">+</span> New Item
                 {{else}}
                 .span2.item
-                    .thumbnail
-                        > img src="http://lorempixel.com/300/300?2"
-                        .text-caption
-                            p | Sup
+                    a.appnav href="{{item_url}}"
+                        .thumbnail
+                            > img src="{{media_url}}"
+                            .text-caption
+                                p | {{name}}
                 {{/if}}
                 {{/each}}
             </br>

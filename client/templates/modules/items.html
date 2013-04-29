@@ -72,20 +72,21 @@
 </template>
 
 
-<template name="nutella">
+<template name="item_view">
     <div class="show-item">
         <div class="span4 item">
             <div class="thumbnail">
-                <img src="http://lorempixel.com/400/400?4" />
+                <img src="{{item.media_url}}" />
             </div>
         </div>
         <div class="span6">
             <div class="login-form">
-                <h3>Some Item</h3>
-                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+                <h3>{{item.name}}</h3>
                 <p>
-                    <strong>S$1.60</strong>
+                    <strong>S${{item.price}}</strong>
                 </p>
+                <p>{{item.description}}</p>
+                <br>
                 <a class="btn btn-primary btn-large btn-block">Update</a>
             </div>
         </div>
@@ -97,27 +98,37 @@
 <template name="item_compose">
     <!--- new item compose --->
     <div class="compose-new-item well">
-        <form class="form-horizontal">
+        <form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" class="form-horizontal">
             <legend>New Item</legend>
             <fieldset>
+
+                <!--- hidden fields --->
+                <input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}' />
+                <input type="hidden" name="redirect_to" id="redirect_to" value='{{redirect_to}}' />
+
                 <div class="control-group">
-                    <label>Item name</label>
-                    <input type="text" placeholder="Item A" />
+                    <label for="name">Item name</label>
+                    <input type="text" placeholder="Item A" name="name" id="name />
                 </div>
 
                 <div class="control-group">
-                    <label>Media</label>
-                    <input type="file" />
+                    <label for="media_file">Media</label>
+                    <input type="file" name="media_file" id="media_file" />
                 </div>
 
                 <div class="control-group">
-                    <label>Description</label>
-                    <textarea rows="3" />
+                    <label id="description">Description</label>
+                    <textarea rows="3" name="description" id="description" />
                 </div>
 
                 <div class="control-group">
-                    <label>Price ($)</label>
-                    <input type="text" placeholder="4.95" />
+                    <label for="price">Price ($)</label>
+                    <input type="text" placeholder="4.95" name="price" id="price" />
+                </div>
+
+                <div class="control-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="text" placeholder="100" name="quantity" id="quantity" />
                 </div>
 
                 <div class="control-group">
@@ -171,12 +182,14 @@
                 </div>
                 {{else}}
                 <div class="span2 item">
-                    <div class="thumbnail">
-                        <img src="http://lorempixel.com/300/300?2" />
-                        <div class="text-caption">
-                            <p>Sup</p>
+                    <a href="{{item_url}}" class="appnav">
+                        <div class="thumbnail">
+                            <img src="{{media_url}}" />
+                            <div class="text-caption">
+                                <p>{{name}}</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {{/if}}
                 {{/each}}

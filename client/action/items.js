@@ -4,7 +4,8 @@ ITEM_SESSION = {
     CONTAINER: "ITMContainer",
     MATERIALIZED_PATH: "ITMMaterializedPath",
     VIEW_TYPE: "ITMViewType",
-    SUBURL: "ITMSubUrl"
+    SUBURL: "ITMSubUrl",
+    ITEM_ID: "ITMItemId"
 };
 
 VIEW_TYPE = {
@@ -18,17 +19,18 @@ ITEM_TEMPLATE = {
     BASE: "items",
     SELECT_CONTAINER: "select-container",
     ITEMS: "item_container",
-    COMPOSE: "item_compose"
+    COMPOSE: "item_compose",
+    ITEM_VIEW: "item_view"
 };
 
-ITEM_RESERVED_KEYWORDS = ["new"];
+ITEM_RESERVED_KEYWORDS = ["new", "item"];
 
 
 //------ item template functions ------//
 
 Template.items.child_containers = function () {
     var child_containers = ITMChildCategories.find().fetch();
-    var url = url_to_current_path();
+    var url = suburl_to_current_path();
     var container_array = [];
     _.each(child_containers, function (cat) {
         container_array.push({
@@ -56,6 +58,8 @@ Template.items.view = function () {
         }
     } else if (Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE) {
         return Template[ITEM_TEMPLATE.COMPOSE]();
+    } else if (Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.ITEM) {
+        return Template[ITEM_TEMPLATE.ITEM_VIEW]();
     }
 };
 
@@ -97,10 +101,23 @@ Template.items.events = {
 
 //------ item-container compose functions ------//
 
-Template.item_compose.back_url = url_to_current_path();
+Template.item_compose.back_url = suburl_to_current_path();
+
+Template.item_compose.form_submit_url = function () {
+    return BACKEND_URL + "item/";
+};
+
+Template.item_compose.path_lis_json = function () {
+    var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
+    return JSON.stringify(path_lis);
+};
+
+Template.item_compose.redirect_to = function () {
+    var suburl = suburl_to_current_path();
+    return PLATFORM_URL + suburl.substring(1, suburl.length);
+}
 
 //------ item_breadcrumb template functions ------//
-
 
 Template.item_breadcrumb.breadcrumbs = function () {
     var lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
@@ -121,7 +138,16 @@ Template.item_breadcrumb.active = function () {
         return "All";
     } else if (is_view_type(VIEW_TYPE.CREATE)) {
         return "New Item";
+    } else if (is_view_type(VIEW_TYPE.ITEM)) {
+        return "View Item";
     }
+};
+
+//------ item_view template functions ------//
+
+Template.item_view.item = function () {
+    var item_id = Session.get(ITEM_SESSION.ITEM_ID);
+    return ITMItems.findOne({_id: item_id });
 };
 
 //------ item_container template functions ------//
@@ -149,33 +175,40 @@ Template.item_container.total_items = function () {
 
 Template.item_container.items = function () {
     var all_items = ITMItems.find({}).fetch();
-    var items_obj = [
-        {individual_item: [
-            {
-                is_empty: true
-            }
-        ]}
+    var item_lis = [
+        {
+            is_empty: true
+        }
     ];
-    var i = 0;
+
+    //push all populated items into items_obj
     _.each(all_items, function (itm) {
-        var j = 0;
-        _.each(items_obj, function (row) {
-            if (i == 0 && j == 0) {
-                return; //do nth
-            } else if (j < 5) {
-                row.push({
-                    is_empty: false
-                });
-            }
-            j = 1 + 1;
-        });
-        i = i + 1;
+        itm.item_url = suburl_to_current_path() + "/item/" + itm._id;
+        item_lis.push(itm);
     });
-    return items_obj;
+
+    //split items obj list into sublists of 5
+    var split_lis = [];
+    var sub_lis = {individual_item: []};
+    var i = 0;
+    _.each(item_lis, function (itm) {
+        sub_lis.individual_item.push(itm);
+        if (i % 5 == 0 && i > 0) {
+            split_lis.push(sub_lis);
+            sub_lis = {individual_item: []};
+        }
+        i++;
+    });
+
+    if (sub_lis.individual_item.length > 0) {
+        split_lis.push(sub_lis);
+    }
+
+    return split_lis;
 };
 
 Template.item_container.new_item_url = function () {
-    var url = url_to_current_path();
+    var url = suburl_to_current_path();
     return url + "/new";
 };
 
@@ -191,8 +224,9 @@ function url_from_path(path_lis) {
     return url;
 }
 
-function url_to_current_path() {
+function suburl_to_current_path() {
     var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
+    console.log(JSON.stringify(path_lis));
     return url_from_path(path_lis);
 }
 
@@ -202,6 +236,7 @@ function is_materialized_path_null() {
 
 function rehash_container_items() {
     ITMChildCategories.remove({});
+    ITMItems.remove({});
     var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
     Meteor.call("get_child_containers_and_items", path_lis, function (error, content) {
         _.each(content.items, function (item) {
@@ -231,14 +266,26 @@ function init_items() {
         path_lis = path_lis_str.split("/");
         Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis);
     }
+    console.log(Session.get(ITEM_SESSION.MATERIALIZED_PATH));
 
     //view type and special keywords
     if (path_lis_str) {
         var keyword = path_lis.pop();
+
+        //first keyword
         if (_.contains(ITEM_RESERVED_KEYWORDS, keyword)) {
-            Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis.slice(0, path_lis.length-1));
+            Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis.slice(0, path_lis.length));
             if (keyword == "new") {
                 Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.CREATE);
+            }
+        }
+
+        var keyword2 = path_lis.pop();
+        if (_.contains(ITEM_RESERVED_KEYWORDS, keyword2)) {
+            Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis.slice(0, path_lis.length));
+            if (keyword2 == "item") {
+                Session.set(ITEM_SESSION.ITEM_ID, keyword);
+                Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.ITEM);
             }
         }
     }
