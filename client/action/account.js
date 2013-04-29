@@ -159,6 +159,10 @@ Template.account_brand_facebook.facebook_page = function () {
     return brand_mapping.facebook
 }
 
+Template.account_brand_facebook.page = function() {
+    return _FBPages.find();
+}
+
 Template.account_brand.facebook_add = function () {
     if (FBUsers.findOne() == undefined) {
         return true;

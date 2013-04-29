@@ -6,13 +6,9 @@ CPMenu = new Meteor.Collection("cp_menu");
 /*
  Campaign Collections
  */
-Campaigns = new Meteor.Collection("campaigns")
-Mappings = new Meteor.Collection("mapping")
-
-/*
- Temp Campaign Collections
- */
-_CampaignListing = new Meteor.Collection(null)
+Campaigns = new Meteor.Collection("campaigns");
+Mappings = new Meteor.Collection("mapping");
+_CampaignsList = new Meteor.Collection(null);
 
 /*
  Facebook Collections
@@ -38,9 +34,11 @@ _TWActivity = new Meteor.Collection(null);
  */
 FSQUsers = new Meteor.Collection("fsq_user");
 FSQTips = new Meteor.Collection("fsq_tip");
+FSQPageUpdates = new Meteor.Collection("fsq_pageupdate");
 _FSQVenues = new Meteor.Collection(null);
 _FSQOverview = new Meteor.Collection(null);
 _FSQActivity = new Meteor.Collection(null);
+
 /*
  Account Collections
  */

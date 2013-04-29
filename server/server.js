@@ -245,5 +245,13 @@ Meteor.methods({
         if (result.statusCode !== 200) {
             console.log(result.error);
         }
+    },
+    http_api: function(verb, url, args) {
+        this.unblock();
+        console.log(args);
+        var result = Meteor.http[verb](BACKEND_URL + url, {params: args});
+        if (result.statusCode !== 200) {
+            console.log(result.error);
+        } else { return result; }
     }
 });

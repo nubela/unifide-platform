@@ -9,36 +9,125 @@ Template.campaign.view = function() {
     return Template[campaign_default_template]();
 }
 
-Template.campaign.all_campaigns_count = function() {
-    return Mappings.find().count();
+Template.campaign.events = {
+    'click #platform-all': function() {
+        if ($('#platform-all').text() == 'Select all') { $('.platform').find(":checkbox").prop('checked', true); $('#platform-all').text('Unselect all'); }
+        else { $('.platform').find(":checkbox").prop('checked', false); $('#platform-all').text('Select all'); }
+    },
+    'click .platform-check': function() {
+        var checked = $('.platform').find(":checkbox:checked").length;
+        var total = $('.platform').find(":checkbox").length;
+        if (checked == total) { $('#platform-all').text('Unselect all'); }
+        else { $('#platform-all').text('Select all') }
+    },
+    'click #btn-publish': function() {
+        /*Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function(error, result) {
+            if (result.statusCode !== 200) { console.log(result.error); }
+            else { Router.navigate('campaign', true); }
+        });*/
+        load_content({}, $('.campaign-type').val(), "published")
+    },
+    'click #btn-schedule': function() {
+        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "scheduled"), function(error, result) {
+            if (result.statusCode !== 200) { console.log(result.error); }
+            else { Router.navigate('campaign', true); }
+        });
+    }
+}
+
+Template.campaign_promo_new.rendered = function() {
+    input_change('#campaign-title', '.char-count');
+    $('#desc-editor').wysihtml5();
+
+    page_render(this);
+}
+
+Template.campaign_event_new.rendered = function() {
+    input_change('#campaign-title', '.char-count');
+    $('#event-date').datetimepicker({
+        pickTime: false
+    });
+    $('#event-time-start').datetimepicker({
+        pickDate: false,
+        pick12HourFormat: true,
+        pickSeconds: false
+    })
+    $('#event-time-end').datetimepicker({
+        pickDate: false,
+        pick12HourFormat: true,
+        pickSeconds: false
+    })
+    $('#desc-editor').wysihtml5();
+
+    page_render(this);
+}
+
+Template.campaign_list.campaigns = function() {
+    var selected_brand = Session.get("selected_brand");
+    _CampaignsList.remove({});
+
+    var client_mapping = Mappings.find({}, {limit: 10}).fetch();
+    for (var i=0;i<client_mapping.length;i++) {
+        var campaign_obj, facebook_obj, twitter_obj, foursquare_obj;
+        console.log(client_mapping[i]);
+        if (client_mapping[i].campaign != undefined) {
+            campaign_obj = Campaigns.findOne({_id: client_mapping[i].campaign});
+        }
+        if (client_mapping[i].facebook != undefined) {
+            facebook_obj = FBPosts.findOne({_id: client_mapping[i].facebook});
+        }
+        if (client_mapping[i].twitter != undefined) {
+            twitter_obj = TWTweets.findOne({_id: client_mapping[i].twitter});
+        }
+        if (client_mapping[i].foursquare != undefined) {
+            foursquare_obj = FSQPageUpdates.findOne({_id: client_mapping[i].foursquare});
+        }
+
+        _CampaignsList.insert({campaign: campaign_obj, facebook: facebook_obj, twitter: twitter_obj, foursquare: foursquare_obj});
+        campaign_obj = null, facebook_obj = null, twitter_obj = null, foursquare_obj = null;
+    }
+
+    return _CampaignsList.find();
 }
 
 Template.campaign_list.rendered = function() {
-    $('.campaign-nav-submenu li').removeClass("active");
-    $('a[href$="/campaign"]').parent().addClass("active");
+    page_render(this);
 }
 
-Template.campaign_list.campaigns_list = function() {
-    _CampaignListing.remove({});
-    var client_mappings = Mappings.find().fetch();
-    for (var i=0;i<client_mappings.length;i++) {
-        var client_campaign = Campaigns.findOne({_id: {$exists: true, $in: client_mappings[i].campaign_list}});
-        console.log(client_mappings[i].campaign_list);
-        console.log(client_campaign);
-        _CampaignListing.insert({campaign: client_campaign});
+function input_change(id, display_div) {
+    $(id).bind('input propertychange', function() {
+        $(display_div).text(this.value.length + " characters")
+    })
+}
 
-        if (_CampaignListing.find({}, {reactive: false}).count() == 5) { break; }
+function load_content(args, type, state) {
+    var selected_platforms = $('.platform').find(":checkbox:checked");
+    var platforms = "";
+    for (var i=0;i<selected_platforms.length;i++) { platforms += selected_platforms[i].value + ","; }
+
+    args["user_id"] = Meteor.userId();
+    args["brand_name"] = Session.get("selected_brand");
+    args["platform"] = platforms.substr(0, platforms.length-1);
+    args["type"] = type;
+    args["title"] = $('#campaign-title').val();
+    args["description"] = $('#desc-editor').val();
+    args["state"] = state;
+
+    if ($('.campaign-post-datetime') != undefined) {
+        var date = $('.campaign-post-date-input').val();
+        var time_start = $('.campaign-post-time-from-input').val();
+        var time_end = $('.campaign-post-time-to-input').val();
+        var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+        var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+        args["datetime_start"] = epoch_start;
+        args["datetime_end"] = epoch_end;
     }
 
-    return _CampaignListing.find();
+    return args;
 }
 
-Template.campaign_new_promo.rendered = function() {
-    $('.campaign-nav-submenu li').removeClass("active");
-    $('a[href$="/campaign/new/promo"]').parent().addClass("active");
-}
-
-Template.campaign_new_event.rendered = function() {
-    $('.campaign-nav-submenu li').removeClass("active");
-    $('a[href$="/campaign/new/event"]').parent().addClass("active");
+function page_render(obj) {
+    $(obj.firstNode).css({'opacity': 0});
+    $(obj.firstNode).css({'position': 'relative', 'left': 100});
+    $(obj.firstNode).animate({'opacity': 1, 'left': '0'}, 100);
 }

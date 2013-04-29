@@ -1,0 +1,190 @@
+template name="campaign"
+    .container-fluid
+        .row-fluid
+            .campaign
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header
+                            Campaigns
+                        a.appnav href="/campaign/promo/new"
+                            li
+                                New Promo Campaign
+                        a.appnav href="/campaign/event/new"
+                            li
+                                New Event Campaign
+                        a.appnav href="/campaign"
+                            li
+                                Manage Campaigns
+
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+
+template name="campaign_promo_new"
+    .rendering
+        .campaign-view
+            .campaign-title
+                New Campaign
+            .campaign-sub-title
+                PROMO CAMPAIGN
+            .campaign-post-new
+                > input.campaign-type type="hidden" value="promo"
+                .campaign-post-category
+                    Platform
+                    <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
+                .platform
+                    label.checkbox.inline
+                        <input type="checkbox" class="platform-check" value="facebook">
+                        Facebook
+                    label.checkbox.inline
+                        <input type="checkbox" class="platform-check" value="twitter">
+                        Twitter
+                    label.checkbox.inline
+                        <input type="checkbox" class="platform-check" value="foursquare">
+                        Foursquare
+                    <br>
+                    label.checkbox.inline
+                        <input type="checkbox" class="platform-check" value="web">
+                        Web / Mobile
+                    label.checkbox.inline.push
+                        <input type="checkbox" class="platform-check" value="push">
+                        Push Notification
+                    <br>
+                    label.checkbox.inline
+                        <input type="checkbox" class="platform-check" value="blog">
+                        Blog
+                .campaign-post-category
+                    Title
+                > textarea#campaign-title placeholder="enter a title"
+                .char-count
+                    0 characters
+                .campaign-post-category
+                    Description
+                <textarea id="desc-editor" placeholder="enter message"></textarea>
+            .campaign-post-submit
+                <a class="btn btn-info" id="btn-publish">PUBLISH NOW</a>
+                <a class="btn" id="btn-schedule">Schedule Later</a>
+
+
+
+template name="campaign_event_new"
+    .rendering
+        .campaign-view
+            .campaign-title
+                New Campaign
+            .campaign-sub-title
+                EVENT CAMPAIGN
+            .campaign-post-new
+                > input.campaign-type type="hidden" value="event"
+                .campaign-post-category
+                    Platform
+                    <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
+                .platform
+                    label.checkbox.inline
+                        <input type="checkbox" value="facebook">
+                        Facebook
+                    label.checkbox.inline
+                        <input type="checkbox" value="twitter">
+                        Twitter
+                    label.checkbox.inline
+                        <input type="checkbox" value="foursquare">
+                        Foursquare
+                    <br>
+                    label.checkbox.inline
+                        <input type="checkbox" value="web">
+                        Web / Mobile
+                    label.checkbox.inline.push
+                        <input type="checkbox" value="push">
+                        Push Notification
+                    <br>
+                    label.checkbox.inline
+                        <input type="checkbox" value="blog">
+                        Blog
+                .campaign-post-date.pull-left
+                    Event Date
+                .campaign-post-time.pull-left
+                    Time
+                <div class="clear"></div>
+                .campaign-post-datetime
+                    #event-date.input-append.pull-left
+                        > input.campaign-post-date-input type="text" data-format="yyyy-MM-dd" placeholder="select date"
+                        span.add-on
+                            i data-date-icon="icon-calendar"
+                                &nbsp;
+                    #event-time-start.input-append.pull-left
+                        > input.campaign-post-time-from-input.pull-left type="text" data-format="hh:mm" placeholder="start time"
+                        span.add-on
+                            i data-time-icon="icon-time"
+                                &nbsp;
+                    .campaign-post-to.pull-left
+                        to
+                    #event-time-end.input-append.pull-left
+                        > input.campaign-post-time-to-input.pull-left type="text" data-format="hh:mm" placeholder="end time"
+                        span.add-on
+                            i data-time-icon="icon-time"
+                                &nbsp;
+                    > div.clear
+                .campaign-post-category
+                    Title
+                > textarea#campaign-title placeholder="enter a title"
+                .campaign-post-category
+                    Description
+                <textarea id="desc-editor" placeholder="enter message"></textarea>
+            .campaign-post-submit
+                <a class="btn btn-info" id="btn-publish">PUBLISH NOW</a>
+                <a class="btn" id="btn-schedule">Schedule Later</a>
+
+
+template name="campaign_list"
+    .rendering
+        .main-title
+            h4
+                Campaigns List
+
+        .input-append
+            <input class="search-input" type="text">
+            button.btn type=button
+                Search
+
+        table.table-striped.table-hover
+            thead
+                tr
+                    td
+                        Type
+                    td
+                        Platforms
+                    td
+                        Title
+                    td
+                        Meta
+                    td
+                        State
+                    td
+                        Created
+
+            tbody
+                {{#each campaigns}}
+                tr
+                    td.twitter-profile-pic
+                        {{{facebook.fields.message}}}
+                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
+                    td
+                        <div class="pull-left">
+                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
+                            <div class="twitter-profile-name pull-left">{{user.name}}</div>
+                            <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
+                            </a>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="pull-right">{{created_at}}</div>
+                        <div class="clear"></div>
+                        {{fields.text}}
+                    td
+                        &nbsp;
+                    td
+                        &nbsp;
+                    td
+                        &nbsp;
+                    td
+                        &nbsp;
+                {{/each}}

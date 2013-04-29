@@ -1,0 +1,105 @@
+.container-shadow2 {
+    border: 1px solid #5bc0de;
+    -moz-box-shadow:  rgba(0, 0, 0, 0.1) 0 0 2px 0px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 0px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 0px;
+}
+
+.campaign-section2 {
+    background: #f7f7f7;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.campaign-section2-title {
+    padding: 15px;
+    border-bottom: #e8e8e8 1px solid;
+    display: block;
+    font-weight: bold;
+}
+
+.campaign-section2-body {
+    padding: 15px;
+}
+
+.campaign-section3-title {
+    padding: 13px 0 5px 0;
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.campaign-section3-body {
+    margin-bottom: 30px;
+    border: 1px solid #cccccc;
+    padding: 10px 10px 15px 10px;
+    width: 640px;
+}
+
+.campaign-section3-body label {
+    width: 80px;
+}
+
+.campaign-content .campaign-section3-input {
+    margin-top: 5px;
+    padding: 15px 10px;
+    width: 640px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.campaign-section3-input .control-group {
+    margin-bottom: 20px;
+}
+
+.campaign-content .campaign-section3-input2 {
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 15px 10px;
+    width: 300px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.campaign-content label {
+    display: inline;
+}
+
+.campaign-content .inline li {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.campaign-section3-image {
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #cccccc;
+    width: 310px;
+    height: 150px;
+    display: block;
+}
+
+.campaign-section3-image a {
+    display: block;
+    height: 90px;
+    padding-top: 60px;
+    text-align: center;
+    color: #0088cc;
+}
+
+.campaign-section3-image a:hover {
+    text-decoration: underline;
+    background: #f7f7f7;
+    color: #0088cc;
+}
+
+.campaign-content .checkbox-push {
+    width: 300px;
+}

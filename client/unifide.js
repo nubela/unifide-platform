@@ -23,7 +23,8 @@ var myAppRouter = Backbone.Router.extend({
         "ios-platform": "static_url",
         "android-platform": "static_url",
         "campaign": "static_url",
-        "campaign/new/promo": "static_url",
+        "campaign/promo/new": "static_url",
+        "campaign/event/new": "static_url",
         "campaign/new/event": "static_url",
         "manage": "static_url",
         "account/b/:brand": "account_url",
@@ -32,7 +33,7 @@ var myAppRouter = Backbone.Router.extend({
         "account/auth/twitter/:brand/:str": "social_auth_twitter",
         "account/auth/facebook/:str": "social_auth_facebook",
         "account/auth/foursquare/:str": "social_auth_foursquare",
-        "profile": "static_url"
+        "business-info": "static_url"
     },
     static_url: static_url,
     account_url: account_url,
