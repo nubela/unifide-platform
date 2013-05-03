@@ -34,11 +34,11 @@ template name="item_breadcrumb"
     .breadcrumb-holder
         ul.breadcrumb
             li
-                a href="/items" | Items{{nubela}}
+                a.appnav href="/items" | Items{{nubela}}
             {{#each breadcrumbs}}
             li
                 span.divider | /
-                a href="{{url}}" | {{name}}
+                a.appnav href="{{url}}" | {{name}}
             {{/each}}
             li.active
                 span.divider | /
@@ -57,7 +57,11 @@ template name="item_view"
     .show-item
         .span4.item
             .thumbnail
+                {{#if item.media_url }}
                 > img src="{{item.media_url}}"
+                {{else}}
+                > img src="/media/img/placeholder.png"
+                {{/if}}
         .span6
             .login-form
                 h3 | {{item.name}}
@@ -72,7 +76,7 @@ template name="item_view"
 template name="item_compose"
     <!--- new item compose --->
     div.compose-new-item.well
-        form.form-horizontal method="POST" action="{{form_submit_url}}" enctype="multipart/form-data"
+        form.form-horizontal#item-compose-form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley"
             legend | New Item
             fieldset
 
@@ -82,7 +86,7 @@ template name="item_compose"
 
                 .control-group
                     label for="name" | Item name
-                    > input type="text" placeholder="Item A" name="name" id="name
+                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first"
 
                 .control-group
                     label for="media_file" | Media
@@ -94,11 +98,11 @@ template name="item_compose"
 
                 .control-group
                     label for="price" | Price ($)
-                    > input type="text" placeholder="4.95" name="price" id="price"
+                    > input type="number" placeholder="4.95" name="price" id="price"
 
                 .control-group
                     label for="quantity" | Quantity
-                    > input type="text" placeholder="100" name="quantity" id="quantity"
+                    > input type="number" placeholder="100" name="quantity" id="quantity"
 
                 .control-group
                     label | Add a custom attribute
@@ -107,7 +111,7 @@ template name="item_compose"
                 .control-group
                     a.appnav href="{{back_url}}"
                         button.btn-large.btn | Cancel
-                    button.btn-large.btn.btn-primary type="submit" | Save item
+                    button.btn-large.btn.btn-primary.submit-btn | Save item
 
 
 template name="item_container"
@@ -120,10 +124,12 @@ template name="item_container"
                 {{container_name}}
             small | <span class="heydings">l</span> {{total_items}} items in {{container_name}}
             {{#if desc}}
-            p.lead | At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non providen
+            p.lead | {{desc}}
             {{/if}}
+            <!---
             p
-                small | Sort by: <a class="active" href="#">Recently added or modified</a> / <a href="#">Alphabetical order</a>
+                small | Sort by: <span class="sort_by_date {{#if sort_by_date}}active{{/if}}">Date added</a> / <span class="sort_by_name {{#if sort_by_date}}active{{/if}}">Name</span>
+                --->
 
         .items
             {{#each items}}
@@ -139,7 +145,12 @@ template name="item_container"
                 .span2.item
                     a.appnav href="{{item_url}}"
                         .thumbnail
-                            > img src="{{media_url}}"
+                            div.img-holder
+                                {{#if media_url}}
+                                > img.item-img src="{{media_url}}"
+                                {{else}}
+                                > img.item-img src="/media/img/placeholder.png"
+                                {{/if}}
                             .text-caption
                                 p | {{name}}
                 {{/if}}

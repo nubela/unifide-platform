@@ -51,9 +51,13 @@ Meteor.publish("brand_mention", function () {
  */
 
 Meteor.publish("facebook", function (brand) {
-    if (brand == undefined) { return []; }
+    if (brand == undefined) {
+        return [];
+    }
     var brand_obj = (BrandMappings.findOne({uid: this.userId, brand_name: brand})).facebook;
-    if (brand_obj == undefined) { return []; }
+    if (brand_obj == undefined) {
+        return [];
+    }
     var page_id = brand_obj.id;
     var post_list = FBPosts.find({page_id: page_id}).fetch();
     var postid_list = [];
@@ -69,9 +73,13 @@ Meteor.publish("facebook", function (brand) {
 });
 
 Meteor.publish("twitter", function (brand) {
-    if (brand == undefined) { return []; }
+    if (brand == undefined) {
+        return [];
+    }
     var brand_obj = (BrandMappings.findOne({uid: this.userId, brand_name: brand})).twitter;
-    if (brand_obj == undefined) { return []; }
+    if (brand_obj == undefined) {
+        return [];
+    }
     var twitter_id = brand_obj.id;
 
     return [
@@ -80,9 +88,13 @@ Meteor.publish("twitter", function (brand) {
 });
 
 Meteor.publish("foursquare", function (brand) {
-    if (brand == undefined) { return []; }
+    if (brand == undefined) {
+        return [];
+    }
     var brand_obj = (BrandMappings.findOne({uid: this.userId, brand_name: brand})).foursquare;
-    if (brand_obj == undefined) { return []; }
+    if (brand_obj == undefined) {
+        return [];
+    }
     var venue_list = brand_obj.venues;
 
     return [
@@ -127,17 +139,20 @@ function del_brand_mention_keyword(keyword) {
 }
 
 function get_child_containers_and_items(path_lis) {
+//    console.log("polling");
     this.unblock();
+//    console.log("unblocked");
     var resp = Meteor.http.get(BACKEND_URL + "container+item/?" + serialize({
         path_lis: JSON.stringify(path_lis)
     }));
     return JSON.parse(resp.content);
 }
 
-function put_container(path_lis) {
+function put_container(path_lis, description) {
     this.unblock();
     Meteor.http.put(BACKEND_URL + "container/", {params: {
-        path_lis: JSON.stringify(path_lis)
+        path_lis: JSON.stringify(path_lis),
+        description: description
     }});
 }
 
@@ -209,7 +224,7 @@ Meteor.methods({
             return result.data;
         }
     },
-    connect_twitter_auth: function(verifier, brand_name) {
+    connect_twitter_auth: function (verifier, brand_name) {
         this.unblock();
         var result = Meteor.http.put(BACKEND_URL + "social_connect/twitter/", {params: {user_id: this.userId,
             brand_name: brand_name, oauth_verifier: verifier}});
@@ -233,14 +248,14 @@ Meteor.methods({
             return result.data.auth_url;
         }
     },
-    connect_foursquare_auth: function(code, brand_name) {
+    connect_foursquare_auth: function (code, brand_name) {
         this.unblock();
         var result = Meteor.http.put(BACKEND_URL + "social_connect/foursquare/", {params: {user_id: this.userId, brand_name: brand_name, code: code}})
         if (result.statusCode !== 200) {
             console.log(result.error);
         }
     },
-    get_foursquare_venues_managed: function(brand_name) {
+    get_foursquare_venues_managed: function (brand_name) {
         this.unblock();
         var result = Meteor.http.get(BACKEND_URL + "social_connect/foursquare/venue/managed/", {params: {user_id: this.userId, brand_name: brand_name}})
         if (result.statusCode !== 200) {
@@ -249,33 +264,35 @@ Meteor.methods({
             return result.data.venues;
         }
     },
-    put_foursquare_venue: function(brand_name, venue_id) {
+    put_foursquare_venue: function (brand_name, venue_id) {
         this.unblock();
         var result = Meteor.http.put(BACKEND_URL + "social_connect/foursquare/venue/", {params: {user_id: this.userId, brand_name: brand_name, venue_id: venue_id}})
         if (result.statusCode !== 200) {
             console.log(result.error);
         }
     },
-    del_foursquare_venue: function(brand_name, venue_id) {
+    del_foursquare_venue: function (brand_name, venue_id) {
         this.unblock();
         var result = Meteor.http.del(BACKEND_URL + "social_connect/foursquare/venue/?user_id=" + this.userId + "&brand_name=" + brand_name + "&venue_id=" + venue_id)
         if (result.statusCode !== 200) {
             console.log(result.error);
         }
     },
-    del_foursquare_user: function(brand_name) {
+    del_foursquare_user: function (brand_name) {
         this.unblock();
         var result = Meteor.http.del(BACKEND_URL + "social_connect/foursquare/user/?user_id=" + this.userId + "&brand_name=" + brand_name)
         if (result.statusCode !== 200) {
             console.log(result.error);
         }
     },
-    http_api: function(verb, url, args) {
+    http_api: function (verb, url, args) {
         this.unblock();
         console.log(args);
         var result = Meteor.http[verb](BACKEND_URL + url, {params: args});
         if (result.statusCode !== 200) {
             console.log(result.error);
-        } else { return result; }
+        } else {
+            return result;
+        }
     }
 });

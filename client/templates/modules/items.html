@@ -43,12 +43,12 @@
     <div class="breadcrumb-holder">
         <ul class="breadcrumb">
             <li>
-                <a href="/items">Items{{nubela}}</a>
+                <a href="/items" class="appnav">Items{{nubela}}</a>
             </li>
             {{#each breadcrumbs}}
             <li>
                 <span class="divider">/</span>
-                <a href="{{url}}">{{name}}</a>
+                <a href="{{url}}" class="appnav">{{name}}</a>
             </li>
             {{/each}}
             <li class="active">
@@ -76,7 +76,11 @@
     <div class="show-item">
         <div class="span4 item">
             <div class="thumbnail">
+                {{#if item.media_url }}
                 <img src="{{item.media_url}}" />
+                {{else}}
+                <img src="/media/img/placeholder.png" />
+                {{/if}}
             </div>
         </div>
         <div class="span6">
@@ -98,7 +102,7 @@
 <template name="item_compose">
     <!--- new item compose --->
     <div class="compose-new-item well">
-        <form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" class="form-horizontal">
+        <form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley" class="form-horizontal" id="item-compose-form">
             <legend>New Item</legend>
             <fieldset>
 
@@ -108,7 +112,7 @@
 
                 <div class="control-group">
                     <label for="name">Item name</label>
-                    <input type="text" placeholder="Item A" name="name" id="name />
+                    <input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" />
                 </div>
 
                 <div class="control-group">
@@ -123,12 +127,12 @@
 
                 <div class="control-group">
                     <label for="price">Price ($)</label>
-                    <input type="text" placeholder="4.95" name="price" id="price" />
+                    <input type="number" placeholder="4.95" name="price" id="price" />
                 </div>
 
                 <div class="control-group">
                     <label for="quantity">Quantity</label>
-                    <input type="text" placeholder="100" name="quantity" id="quantity" />
+                    <input type="number" placeholder="100" name="quantity" id="quantity" />
                 </div>
 
                 <div class="control-group">
@@ -140,7 +144,7 @@
                     <a href="{{back_url}}" class="appnav">
                         <button class="btn-large btn">Cancel</button>
                     </a>
-                    <button type="submit" class="btn-large btn btn-primary">Save item</button>
+                    <button class="btn-large btn btn-primary submit-btn">Save item</button>
                 </div>
             </fieldset>
         </form>
@@ -159,10 +163,12 @@
             </h2>
             <small><span class="heydings">l</span> {{total_items}} items in {{container_name}}</small>
             {{#if desc}}
-            <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non providen</p>
+            <p class="lead">{{desc}}</p>
             {{/if}}
+            <!---
             <p>
-                <small>Sort by: <a class="active" href="#">Recently added or modified</a> / <a href="#">Alphabetical order</a></small>
+                <small>Sort by: <span class="sort_by_date {{#if sort_by_date}}active{{/if}}">Date added</a> / <span class="sort_by_name {{#if sort_by_date}}active{{/if}}">Name</span></small>
+                --->
             </p>
         </div>
 
@@ -184,7 +190,13 @@
                 <div class="span2 item">
                     <a href="{{item_url}}" class="appnav">
                         <div class="thumbnail">
-                            <img src="{{media_url}}" />
+                            <div class="img-holder">
+                                {{#if media_url}}
+                                <img src="{{media_url}}" class="item-img" />
+                                {{else}}
+                                <img src="/media/img/placeholder.png" class="item-img" />
+                                {{/if}}
+                            </div>
                             <div class="text-caption">
                                 <p>{{name}}</p>
                             </div>

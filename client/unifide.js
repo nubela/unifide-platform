@@ -43,7 +43,6 @@ var myAppRouter = Backbone.Router.extend({
     social_auth_facebook: social_auth_facebook,
     social_auth_twitter: social_auth_twitter,
     social_auth_foursquare: social_auth_foursquare,
-    social_auth: social_auth,
     items_url: items_url
 });
 

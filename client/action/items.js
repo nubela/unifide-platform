@@ -2,10 +2,12 @@
 
 ITEM_SESSION = {
     CONTAINER: "ITMContainer",
+    CONTAINER_DESC: "ITMContainerDesc",
     MATERIALIZED_PATH: "ITMMaterializedPath",
     VIEW_TYPE: "ITMViewType",
     SUBURL: "ITMSubUrl",
-    ITEM_ID: "ITMItemId"
+    ITEM_ID: "ITMItemId",
+    SORT_METHOD: "ITMSortMethod"
 };
 
 VIEW_TYPE = {
@@ -24,6 +26,11 @@ ITEM_TEMPLATE = {
 };
 
 ITEM_RESERVED_KEYWORDS = ["new", "item"];
+
+ITEM_SORT_METHOD = {
+    DATE_ADDED: "date_added",
+    NAME: "name"
+}
 
 
 //------ item template functions ------//
@@ -64,20 +71,26 @@ Template.items.view = function () {
 };
 
 Template.items.back_url = function () {
-    var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
-    var path_lis_len = path_lis.length;
-
-    if (path_lis == null) {
-        return "#";
+    if (Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.ITEM) {
+        return suburl_to_current_path();
     }
+    else if (Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE) {
+        return suburl_to_current_path();
+    } else {
+        var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
+        var path_lis_len = path_lis.length;
+        if (path_lis == null) {
+            return "#";
+        }
 
-    //revert to root container
-    else if (path_lis_len == 1) {
-        return "/items";
+        //revert to root container
+        else if (path_lis_len == 1) {
+            return "/items";
+        }
+
+        var back_path_lis = path_lis.splice(0, path_lis_len - 1);
+        return url_from_path(back_path_lis);
     }
-
-    var back_path_lis = path_lis.splice(0, path_lis_len - 1);
-    return url_from_path(back_path_lis);
 };
 
 Template.items.events = {
@@ -86,20 +99,30 @@ Template.items.events = {
             if (!container_name) {
                 return;
             }
-            var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
-            if (path_lis) {
-                path_lis.push(container_name);
-            } else {
-                path_lis = [container_name];
-            }
-            Meteor.call("put_container", path_lis, function () {
-                init_items();
+            bootbox.prompt("Description of " + container_name + "?", function (container_desc) {
+                var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
+                if (path_lis) {
+                    path_lis.push(container_name);
+                } else {
+                    path_lis = [container_name];
+                }
+                Meteor.call("put_container", path_lis, container_desc, function () {
+                    init_items();
+                });
             });
         });
     }
-};
+}
 
 //------ item-container compose functions ------//
+
+Template.item_compose.events = {
+    'click .submit-btn': function (evt) {
+        if ($("#item-compose-form").parsley("validate")) {
+            $("#item-compose-form").submit();
+        }
+    }
+}
 
 Template.item_compose.back_url = suburl_to_current_path();
 
@@ -152,6 +175,24 @@ Template.item_view.item = function () {
 
 //------ item_container template functions ------//
 
+Template.item_container.events = {
+    "click .sort_by_date": function () {
+        Session.set(ITEM_SESSION.SORT_METHOD, ITEM_SORT_METHOD.DATE_ADDED);
+    },
+    "click .sort_by_name": function () {
+        Session.set(ITEM_SESSION.SORT_METHOD, ITEM_SORT_METHOD.NAME);
+    }
+}
+
+Template.item_container.rendered = function () {
+    var width = $(".empty-img").width();
+    $(".empty-img").height(width);
+    $(".empty-img").css("line-height", width + "px");
+    _.each($(".items .item .img-holder"), function (itm) {
+        $(itm).height(width);
+    });
+}
+
 Template.item_container.container_name = function () {
     var container_obj = Session.get(ITEM_SESSION.CONTAINER);
     if (container_obj == null) {
@@ -162,19 +203,28 @@ Template.item_container.container_name = function () {
 };
 
 Template.item_container.desc = function () {
-    var container_obj = Session.get(ITEM_SESSION.CONTAINER);
-    if (container_obj == null) {
-        return "";
-    }
-    return container_obj.description;
+    return Session.get(ITEM_SESSION.CONTAINER_DESC);
 };
 
 Template.item_container.total_items = function () {
     return ITMItems.find().count();
 };
 
+Template.item_container.sort_by_date = function () {
+    return Session.get(ITEM_SESSION.SORT_METHOD) == ITEM_SORT_METHOD.DATE_ADDED;
+}
+
+Template.item_container.sort_by_name = function () {
+    console.log(Session.get(ITEM_SESSION.SORT_METHOD));
+    return Session.get(ITEM_SESSION.SORT_METHOD) == ITEM_SORT_METHOD.NAME;
+}
+
 Template.item_container.items = function () {
-    var all_items = ITMItems.find({}).fetch();
+    var sort_method = {timestamp_utc: 1};
+    if (Session.get(ITEM_SESSION) == ITEM_SORT_METHOD.NAME) {
+        sort_method = {name: 1};
+    }
+    var all_items = ITMItems.find({}, {sort: sort_method}).fetch();
     var item_lis = [
         {
             is_empty: true
@@ -191,11 +241,14 @@ Template.item_container.items = function () {
     var split_lis = [];
     var sub_lis = {individual_item: []};
     var i = 0;
+    var j = 5;
     _.each(item_lis, function (itm) {
         sub_lis.individual_item.push(itm);
-        if (i % 5 == 0 && i > 0) {
+        if (i % j == 0 && i > 0) {
             split_lis.push(sub_lis);
             sub_lis = {individual_item: []};
+            j = 6;
+            i = 0;
         }
         i++;
     });
@@ -226,7 +279,6 @@ function url_from_path(path_lis) {
 
 function suburl_to_current_path() {
     var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
-    console.log(JSON.stringify(path_lis));
     return url_from_path(path_lis);
 }
 
@@ -239,6 +291,8 @@ function rehash_container_items() {
     ITMItems.remove({});
     var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
     Meteor.call("get_child_containers_and_items", path_lis, function (error, content) {
+        console.log(content.description);
+        Session.set(ITEM_SESSION.CONTAINER_DESC, content.description);
         _.each(content.items, function (item) {
             ITMItems.insert(item);
         });
@@ -257,6 +311,7 @@ function init_items() {
     Session.set(ITEM_SESSION.CONTAINER, null);
     Session.set(ITEM_SESSION.MATERIALIZED_PATH, null);
     Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.CONTAINER);
+    Session.set(ITEM_SESSION.SORT_METHOD, ITEM_SORT_METHOD.DATE_ADDED);
 
     //now lets overwrite the defaults
     var path_lis_str = Session.get(ITEM_SESSION.SUBURL);
@@ -266,7 +321,6 @@ function init_items() {
         path_lis = path_lis_str.split("/");
         Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis);
     }
-    console.log(Session.get(ITEM_SESSION.MATERIALIZED_PATH));
 
     //view type and special keywords
     if (path_lis_str) {

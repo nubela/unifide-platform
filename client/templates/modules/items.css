@@ -11,7 +11,7 @@
     width: 60%; }
     .item-container .container-desc p.lead {
       font-size: 1em;
-      line-height: 1.3em; }
+      line-height: 1.5em; }
     .item-container .container-desc small {
       color: #999999; }
     .item-container .container-desc a {
@@ -21,6 +21,8 @@
   .item-container .items {
     margin-top: 80px; }
 
+.items .item .thumbnail .img-holder {
+  overflow: hidden; }
 .items .item .thumbnail .text-caption {
   background-image: url("/media/img/text_gray_bg_dark.png");
   color: white;

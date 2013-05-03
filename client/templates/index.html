@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/media/js/wysihtml5-0.3.0_rc2.js"></script>
     <script type="text/javascript" src="/media/js/bootstrap-wysihtml5-0.0.2.js"></script>
     <script type="text/javascript" src="/media/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/media/js/parsley.js"></script>
     <link rel="stylesheet" href="/media/css/bootstrap.css">
     <link rel="stylesheet" href="/media/css/bootstrap-responsive.css">
     <link href="/media/css/flat-ui.css" rel="stylesheet" media="screen">
@@ -26,7 +27,7 @@
 </head>
 
 <body>
-    {{> page_controller}}
+{{> page_controller}}
 </body>
 
 <template name="page_controller">
@@ -40,16 +41,22 @@
 
 <template name="header">
     <div class="header">
-        <a href="/"><div class="logo">UNIFIDE</div></a>
+        <a href="/">
+            <div class="logo">UNIFIDE</div>
+        </a>
         <ul class="header-nav inline">
             {{#each menu_list}}
-            <li class="dropdown"><a class="dropdown-toggle" id="drop1" role="button" data-toggle="dropdown">{{first_lvl}}<div class="header-nav-chevron pull-right"></div></a>
+            <li class="dropdown"><a class="dropdown-toggle" id="drop1" role="button" data-toggle="dropdown">{{first_lvl}}
+                <div class="header-nav-chevron pull-right"></div>
+            </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
                     {{#each second_lvl}}
                     {{#if link}}
                     <li><a class="menuitem appnav" role="menuitem" href="{{link}}">{{name}}</a></li>
                     {{else}}
-                    <li><div class="divider"></div></li>
+                    <li>
+                        <div class="divider"></div>
+                    </li>
                     {{/if}}
                     {{/each}}
                 </ul>
@@ -59,15 +66,23 @@
         </ul>
         <div class="header-user pull-right">
             <div class="dropdown">
-                <a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown"><div class="header-settings pull-left"></div> {{{username}}}<img src="/media/img/placeholder_64.png" class="profile-pic"></a>
+                <a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown">
+                    <div class="header-settings pull-left"></div>
+                    {{{username}}}<img src="/media/img/placeholder_64.png" class="profile-pic"></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                    <li><a class="menuitem appnav" role="menuitem" href="/account/b/{{{selected_brand}}}">Update Account</a></li>
-                    <li><div class="divider"></div></li>
+                    <li><a class="menuitem appnav" role="menuitem" href="/account/b/{{{selected_brand}}}">Update
+                        Account</a></li>
+                    <li>
+                        <div class="divider"></div>
+                    </li>
                     {{#each brands}}
-                    <li><a id="switch-brand" class="menuitem appnav" role="menuitem" href="#"><i class="icon-ok"></i> {{brand_name}}</a></li>
+                    <li><a id="switch-brand" class="menuitem appnav" role="menuitem" href="#"><i class="icon-ok"></i>
+                        {{brand_name}}</a></li>
                     {{/each}}
                     {{#if brands}}
-                    <li><div class="divider"></div></li>
+                    <li>
+                        <div class="divider"></div>
+                    </li>
                     {{/if}}
                     <li><a id="logout" class="menuitem appnav" role="menuitem" href="#">Log out</a></li>
                 </ul>
