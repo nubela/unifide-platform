@@ -1,0 +1,29 @@
+template name="bizinfo"
+    .container-fluid
+        .row-fluid
+            .twitter
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        a.appnav href="/bizinfo"
+                            li.side-header
+                                Business Info
+                        a.appnav href="/bizinfo/update"
+                            li
+                                <span class="heydings">w</span> Update
+
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+
+template name="bizinfo_overview"
+    .rendering
+        .main-title
+            h4
+                Business Information Overview
+
+
+template name="bizinfo_update"
+    .rendering
+        .main-title
+            h4
+                Update Business Information
