@@ -21,9 +21,63 @@ template name="bizinfo_overview"
             h4
                 Business Information Overview
 
+        table.table-striped.table-hover
+            thead
+                tr
+                    td
+                        Info Type
+                    td
+                        Data
+            tbody
+                tr
+                    td
+                        Company Name
+                    td
+                        strong
+                            UNIFIDE
+                tr
+                    td
+                        Company Overview
+                    td
+                        strong
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+
+                tr
+                    td
+                        Main address
+                    td
+                        strong
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+
+                tr
+                    td
+                        Contact email address
+                    td
+                        strong
+                            hello@unifide.sg
+
+        a.btn.btn-primary.btn-large href="/bizinfo/update"
+            I want to update these info
+
+
 
 template name="bizinfo_update"
-    .rendering
-        .main-title
-            h4
-                Update Business Information
+    .form-holder.well
+        form method="POST" action="/" data-validate="parsley"
+            legend | Update Business Info
+
+            fieldset
+                .control-group
+                    label for="name" | Business name
+                    > input type="text" placeholder="ABC Company" name="biz_name" id="name" data-required="true" data-focus="first"
+                .control-group
+                    label id="description" | Business Description
+                    > textarea rows="3" name="biz_desc" id="description" placeholder="What does your business do?"
+                .control-group
+                    label for="address" | Address
+                    > input type="text" placeholder="1 Orchard Rd" name="biz_addr" id="address" data-required="true" data-focus="first"
+                .control-group
+                    label for="email" | Contact Email Address
+                    > input type="text" placeholder="your@emailaddr.com" name="biz_email" id="email" data-required="true" data-focus="first" data-type="email"
+                .control-group
+                    button.btn-large.btn.btn-primary.submit-btn | Save

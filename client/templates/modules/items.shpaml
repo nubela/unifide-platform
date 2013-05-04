@@ -76,7 +76,7 @@ template name="item_view"
 template name="item_compose"
     <!--- new item compose --->
     div.compose-new-item.well
-        form.form-horizontal#item-compose-form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley"
+        form#item-compose-form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley"
             legend | New Item
             fieldset
 

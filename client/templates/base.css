@@ -9,7 +9,13 @@
   font-family: "heydings"; }
 
 .btn-primary {
-  background-color: #0072c6 !important; }
+  background-color: #0072c6 !important;
+  color: white !important; }
 
 .btn-primary:hover {
   background-color: #2a8cd4 !important; }
+
+.form-holder {
+  margin-top: 20px; }
+  .form-holder input, .form-holder textarea {
+    width: 60%; }
