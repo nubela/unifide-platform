@@ -34,27 +34,27 @@ template name="bizinfo_overview"
                         Company Name
                     td
                         strong
-                            UNIFIDE
+                            {{info.name}}
                 tr
                     td
-                        Company Overview
+                        Company Description
                     td
                         strong
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                            {{info.description}}
 
                 tr
                     td
                         Main address
                     td
                         strong
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+                            {{info.address}}
 
                 tr
                     td
                         Contact email address
                     td
                         strong
-                            hello@unifide.sg
+                            {{info.email}}
 
         a.btn.btn-primary.btn-large href="/bizinfo/update"
             I want to update these info
@@ -63,21 +63,32 @@ template name="bizinfo_overview"
 
 template name="bizinfo_update"
     .form-holder.well
-        form method="POST" action="/" data-validate="parsley"
+        form#bizinfo-update-form method="POST" action="{{submit_url}}" data-validate="parsley"
             legend | Update Business Info
 
             fieldset
+                <!--- hidden fields --->
+                > input type="hidden" name="redirect_to" value='{{redirect_url}}'
+
                 .control-group
                     label for="name" | Business name
-                    > input type="text" placeholder="ABC Company" name="biz_name" id="name" data-required="true" data-focus="first"
+                    > input type="text" placeholder="ABC Company" name="name" id="name" data-required="true" data-focus="first" {{#if info.name}}value="{{info.name}}"{{/if}}
+
                 .control-group
                     label id="description" | Business Description
-                    > textarea rows="3" name="biz_desc" id="description" placeholder="What does your business do?"
+                    {{#if info.description}}
+                    textarea rows="3" name="description" id="description" placeholder="What does your business do?" | {{info.description}}
+                    {{else}}
+                    > textarea rows="3" name="description" id="description" placeholder="What does your business do?"
+                    {{/if}}
+
                 .control-group
                     label for="address" | Address
-                    > input type="text" placeholder="1 Orchard Rd" name="biz_addr" id="address" data-required="true" data-focus="first"
+                    > input type="text" placeholder="1 Orchard Rd" name="address" id="address" data-required="true" data-focus="first" {{#if info.address}}value="{{info.address}}"{{/if}}
+
                 .control-group
                     label for="email" | Contact Email Address
-                    > input type="text" placeholder="your@emailaddr.com" name="biz_email" id="email" data-required="true" data-focus="first" data-type="email"
+                    > input type="text" placeholder="your@emailaddr.com" name="email" id="email" data-required="true" data-focus="first" data-type="email" {{#if info.email}}value="{{info.email}}"{{/if}}
+
                 .control-group
-                    button.btn-large.btn.btn-primary.submit-btn | Save
+                    button.btn-large.btn.btn-primary.submit-btn#bizinfo-submit-btn | Save

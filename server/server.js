@@ -156,7 +156,14 @@ function put_container(path_lis, description) {
     }});
 }
 
+function get_biz_info() {
+    this.unblock();
+    resp = Meteor.http.get(BACKEND_URL + "business/info/")
+    return JSON.parse(resp.content);
+}
+
 Meteor.methods({
+    get_biz_info: get_biz_info,
     put_container: put_container,
     get_child_containers_and_items: get_child_containers_and_items,
     put_brand_mention_keyword: put_brand_mention_keyword,
@@ -168,7 +175,6 @@ Meteor.methods({
         this.unblock();
         var result = Meteor.http.get(BACKEND_URL + "social_connect/facebook/auth/", {params: {platform: p, brand_name: b}});
         if (result.statusCode !== 200) {
-            console.log(result.error);
             return;
         } else {
             return result.data.auth_url;

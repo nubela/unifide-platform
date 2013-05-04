@@ -33,8 +33,8 @@ var myAppRouter = Backbone.Router.extend({
         "account/auth/twitter/:brand/:str": "social_auth_twitter",
         "account/auth/facebook/:str": "social_auth_facebook",
         "account/auth/foursquare/:str": "social_auth_foursquare",
-        "bizinfo": "static_url",
-        "bizinfo/update": "static_url",
+        "bizinfo": "bizinfo_url",
+        "bizinfo/update": "bizinfo_url",
         "profile": "static_url",
         "items": "items_url",
         "items/*suburl": "items_url"
@@ -44,7 +44,8 @@ var myAppRouter = Backbone.Router.extend({
     social_auth_facebook: social_auth_facebook,
     social_auth_twitter: social_auth_twitter,
     social_auth_foursquare: social_auth_foursquare,
-    items_url: items_url
+    items_url: items_url,
+    bizinfo_url: bizinfo_url
 });
 
 function static_url() {
@@ -52,6 +53,20 @@ function static_url() {
     Session.set("page", url);
     Session.set("page_template", (url == "") ? "overview" : parse_url(url));
 };
+
+function bizinfo_url() {
+    Meteor.call("get_biz_info", function (error, resp) {
+        BIZINFObj.remove({});
+        var id = BIZINFObj.insert({
+            name: resp.name,
+            description: resp.description,
+            email: resp.email,
+            address: resp.address
+        });
+    });
+
+    static_url();
+}
 
 function account_url(brand) {
     Session.set("account_brand", brand);
@@ -91,26 +106,26 @@ function social_auth_facebook(str) {
 };
 
 function social_auth_twitter(brand, str) {
-    var oauth_verifier = str.substring(str.indexOf("oauth_verifier=")+15);
-    Meteor.call("connect_twitter_auth", oauth_verifier, brand, function() {
-        Meteor.call("get_platform_url", function(error, result) {
+    var oauth_verifier = str.substring(str.indexOf("oauth_verifier=") + 15);
+    Meteor.call("connect_twitter_auth", oauth_verifier, brand, function () {
+        Meteor.call("get_platform_url", function (error, result) {
             window.location.href = result + "account/b/" + brand;
         });
     });
 };
 
 function social_auth_foursquare(str) {
-    var code = str.substring(str.indexOf("?code=")+6);
+    var code = str.substring(str.indexOf("?code=") + 6);
     var brand = Session.get("account_brand") != undefined ? Session.get("account_brand") : "default";
-    Meteor.call("connect_foursquare_auth", code, brand, function() {
-        Meteor.call("get_platform_url", function(error, result) {
-           window.location.href = result + "account/b/" + brand;
+    Meteor.call("connect_foursquare_auth", code, brand, function () {
+        Meteor.call("get_platform_url", function (error, result) {
+            window.location.href = result + "account/b/" + brand;
         });
     });
 };
 
-Meteor.startup(function() {
-    Deps.autorun(function() {
+Meteor.startup(function () {
+    Deps.autorun(function () {
         Meteor.subscribe("cp_menu");
         Meteor.subscribe("accounts");
         Meteor.subscribe("mapping");
