@@ -55,6 +55,8 @@ a, a:hover, a:visited {
     width: 20px;
     height: 20px;
     display: block;
+    position: relative;
+    top: -20px
 }
 
 .header ul.inline > li {
