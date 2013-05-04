@@ -1,0 +1,127 @@
+<template name="orders">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="account">
+                <!--- navbar --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">Orders / RSVP</li>
+                        <a href="/" class="appnav">
+                            <li class="container-entry"><span class="icon">v</span> Dashboard</li>
+                        </a>
+                    </ul>
+                </div>
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar twitter">
+
+                    {{{view}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<template name="orders_table">
+    <div class="rendering">
+        <div class="main-title">
+            <h4>
+                Orders / RSVP
+            </h4>
+        </div>
+
+        <table class="table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>
+                        ID
+                    </td>
+                    <td>
+                        Item/Event
+                    </td>
+                    <td>
+                        User
+                    </td>
+                    <td>
+                        Timestamp
+                    </td>
+                    <td>
+                        Status
+                    </td>
+                    <td>
+                        Actions
+                    </td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <ul>
+                <li class="previous">
+                    <a>
+                        <img src="/media/img/pager/previous.png" />
+                    </a>
+                </li>
+                <li class="active">
+                    <a>1</a>
+                </li>
+                <li>
+                    <a>2</a>
+                </li>
+                <li>
+                    <a>3</a>
+                </li>
+                <li class="next">
+                    <a>
+                        <img src="/media/img/pager/next.png" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+
+<template name="table_row">
+    <tr>
+        <td>
+            fgs-9g8sd-faf80-9
+        </td>
+        <td>
+            Aerospace Biathlon Event for the Handicappsd
+        </td>
+        <td>
+            Steven Goh Jian Wen
+        </td>
+        <td>
+            3rd Feb 2018
+        </td>
+        <td>
+            Ordered
+        </td>
+        <td>
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <a href="#" class="btn btn-disabled">
+                        <i class="fui-eye-16" />
+                    </a>
+                    <a href="#" class="btn btn-disabled">
+                        <i class="fui-menu-16" />
+                    </a>
+                    <a href="#" class="btn btn-disabled">
+                        <i class="fui-new-16" />
+                    </a>
+                </div>
+            </div>
+        </td>
+    </tr>
+</template>

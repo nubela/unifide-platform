@@ -37,7 +37,8 @@ var myAppRouter = Backbone.Router.extend({
         "bizinfo/update": "bizinfo_url",
         "profile": "static_url",
         "items": "items_url",
-        "items/*suburl": "items_url"
+        "items/*suburl": "items_url",
+        "orders": "orders_url"
     },
     static_url: static_url,
     account_url: account_url,
@@ -45,8 +46,13 @@ var myAppRouter = Backbone.Router.extend({
     social_auth_twitter: social_auth_twitter,
     social_auth_foursquare: social_auth_foursquare,
     items_url: items_url,
-    bizinfo_url: bizinfo_url
+    bizinfo_url: bizinfo_url,
+    orders_url: orders_url
 });
+
+function orders_url() {
+    static_url();
+}
 
 function static_url() {
     var url = Backbone.history.fragment;

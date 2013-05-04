@@ -7,6 +7,9 @@ template name="bizinfo"
                         a.appnav href="/bizinfo"
                             li.side-header
                                 Business Info
+                        a.appnav href="/bizinfo"
+                            li
+                                <span class="heydings">v</span> Overview
                         a.appnav href="/bizinfo/update"
                             li
                                 <span class="heydings">w</span> Update

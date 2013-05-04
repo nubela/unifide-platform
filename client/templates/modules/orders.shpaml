@@ -1,0 +1,83 @@
+template name="orders"
+    .container-fluid
+        .row-fluid
+            .account
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header | Orders / RSVP
+                        a.appnav href="/"
+                            li.container-entry | <span class="icon">v</span> Dashboard
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar.twitter
+
+                    {{{view}}}
+
+
+template name="orders_table"
+    .rendering
+        .main-title
+            h4
+                Orders / RSVP
+
+        table.table-striped.table-hover
+            thead
+                tr
+                    td
+                        ID
+                    td
+                        Item/Event
+                    td
+                        User
+                    td
+                        Timestamp
+                    td
+                        Status
+                    td
+                        Actions
+
+            tbody
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+
+        .pagination
+            ul
+                li.previous
+                    a
+                        > img src="/media/img/pager/previous.png"
+                li.active
+                    a | 1
+                li
+                    a | 2
+                li
+                    a | 3
+                li.next
+                    a
+                        > img src="/media/img/pager/next.png"
+
+
+template name="table_row"
+    tr
+        td
+            fgs-9g8sd-faf80-9
+        td
+            Aerospace Biathlon Event for the Handicappsd
+        td
+            Steven Goh Jian Wen
+        td
+            3rd Feb 2018
+        td
+            Ordered
+        td
+            .btn-toolbar
+                .btn-group
+                    a.btn.btn-disabled href="#"
+                        > i.fui-eye-16
+                    a.btn.btn-disabled href="#"
+                        > i.fui-menu-16
+                    a.btn.btn-disabled href="#"
+                        > i.fui-new-16

@@ -1,13 +1,8 @@
 @import url("http://fonts.googleapis.com/css?family=Lato:400,700,900,400italic");
 @font-face {
   font-family: "Flat-UI-Icons-16";
-<<<<<<< HEAD
   src: url("../fonts/Flat-UI-Icons-16.eot");
   src: url("../fonts/Flat-UI-Icons-16.eot?#iefix") format("embedded-opentype"), url("../fonts/Flat-UI-Icons-16.woff") format("woff"), url("../fonts/Flat-UI-Icons-16.ttf") format("truetype"), url("../fonts/Flat-UI-Icons-16.svg#Flat-UI-Icons-16") format("svg");
-=======
-  src: url("../../../../Flat-UI/fonts/Flat-UI-Icons-16.eot");
-  src: url("../../../../Flat-UI/fonts/Flat-UI-Icons-16.eot?#iefix") format("embedded-opentype"), url("../../../../Flat-UI/fonts/Flat-UI-Icons-16.woff") format("woff"), url("../../../../Flat-UI/fonts/Flat-UI-Icons-16.ttf") format("truetype"), url("../../../../Flat-UI/fonts/Flat-UI-Icons-16.svg#Flat-UI-Icons-16") format("svg");
->>>>>>> added layout for creating new item
   font-weight: normal;
   font-style: normal; }
 
@@ -94,13 +89,8 @@
 
 @font-face {
   font-family: "Flat-UI-Icons-24";
-<<<<<<< HEAD
   src: url("../fonts/Flat-UI-Icons-24.eot");
   src: url("../fonts/Flat-UI-Icons-24.eot?#iefix") format("embedded-opentype"), url("../fonts/Flat-UI-Icons-24.woff") format("woff"), url("../fonts/Flat-UI-Icons-24.ttf") format("truetype"), url("../fonts/Flat-UI-Icons-24.svg#Flat-UI-Icons-24") format("svg");
-=======
-  src: url("../../../../Flat-UI/fonts/Flat-UI-Icons-24.eot");
-  src: url("../../../../Flat-UI/fonts/Flat-UI-Icons-24.eot?#iefix") format("embedded-opentype"), url("../../../../Flat-UI/fonts/Flat-UI-Icons-24.woff") format("woff"), url("../../../../Flat-UI/fonts/Flat-UI-Icons-24.ttf") format("truetype"), url("../../../../Flat-UI/fonts/Flat-UI-Icons-24.svg#Flat-UI-Icons-24") format("svg");
->>>>>>> added layout for creating new item
   font-weight: normal;
   font-style: normal; }
 
@@ -190,7 +180,7 @@ body {
   font: 14px/1.231 "Lato", sans-serif; }
 
 a {
-  color: #1abc9c;
+  color: #0072C6;
   text-decoration: underline;
   -webkit-transition: 0.25s;
   -moz-transition: 0.25s;
@@ -267,19 +257,11 @@ h6 {
     padding-bottom: 12px;
     padding-top: 13px; }
   .btn.btn-primary {
-<<<<<<< HEAD
-    background-color: #1abc9c; }
+    background-color: #0072C6; }
     .btn.btn-primary:hover, .btn.btn-primary:focus {
       background-color: #2fe2bf; }
     .btn.btn-primary:active, .btn.btn-primary.active {
       background-color: #16a085; }
-=======
-    background-color: #0072C6; }
-    .btn.btn-primary:hover, .btn.btn-primary:focus {
-      background-color: #104b77; }
-    .btn.btn-primary:active, .btn.btn-primary.active {
-      background-color: #073455; }
->>>>>>> added layout for creating new item
   .btn.btn-info {
     background-color: #3498db; }
     .btn.btn-info:hover, .btn.btn-info:focus {
@@ -329,11 +311,7 @@ h6 {
   letter-spacing: -2px;
   line-height: 100px; }
   .demo-logo .logo {
-<<<<<<< HEAD
-    background: url("../images/demo/logo-mask.png") center 0 no-repeat;
-=======
-    background: url("../../../../Flat-UI/images/demo/logo-mask.png") center 0 no-repeat;
->>>>>>> added layout for creating new item
+    background: url("../img/demo/logo-mask.png") center 0 no-repeat;
     background-size: 256px 186px;
     height: 186px;
     margin: 0 auto 26px;
@@ -461,14 +439,10 @@ h6 {
   text-align: center; }
 
 .demo-text-box a:hover {
-  color: #1abc9c; }
+  color: #0072C6; }
 
 .demo-browser {
-<<<<<<< HEAD
-  background: #2c3e50 url("../images/demo/browser.png") 0 0 no-repeat;
-=======
-  background: #2c3e50 url("../../../../Flat-UI/images/demo/browser.png") 0 0 no-repeat;
->>>>>>> added layout for creating new item
+  background: #2c3e50 url("../img/demo/browser.png") 0 0 no-repeat;
   background-size: 659px 42px;
   border-radius: 0 0 6px 6px;
   color: white;
@@ -490,11 +464,7 @@ h6 {
     text-transform: none; }
 
 .demo-browser-author {
-<<<<<<< HEAD
-  background: url("../images/demo/browser-author.jpg") center center no-repeat;
-=======
-  background: url("../../../../Flat-UI/images/demo/browser-author.jpg") center center no-repeat;
->>>>>>> added layout for creating new item
+  background: url("../img/demo/browser-author.jpg") center center no-repeat;
   border: 3px solid white;
   display: block;
   height: 84px;
@@ -536,21 +506,14 @@ h6 {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
   .logo {
-<<<<<<< HEAD
-    background-image: url("../images/demo/logo-mask-2x.png"); }
+    background-image: url("../img/demo/logo-mask-2x.png"); }
 
   .demo-browser {
-    background-image: url("../images/demo/browser-2x.png"); } }
-=======
-    background-image: url("../../../../Flat-UI/images/demo/logo-mask-2x.png"); }
-
-  .demo-browser {
-    background-image: url("../../../../Flat-UI/images/demo/browser-2x.png"); } }
->>>>>>> added layout for creating new item
+    background-image: url("../img/demo/browser-2x.png"); } }
 .navbar {
   font-size: 18px; }
   .navbar .brand {
-    color: #1abc9c;
+    color: #0072C6;
     font-size: inherit;
     font-weight: 700;
     padding-bottom: 16px;
@@ -582,7 +545,7 @@ h6 {
   .navbar .nav > li > a {
     padding: 14px 15px 17px; }
     .navbar .nav > li > a:hover {
-      color: #1abc9c; }
+      color: #0072C6; }
   .navbar .nav li {
     position: relative; }
     .navbar .nav li:hover > ul {
@@ -622,7 +585,7 @@ h6 {
       .navbar .nav ul li:last-child {
         border-radius: 0 0 4px 4px; }
       .navbar .nav ul li.active > a, .navbar .nav ul li.active > a:hover {
-        background-color: #1abc9c;
+        background-color: #0072C6;
         color: white; }
     .navbar .nav ul a {
       border-radius: 2px;
@@ -632,7 +595,7 @@ h6 {
       padding: 6px 9px;
       text-decoration: none; }
       .navbar .nav ul a:hover {
-        background-color: #1abc9c; }
+        background-color: #0072C6; }
 
 .navbar-inner {
   border: none;
@@ -650,7 +613,7 @@ h6 {
   color: white; }
 .navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus {
   background-color: transparent;
-  color: #1abc9c;
+  color: #0072C6;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none; }
@@ -681,7 +644,7 @@ h6 {
   outline: none; }
 
 .dk_toggle {
-  background-color: #1abc9c;
+  background-color: #0072C6;
   color: white;
   border-radius: 6px;
   overflow: hidden;
@@ -704,11 +667,7 @@ h6 {
       border-left-color: transparent; }
 
 .select-icon {
-<<<<<<< HEAD
-  background: #1abc9c url("../images/select/toggle.png") no-repeat right center;
-=======
-  background: #1abc9c url("../../../../Flat-UI/images/select/toggle.png") no-repeat right center;
->>>>>>> added layout for creating new item
+  background: #0072C6 url("../img/select/toggle.png") no-repeat right center;
   border-left: 2px solid rgba(52, 73, 94, 0.15);
   border-radius: 0 6px 6px 0;
   height: 100%;
@@ -725,7 +684,7 @@ h6 {
 .dk_open {
   z-index: 10; }
   .dk_open .dk_toggle {
-    background-color: #1abc9c; }
+    background-color: #0072C6; }
     .dk_open .dk_toggle .select-icon {
       background-color: #16a085;
       border-left-color: transparent; }
@@ -755,10 +714,10 @@ h6 {
     padding: 5px 9px;
     text-decoration: none; }
     .dk_options a:hover {
-      background-color: #1abc9c; }
+      background-color: #0072C6; }
 
 .dk_option_current a {
-  background-color: #1abc9c; }
+  background-color: #0072C6; }
 
 .dk_options_inner {
   background-color: #34495e;
@@ -926,7 +885,7 @@ input[type="color"],
   input[type="tel"]:focus,
   input[type="color"]:focus,
   .uneditable-input:focus {
-    border-color: #1abc9c;
+    border-color: #0072C6;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none; }
@@ -1117,7 +1076,7 @@ textarea,
   -webkit-backface-visibility: hidden; }
   .checkbox:hover,
   .radio:hover {
-    color: #1abc9c; }
+    color: #0072C6; }
   .checkbox input,
   .radio input {
     outline: none !important;
@@ -1159,11 +1118,7 @@ textarea,
   .checkbox .icon-to-fade,
   .radio .icon,
   .radio .icon-to-fade {
-<<<<<<< HEAD
-    background: url("../images/checkbox.png") -90px 0 no-repeat;
-=======
-    background: url("../../../../Flat-UI/images/checkbox.png") -90px 0 no-repeat;
->>>>>>> added layout for creating new item
+    background: url("../img/checkbox.png") -90px 0 no-repeat;
     display: block;
     height: 20px;
     left: 0;
@@ -1185,27 +1140,15 @@ textarea,
 
 .radio .icon,
 .radio .icon-to-fade {
-<<<<<<< HEAD
-  background-image: url("../images/radio.png"); }
+  background-image: url("../img/radio.png"); }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
   .checkbox .icon {
-    background-image: url("../images/checkbox-2x.png");
+    background-image: url("../img/checkbox-2x.png");
     background-size: 110px 110px; }
 
   .radio .icon {
-    background-image: url("../images/radio-2x.png");
-=======
-  background-image: url("../../../../Flat-UI/images/radio.png"); }
-
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
-  .checkbox .icon {
-    background-image: url("../../../../Flat-UI/images/checkbox-2x.png");
-    background-size: 110px 110px; }
-
-  .radio .icon {
-    background-image: url("../../../../Flat-UI/images/radio-2x.png");
->>>>>>> added layout for creating new item
+    background-image: url("../img/radio-2x.png");
     background-size: 110px 110px; } }
 .toggle {
   background-color: #34495e;
@@ -1231,11 +1174,7 @@ textarea,
   .toggle.toggle-off {
     background-color: #cbd2d8; }
     .toggle.toggle-off .toggle-radio {
-<<<<<<< HEAD
-      background-image: url("../images/toggle/icon-off.png");
-=======
-      background-image: url("../../../../Flat-UI/images/toggle/icon-off.png");
->>>>>>> added layout for creating new item
+      background-image: url("../img/toggle/icon-off.png");
       background-position: 0 0;
       color: white;
       left: 0;
@@ -1245,12 +1184,8 @@ textarea,
       .toggle.toggle-off .toggle-radio:first-child {
         left: -120%; }
   .toggle .toggle-radio {
-<<<<<<< HEAD
-    background: url("../images/toggle/icon-on.png") right top no-repeat;
-=======
-    background: url("../../../../Flat-UI/images/toggle/icon-on.png") right top no-repeat;
->>>>>>> added layout for creating new item
-    color: #1abc9c;
+    background: url("../img/toggle/icon-on.png") right top no-repeat;
+    color: #0072C6;
     display: block;
     font-weight: 700;
     height: 21px;
@@ -1281,17 +1216,10 @@ textarea,
     .toggle.toggle-icon.toggle-off {
       border-radius: 7px 6px 6px 7px; }
       .toggle.toggle-icon.toggle-off .toggle-radio {
-<<<<<<< HEAD
-        background-image: url("../images/toggle/block-off.png");
+        background-image: url("../img/toggle/block-off.png");
         background-position: 0 0; }
     .toggle.toggle-icon .toggle-radio {
-      background-image: url("../images/toggle/block-on.png");
-=======
-        background-image: url("../../../../Flat-UI/images/toggle/block-off.png");
-        background-position: 0 0; }
-    .toggle.toggle-icon .toggle-radio {
-      background-image: url("../../../../Flat-UI/images/toggle/block-on.png");
->>>>>>> added layout for creating new item
+      background-image: url("../img/toggle/block-on.png");
       background-position: 62px 0;
       border-radius: 6px;
       min-width: 27px;
@@ -1301,21 +1229,14 @@ textarea,
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
   .toggle.toggle-off .toggle-radio {
-<<<<<<< HEAD
-    background-image: url("../images/toggle/icon-off-2x.png");
+    background-image: url("../img/toggle/icon-off-2x.png");
     background-size: 30px 29px; }
   .toggle .toggle-radio {
-    background-image: url("../images/toggle/icon-on-2x.png");
-=======
-    background-image: url("../../../../Flat-UI/images/toggle/icon-off-2x.png");
-    background-size: 30px 29px; }
-  .toggle .toggle-radio {
-    background-image: url("../../../../Flat-UI/images/toggle/icon-on-2x.png");
->>>>>>> added layout for creating new item
+    background-image: url("../img/toggle/icon-on-2x.png");
     background-size: 30px 29px; } }
 .tagsinput {
   background: white;
-  border: 2px solid #1abc9c;
+  border: 2px solid #0072C6;
   border-radius: 6px;
   height: 100px;
   padding: 6px 1px 1px 6px;
@@ -1323,7 +1244,7 @@ textarea,
   text-align: left; }
   .tagsinput .tag {
     border-radius: 4px;
-    background: #1abc9c;
+    background: #0072C6;
     color: white;
     cursor: pointer;
     margin-right: 5px;
@@ -1401,7 +1322,7 @@ textarea,
   transition: 0.25s;
   -webkit-backface-visibility: hidden; }
   .tagsinput-add:hover {
-    background-color: #1abc9c; }
+    background-color: #0072C6; }
 
 .tags_clear {
   clear: both;
@@ -1421,7 +1342,7 @@ textarea,
   box-shadow: none;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false); }
   .progress .bar, .ui-slider .bar {
-    background: #1abc9c;
+    background: #0072C6;
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
@@ -1467,7 +1388,7 @@ textarea,
     background-color: #16a085; }
 
 .ui-slider-range {
-  background-color: #1abc9c;
+  background-color: #0072C6;
   border-radius: 30px 0 0 30px;
   display: block;
   height: 100%;
@@ -1593,8 +1514,8 @@ textarea,
     transition: background 0.2s ease-out, border-color 0s ease-out, color 0.2s ease-out;
     -webkit-backface-visibility: hidden; }
     .pagination ul > li > a:hover, .pagination ul > li > a :focus, .pagination ul > li > span:hover, .pagination ul > li > span :focus {
-      background-color: #1abc9c;
-      border-color: #1abc9c;
+      background-color: #0072C6;
+      border-color: #0072C6;
       color: white;
       -webkit-transition: background 0.2s ease-out, border-color 0.2s ease-out, color 0.2s ease-out;
       -moz-transition: background 0.2s ease-out, border-color 0.2s ease-out, color 0.2s ease-out;
@@ -1709,7 +1630,7 @@ textarea,
     opacity: 0.8; }
 
 .palette-firm {
-  background-color: #1abc9c; }
+  background-color: #0072C6; }
 
 .palette-firm-dark {
   background-color: #16a085; }
@@ -1809,11 +1730,7 @@ textarea,
   position: relative;
   text-align: center; }
   .tile.tile-hot:before {
-<<<<<<< HEAD
-    background: url("../images/tile/ribbon.png") 0 0 no-repeat;
-=======
-    background: url("../../../../Flat-UI/images/tile/ribbon.png") 0 0 no-repeat;
->>>>>>> added layout for creating new item
+    background: url("../img/tile/ribbon.png") 0 0 no-repeat;
     background-size: 82px 82px;
     content: "";
     height: 82px;
@@ -1840,11 +1757,7 @@ textarea,
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
   .tile.tile-hot:before {
-<<<<<<< HEAD
-    background-image: url("../images/tile/ribbon-2x.png"); } }
-=======
-    background-image: url("../../../../Flat-UI/images/tile/ribbon-2x.png"); } }
->>>>>>> added layout for creating new item
+    background-image: url("../img/tile/ribbon-2x.png"); } }
 .todo {
   background-color: #2c3e50;
   border-radius: 8px 8px 6px 6px;
@@ -1854,11 +1767,7 @@ textarea,
     margin: 0;
     list-style-type: none; }
   .todo li {
-<<<<<<< HEAD
-    background: #34495e url("../images/todo/todo.png") 92% center no-repeat;
-=======
-    background: #34495e url("../../../../Flat-UI/images/todo/todo.png") 92% center no-repeat;
->>>>>>> added layout for creating new item
+    background: #34495e url("../img/todo/todo.png") 92% center no-repeat;
     background-size: 20px 20px;
     cursor: pointer;
     margin-top: 2px;
@@ -1875,22 +1784,14 @@ textarea,
       border-radius: 0 0 6px 6px;
       padding-bottom: 18px; }
     .todo li.todo-done {
-<<<<<<< HEAD
-      background: transparent url("../images/todo/done.png") 92% center no-repeat;
-=======
-      background: transparent url("../../../../Flat-UI/images/todo/done.png") 92% center no-repeat;
->>>>>>> added layout for creating new item
+      background: transparent url("../img/todo/done.png") 92% center no-repeat;
       background-size: 20px 20px;
-      color: #1abc9c; }
+      color: #0072C6; }
       .todo li.todo-done .todo-name {
-        color: #1abc9c; }
+        color: #0072C6; }
 
 .todo-search {
-<<<<<<< HEAD
-  background: #1abc9c url("../images/todo/search.png") 92% center no-repeat;
-=======
-  background: #1abc9c url("../../../../Flat-UI/images/todo/search.png") 92% center no-repeat;
->>>>>>> added layout for creating new item
+  background: #0072C6 url("../img/todo/search.png") 92% center no-repeat;
   background-size: 16px 16px;
   border-radius: 6px 6px 0 0;
   color: #34495e;
@@ -1932,12 +1833,12 @@ input.todo-search-field {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
   .todo li {
-    background-image: "../images/todo/todo-2x.png"; }
+    background-image: "../img/todo/todo-2x.png"; }
     .todo li.todo-done {
-      background-image: "../images/todo/done-2x.png"; }
+      background-image: "../img/todo/done-2x.png"; }
 
   .todo-search {
-    background-image: "../images/todo/search-2x.png"; } }
+    background-image: "../img/todo/search-2x.png"; } }
 footer {
   background-color: #eceff1;
   color: #bdc1c5;
@@ -1962,7 +1863,7 @@ footer {
     width: 216px; }
 
 .footer-banner {
-  background-color: #1abc9c;
+  background-color: #0072C6;
   color: #cff3ec;
   margin-left: 42px;
   min-height: 286px;
@@ -2123,20 +2024,12 @@ body.vjs-full-window {
   width: 58px; }
 
 .vjs-paused .vjs-play-control {
-<<<<<<< HEAD
-  background: url("../images/video/play.png") center -31px no-repeat;
-=======
-  background: url("../../../../Flat-UI/images/video/play.png") center -31px no-repeat;
->>>>>>> added layout for creating new item
+  background: url("../img/video/play.png") center -31px no-repeat;
   background-size: 16px 64px; }
   .vjs-paused .vjs-play-control:hover div {
     opacity: 0; }
   .vjs-paused .vjs-play-control div {
-<<<<<<< HEAD
-    background: url("../images/video/play.png") center 15px no-repeat;
-=======
-    background: url("../../../../Flat-UI/images/video/play.png") center 15px no-repeat;
->>>>>>> added layout for creating new item
+    background: url("../img/video/play.png") center 15px no-repeat;
     background-size: 16px 64px;
     height: 47px;
     -webkit-transition: opacity 0.25s;
@@ -2146,20 +2039,12 @@ body.vjs-full-window {
     -webkit-backface-visibility: hidden; }
 
 .vjs-playing .vjs-play-control {
-<<<<<<< HEAD
-  background: url("../images/video/pause.png") center -31px no-repeat;
-=======
-  background: url("../../../../Flat-UI/images/video/pause.png") center -31px no-repeat;
->>>>>>> added layout for creating new item
+  background: url("../img/video/pause.png") center -31px no-repeat;
   background-size: 15px 64px; }
   .vjs-playing .vjs-play-control:hover div {
     opacity: 0; }
   .vjs-playing .vjs-play-control div {
-<<<<<<< HEAD
-    background: url("../images/video/pause.png") center 15px no-repeat;
-=======
-    background: url("../../../../Flat-UI/images/video/pause.png") center 15px no-repeat;
->>>>>>> added layout for creating new item
+    background: url("../img/video/pause.png") center 15px no-repeat;
     background-size: 15px 64px;
     height: 47px;
     -webkit-transition: opacity 0.25s;
@@ -2178,11 +2063,7 @@ body.vjs-full-window {
     margin: 0.5em auto 0; }
 
 .vjs-mute-control {
-<<<<<<< HEAD
-  background: url("../images/video/volume-full.png") center -48px no-repeat;
-=======
-  background: url("../../../../Flat-UI/images/video/volume-full.png") center -48px no-repeat;
->>>>>>> added layout for creating new item
+  background: url("../img/video/volume-full.png") center -48px no-repeat;
   background-size: 16px 64px;
   cursor: pointer !important;
   position: absolute;
@@ -2192,15 +2073,9 @@ body.vjs-full-window {
     opacity: 0; }
   .vjs-mute-control.vjs-vol-0,
   .vjs-mute-control.vjs-vol-0 div {
-<<<<<<< HEAD
-    background-image: url("../images/video/volume-off.png"); }
+    background-image: url("../img/video/volume-off.png"); }
   .vjs-mute-control div {
-    background: #2c3e50 url("../images/video/volume-full.png") no-repeat center 2px;
-=======
-    background-image: url("../../../../Flat-UI/images/video/volume-off.png"); }
-  .vjs-mute-control div {
-    background: #2c3e50 url("../../../../Flat-UI/images/video/volume-full.png") no-repeat center 2px;
->>>>>>> added layout for creating new item
+    background: #2c3e50 url("../img/video/volume-full.png") no-repeat center 2px;
     background-size: 16px 64px;
     height: 18px;
     -webkit-transition: opacity 0.25s;
@@ -2243,7 +2118,7 @@ body.vjs-full-window {
   top: 0; }
 
 .vjs-play-progress {
-  background: #1abc9c;
+  background: #0072C6;
   left: -1px; }
 
 .vjs-load-progress {
@@ -2305,11 +2180,7 @@ body.vjs-full-window {
   float: right; }
 
 .vjs-fullscreen-control {
-<<<<<<< HEAD
-  background-image: url("../images/video/fullscreen.png");
-=======
-  background-image: url("../../../../Flat-UI/images/video/fullscreen.png");
->>>>>>> added layout for creating new item
+  background-image: url("../img/video/fullscreen.png");
   background-position: center -47px;
   background-size: 15px 64px;
   cursor: pointer !important;
@@ -2320,11 +2191,7 @@ body.vjs-full-window {
     opacity: 0; }
   .vjs-fullscreen-control div {
     height: 18px;
-<<<<<<< HEAD
-    background: url("../images/video/fullscreen.png") no-repeat center 2px;
-=======
-    background: url("../../../../Flat-UI/images/video/fullscreen.png") no-repeat center 2px;
->>>>>>> added layout for creating new item
+    background: url("../img/video/fullscreen.png") no-repeat center 2px;
     background-size: 15px 64px;
     -webkit-transition: opacity 0.25s;
     -moz-transition: opacity 0.25s;
@@ -2463,11 +2330,7 @@ body.vjs-full-window {
   animation: sharp 2s ease infinite; }
 
 .login {
-<<<<<<< HEAD
-  background: url("../images/login/imac.png") 0 0 no-repeat;
-=======
-  background: url("../../../../Flat-UI/images/login/imac.png") 0 0 no-repeat;
->>>>>>> added layout for creating new item
+  background: url("../img/login/imac.png") 0 0 no-repeat;
   background-size: 940px 778px;
   color: white;
   margin-bottom: 77px;
@@ -2475,7 +2338,7 @@ body.vjs-full-window {
   position: relative; }
 
 .login-screen {
-  background-color: #1abc9c;
+  background-color: #0072C6;
   min-height: 317px;
   padding: 123px 199px 33px 306px; }
 
@@ -2526,7 +2389,7 @@ body.vjs-full-window {
     text-indent: 3px;
     width: 299px; }
     .login-form .login-field:focus + .login-field-icon {
-      color: #1abc9c; }
+      color: #0072C6; }
   .login-form .login-field-icon {
     color: #bfc9ca;
     font-size: 16px;
@@ -2548,11 +2411,7 @@ body.vjs-full-window {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
   .login {
-<<<<<<< HEAD
-    background-image: url("../images/login/imac-2x.png"); } }
-=======
-    background-image: url("../../../../Flat-UI/images/login/imac-2x.png"); } }
->>>>>>> added layout for creating new item
+    background-image: url("../img/login/imac-2x.png"); } }
 .ptn, .pvn, .pan {
   padding-top: 0; }
 

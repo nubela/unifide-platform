@@ -19,3 +19,7 @@
   margin-top: 20px; }
   .form-holder input, .form-holder textarea {
     width: 60%; }
+
+.btn-disabled {
+  background-color: #e5e5e5 !important;
+  color: white !important; }
