@@ -302,32 +302,39 @@
         </div>
 
         <div class="input-append">
-            <input class="search-input" type="text">
+            <input type="text" class="search-input" />
             <button type="button" class="btn">
                 Search
             </button>
         </div>
-
-        <table class="table-striped table-hover">
+        <div class="clear" />
+        <div class="spacing20" />
+        <div class="base-buttons pull-left">
+            <button class="btn" id="select-all">
+                <i class="icon-ok" />
+                Select All
+            </button>
+            <button class="btn expand-all">
+                <i class="icon-arrow-down" />
+                Expand All
+            </button>
+        </div>
+        <div class="selected-buttons pull-left">
+            <button class="btn delete-campaign">
+                <i class="icon-remove" />
+            </button>
+        </div>
+        <div class="clear" />
+        <table class="table-hover campaign-manage">
             <thead>
                 <tr>
                     <td>
-                        Type
-                    </td>
-                    <td>
-                        Platforms
-                    </td>
-                    <td>
-                        Title
-                    </td>
-                    <td>
-                        Meta
-                    </td>
-                    <td>
-                        State
-                    </td>
-                    <td>
-                        Created
+                        Campaigns ({{total}})
+                        <i class="icon-chevron-right pull-right icon-nav page-next" />
+                        <div class="pull-right">
+                            {{list_page}}
+                        </div>
+                        <i class="icon-chevron-left pull-right icon-nav page-back" />
                     </td>
                 </tr>
             </thead>
@@ -335,33 +342,35 @@
             <tbody>
                 {{#each campaigns}}
                 <tr>
-                    <td class="twitter-profile-pic">
-                        {{{facebook.fields.message}}}
-                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
-                    </td>
                     <td>
-                        <div class="pull-left">
-                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
-                            <div class="twitter-profile-name pull-left">{{user.name}}</div>
-                            <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
-                            </a>
-                            <div class="clear"></div>
+                        <div class="selection pull-left">
+                            <input type="checkbox" value="{{id}}" class="campaign-id select-campaign" />
                         </div>
-                        <div class="pull-right">{{created_at}}</div>
-                        <div class="clear"></div>
-                        {{fields.text}}
-                    </td>
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td>
-                        &nbsp;
+                        <a data-toggle="collapse" data-target="#{{id}}">
+                            <div class="state pull-left">
+                                {{{state}}}
+                            </div>
+                            <div class="type pull-left">
+                                {{type}}
+                            </div>
+                            <div class="platform pull-left">
+                                {{{platforms}}}
+                                <div class="clear" />
+                            </div>
+                            <div class="title-content pull-left">
+                                {{{title}}}
+                            </div>
+                            <div class="created pull-right">
+                                {{created}}
+                            </div>
+                            <div class="clear" />
+                        </a>
+                        <div class="collapse" id="{{id}}">
+                            <div class="spacing10" />
+                            <div class="expanded">
+                                {{{expanded}}}
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 {{/each}}

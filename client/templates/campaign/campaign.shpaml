@@ -203,49 +203,53 @@ template name="campaign_list"
                 Campaigns List
 
         .input-append
-            <input class="search-input" type="text">
+            > input.search-input type="text"
             button.btn type=button
                 Search
-
-        table.table-striped.table-hover
+        > div.clear
+        > div.spacing20
+        .base-buttons.pull-left
+            button.btn#select-all
+                > i.icon-ok
+                Select All
+            button.btn.expand-all
+                > i.icon-arrow-down
+                Expand All
+        .selected-buttons.pull-left
+            button.btn.delete-campaign
+                > i.icon-remove
+        > div.clear
+        table.table-hover.campaign-manage
             thead
                 tr
                     td
-                        Type
-                    td
-                        Platforms
-                    td
-                        Title
-                    td
-                        Meta
-                    td
-                        State
-                    td
-                        Created
+                        Campaigns ({{total}})
+                        > i.icon-chevron-right.pull-right.icon-nav.page-next
+                        .pull-right
+                            {{list_page}}
+                        > i.icon-chevron-left.pull-right.icon-nav.page-back
 
             tbody
                 {{#each campaigns}}
                 tr
-                    td.twitter-profile-pic
-                        {{{facebook.fields.message}}}
-                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
                     td
-                        <div class="pull-left">
-                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
-                            <div class="twitter-profile-name pull-left">{{user.name}}</div>
-                            <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
-                            </a>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="pull-right">{{created_at}}</div>
-                        <div class="clear"></div>
-                        {{fields.text}}
-                    td
-                        &nbsp;
-                    td
-                        &nbsp;
-                    td
-                        &nbsp;
-                    td
-                        &nbsp;
+                        .selection.pull-left
+                            > input.campaign-id.select-campaign type="checkbox" value="{{id}}"
+                        a data-toggle="collapse" data-target="#{{id}}"
+                            .state.pull-left
+                                {{{state}}}
+                            .type.pull-left
+                                {{type}}
+                            .platform.pull-left
+                                {{{platforms}}}
+                                > div.clear
+                            .title-content.pull-left
+                                {{{title}}}
+                            .created.pull-right
+                                {{created}}
+                            > div.clear
+                        div#{{id}}.collapse
+                            > div.spacing10
+                            .expanded
+                                {{{expanded}}}
                 {{/each}}

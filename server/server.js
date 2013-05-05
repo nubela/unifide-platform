@@ -25,8 +25,8 @@ Meteor.publish("accounts", function () {
 Meteor.publish("mapping", function () {
     return [
         BrandMappings.find({uid: this.userId}),
-        Mappings.find({uid: this.userId}),
-        Campaigns.find({uid: this.userId})
+        Mappings.find({uid: this.userId, is_deleted: null}, {sort: {timestamp_utc: -1}}),
+        Campaigns.find({uid: this.userId, is_deleted: null})
     ];
 });
 
@@ -63,8 +63,8 @@ Meteor.publish("facebook", function (brand) {
 
     return [
         FBPages.find({page_id: page_id}),
-        FBPosts.find({page_id: page_id}),
-        FBEvents.find({page_id: page_id}),
+        FBPosts.find({page_id: page_id, is_deleted: null}),
+        FBEvents.find({page_id: page_id, is_deleted: null}),
         FBComments.find({post_id: {$exists: true, $in: postid_list}})
     ];
 });
@@ -76,7 +76,7 @@ Meteor.publish("twitter", function (brand) {
     var twitter_id = brand_obj.id;
 
     return [
-        TWTweets.find({tw_id: twitter_id}, {sort: {created_at: -1}})
+        TWTweets.find({tw_id: twitter_id, is_deleted: null}, {sort: {created_at: -1}})
     ];
 });
 

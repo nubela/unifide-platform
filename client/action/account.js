@@ -279,4 +279,7 @@ function clear_cache() {
     _FBOverview.remove({});
     _FBActivity.remove({});
     _TWOverview.remove({});
+    _TWActivity.remove({});
+    _FSQOverview.remove({});
+    _FSQActivity.remove({});
 }

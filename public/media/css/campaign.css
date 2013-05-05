@@ -1,3 +1,6 @@
+.rendering {
+  min-height: 800px; }
+
 .campaign .main-title {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -6,17 +9,31 @@
   border-bottom: 1px solid #cccccc; }
 .campaign .input-append {
   margin-top: 30px !important; }
+.campaign .spacing10 {
+  height: 10px;
+  display: block; }
+.campaign .spacing20 {
+  height: 20px;
+  display: block; }
 .campaign .search-input {
   width: 300px; }
+.campaign button {
+  margin-right: 10px; }
 .campaign table {
-  margin-top: 30px !important;
-  width: 100%; }
+  margin-top: 15px !important;
+  width: 100%;
+  font-size: 12px; }
   .campaign table thead td {
+    padding-bottom: 5px;
     background: #eeeeee;
     height: 20px !important;
-    font-weight: bold; }
+    font-weight: bold;
+    font-size: 11px; }
   .campaign table td {
     padding: 10px; }
+  .campaign table tbody td {
+    background-color: #f9f9f9;
+    cursor: pointer; }
 
 .campaign-view {
   padding: 30px 5px; }
@@ -243,3 +260,93 @@
   margin-left: 20px; }
   .campaign-schedule-datetime #schedule-time input {
     width: 180px; }
+
+.campaign-manage {
+  margin-bottom: 60px !important; }
+  .campaign-manage .selection {
+    width: 25px; }
+    .campaign-manage .selection input {
+      margin-top: -3px; }
+  .campaign-manage .type {
+    width: 90px; }
+  .campaign-manage .platform {
+    min-width: 100px; }
+  .campaign-manage .title-content {
+    width: 55%;
+    overflow: hidden; }
+  .campaign-manage .title-bold {
+    font-weight: 600; }
+  .campaign-manage .state {
+    width: 25px; }
+  .campaign-manage .created {
+    text-align: right;
+    width: 170px; }
+  .campaign-manage .icon-nav {
+    margin-top: 3px;
+    margin-left: 10px;
+    padding: 5px;
+    cursor: pointer; }
+  .campaign-manage .title-gray {
+    color: #999999; }
+  .campaign-manage .expanded {
+    padding: 20px;
+    background-color: white; }
+  .campaign-manage .expanded-title {
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 700; }
+  .campaign-manage .expanded-desc {
+    font-size: 12px; }
+  .campaign-manage .expanded-datetime {
+    color: #999999; }
+  .campaign-manage .expanded-edit {
+    margin-right: 20px;
+    padding-right: 20px;
+    border-right: 1px solid #eeeeee;
+    display: block; }
+  .campaign-manage .type-facebook {
+    background-image: url("/media/img/facebook-64-black.png");
+    background-size: cover;
+    display: block;
+    height: 20px;
+    width: 20px; }
+  .campaign-manage .type-twitter {
+    background-image: url("/media/img/twitter-64-black.png");
+    background-size: cover;
+    display: block;
+    height: 20px;
+    width: 20px; }
+  .campaign-manage .type-foursquare {
+    background-image: url("/media/img/foursquare-64-black.png");
+    background-size: cover;
+    display: block;
+    height: 20px;
+    width: 20px; }
+  .campaign-manage .type-campaign {
+    background-image: url("/media/img/html5-64-black.png");
+    background-size: cover;
+    display: block;
+    height: 20px;
+    width: 20px; }
+  .campaign-manage .type-blog {
+    background-image: url("/media/img/web-64-black.png");
+    background-size: cover;
+    display: block;
+    height: 20px;
+    width: 20px; }
+  .campaign-manage .type-android {
+    background-image: url("/media/img/android-64-black.png");
+    background-size: cover;
+    display: block;
+    height: 20px;
+    width: 20px; }
+  .campaign-manage .type-ios {
+    background-image: url("/media/img/apple-64-black.png");
+    background-size: cover;
+    display: block;
+    height: 20px;
+    width: 20px; }
+
+.selected-buttons {
+  margin-left: 5px;
+  display: none; }
