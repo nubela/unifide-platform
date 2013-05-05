@@ -108,15 +108,16 @@ template name="order_table"
                     small
                         <span class="heydings">l</span> Listing {{current_orders}} - {{max_orders}} out of {{total_orders}} newest orders
             > br
-            <!---
+
+            {{#if is_filtered}}
             .row-fluid
                 .span6
                     .share.mrl#filtered-box
                         ul
                             li.text-center
-                                Showing all orders from <strong>Some Object</strong>
+                                Showing only orders from <br><strong>{{filtered_item_name}}</strong>
                         a.btn.btn-primary.btn-block.btn-large.appnav href="/order" | Remove filter
-            --->
+            {{/if}}
 
         > br
         {{#if has_orders}}

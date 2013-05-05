@@ -165,20 +165,21 @@
                 </p>
             </div>
             <br />
-            <!---
+
+            {{#if is_filtered}}
             <div class="row-fluid">
                 <div class="span6">
                     <div class="share mrl" id="filtered-box">
                         <ul>
                             <li class="text-center">
-                                Showing all orders from <strong>Some Object</strong>
+                                Showing only orders from <br><strong>{{filtered_item_name}}</strong>
                             </li>
                         </ul>
                         <a href="/order" class="btn btn-primary btn-block btn-large appnav">Remove filter</a>
                     </div>
                 </div>
             </div>
-            --->
+            {{/if}}
         </div>
 
         <br />

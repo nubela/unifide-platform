@@ -46,6 +46,13 @@ Template.order_table.max_orders = ->
 Template.order_table.has_pagination = ->
     ORDERObj.find(cursorFilter(), {limit: ORDERS_PAGE_PAGE}).fetch().length < ORDERObj.find(cursorFilter()).count()
 
+Template.order_table.is_filtered = -> isFilter()
+
+Template.order_table.filtered_item_name = ->
+    item = ORDERObj.findOne(cursorFilter())
+    console.log(item)
+    item.object.name
+
 Template.order_table.pagination = ->
     total_pages = ORDERObj.find(cursorFilter()).count() / ORDERS_PAGE_PAGE
     pages = []
@@ -107,6 +114,9 @@ Template.order_table.events =
 
 capitaliseFirstLetter = (string) ->
     string.charAt(0).toUpperCase() + (string.slice 1)
+
+isFilter = ->
+    (Session.get ORDER_SESSION.OBJ_ID) != "null" && (Session.get ORDER_SESSION.OBJ_ID) != null
 
 cursorFilter = ->
     if (Session.get ORDER_SESSION.OBJ_ID) != "null" && (Session.get ORDER_SESSION.OBJ_ID) != null
