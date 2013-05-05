@@ -129,18 +129,35 @@ template name="order_table"
                     td
                         User
                     td
-                        Timestamp
+                        Order Date
                     td
                         Status
                     td
                         Actions
 
             tbody
-                {{> table_row}}
-                {{> table_row}}
-                {{> table_row}}
-                {{> table_row}}
-                {{> table_row}}
+                {{#each orders}}
+                tr.order-entry
+                    td
+                        {{id}}
+                    td
+                        {{item_name}}
+                    td
+                        {{user_name}}
+                    td
+                        {{date}}
+                    td
+                        span.badge.badge-info | New
+                    td
+                        .btn-toolbar
+                            .btn-group
+                                a.view-details.order-action.btn.btn-disabled.appnav href="/order/details/asd" title="See details on this order"
+                                    > i.fui-eye-16
+                                a.view-list-items.order-action.btn.btn-disabled.appnav href="#" title="Show all orders from this item"
+                                    > i.fui-menu-16
+                                a.view-change-statusitems.order-action.btn.btn-disabled.appnav href="/order/update/asdgw" title="Update order status"
+                                    > i.fui-new-16
+                {{/each}}
 
         .pagination
             ul

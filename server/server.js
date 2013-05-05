@@ -162,7 +162,14 @@ function get_biz_info() {
     return JSON.parse(resp.content);
 }
 
+function get_all_orders() {
+    this.unblock();
+    resp = Meteor.http.get(BACKEND_URL + "order/")
+    return JSON.parse(resp.content);
+}
+
 Meteor.methods({
+    get_all_orders: get_all_orders,
     get_biz_info: get_biz_info,
     put_container: put_container,
     get_child_containers_and_items: get_child_containers_and_items,

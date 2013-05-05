@@ -23,6 +23,18 @@ Template.order.view = ->
 
 #--- orders_table template bindings ---#
 
+Template.order_table.orders = ->
+    orders = ORDERObj.find({}, {limit: 10}).fetch()
+    formatted_lis = []
+    _.each orders, (order) ->
+        formatted_lis.push
+            id: order._id
+            date: capitaliseFirstLetter(humanize.naturalDay(order.timestamp_utc))
+            user_name: order.user.first_name + " " + order.user.last_name
+            item_name: order.object.name
+    formatted_lis
+
+
 Template.order_table.rendered = ->
     $(".order-action").tooltip(
         placement: "top"
@@ -46,3 +58,12 @@ Template.order_table.events =
             $(anchor).removeClass "btn-primary"
             $(anchor).addClass "btn-disabled"
 
+#--- util ---#
+
+capitaliseFirstLetter = (string) ->
+    string.charAt(0).toUpperCase() + (string.slice 1)
+
+@init_orders = ->
+    Meteor.call "get_all_orders", (error, content) ->
+        _.each content.orders, (order) ->
+            ORDERObj.insert(order)

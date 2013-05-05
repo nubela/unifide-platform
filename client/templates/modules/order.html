@@ -195,7 +195,7 @@
                         User
                     </td>
                     <td>
-                        Timestamp
+                        Order Date
                     </td>
                     <td>
                         Status
@@ -207,11 +207,40 @@
             </thead>
 
             <tbody>
-                {{> table_row}}
-                {{> table_row}}
-                {{> table_row}}
-                {{> table_row}}
-                {{> table_row}}
+                {{#each orders}}
+                <tr class="order-entry">
+                    <td>
+                        {{id}}
+                    </td>
+                    <td>
+                        {{item_name}}
+                    </td>
+                    <td>
+                        {{user_name}}
+                    </td>
+                    <td>
+                        {{date}}
+                    </td>
+                    <td>
+                        <span class="badge badge-info">New</span>
+                    </td>
+                    <td>
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <a href="/order/details/asd" title="See details on this order" class="view-details order-action btn btn-disabled appnav">
+                                    <i class="fui-eye-16" />
+                                </a>
+                                <a href="#" title="Show all orders from this item" class="view-list-items order-action btn btn-disabled appnav">
+                                    <i class="fui-menu-16" />
+                                </a>
+                                <a href="/order/update/asdgw" title="Update order status" class="view-change-statusitems order-action btn btn-disabled appnav">
+                                    <i class="fui-new-16" />
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
             </tbody>
         </table>
 

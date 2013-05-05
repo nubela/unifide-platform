@@ -63,11 +63,13 @@ function update_order(view_type, obj_id) {
     set_page_url();
     Session.set(ORDER_SESSION.OBJ_ID, obj_id);
     Session.set("page_template", "order");
+    init_order();
 }
 
 function order_url() {
     Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.OVERVIEW);
     static_url();
+    init_orders();
 }
 
 function static_url() {
