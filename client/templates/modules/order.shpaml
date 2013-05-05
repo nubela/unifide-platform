@@ -38,11 +38,20 @@ template name="order_details"
             p
                 small
                     <span class="heydings">b</span> User noted "<strong>{{order_info.special_notes}}</strong>"
+            {{#if order_info.public_note}}
+            p
+                small
+                    <span class="heydings">b</span> Order note "<strong>{{order_info.public_note}}</strong>"
+            {{/if}}
+            {{#if order_info.private_note}}
+            p
+                small
+                    <span class="heydings">b</span> Private Order note "<strong>{{order_info.private_note}}</strong>"
+            {{/if}}
             {{/if}}
             p
                 > br
-                a.btn-large.btn href="#" | View Item/Event
-                a.btn-large.btn.btn-primary href="/order/update/({{order_info.id}})" | Update Order Status
+                a.btn-large.btn.btn-primary href="/order/update/{{order_info.id}}" | Update Order Status
 
         > br
         > br
@@ -73,21 +82,45 @@ template name="order_update"
             fieldset
                 <!--- hidden fields --->
                 > input type="hidden" name="redirect_to" value='{{redirect_url}}'
+                > input type="hidden" name="order_id" value='{{order_id}}'
 
                 .control-group
                     label for="order_status" | Order Status
-                    select id="order_status"
-                        option | Fresh Order
-                        option | Processing
-                        option | Shipped
-                        option | Cancel Order
+                    select id="order_status" name="status"
+                        option value="{{current.status}}" selected | (Current Status) {{current.status}}
+                        option value="New" | Fresh Order
+                        option value="Processing" | Processing
+                        option value="Shipped" | Shipped
+                        option value="Cancelled" | Cancel Order
+                        option value="On Hold" | On Hold
 
                 .control-group
-                    label id="description" | Order Notes
-                    > textarea rows="3" name="description" id="description" placeholder="What does your business do?"
+                    label id="description" | Notes (Visible to user)
+                    {{#if current.public_note}}
+                    textarea rows="3" name="public_note" id="description" placeholder="Your order will be expedited!" | {{current.public_note}}
+                    {{else}}
+                    > textarea rows="3" name="public_note" id="description" placeholder="Your order will be expedited!"
+                    {{/if}}
 
                 .control-group
-                    button.btn-large.btn.btn-primary.submit-btn#bizinfo-submit-btn | Save
+                    label id="description" | Private Notes (Visible only to you)
+                    {{#if current.private_note}}
+                    textarea rows="3" name="private_note" id="description" placeholder="User called and requested for.." | {{current.private_note}}
+                    {{else}}
+                    > textarea rows="3" name="private_note" id="description" placeholder="User called and requested for.."
+                    {{/if}}
+
+                <!---
+                .control-group
+                    label.checkbox for="update_user"
+                        > span.icon
+                        > span.icon-to-fade
+                        > input type="checkbox" id="update_user" name="update_user_email"
+                        Send email to user to update this order status change?
+                --->
+
+                .control-group
+                    button.btn-large.btn.btn-primary.submit-btn#bizinfo-submit-btn | Update
 
 template name="order_table"
     .right-container
@@ -141,7 +174,7 @@ template name="order_table"
                     td
                         {{date}}
                     td
-                        span.badge.badge-info | New
+                        span.badge.badge-info | {{status}}
                     td
                         .btn-toolbar
                             .btn-group
@@ -149,7 +182,7 @@ template name="order_table"
                                     > i.fui-eye-16
                                 a.view-list-items.order-action.btn.btn-disabled.appnav href="/order/filtered/{{obj_id}}" title="Show all orders from this item"
                                     > i.fui-menu-16
-                                a.view-change-statusitems.order-action.btn.btn-disabled.appnav href="/order/update/asdgw" title="Update order status"
+                                a.view-change-statusitems.order-action.btn.btn-disabled.appnav href="/order/update/{{id}}" title="Update order status"
                                     > i.fui-new-16
                 {{/each}}
         {{else}}
@@ -167,15 +200,6 @@ template name="order_table"
                     a href="{{pagination.prev.url}}"
                         > img src="/media/img/pager/previous.png"
                 {{/if}}
-                {{#each pagination.pages}}
-                {{#if is_active}}
-                li.active
-                    a href="{{url}}" | {{page_no}}
-                {{else}}
-                li
-                    a href="{{url}}" | {{page_no}}
-                {{/if}}
-                {{/each}}
                 {{#if pagination.next.has}}
                 li.next
                     a href="{{pagination.next.url}}"

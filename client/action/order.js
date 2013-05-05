@@ -77,7 +77,7 @@
   };
 
   Template.order_table.pagination = function() {
-    var current_page, dic, has_next, has_prev, next_page, obj_id, pages, prev_page, total_pages;
+    var cap, current_page, dic, has_next, has_prev, next_page, obj_id, pages, prev_page, total_pages;
 
     total_pages = ORDERObj.find(cursorFilter()).count() / ORDERS_PAGE_PAGE;
     pages = [];
@@ -87,7 +87,12 @@
     has_next = current_page < total_pages;
     has_prev = current_page > 1;
     obj_id = Session.get(ORDER_SESSION.OBJ_ID);
-    _.each(_.range(1, total_pages + 1), function(page_no) {
+    if (total_pages <= 5) {
+      cap = total_pages + 1;
+    } else {
+      cap = 6;
+    }
+    _.each(_.range(1, cap), function(page_no) {
       return pages.push({
         url: "/",
         page_no: page_no,
@@ -119,7 +124,8 @@
         date: capitaliseFirstLetter(humanize.naturalDay(order.timestamp_utc)),
         user_name: order.user.first_name + " " + order.user.last_name,
         item_name: order.object.name,
-        obj_id: order.obj_id
+        obj_id: order.obj_id,
+        status: order.status
       });
     });
     return formatted_lis;
@@ -169,7 +175,9 @@
         readable_date: humanize.date("l, jS F Y h:i:s A", item.timestamp_utc),
         user_name: item.user.first_name + " " + item.user.last_name,
         quantity: item.quantity,
-        special_notes: item.special_notes
+        special_notes: item.special_notes,
+        public_note: item.status_public_notes,
+        private_note: item.status_private_notes
       };
     } else {
       return {};
@@ -213,6 +221,54 @@
     } else {
       return [];
     }
+  };
+
+  Template.order_update.submit_url = function() {
+    var backend_url;
+
+    backend_url = BACKEND_URL;
+    return "" + backend_url + "order/status/";
+  };
+
+  Template.order_update.events = {
+    "click .checkbox": function(evt) {
+      var target;
+
+      target = evt.target;
+      return $(target).toggleClass("checked");
+    }
+  };
+
+  Template.order_update.order_id = function() {
+    return Session.get(ORDER_SESSION.OBJ_ID);
+  };
+
+  Template.order_update.current = function() {
+    var dic, item, obj_id;
+
+    obj_id = Session.get(ORDER_SESSION.OBJ_ID);
+    item = ORDERObj.findOne({
+      _id: obj_id
+    });
+    if (item) {
+      dic = {
+        status: item.status,
+        private_note: item.status_private_notes,
+        public_note: item.status_private_notes
+      };
+      console.log(dic);
+      return dic;
+    } else {
+      return {};
+    }
+  };
+
+  Template.order_update.redirect_url = function() {
+    var obj_id, platform_url;
+
+    obj_id = Session.get(ORDER_SESSION.OBJ_ID);
+    platform_url = PLATFORM_URL;
+    return "" + platform_url + "order/details/" + obj_id;
   };
 
   capitaliseFirstLetter = function(string) {

@@ -62,7 +62,10 @@ Template.order_table.pagination = ->
     has_next = current_page < total_pages
     has_prev = current_page > 1
     obj_id = Session.get ORDER_SESSION.OBJ_ID
-    _.each _.range(1, total_pages + 1), (page_no) ->
+    if total_pages <= 5
+        cap = total_pages + 1
+    else cap = 6
+    _.each _.range(1, cap), (page_no) ->
         pages.push
             url: "/"
             page_no: page_no
@@ -87,6 +90,7 @@ Template.order_table.orders = ->
             user_name: order.user.first_name + " " + order.user.last_name
             item_name: order.object.name
             obj_id: order.obj_id
+            status: order.status
     formatted_lis
 
 
@@ -124,6 +128,8 @@ Template.order_details.order_info = ->
         user_name: item.user.first_name + " " + item.user.last_name
         quantity: item.quantity
         special_notes: item.special_notes
+        public_note: item.status_public_notes
+        private_note: item.status_private_notes
         }
     else {}
 
@@ -153,8 +159,39 @@ Template.order_details.user_info = ->
         dic
     else []
 
-#--- util ---#
+#--- order_update template methods ---#
 
+Template.order_update.submit_url = ->
+    backend_url = BACKEND_URL
+    return "#{ backend_url }order/status/"
+
+Template.order_update.events =
+    "click .checkbox": (evt) ->
+        target = evt.target
+        $(target).toggleClass "checked"
+
+Template.order_update.order_id = ->
+    Session.get ORDER_SESSION.OBJ_ID
+
+Template.order_update.current = ->
+    obj_id = Session.get ORDER_SESSION.OBJ_ID
+    item = ORDERObj.findOne({_id: obj_id})
+    if item
+        dic = {
+            status: item.status
+            private_note: item.status_private_notes
+            public_note: item.status_private_notes
+        }
+        console.log dic
+        dic
+    else {}
+
+Template.order_update.redirect_url = ->
+    obj_id = Session.get ORDER_SESSION.OBJ_ID
+    platform_url = PLATFORM_URL
+    "#{ platform_url }order/details/#{ obj_id }"
+
+#--- util ---#
 
 capitaliseFirstLetter = (string) ->
     string.charAt(0).toUpperCase() + (string.slice 1)
