@@ -24,6 +24,99 @@
     </div>
 </template>
 
+<template name="order_details">
+    <div class="right-container">
+        <div class="container-title">
+            <h2>
+                Order for Green Tea
+            </h2>
+            <p>
+                <span class="lead">
+                    (fgs-9g8sd-faf80-9)
+                </span>
+            </p>
+            <p>
+                <span class="badge badge-info">New</span>
+            </p>
+            <p>
+                <small>
+                    <span class="heydings">l</span> Order made on <strong>23rd Feb 2013</strong>
+                </small>
+            </p>
+            <p>
+                <small>
+                    <span class="heydings">A</span> <strong>Steven Goh Jian Wen</strong>
+                </small>
+            </p>
+            <p>
+                <small>
+                    <span class="heydings">t</span> Order for <strong>2 unit(s)</strong>
+                </small>
+            </p>
+            <p>
+                <small>
+                    <span class="heydings">b</span> User noted "<strong>Please use smaller packaging</strong>"
+                </small>
+            </p>
+            <p>
+                <br />
+                <a href="#" class="btn-large btn">View Item/Event</a>
+                <a href="#" class="btn-large btn btn-primary">Update Order Status</a>
+            </p>
+        </div>
+
+        <br />
+        <br />
+        <h3>
+            User Details
+        </h3>
+        <table class="table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>
+                        Type
+                    </td>
+                    <td>
+                        Data
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Email
+                    </td>
+                    <td>
+                        <strong>
+                            nubela@gmail.com
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Full Name
+                    </td>
+                    <td>
+                        <strong>
+                            Steven Goh
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Address
+                    </td>
+                    <td>
+                        <strong>
+                            Blk Someting Anchorvale Crescent #08-123
+                        </strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
 <template name="order_update">
     <div class="form-holder well">
         <form method="POST" action="{{submit_url}}" data-validate="parsley" id="bizinfo-update-form">
@@ -149,7 +242,7 @@
         <td>
             <div class="btn-toolbar">
                 <div class="btn-group">
-                    <a href="#" title="See details on this order" class="view-details order-action btn btn-disabled appnav">
+                    <a href="/order/details/asd" title="See details on this order" class="view-details order-action btn btn-disabled appnav">
                         <i class="fui-eye-16" />
                     </a>
                     <a href="#" title="Show all orders from this item" class="view-list-items order-action btn btn-disabled appnav">

@@ -15,6 +15,64 @@ template name="order"
 
                     {{{view}}}
 
+template name="order_details"
+    .right-container
+        .container-title
+            h2
+                Order for Green Tea
+            p
+                span.lead
+                    (fgs-9g8sd-faf80-9)
+            p
+                span.badge.badge-info | New
+            p
+                small
+                    <span class="heydings">l</span> Order made on <strong>23rd Feb 2013</strong>
+            p
+                small
+                    <span class="heydings">A</span> <strong>Steven Goh Jian Wen</strong>
+            p
+                small
+                    <span class="heydings">t</span> Order for <strong>2 unit(s)</strong>
+            p
+                small
+                    <span class="heydings">b</span> User noted "<strong>Please use smaller packaging</strong>"
+            p
+                > br
+                a.btn-large.btn href="#" | View Item/Event
+                a.btn-large.btn.btn-primary href="#" | Update Order Status
+
+        > br
+        > br
+        h3
+            User Details
+        table.table-striped.table-hover
+            thead
+                tr
+                    td
+                        Type
+                    td
+                        Data
+            tbody
+                tr
+                    td
+                        Email
+                    td
+                        strong
+                            nubela@gmail.com
+                tr
+                    td
+                        Full Name
+                    td
+                        strong
+                            Steven Goh
+                tr
+                    td
+                        Address
+                    td
+                        strong
+                            Blk Someting Anchorvale Crescent #08-123
+
 template name="order_update"
     .form-holder.well
         form#bizinfo-update-form method="POST" action="{{submit_url}}" data-validate="parsley"
@@ -102,7 +160,7 @@ template name="table_row"
         td
             .btn-toolbar
                 .btn-group
-                    a.view-details.order-action.btn.btn-disabled.appnav href="#" title="See details on this order"
+                    a.view-details.order-action.btn.btn-disabled.appnav href="/order/details/asd" title="See details on this order"
                         > i.fui-eye-16
                     a.view-list-items.order-action.btn.btn-disabled.appnav href="#" title="Show all orders from this item"
                         > i.fui-menu-16

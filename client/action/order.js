@@ -2,7 +2,8 @@
 (function() {
   this.ORDER_VIEW = {
     UPDATE: "order_view_update",
-    OVERVIEW: "order_view_overview"
+    OVERVIEW: "order_view_overview",
+    DETAILS: "order_view_details"
   };
 
   this.ORDER_SESSION = {
@@ -12,12 +13,15 @@
 
   this.ORDER_TEMPLATE = {
     OVERVIEW: "order_table",
-    UPDATE: "order_update"
+    UPDATE: "order_update",
+    DETAILS: "order_details"
   };
 
   Template.order.view = function() {
     if ((Session.get(ORDER_SESSION.VIEW_TYPE)) === ORDER_VIEW.UPDATE) {
       return Template[ORDER_TEMPLATE.UPDATE]();
+    } else if ((Session.get(ORDER_SESSION.VIEW_TYPE)) === ORDER_VIEW.DETAILS) {
+      return Template[ORDER_TEMPLATE.DETAILS]();
     } else {
       return Template[ORDER_TEMPLATE.OVERVIEW]();
     }

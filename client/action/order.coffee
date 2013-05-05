@@ -1,6 +1,7 @@
 @ORDER_VIEW =
     UPDATE: "order_view_update"
     OVERVIEW: "order_view_overview"
+    DETAILS: "order_view_details"
 
 @ORDER_SESSION =
     ORDER_ID: "order_id"
@@ -9,10 +10,13 @@
 @ORDER_TEMPLATE =
     OVERVIEW: "order_table"
     UPDATE: "order_update"
+    DETAILS: "order_details"
 
 Template.order.view = ->
     if (Session.get ORDER_SESSION.VIEW_TYPE) == ORDER_VIEW.UPDATE
         Template[ORDER_TEMPLATE.UPDATE]()
+    else if (Session.get ORDER_SESSION.VIEW_TYPE) == ORDER_VIEW.DETAILS
+        Template[ORDER_TEMPLATE.DETAILS]()
     else
         Template[ORDER_TEMPLATE.OVERVIEW]()
 

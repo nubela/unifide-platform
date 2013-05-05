@@ -39,7 +39,8 @@ var myAppRouter = Backbone.Router.extend({
         "items": "items_url",
         "items/*suburl": "items_url",
         "order": "order_url",
-        "order/update/:order_id": "update_order"
+        "order/:view_type/:order_id": "update_order",
+        "order/:view_type/:order_id": "update_order"
     },
     static_url: static_url,
     account_url: account_url,
@@ -52,10 +53,14 @@ var myAppRouter = Backbone.Router.extend({
     update_order: update_order
 });
 
-function update_order(order_id) {
+function update_order(view_type, order_id) {
+    if (view_type === "update") {
+        Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.UPDATE);
+    } else {
+        Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.DETAILS);
+    }
     set_page_url();
     Session.set(ORDER_SESSION.ORDER_ID, order_id);
-    Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.UPDATE);
     Session.set("page_template", "order");
 }
 
