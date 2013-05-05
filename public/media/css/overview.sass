@@ -28,16 +28,7 @@
         -webkit-border-radius: 3px
         -moz-border-radius: 3px
         border-radius: 3px
-        height: 320px
-
-    .overview-website
-        background: #ffffff
-        margin-bottom: 30px
-        padding: 10px
-        -webkit-border-radius: 3px
-        -moz-border-radius: 3px
-        border-radius: 3px
-        height: 450px
+        //height: 320px
 
     .overview-mobile
         background: #ffffff
@@ -50,33 +41,24 @@
 
 .overview-widget, .facebook, .twitter, .foursquare
     .table-hover
-        margin-top: 2px
-        margin-bottom: 10px
-        font-size: 12px
-
-    .overflow
-        overflow: hidden
-        height: 270px
+        margin-top: 0px
+        margin-bottom: 0px
+        font-size: 11px
 
     table.table-hover td
-        height: 50px
+        height: 40px
         max-height: 90px
 
     .facebook-profile-pic, .twitter-profile-pic, .foursquare-profile-pic
-        width: 50px
-
-    .facebook-profile
-        width: 160px
+        width: 40px
 
     .facebook-profile-name
         font-weight: bold
-        font-size: 11px
 
     .facebook-post-time
         font-size: 10px
-
-    .facebook-post-content
-        width: 390px
+        color: #999999
+        font-weight: 600
 
     .facebook-view-post
         color: #0072C6
@@ -87,7 +69,20 @@
     .twitter-profile-handle
         margin-left: 5px
         font-size:  10px
-        color: #cccccc
+        color: #999999
+
+    .twitter-tweet-time
+        color: #999999
+
+    .twitter-reply, .tweet-links
+        color: #0072C6
+
+    .twitter-reply-icon
+        -moz-transform: scaleX(-1)
+        -o-transform: scaleX(-1)
+        -webkit-transform: scaleX(-1)
+        transform: scaleX(-1)
+        opacity: 0.8
 
     .foursquare-tip-content
         padding-top: 10px
@@ -122,3 +117,16 @@ table.table-hover > tbody > tr:first-child > td
     td
         border-top: none
         border-bottom: 1px solid #ececec
+
+
+.no-data
+    margin-top: 30px
+    margin-bottom: 25px
+    text-align: center
+    color: #cccccc
+    font-weight: 600
+
+#twitter-reply-modal
+    textarea
+        resize: none
+        width: 97%

@@ -8,12 +8,36 @@
   margin-top: 30px !important; }
 .facebook .search-input {
   width: 300px; }
+.facebook .table-hover {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 11px; }
+.facebook table.table-hover td {
+  height: 40px;
+  max-height: 90px; }
+.facebook .facebook-profile-pic, .facebook .twitter-profile-pic, .facebook .foursquare-profile-pic {
+  width: 40px; }
+.facebook .facebook-profile-name {
+  font-weight: bold; }
+.facebook .facebook-post-time {
+  font-size: 10px;
+  color: #999999;
+  font-weight: 600; }
+.facebook .facebook-view-post {
+  color: #0072c6; }
 .facebook table {
   margin-top: 30px !important;
+  margin-bottom: 60px !important;
   width: 100%; }
   .facebook table thead td {
     background: #eeeeee;
+    padding-bottom: 5px;
     height: 20px !important;
     font-weight: bold; }
   .facebook table td {
     padding: 10px; }
+  .facebook table .icon-nav {
+    margin-top: 3px;
+    margin-left: 10px;
+    padding: 5px;
+    cursor: pointer; }

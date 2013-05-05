@@ -21,14 +21,27 @@ Template.campaign.events = {
         else { $('#platform-all').text('Select all') }
     },
     'click #btn-publish': function() {
-        /*Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function(error, result) {
+        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function(error, result) {
             if (result.statusCode !== 200) { console.log(result.error); }
             else { Router.navigate('campaign', true); }
-        });*/
-        load_content({}, $('.campaign-type').val(), "published")
+        });
     },
     'click #btn-schedule': function() {
-        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "scheduled"), function(error, result) {
+        $('#schedule-date').datetimepicker({
+            pickTime: false
+        });
+        $('#schedule-time').datetimepicker({
+            pickDate: false,
+            pick12HourFormat: true,
+            pickSeconds: false
+        });
+        $('#schedule_modal').modal();
+    },
+    'click #btn-schedule-modal': function() {
+        var args = load_content({}, $('.campaign-type').val(), "scheduled")
+        args["scheduled_datetime"] = load_scheduled_datetime();
+        Meteor.call("http_api", "put", "campaign/data/", args, function(error, result) {
+            $('#schedule_modal').modal('hide');
             if (result.statusCode !== 200) { console.log(result.error); }
             else { Router.navigate('campaign', true); }
         });
@@ -51,12 +64,12 @@ Template.campaign_event_new.rendered = function() {
         pickDate: false,
         pick12HourFormat: true,
         pickSeconds: false
-    })
+    });
     $('#event-time-end').datetimepicker({
         pickDate: false,
         pick12HourFormat: true,
         pickSeconds: false
-    })
+    });
     $('#desc-editor').wysihtml5();
 
     page_render(this);
@@ -117,13 +130,25 @@ function load_content(args, type, state) {
         var date = $('.campaign-post-date-input').val();
         var time_start = $('.campaign-post-time-from-input').val();
         var time_end = $('.campaign-post-time-to-input').val();
-        var epoch_start = new Date(date + " " + time_start).getTime()/1000;
-        var epoch_end = new Date(date + " " + time_end).getTime()/1000;
-        args["datetime_start"] = epoch_start;
-        args["datetime_end"] = epoch_end;
+        if (time_start) {
+            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            args["datetime_start"] = epoch_start;
+        }
+        if (time_end) {
+            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            args["datetime_end"] = epoch_end;
+        }
     }
 
     return args;
+}
+
+
+function load_scheduled_datetime(){
+    var date = $('.campaign-post-date-input-schedule').val();
+    var time = $('.campaign-post-time-from-input-schedule').val();
+    var epoch = new Date(date + " " + time).getTime()/1000;
+    return epoch;
 }
 
 function page_render(obj) {

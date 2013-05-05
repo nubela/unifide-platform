@@ -55,6 +55,9 @@
       width: 100px; }
     .campaign-post-new .platform label.push {
       width: 300px; }
+    .campaign-post-new .platform .platform-check {
+      opacity: 1 !important;
+      filter: alpha(opacity=1); }
   .campaign-post-new textarea {
     padding: 10px;
     resize: none;
@@ -221,3 +224,22 @@
     background-color: #3498db; }
   .campaign-post-submit .btn-info:hover, .campaign-post-submit .btn-info:focus {
     background-color: #5dade2; }
+
+.modal-footer .btn {
+  margin-right: 0px !important; }
+
+.campaign-schedule-datetime .schedule-date {
+  margin-left: 5px;
+  width: 240px; }
+.campaign-schedule-datetime .schedule-time {
+  margin-left: 5px;
+  width: 150px; }
+.campaign-schedule-datetime #schedule-date {
+  margin-top: 5px !important; }
+  .campaign-schedule-datetime #schedule-date input {
+    width: 180px; }
+.campaign-schedule-datetime #schedule-time {
+  margin-top: 5px !important;
+  margin-left: 20px; }
+  .campaign-schedule-datetime #schedule-time input {
+    width: 180px; }

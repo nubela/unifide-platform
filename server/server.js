@@ -64,6 +64,7 @@ Meteor.publish("facebook", function (brand) {
     return [
         FBPages.find({page_id: page_id}),
         FBPosts.find({page_id: page_id}),
+        FBEvents.find({page_id: page_id}),
         FBComments.find({post_id: {$exists: true, $in: postid_list}})
     ];
 });

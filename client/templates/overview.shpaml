@@ -2,124 +2,104 @@ template name="overview"
     .container-fluid
         .overview
             .row-fluid
-
-
-                <!--- facebook block --->
                 .span6
+                    <!--- facebook block --->
                     {{> overview_facebook}}
 
-
-                <!--- twitter block --->
-                .span6
+                    <!--- twitter block --->
                     {{> overview_twitter}}
 
-
-            .row-fluid
-
-                <!--- 4sq block --->
                 .span6
+                    <!--- website block --->
+                    {{> overview_web}}
+
+                    <!--- web mentions block --->
+                    {{> overview_brandmention}}
+
+                    <!--- 4sq block --->
                     {{> overview_foursquare}}
-
-
-                <!--- web mentions block --->
-                .span6
-                    .overview-widget.container-shadow
-                        .title | WEB MENTIONS
-                        .overflow
-                            table.table.table-hover.entry-table
-                                tbody
-                                    {{#each web_mentions_overview}}
-                                    tr
-                                        td
-                                            span.badge | {{keyword}}
-                                        td
-                                            a href="{{url}}" target="_blank"
-                                                p | {{title}}
-                                                p.url
-                                                    i | {{url}}
-                                    {{/each}}
-                        <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>
-
-
-            .row-fluid
-
-                <!--- website block --->
-                .span8
-                    .overview-website.container-shadow
-                        .title | WEBSITE
-                        table.table.table-hover
-                            tbody
-                                {{#each foursquare_overview}}
-                                {{/each}}
-
-
-                .span4
-
-                    <!--- iOS block --->
-                    .overview-mobile.container-shadow
-                        .title | iOS
-                        table.table.table-hover
-                            tbody
-                                {{#each ios_mentions_overview}}
-                                {{/each}}
-
-                    <!--- android block --->
-                    .overview-mobile.container-shadow
-                        .title | ANDROID
-                        table.table.table-hover
-                            tbody
-                                {{#each ios_mentions_overview}}
-                                {{/each}}
-
 
 
 template name="overview_facebook"
     .overview-widget.container-shadow
         .title | FACEBOOK
-        .overflow
+        {{#if check_facebook}}
             table.table.table-hover#overview-facebook
                 tbody
                     {{#each facebook_overview}}
-                    tr
-                        td.facebook-profile-pic
-                            <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
-                        td.facebook-profile
-                            .facebook-profile-name
-                                {{name}}
-                            .facebook-post-time
-                                {{datetime}}
-                        td.facebook-post-content
-                            {{message}}
-                            <br>
-                            <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
+                        tr
+                            td.facebook-profile-pic
+                                <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
+                            td
+                                .facebook-profile-name.pull-left
+                                    {{name}}&nbsp;
+                                {{message}}
+                                > div.clear
+                                .facebook-post-time.pull-left
+                                    {{datetime}}
+                                a.facebook-view-post.pull-right href="{{link}}" onclick="window.open(this.href,'_blank');return false;"
+                                    View {{type}}
+                                > div.clear
                     {{/each}}
-        <a href="/facebook/page/activity" class="appnav viewmore">VIEW ALL</a>
+        {{else}}
+            .no-data
+                No Facebook activity available.
+        {{/if}}
+        {{#if check_facebook}}
+        a.appnav.viewmore href="/facebook/page/activity"
+            VIEW ALL
+        {{/if}}
 
 
 template name="overview_twitter"
     .overview-widget.container-shadow
         .title | TWITTER
-        .overflow
-            table.table.table-hover#overview-twitter
-                tbody
-                    {{#each twitter_overview}}
-                    tr
-                        td.twitter-profile-pic
-                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
-                        td
-                            <div class="pull-left">
-                                <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
-                                <div class="twitter-profile-name pull-left">{{user.name}}</div>
-                                <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
-                                </a>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="pull-right">{{created_at}}</div>
-                            <div class="clear"></div>
-                            {{fields.text}}
+        {{#if check_twitter}}
+        table.table.table-hover#overview-twitter
+            tbody
+                {{#each twitter_overview}}
+                tr
+                    td.twitter-profile-pic
+                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
+                    td
+                        .pull-left
+                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
+                            <div class="twitter-profile-name pull-left">{{user.name}}</div>
+                            <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
+                            </a>
+                            > div.clear
+                        .pull-right.twitter-tweet-time
+                            {{datetime}}
+                        > div.clear
+                        > input.tweet_id type="hidden" value="{{fields.id_str}}"
+                        > input.tweet_screen_name type="hidden" value="{{fields.user.screen_name}}"
+                        {{{parsed_text}}}
+                        > br
+                        a.twitter-reply href="#"
+                            > i.icon-share-alt.twitter-reply-icon
+                            Reply
 
-                    {{/each}}
-        <a href="/twitter/activity" class="appnav viewmore">VIEW ALL</a>
+                {{/each}}
+                #twitter-reply-modal.modal.hide.fade tabindex="-1" role="dialog" aria-hidden="true"
+                    .modal-header
+                        button.close type="button" data-dismiss="modal" aria-hidden="true"
+                            x
+                        h5
+                            Reply text
+                    .modal-body
+                        > input.tweet_id type="hidden"
+                        > textarea
+                    .modal-footer
+                        button.btn.btn-info.twitter-tweet-reply
+                            Tweet
+        {{else}}
+            .no-data
+                No Twitter activity available.
+        {{/if}}
+        {{#if check_twitter}}
+        a.appnav.viewmore href="/twitter/activity"
+            VIEW ALL
+        {{/if}}
 
 
 template name="overview_foursquare"
@@ -138,3 +118,46 @@ template name="overview_foursquare"
                                 <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;">{{fields.user.firstName}}</a> · <a href="https://foursquare.com/user/{{fields.canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;">{{createdAt}}</a>
                     {{/each}}
         <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>
+
+template name="overview_brandmention"
+    .overview-widget.container-shadow
+        .title | WEB MENTIONS
+        .overflow
+            table.table.table-hover.entry-table
+                tbody
+                    {{#if web_mentions_overview}}
+                        {{#each web_mentions_overview}}
+                        tr
+                            td
+                                span.badge | {{keyword}}
+                            td
+                                a href="{{url}}" target="_blank"
+                                    p | {{title}}
+                                    p.url
+                                        i | {{url}}
+                        {{/each}}
+                    {{else}}
+                        .no-data
+                            No web mentions activity available.
+                    {{/if}}
+        {{#if web_mentions_overview}}
+        a.appnav.viewmore href="/brand-mention"
+            VIEW ALL
+        {{/if}}
+
+template name="overview_web"
+    .overview-widget.container-shadow
+        .title | WEBSITE
+        table.table.table-hover
+            tbody
+                {{#if web_overview}}
+                    {{#each web_overview}}
+                    {{/each}}
+                {{else}}
+                    .no-data
+                        No web or mobile activity available.
+                {{/if}}
+        {{#if web_overview}}
+        a.appnav.viewmore href="/web"
+            VIEW ALL
+        {{/if}}

@@ -24,16 +24,7 @@
     padding: 8px 13px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    border-radius: 3px;
-    height: 320px; }
-  .overview .overview-website {
-    background: white;
-    margin-bottom: 30px;
-    padding: 10px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    height: 450px; }
+    border-radius: 3px; }
   .overview .overview-mobile {
     background: white;
     margin-bottom: 30px;
@@ -44,26 +35,20 @@
     height: 200px; }
 
 .overview-widget .table-hover, .facebook .table-hover, .twitter .table-hover, .foursquare .table-hover {
-  margin-top: 2px;
-  margin-bottom: 10px;
-  font-size: 12px; }
-.overview-widget .overflow, .facebook .overflow, .twitter .overflow, .foursquare .overflow {
-  overflow: hidden;
-  height: 270px; }
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 11px; }
 .overview-widget table.table-hover td, .facebook table.table-hover td, .twitter table.table-hover td, .foursquare table.table-hover td {
-  height: 50px;
+  height: 40px;
   max-height: 90px; }
 .overview-widget .facebook-profile-pic, .overview-widget .twitter-profile-pic, .overview-widget .foursquare-profile-pic, .facebook .facebook-profile-pic, .facebook .twitter-profile-pic, .facebook .foursquare-profile-pic, .twitter .facebook-profile-pic, .twitter .twitter-profile-pic, .twitter .foursquare-profile-pic, .foursquare .facebook-profile-pic, .foursquare .twitter-profile-pic, .foursquare .foursquare-profile-pic {
-  width: 50px; }
-.overview-widget .facebook-profile, .facebook .facebook-profile, .twitter .facebook-profile, .foursquare .facebook-profile {
-  width: 160px; }
+  width: 40px; }
 .overview-widget .facebook-profile-name, .facebook .facebook-profile-name, .twitter .facebook-profile-name, .foursquare .facebook-profile-name {
-  font-weight: bold;
-  font-size: 11px; }
+  font-weight: bold; }
 .overview-widget .facebook-post-time, .facebook .facebook-post-time, .twitter .facebook-post-time, .foursquare .facebook-post-time {
-  font-size: 10px; }
-.overview-widget .facebook-post-content, .facebook .facebook-post-content, .twitter .facebook-post-content, .foursquare .facebook-post-content {
-  width: 390px; }
+  font-size: 10px;
+  color: #999999;
+  font-weight: 600; }
 .overview-widget .facebook-view-post, .facebook .facebook-view-post, .twitter .facebook-view-post, .foursquare .facebook-view-post {
   color: #0072c6; }
 .overview-widget .twitter-profile-name, .facebook .twitter-profile-name, .twitter .twitter-profile-name, .foursquare .twitter-profile-name {
@@ -71,7 +56,17 @@
 .overview-widget .twitter-profile-handle, .facebook .twitter-profile-handle, .twitter .twitter-profile-handle, .foursquare .twitter-profile-handle {
   margin-left: 5px;
   font-size: 10px;
-  color: #cccccc; }
+  color: #999999; }
+.overview-widget .twitter-tweet-time, .facebook .twitter-tweet-time, .twitter .twitter-tweet-time, .foursquare .twitter-tweet-time {
+  color: #999999; }
+.overview-widget .twitter-reply, .overview-widget .tweet-links, .facebook .twitter-reply, .facebook .tweet-links, .twitter .twitter-reply, .twitter .tweet-links, .foursquare .twitter-reply, .foursquare .tweet-links {
+  color: #0072c6; }
+.overview-widget .twitter-reply-icon, .facebook .twitter-reply-icon, .twitter .twitter-reply-icon, .foursquare .twitter-reply-icon {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  opacity: 0.8; }
 .overview-widget .foursquare-tip-content, .facebook .foursquare-tip-content, .twitter .foursquare-tip-content, .foursquare .foursquare-tip-content {
   padding-top: 10px; }
 .overview-widget .foursquare-profile-name, .facebook .foursquare-profile-name, .twitter .foursquare-profile-name, .foursquare .foursquare-profile-name {
@@ -100,3 +95,14 @@ table.table-hover > tbody > tr:first-child > td {
 .entry-table td {
   border-top: none;
   border-bottom: 1px solid #ececec; }
+
+.no-data {
+  margin-top: 30px;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #cccccc;
+  font-weight: 600; }
+
+#twitter-reply-modal textarea {
+  resize: none;
+  width: 97%; }

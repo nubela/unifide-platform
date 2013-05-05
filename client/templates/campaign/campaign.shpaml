@@ -28,7 +28,8 @@ template name="campaign_promo_new"
             .campaign-sub-title
                 PROMO CAMPAIGN
             .campaign-post-new
-                > input.campaign-type type="hidden" value="promo"
+                > input.campaign-type type="hidden" value="promotion"
+                > input.campaign-state type="hidden" value="published"
                 .campaign-post-category
                     Platform
                     <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
@@ -62,9 +63,37 @@ template name="campaign_promo_new"
                     Description
                 <textarea id="desc-editor" placeholder="enter message"></textarea>
             .campaign-post-submit
-                <a class="btn btn-info" id="btn-publish">PUBLISH NOW</a>
+                <a class="btn btn-info" id="btn-publish">Publish Now</a>
                 <a class="btn" id="btn-schedule">Schedule Later</a>
-
+                #schedule_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
+                    .modal-header
+                        button.close type="button" data-dismiss="modal" aria-hidden="true"
+                            x
+                        h5
+                            Select date and time to publish
+                    .modal-body
+                        .campaign-schedule-datetime
+                            .schedule-date.pull-left
+                                Event Date
+                            .schedule-time.pull-left
+                                Time
+                            > div.clear
+                            #schedule-date.input-append.pull-left
+                                > input.campaign-post-date-input-schedule type="text" data-format="yyyy-MM-dd" placeholder="select date"
+                                span.add-on
+                                    i data-date-icon="icon-calendar"
+                                        &nbsp;
+                            #schedule-time.input-append.pull-left
+                                > input.campaign-post-time-from-input-schedule.pull-left type="text" data-format="hh:mm" placeholder="time to publish"
+                                span.add-on
+                                    i data-time-icon="icon-time"
+                                        &nbsp;
+                            > div.clear
+                    .modal-footer
+                        button.btn data-dismiss="modal"
+                            Close
+                        button.btn.btn-info#btn-schedule-modal
+                            Schedule Campaign
 
 
 template name="campaign_event_new"
@@ -76,29 +105,30 @@ template name="campaign_event_new"
                 EVENT CAMPAIGN
             .campaign-post-new
                 > input.campaign-type type="hidden" value="event"
+                > input.campaign-state type="hidden" value="published"
                 .campaign-post-category
                     Platform
                     <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                 .platform
                     label.checkbox.inline
-                        <input type="checkbox" value="facebook">
+                        <input type="checkbox" class="platform-check" value="facebook">
                         Facebook
                     label.checkbox.inline
-                        <input type="checkbox" value="twitter">
+                        <input type="checkbox" class="platform-check" value="twitter">
                         Twitter
                     label.checkbox.inline
-                        <input type="checkbox" value="foursquare">
+                        <input type="checkbox" class="platform-check" value="foursquare">
                         Foursquare
                     <br>
                     label.checkbox.inline
-                        <input type="checkbox" value="web">
+                        <input type="checkbox" class="platform-check" value="web">
                         Web / Mobile
                     label.checkbox.inline.push
-                        <input type="checkbox" value="push">
+                        <input type="checkbox" class="platform-check" value="push">
                         Push Notification
                     <br>
                     label.checkbox.inline
-                        <input type="checkbox" value="blog">
+                        <input type="checkbox" class="platform-check" value="blog">
                         Blog
                 .campaign-post-date.pull-left
                     Event Date
@@ -127,12 +157,43 @@ template name="campaign_event_new"
                 .campaign-post-category
                     Title
                 > textarea#campaign-title placeholder="enter a title"
+                .char-count
+                    0 characters
                 .campaign-post-category
                     Description
                 <textarea id="desc-editor" placeholder="enter message"></textarea>
             .campaign-post-submit
-                <a class="btn btn-info" id="btn-publish">PUBLISH NOW</a>
+                <a class="btn btn-info" id="btn-publish">Publish Now</a>
                 <a class="btn" id="btn-schedule">Schedule Later</a>
+                #schedule_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
+                    .modal-header
+                        button.close type="button" data-dismiss="modal" aria-hidden="true"
+                            x
+                        h5
+                            Select date and time to publish
+                    .modal-body
+                        .campaign-schedule-datetime
+                            .schedule-date.pull-left
+                                Event Date
+                            .schedule-time.pull-left
+                                Time
+                            > div.clear
+                            #schedule-date.input-append.pull-left
+                                > input.campaign-post-date-input-schedule type="text" data-format="yyyy-MM-dd" placeholder="select date"
+                                span.add-on
+                                    i data-date-icon="icon-calendar"
+                                        &nbsp;
+                            #schedule-time.input-append.pull-left
+                                > input.campaign-post-time-from-input-schedule.pull-left type="text" data-format="hh:mm" placeholder="time to publish"
+                                span.add-on
+                                    i data-time-icon="icon-time"
+                                        &nbsp;
+                            > div.clear
+                    .modal-footer
+                        button.btn data-dismiss="modal"
+                            Close
+                        button.btn.btn-info#btn-schedule-modal
+                            Schedule Campaign
 
 
 template name="campaign_list"
