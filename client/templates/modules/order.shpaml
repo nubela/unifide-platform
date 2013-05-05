@@ -19,28 +19,30 @@ template name="order_details"
     .right-container
         .container-title
             h2
-                Order for Green Tea
+                Order for {{order_info.obj_name}}
             p
                 span.lead
-                    (fgs-9g8sd-faf80-9)
+                    ({{order_info.id}})
             p
-                span.badge.badge-info | New
-            p
-                small
-                    <span class="heydings">l</span> Order made on <strong>23rd Feb 2013</strong>
+                span.badge.badge-info | {{order_info.status}}
             p
                 small
-                    <span class="heydings">A</span> <strong>Steven Goh Jian Wen</strong>
+                    <span class="heydings">l</span> Order made on <strong>{{order_info.readable_date}}</strong>
             p
                 small
-                    <span class="heydings">t</span> Order for <strong>2 unit(s)</strong>
+                    <span class="heydings">A</span> <strong>{{order_info.user_name}}</strong>
             p
                 small
-                    <span class="heydings">b</span> User noted "<strong>Please use smaller packaging</strong>"
+                    <span class="heydings">t</span> Order for <strong>{{order_info.quantity}} unit(s)</strong>
+            {{#if order_info.special_notes}}
+            p
+                small
+                    <span class="heydings">b</span> User noted "<strong>{{order_info.special_notes}}</strong>"
+            {{/if}}
             p
                 > br
                 a.btn-large.btn href="#" | View Item/Event
-                a.btn-large.btn.btn-primary href="#" | Update Order Status
+                a.btn-large.btn.btn-primary href="/order/update/({{order_info.id}})" | Update Order Status
 
         > br
         > br
@@ -54,24 +56,14 @@ template name="order_details"
                     td
                         Data
             tbody
+                {{#each user_info}}
                 tr
                     td
-                        Email
+                        {{key}}
                     td
                         strong
-                            nubela@gmail.com
-                tr
-                    td
-                        Full Name
-                    td
-                        strong
-                            Steven Goh
-                tr
-                    td
-                        Address
-                    td
-                        strong
-                            Blk Someting Anchorvale Crescent #08-123
+                            {{value}}
+                {{/each}}
 
 template name="order_update"
     .form-holder.well
@@ -153,7 +145,7 @@ template name="order_table"
                     td
                         .btn-toolbar
                             .btn-group
-                                a.view-details.order-action.btn.btn-disabled.appnav href="/order/details/asd" title="See details on this order"
+                                a.view-details.order-action.btn.btn-disabled.appnav href="/order/details/{{id}}" title="See details on this order"
                                     > i.fui-eye-16
                                 a.view-list-items.order-action.btn.btn-disabled.appnav href="/order/filtered/{{obj_id}}" title="Show all orders from this item"
                                     > i.fui-menu-16
@@ -190,26 +182,3 @@ template name="order_table"
                         > img src="/media/img/pager/next.png"
                 {{/if}}
         {{/if}}
-
-
-template name="table_row"
-    tr.order-entry
-        td
-            fgs-9g8sd-faf80-9
-        td
-            Aerospace Biathlon Event for the Handicappsd
-        td
-            Steven Goh Jian Wen
-        td
-            3rd Feb 2018
-        td
-            span.badge.badge-info | New
-        td
-            .btn-toolbar
-                .btn-group
-                    a.view-details.order-action.btn.btn-disabled.appnav href="/order/details/asd" title="See details on this order"
-                        > i.fui-eye-16
-                    a.view-list-items.order-action.btn.btn-disabled.appnav href="#" title="Show all orders from this item"
-                        > i.fui-menu-16
-                    a.view-change-statusitems.order-action.btn.btn-disabled.appnav href="/order/update/asdgw" title="Update order status"
-                        > i.fui-new-16

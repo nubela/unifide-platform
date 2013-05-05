@@ -46,11 +46,11 @@ Template.order_table.max_orders = ->
 Template.order_table.has_pagination = ->
     ORDERObj.find(cursorFilter(), {limit: ORDERS_PAGE_PAGE}).fetch().length < ORDERObj.find(cursorFilter()).count()
 
-Template.order_table.is_filtered = -> isFilter()
+Template.order_table.is_filtered = ->
+    isFilter()
 
 Template.order_table.filtered_item_name = ->
     item = ORDERObj.findOne(cursorFilter())
-    console.log(item)
     item.object.name
 
 Template.order_table.pagination = ->
@@ -110,7 +110,51 @@ Template.order_table.events =
             $(anchor).removeClass "btn-primary"
             $(anchor).addClass "btn-disabled"
 
+#--- table_row template methods---#
+
+Template.order_details.order_info = ->
+    obj_id = Session.get ORDER_SESSION.OBJ_ID
+    item = ORDERObj.findOne({_id: obj_id})
+    if item
+        {
+        id: item._id
+        status: item.status
+        obj_name: item.object.name
+        readable_date: humanize.date("l, jS F Y h:i:s A", item.timestamp_utc)
+        user_name: item.user.first_name + " " + item.user.last_name
+        quantity: item.quantity
+        special_notes: item.special_notes
+        }
+    else {}
+
+Template.order_details.user_info = ->
+    obj_id = Session.get ORDER_SESSION.OBJ_ID
+    item = ORDERObj.findOne({_id: obj_id})
+    if item
+        dic = []
+        dic.push
+            key: "ID",
+            value: item.user._id
+        dic.push
+            key: "First Name",
+            value: item.user.first_name
+        dic.push
+            key: "Last Name",
+            value: item.user.last_name
+        dic.push
+            key: "Middle Name",
+            value: item.user.middle_name
+        dic.push
+            key: "Email",
+            value: item.user.email
+        dic.push
+            key: "Address",
+            value: item.user.address
+        dic
+    else []
+
 #--- util ---#
+
 
 capitaliseFirstLetter = (string) ->
     string.charAt(0).toUpperCase() + (string.slice 1)

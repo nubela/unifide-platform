@@ -73,7 +73,6 @@
     var item;
 
     item = ORDERObj.findOne(cursorFilter());
-    console.log(item);
     return item.object.name;
   };
 
@@ -152,6 +151,67 @@
         $(anchor).removeClass("btn-primary");
         return $(anchor).addClass("btn-disabled");
       });
+    }
+  };
+
+  Template.order_details.order_info = function() {
+    var item, obj_id;
+
+    obj_id = Session.get(ORDER_SESSION.OBJ_ID);
+    item = ORDERObj.findOne({
+      _id: obj_id
+    });
+    if (item) {
+      return {
+        id: item._id,
+        status: item.status,
+        obj_name: item.object.name,
+        readable_date: humanize.date("l, jS F Y h:i:s A", item.timestamp_utc),
+        user_name: item.user.first_name + " " + item.user.last_name,
+        quantity: item.quantity,
+        special_notes: item.special_notes
+      };
+    } else {
+      return {};
+    }
+  };
+
+  Template.order_details.user_info = function() {
+    var dic, item, obj_id;
+
+    obj_id = Session.get(ORDER_SESSION.OBJ_ID);
+    item = ORDERObj.findOne({
+      _id: obj_id
+    });
+    if (item) {
+      dic = [];
+      dic.push({
+        key: "ID",
+        value: item.user._id
+      });
+      dic.push({
+        key: "First Name",
+        value: item.user.first_name
+      });
+      dic.push({
+        key: "Last Name",
+        value: item.user.last_name
+      });
+      dic.push({
+        key: "Middle Name",
+        value: item.user.middle_name
+      });
+      dic.push({
+        key: "Email",
+        value: item.user.email
+      });
+      dic.push({
+        key: "Address",
+        value: item.user.address
+      });
+      return dic;
+    } else {
+      return [];
     }
   };
 

@@ -28,40 +28,42 @@
     <div class="right-container">
         <div class="container-title">
             <h2>
-                Order for Green Tea
+                Order for {{order_info.obj_name}}
             </h2>
             <p>
                 <span class="lead">
-                    (fgs-9g8sd-faf80-9)
+                    ({{order_info.id}})
                 </span>
             </p>
             <p>
-                <span class="badge badge-info">New</span>
+                <span class="badge badge-info">{{order_info.status}}</span>
             </p>
             <p>
                 <small>
-                    <span class="heydings">l</span> Order made on <strong>23rd Feb 2013</strong>
+                    <span class="heydings">l</span> Order made on <strong>{{order_info.readable_date}}</strong>
                 </small>
             </p>
             <p>
                 <small>
-                    <span class="heydings">A</span> <strong>Steven Goh Jian Wen</strong>
+                    <span class="heydings">A</span> <strong>{{order_info.user_name}}</strong>
                 </small>
             </p>
             <p>
                 <small>
-                    <span class="heydings">t</span> Order for <strong>2 unit(s)</strong>
+                    <span class="heydings">t</span> Order for <strong>{{order_info.quantity}} unit(s)</strong>
                 </small>
             </p>
+            {{#if order_info.special_notes}}
             <p>
                 <small>
-                    <span class="heydings">b</span> User noted "<strong>Please use smaller packaging</strong>"
+                    <span class="heydings">b</span> User noted "<strong>{{order_info.special_notes}}</strong>"
                 </small>
             </p>
+            {{/if}}
             <p>
                 <br />
                 <a href="#" class="btn-large btn">View Item/Event</a>
-                <a href="#" class="btn-large btn btn-primary">Update Order Status</a>
+                <a href="/order/update/({{order_info.id}})" class="btn-large btn btn-primary">Update Order Status</a>
             </p>
         </div>
 
@@ -82,36 +84,18 @@
                 </tr>
             </thead>
             <tbody>
+                {{#each user_info}}
                 <tr>
                     <td>
-                        Email
+                        {{key}}
                     </td>
                     <td>
                         <strong>
-                            nubela@gmail.com
+                            {{value}}
                         </strong>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        Full Name
-                    </td>
-                    <td>
-                        <strong>
-                            Steven Goh
-                        </strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Address
-                    </td>
-                    <td>
-                        <strong>
-                            Blk Someting Anchorvale Crescent #08-123
-                        </strong>
-                    </td>
-                </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
@@ -229,7 +213,7 @@
                     <td>
                         <div class="btn-toolbar">
                             <div class="btn-group">
-                                <a href="/order/details/asd" title="See details on this order" class="view-details order-action btn btn-disabled appnav">
+                                <a href="/order/details/{{id}}" title="See details on this order" class="view-details order-action btn btn-disabled appnav">
                                     <i class="fui-eye-16" />
                                 </a>
                                 <a href="/order/filtered/{{obj_id}}" title="Show all orders from this item" class="view-list-items order-action btn btn-disabled appnav">
@@ -287,40 +271,4 @@
         </div>
         {{/if}}
     </div>
-</template>
-
-
-<template name="table_row">
-    <tr class="order-entry">
-        <td>
-            fgs-9g8sd-faf80-9
-        </td>
-        <td>
-            Aerospace Biathlon Event for the Handicappsd
-        </td>
-        <td>
-            Steven Goh Jian Wen
-        </td>
-        <td>
-            3rd Feb 2018
-        </td>
-        <td>
-            <span class="badge badge-info">New</span>
-        </td>
-        <td>
-            <div class="btn-toolbar">
-                <div class="btn-group">
-                    <a href="/order/details/asd" title="See details on this order" class="view-details order-action btn btn-disabled appnav">
-                        <i class="fui-eye-16" />
-                    </a>
-                    <a href="#" title="Show all orders from this item" class="view-list-items order-action btn btn-disabled appnav">
-                        <i class="fui-menu-16" />
-                    </a>
-                    <a href="/order/update/asdgw" title="Update order status" class="view-change-statusitems order-action btn btn-disabled appnav">
-                        <i class="fui-new-16" />
-                    </a>
-                </div>
-            </div>
-        </td>
-    </tr>
 </template>
