@@ -2,9 +2,10 @@
     UPDATE: "order_view_update"
     OVERVIEW: "order_view_overview"
     DETAILS: "order_view_details"
+    DETAILS_FILTERED: "order_view_details_filtered"
 
 @ORDER_SESSION =
-    ORDER_ID: "order_id"
+    OBJ_ID: "order_obj_id"
     VIEW_TYPE: "order_view_type"
 
 @ORDER_TEMPLATE =
@@ -26,6 +27,9 @@ Template.order_table.rendered = ->
     $(".order-action").tooltip(
         placement: "top"
     )
+
+Template.order_table.tag = ->
+    null
 
 Template.order_table.events =
     "mouseenter .order-entry": (evt) ->

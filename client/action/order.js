@@ -3,11 +3,12 @@
   this.ORDER_VIEW = {
     UPDATE: "order_view_update",
     OVERVIEW: "order_view_overview",
-    DETAILS: "order_view_details"
+    DETAILS: "order_view_details",
+    DETAILS_FILTERED: "order_view_details_filtered"
   };
 
   this.ORDER_SESSION = {
-    ORDER_ID: "order_id",
+    OBJ_ID: "order_obj_id",
     VIEW_TYPE: "order_view_type"
   };
 
@@ -31,6 +32,10 @@
     return $(".order-action").tooltip({
       placement: "top"
     });
+  };
+
+  Template.order_table.tag = function() {
+    return null;
   };
 
   Template.order_table.events = {

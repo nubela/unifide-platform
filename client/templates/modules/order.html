@@ -152,16 +152,36 @@
 <template name="order_table">
     <div class="right-container">
         <div class="container-title">
-            <h2>
-                Orders and RSVP Overview
-            </h2>
-            <p>
-                <small>
-                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-                </small>
-            </p>
+            <div class="row-fluid">
+                <h2>
+                    Orders and RSVP Overview
+                </h2>
+            </div>
+            <!---
+            <div class="row-fluid">
+                <p>
+                    <small>
+                        <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                    </small>
+                </p>
+            </div>
+            --->
+            <br />
+            <div class="row-fluid">
+                <div class="span6">
+                    <div class="share mrl" id="filtered-box">
+                        <ul>
+                            <li class="text-center">
+                                Showing all orders from <strong>Some Object</strong>
+                            </li>
+                        </ul>
+                        <a href="/order" class="btn btn-primary btn-block btn-large appnav">Remove filter</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <br />
         <table class="table-striped table-hover">
             <thead>
                 <tr>

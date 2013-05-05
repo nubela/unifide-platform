@@ -100,12 +100,25 @@ template name="order_update"
 template name="order_table"
     .right-container
         .container-title
-            h2
-                Orders and RSVP Overview
-            p
-                small
-                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+            .row-fluid
+                h2
+                    Orders and RSVP Overview
+            <!---
+            .row-fluid
+                p
+                    small
+                        <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+            --->
+            > br
+            .row-fluid
+                .span6
+                    .share.mrl#filtered-box
+                        ul
+                            li.text-center
+                                Showing all orders from <strong>Some Object</strong>
+                        a.btn.btn-primary.btn-block.btn-large.appnav href="/order" | Remove filter
 
+        > br
         table.table-striped.table-hover
             thead
                 tr
