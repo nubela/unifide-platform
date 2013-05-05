@@ -1,0 +1,110 @@
+template name="order"
+    .container-fluid
+        .row-fluid
+            .account
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        a.appnav href="/order"
+                            li.side-header | Orders / RSVP
+                        a.appnav href="/order"
+                            li.container-entry | <span class="icon">v</span> Overview
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar.twitter
+
+                    {{{view}}}
+
+template name="order_update"
+    .form-holder.well
+        form#bizinfo-update-form method="POST" action="{{submit_url}}" data-validate="parsley"
+            legend | Update Order
+
+            fieldset
+                <!--- hidden fields --->
+                > input type="hidden" name="redirect_to" value='{{redirect_url}}'
+
+                .control-group
+                    label for="order_status" | Order Status
+                    select id="order_status"
+                        option | Fresh Order
+                        option | Processing
+                        option | Shipped
+                        option | Cancel Order
+
+                .control-group
+                    label id="description" | Order Notes
+                    > textarea rows="3" name="description" id="description" placeholder="What does your business do?"
+
+                .control-group
+                    button.btn-large.btn.btn-primary.submit-btn#bizinfo-submit-btn | Save
+
+template name="order_table"
+    .right-container
+        .container-title
+            h2
+                Orders and RSVP Overview
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+        table.table-striped.table-hover
+            thead
+                tr
+                    td
+                        ID
+                    td
+                        Item/Event
+                    td
+                        User
+                    td
+                        Timestamp
+                    td
+                        Status
+                    td
+                        Actions
+
+            tbody
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+                {{> table_row}}
+
+        .pagination
+            ul
+                li.previous
+                    a
+                        > img src="/media/img/pager/previous.png"
+                li.active
+                    a | 1
+                li
+                    a | 2
+                li
+                    a | 3
+                li.next
+                    a
+                        > img src="/media/img/pager/next.png"
+
+
+template name="table_row"
+    tr.order-entry
+        td
+            fgs-9g8sd-faf80-9
+        td
+            Aerospace Biathlon Event for the Handicappsd
+        td
+            Steven Goh Jian Wen
+        td
+            3rd Feb 2018
+        td
+            span.badge.badge-info | New
+        td
+            .btn-toolbar
+                .btn-group
+                    a.view-details.order-action.btn.btn-disabled.appnav href="#" title="See details on this order"
+                        > i.fui-eye-16
+                    a.view-list-items.order-action.btn.btn-disabled.appnav href="#" title="Show all orders from this item"
+                        > i.fui-menu-16
+                    a.view-change-statusitems.order-action.btn.btn-disabled.appnav href="/order/update/asdgw" title="Update order status"
+                        > i.fui-new-16

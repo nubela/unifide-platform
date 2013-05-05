@@ -50,7 +50,7 @@
 
 .compose-new-item {
   margin-top: 20px; }
-  .compose-new-item form input, .compose-new-item form textarea {
+  .compose-new-item form input, .compose-new-item form textarea, .compose-new-item form select {
     width: 60%; }
 
 .show-item .login-form {

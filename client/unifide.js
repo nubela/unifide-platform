@@ -38,7 +38,8 @@ var myAppRouter = Backbone.Router.extend({
         "profile": "static_url",
         "items": "items_url",
         "items/*suburl": "items_url",
-        "orders": "orders_url"
+        "order": "order_url",
+        "order/update/:order_id": "update_order"
     },
     static_url: static_url,
     account_url: account_url,
@@ -47,10 +48,19 @@ var myAppRouter = Backbone.Router.extend({
     social_auth_foursquare: social_auth_foursquare,
     items_url: items_url,
     bizinfo_url: bizinfo_url,
-    orders_url: orders_url
+    order_url: order_url,
+    update_order: update_order
 });
 
-function orders_url() {
+function update_order(order_id) {
+    set_page_url();
+    Session.set(ORDER_SESSION.ORDER_ID, order_id);
+    Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.UPDATE);
+    Session.set("page_template", "order");
+}
+
+function order_url() {
+    Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.OVERVIEW);
     static_url();
 }
 

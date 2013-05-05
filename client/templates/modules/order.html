@@ -1,13 +1,15 @@
-<template name="orders">
+<template name="order">
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="account">
                 <!--- navbar --->
                 <div class="sidebar-nav-fixed">
                     <ul class="unstyled side-nav">
-                        <li class="side-header">Orders / RSVP</li>
-                        <a href="/" class="appnav">
-                            <li class="container-entry"><span class="icon">v</span> Dashboard</li>
+                        <a href="/order" class="appnav">
+                            <li class="side-header">Orders / RSVP</li>
+                        </a>
+                        <a href="/order" class="appnav">
+                            <li class="container-entry"><span class="icon">v</span> Overview</li>
                         </a>
                     </ul>
                 </div>
@@ -22,13 +24,49 @@
     </div>
 </template>
 
+<template name="order_update">
+    <div class="form-holder well">
+        <form method="POST" action="{{submit_url}}" data-validate="parsley" id="bizinfo-update-form">
+            <legend>Update Order</legend>
 
-<template name="orders_table">
-    <div class="rendering">
-        <div class="main-title">
-            <h4>
-                Orders / RSVP
-            </h4>
+            <fieldset>
+                <!--- hidden fields --->
+                <input type="hidden" name="redirect_to" value='{{redirect_url}}' />
+
+                <div class="control-group">
+                    <label for="order_status">Order Status</label>
+                    <select id="order_status">
+                        <option>Fresh Order</option>
+                        <option>Processing</option>
+                        <option>Shipped</option>
+                        <option>Cancel Order</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label id="description">Order Notes</label>
+                    <textarea rows="3" name="description" id="description" placeholder="What does your business do?" />
+                </div>
+
+                <div class="control-group">
+                    <button class="btn-large btn btn-primary submit-btn" id="bizinfo-submit-btn">Save</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</template>
+
+<template name="order_table">
+    <div class="right-container">
+        <div class="container-title">
+            <h2>
+                Orders and RSVP Overview
+            </h2>
+            <p>
+                <small>
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </small>
+            </p>
         </div>
 
         <table class="table-striped table-hover">
@@ -92,7 +130,7 @@
 
 
 <template name="table_row">
-    <tr>
+    <tr class="order-entry">
         <td>
             fgs-9g8sd-faf80-9
         </td>
@@ -106,18 +144,18 @@
             3rd Feb 2018
         </td>
         <td>
-            Ordered
+            <span class="badge badge-info">New</span>
         </td>
         <td>
             <div class="btn-toolbar">
                 <div class="btn-group">
-                    <a href="#" class="btn btn-disabled">
+                    <a href="#" title="See details on this order" class="view-details order-action btn btn-disabled appnav">
                         <i class="fui-eye-16" />
                     </a>
-                    <a href="#" class="btn btn-disabled">
+                    <a href="#" title="Show all orders from this item" class="view-list-items order-action btn btn-disabled appnav">
                         <i class="fui-menu-16" />
                     </a>
-                    <a href="#" class="btn btn-disabled">
+                    <a href="/order/update/asdgw" title="Update order status" class="view-change-statusitems order-action btn btn-disabled appnav">
                         <i class="fui-new-16" />
                     </a>
                 </div>

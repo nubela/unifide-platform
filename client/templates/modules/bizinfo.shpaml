@@ -19,10 +19,13 @@ template name="bizinfo"
 
 
 template name="bizinfo_overview"
-    .rendering
-        .main-title
-            h4
+    .right-container
+        .container-title
+            h2
                 Business Information Overview
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
 
         table.table-striped.table-hover
             thead
@@ -59,7 +62,7 @@ template name="bizinfo_overview"
                         strong
                             {{info.email}}
 
-        a.btn.btn-primary.btn-large href="/bizinfo/update"
+        a.btn.btn-primary.btn-large.appnav href="/bizinfo/update"
             I want to update these info
 
 
