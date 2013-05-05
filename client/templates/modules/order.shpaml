@@ -103,13 +103,12 @@ template name="order_table"
             .row-fluid
                 h2
                     Orders and RSVP Overview
-            <!---
             .row-fluid
                 p
                     small
-                        <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-            --->
+                        <span class="heydings">l</span> Listing {{current_orders}} - {{max_orders}} out of {{total_orders}} newest orders
             > br
+            <!---
             .row-fluid
                 .span6
                     .share.mrl#filtered-box
@@ -117,8 +116,10 @@ template name="order_table"
                             li.text-center
                                 Showing all orders from <strong>Some Object</strong>
                         a.btn.btn-primary.btn-block.btn-large.appnav href="/order" | Remove filter
+            --->
 
         > br
+        {{#if has_orders}}
         table.table-striped.table-hover
             thead
                 tr
@@ -153,26 +154,41 @@ template name="order_table"
                             .btn-group
                                 a.view-details.order-action.btn.btn-disabled.appnav href="/order/details/asd" title="See details on this order"
                                     > i.fui-eye-16
-                                a.view-list-items.order-action.btn.btn-disabled.appnav href="#" title="Show all orders from this item"
+                                a.view-list-items.order-action.btn.btn-disabled.appnav href="/order/filtered/{{obj_id}}" title="Show all orders from this item"
                                     > i.fui-menu-16
                                 a.view-change-statusitems.order-action.btn.btn-disabled.appnav href="/order/update/asdgw" title="Update order status"
                                     > i.fui-new-16
                 {{/each}}
+        {{else}}
+        .well.no-orders
+            p.no-order-alert
+                small
+                    No orders so far..
+        {{/if}}
 
+        {{#if has_pagination}}
         .pagination
             ul
+                {{#if pagination.prev.has}}
                 li.previous
-                    a
+                    a href="{{pagination.prev.url}}"
                         > img src="/media/img/pager/previous.png"
+                {{/if}}
+                {{#each pagination.pages}}
+                {{#if is_active}}
                 li.active
-                    a | 1
+                    a href="{{url}}" | {{page_no}}
+                {{else}}
                 li
-                    a | 2
-                li
-                    a | 3
+                    a href="{{url}}" | {{page_no}}
+                {{/if}}
+                {{/each}}
+                {{#if pagination.next.has}}
                 li.next
-                    a
+                    a href="{{pagination.next.url}}"
                         > img src="/media/img/pager/next.png"
+                {{/if}}
+        {{/if}}
 
 
 template name="table_row"

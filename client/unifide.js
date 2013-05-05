@@ -39,6 +39,7 @@ var myAppRouter = Backbone.Router.extend({
         "items": "items_url",
         "items/*suburl": "items_url",
         "order": "order_url",
+        "order/:view_type/:obj_id/page/:page_no": "update_order",
         "order/:view_type/:obj_id": "update_order"
     },
     static_url: static_url,
@@ -52,22 +53,29 @@ var myAppRouter = Backbone.Router.extend({
     update_order: update_order
 });
 
-function update_order(view_type, obj_id) {
+function update_order(view_type, obj_id, page_no) {
+    reset_orders();
+    //default for page_no
+    if (!page_no) {
+        page_no = 1;
+    }
+
     if (view_type === "update") {
         Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.UPDATE);
     } else if (view_type === "filtered") {
         Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.DETAILS_FILTERED);
-    } else {
+    } else if (view_type === "details") {
         Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.DETAILS);
     }
     set_page_url();
     Session.set(ORDER_SESSION.OBJ_ID, obj_id);
+    Session.set(ORDER_SESSION.PAGE_NO, page_no);
     Session.set("page_template", "order");
-    init_order();
+    init_orders();
 }
 
 function order_url() {
-    Session.set(ORDER_SESSION.VIEW_TYPE, ORDER_VIEW.OVERVIEW);
+    reset_orders();
     static_url();
     init_orders();
 }

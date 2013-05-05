@@ -157,16 +157,15 @@
                     Orders and RSVP Overview
                 </h2>
             </div>
-            <!---
             <div class="row-fluid">
                 <p>
                     <small>
-                        <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                        <span class="heydings">l</span> Listing {{current_orders}} - {{max_orders}} out of {{total_orders}} newest orders
                     </small>
                 </p>
             </div>
-            --->
             <br />
+            <!---
             <div class="row-fluid">
                 <div class="span6">
                     <div class="share mrl" id="filtered-box">
@@ -179,9 +178,11 @@
                     </div>
                 </div>
             </div>
+            --->
         </div>
 
         <br />
+        {{#if has_orders}}
         <table class="table-striped table-hover">
             <thead>
                 <tr>
@@ -230,7 +231,7 @@
                                 <a href="/order/details/asd" title="See details on this order" class="view-details order-action btn btn-disabled appnav">
                                     <i class="fui-eye-16" />
                                 </a>
-                                <a href="#" title="Show all orders from this item" class="view-list-items order-action btn btn-disabled appnav">
+                                <a href="/order/filtered/{{obj_id}}" title="Show all orders from this item" class="view-list-items order-action btn btn-disabled appnav">
                                     <i class="fui-menu-16" />
                                 </a>
                                 <a href="/order/update/asdgw" title="Update order status" class="view-change-statusitems order-action btn btn-disabled appnav">
@@ -243,30 +244,47 @@
                 {{/each}}
             </tbody>
         </table>
+        {{else}}
+        <div class="well no-orders">
+            <p class="no-order-alert">
+                <small>
+                    No orders so far..
+                </small>
+            </p>
+        </div>
+        {{/if}}
 
+        {{#if has_pagination}}
         <div class="pagination">
             <ul>
+                {{#if pagination.prev.has}}
                 <li class="previous">
-                    <a>
+                    <a href="{{pagination.prev.url}}">
                         <img src="/media/img/pager/previous.png" />
                     </a>
                 </li>
+                {{/if}}
+                {{#each pagination.pages}}
+                {{#if is_active}}
                 <li class="active">
-                    <a>1</a>
+                    <a href="{{url}}">{{page_no}}</a>
                 </li>
+                {{else}}
                 <li>
-                    <a>2</a>
+                    <a href="{{url}}">{{page_no}}</a>
                 </li>
-                <li>
-                    <a>3</a>
-                </li>
+                {{/if}}
+                {{/each}}
+                {{#if pagination.next.has}}
                 <li class="next">
-                    <a>
+                    <a href="{{pagination.next.url}}">
                         <img src="/media/img/pager/next.png" />
                     </a>
                 </li>
+                {{/if}}
             </ul>
         </div>
+        {{/if}}
     </div>
 </template>
 
