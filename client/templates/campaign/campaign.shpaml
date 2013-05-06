@@ -8,13 +8,13 @@ template name="campaign"
                             Campaigns
                         a.appnav href="/campaign/promo/new"
                             li
-                                New Promo Campaign
+                                New Promo
                         a.appnav href="/campaign/event/new"
                             li
-                                New Event Campaign
+                                New Event
                         a.appnav href="/campaign"
                             li
-                                Manage Campaigns
+                                Manage
 
                 .span12.span-fixed-sidebar
                     {{{view}}}
@@ -28,7 +28,8 @@ template name="campaign_promo_new"
             .campaign-sub-title
                 PROMO CAMPAIGN
             .campaign-post-new
-                > input.campaign-type type="hidden" value="promo"
+                > input.campaign-type type="hidden" value="promotion"
+                > input.campaign-state type="hidden" value="published"
                 .campaign-post-category
                     Platform
                     <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
@@ -53,18 +54,39 @@ template name="campaign_promo_new"
                     label.checkbox.inline
                         <input type="checkbox" class="platform-check" value="blog">
                         Blog
-                .campaign-post-category
-                    Title
-                > textarea#campaign-title placeholder="enter a title"
-                .char-count
-                    0 characters
-                .campaign-post-category
-                    Description
-                <textarea id="desc-editor" placeholder="enter message"></textarea>
+                {{> campaign_promo}}
             .campaign-post-submit
-                <a class="btn btn-info" id="btn-publish">PUBLISH NOW</a>
+                <a class="btn btn-info" id="btn-publish">Publish Now</a>
                 <a class="btn" id="btn-schedule">Schedule Later</a>
-
+                #schedule_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
+                    .modal-header
+                        button.close type="button" data-dismiss="modal" aria-hidden="true"
+                            x
+                        h5
+                            Select date and time to publish
+                    .modal-body
+                        .campaign-schedule-datetime
+                            .schedule-date.pull-left
+                                Event Date
+                            .schedule-time.pull-left
+                                Time
+                            > div.clear
+                            #schedule-date.input-append.pull-left
+                                > input.campaign-post-date-input-schedule type="text" data-format="yyyy-MM-dd" placeholder="select date"
+                                span.add-on
+                                    i data-date-icon="icon-calendar"
+                                        &nbsp;
+                            #schedule-time.input-append.pull-left
+                                > input.campaign-post-time-from-input-schedule.pull-left type="text" data-format="hh:mm" placeholder="time to publish"
+                                span.add-on
+                                    i data-time-icon="icon-time"
+                                        &nbsp;
+                            > div.clear
+                    .modal-footer
+                        button.btn data-dismiss="modal"
+                            Close
+                        button.btn.btn-info#btn-schedule-modal
+                            Schedule Campaign
 
 
 template name="campaign_event_new"
@@ -76,63 +98,64 @@ template name="campaign_event_new"
                 EVENT CAMPAIGN
             .campaign-post-new
                 > input.campaign-type type="hidden" value="event"
+                > input.campaign-state type="hidden" value="published"
                 .campaign-post-category
                     Platform
                     <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                 .platform
                     label.checkbox.inline
-                        <input type="checkbox" value="facebook">
+                        <input type="checkbox" class="platform-check" value="facebook">
                         Facebook
                     label.checkbox.inline
-                        <input type="checkbox" value="twitter">
+                        <input type="checkbox" class="platform-check" value="twitter">
                         Twitter
                     label.checkbox.inline
-                        <input type="checkbox" value="foursquare">
+                        <input type="checkbox" class="platform-check" value="foursquare">
                         Foursquare
                     <br>
                     label.checkbox.inline
-                        <input type="checkbox" value="web">
+                        <input type="checkbox" class="platform-check" value="web">
                         Web / Mobile
                     label.checkbox.inline.push
-                        <input type="checkbox" value="push">
+                        <input type="checkbox" class="platform-check" value="push">
                         Push Notification
                     <br>
                     label.checkbox.inline
-                        <input type="checkbox" value="blog">
+                        <input type="checkbox" class="platform-check" value="blog">
                         Blog
-                .campaign-post-date.pull-left
-                    Event Date
-                .campaign-post-time.pull-left
-                    Time
-                <div class="clear"></div>
-                .campaign-post-datetime
-                    #event-date.input-append.pull-left
-                        > input.campaign-post-date-input type="text" data-format="yyyy-MM-dd" placeholder="select date"
-                        span.add-on
-                            i data-date-icon="icon-calendar"
-                                &nbsp;
-                    #event-time-start.input-append.pull-left
-                        > input.campaign-post-time-from-input.pull-left type="text" data-format="hh:mm" placeholder="start time"
-                        span.add-on
-                            i data-time-icon="icon-time"
-                                &nbsp;
-                    .campaign-post-to.pull-left
-                        to
-                    #event-time-end.input-append.pull-left
-                        > input.campaign-post-time-to-input.pull-left type="text" data-format="hh:mm" placeholder="end time"
-                        span.add-on
-                            i data-time-icon="icon-time"
-                                &nbsp;
-                    > div.clear
-                .campaign-post-category
-                    Title
-                > textarea#campaign-title placeholder="enter a title"
-                .campaign-post-category
-                    Description
-                <textarea id="desc-editor" placeholder="enter message"></textarea>
+                {{> campaign_event}}
             .campaign-post-submit
-                <a class="btn btn-info" id="btn-publish">PUBLISH NOW</a>
+                <a class="btn btn-info" id="btn-publish">Publish Now</a>
                 <a class="btn" id="btn-schedule">Schedule Later</a>
+                #schedule_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
+                    .modal-header
+                        button.close type="button" data-dismiss="modal" aria-hidden="true"
+                            x
+                        h5
+                            Select date and time to publish
+                    .modal-body
+                        .campaign-schedule-datetime
+                            .schedule-date.pull-left
+                                Event Date
+                            .schedule-time.pull-left
+                                Time
+                            > div.clear
+                            #schedule-date.input-append.pull-left
+                                > input.campaign-post-date-input-schedule type="text" data-format="yyyy-MM-dd" placeholder="select date"
+                                span.add-on
+                                    i data-date-icon="icon-calendar"
+                                        &nbsp;
+                            #schedule-time.input-append.pull-left
+                                > input.campaign-post-time-from-input-schedule.pull-left type="text" data-format="hh:mm" placeholder="time to publish"
+                                span.add-on
+                                    i data-time-icon="icon-time"
+                                        &nbsp;
+                            > div.clear
+                    .modal-footer
+                        button.btn data-dismiss="modal"
+                            Close
+                        button.btn.btn-info#btn-schedule-modal
+                            Schedule Campaign
 
 
 template name="campaign_list"
@@ -142,49 +165,113 @@ template name="campaign_list"
                 Campaigns List
 
         .input-append
-            <input class="search-input" type="text">
+            > input.search-input type="text"
             button.btn type=button
                 Search
-
-        table.table-striped.table-hover
+        > div.clear
+        > div.spacing20
+        .base-buttons.pull-left
+            button.btn#select-all
+                > i.icon-ok
+                Select All
+            button.btn.expand-all
+                > i.icon-arrow-down
+                Expand All
+        .selected-buttons.pull-left
+            button.btn.delete-campaign
+                > i.icon-remove
+        > div.clear
+        table.table-hover.campaign-manage
             thead
                 tr
                     td
-                        Type
-                    td
-                        Platforms
-                    td
-                        Title
-                    td
-                        Meta
-                    td
-                        State
-                    td
-                        Created
+                        Campaigns ({{total}})
+                        > i.icon-chevron-right.pull-right.icon-nav.page-next
+                        .pull-right
+                            {{list_page}}
+                        > i.icon-chevron-left.pull-right.icon-nav.page-back
 
             tbody
                 {{#each campaigns}}
                 tr
-                    td.twitter-profile-pic
-                        {{{facebook.fields.message}}}
-                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
                     td
-                        <div class="pull-left">
-                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
-                            <div class="twitter-profile-name pull-left">{{user.name}}</div>
-                            <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
-                            </a>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="pull-right">{{created_at}}</div>
-                        <div class="clear"></div>
-                        {{fields.text}}
-                    td
-                        &nbsp;
-                    td
-                        &nbsp;
-                    td
-                        &nbsp;
-                    td
-                        &nbsp;
+                        .selection.pull-left
+                            > input.campaign-id.select-campaign type="checkbox" value="{{id}}"
+                        a data-toggle="collapse" data-target="#{{id}}"
+                            .state.pull-left
+                                {{{state}}}
+                            .type.pull-left
+                                {{type}}
+                            .platform.pull-left
+                                {{{platforms}}}
+                                > div.clear
+                            .title-content.pull-left
+                                {{{title}}}
+                            .created.pull-right
+                                {{created}}
+                            > div.clear
+                        div#{{id}}.collapse
+                            > div.spacing10
+                            .expanded
+                                {{{expanded}}}
                 {{/each}}
+                #edit_campaign_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
+                    .modal-header
+                        button.close type="button" data-dismiss="modal" aria-hidden="true"
+                            x
+                        h5
+                            Edit Campaign
+                    .modal-body
+                        .edit-campaign
+                            .social-limitation
+                                Campaign edits will only be reflected on your <strong>website</strong>, <strong>blogs</strong> and <strong>Facebook events</strong> due to social network limitations
+                            {{{edit_campaign}}}
+                    .modal-footer
+                        button.btn data-dismiss="modal"
+                            Close
+                        button.btn.btn-info#btn-edit-modal
+                            Update
+
+template name="campaign_promo"
+    .campaign-post-category
+        Title
+    > textarea#campaign-title placeholder="enter a title"
+    .char-count
+        0 characters
+    .campaign-post-category
+        Description
+    > textarea#desc-editor placeholder="enter message"
+
+template name="campaign_event"
+    .campaign-post-date.pull-left
+        Event Date
+    .campaign-post-time.pull-left
+        Time
+    <div class="clear"></div>
+    .campaign-post-datetime
+        #event-date.input-append.pull-left
+            > input.campaign-post-date-input type="text" data-format="yyyy-MM-dd" placeholder="select date"
+            span.add-on
+                i data-date-icon="icon-calendar"
+                    &nbsp;
+        #event-time-start.input-append.pull-left
+            > input.campaign-post-time-from-input.pull-left type="text" data-format="hh:mm" placeholder="start time"
+            span.add-on
+                i data-time-icon="icon-time"
+                    &nbsp;
+        .campaign-post-to.pull-left
+            to
+        #event-time-end.input-append.pull-left
+            > input.campaign-post-time-to-input.pull-left type="text" data-format="hh:mm" placeholder="end time"
+            span.add-on
+                i data-time-icon="icon-time"
+                    &nbsp;
+        > div.clear
+    .campaign-post-category
+        Title
+    > textarea#campaign-title placeholder="enter a title"
+    .char-count
+        0 characters
+    .campaign-post-category
+        Description
+    <textarea id="desc-editor" placeholder="enter message"></textarea>

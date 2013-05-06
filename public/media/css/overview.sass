@@ -28,16 +28,7 @@
         -webkit-border-radius: 3px
         -moz-border-radius: 3px
         border-radius: 3px
-        height: 320px
-
-    .overview-website
-        background: #ffffff
-        margin-bottom: 30px
-        padding: 10px
-        -webkit-border-radius: 3px
-        -moz-border-radius: 3px
-        border-radius: 3px
-        height: 450px
+        //height: 320px
 
     .overview-mobile
         background: #ffffff
@@ -50,36 +41,30 @@
 
 .overview-widget, .facebook, .twitter, .foursquare
     .table-hover
-        margin-top: 2px
-        margin-bottom: 10px
-        font-size: 12px
-
-    .overflow
-        overflow: hidden
-        height: 270px
+        margin-top: 0px
+        margin-bottom: 0px
+        font-size: 11px
 
     table.table-hover td
-        height: 50px
+        height: 40px
         max-height: 90px
 
     .facebook-profile-pic, .twitter-profile-pic, .foursquare-profile-pic
-        width: 50px
-
-    .facebook-profile
-        width: 160px
+        width: 40px
 
     .facebook-profile-name
         font-weight: bold
-        font-size: 11px
 
     .facebook-post-time
         font-size: 10px
-
-    .facebook-post-content
-        width: 390px
+        color: #999999
+        font-weight: 600
 
     .facebook-view-post
         color: #0072C6
+
+    .twitter-profile-pic
+        padding-top: 15px
 
     .twitter-profile-name
         font-weight: bold
@@ -87,7 +72,20 @@
     .twitter-profile-handle
         margin-left: 5px
         font-size:  10px
-        color: #cccccc
+        color: #999999
+
+    .twitter-tweet-time
+        color: #999999
+
+    .twitter-reply, .tweet-links
+        color: #0072C6
+
+    .twitter-reply-icon
+        -moz-transform: scaleX(-1)
+        -o-transform: scaleX(-1)
+        -webkit-transform: scaleX(-1)
+        transform: scaleX(-1)
+        opacity: 0.8
 
     .foursquare-tip-content
         padding-top: 10px
@@ -97,6 +95,53 @@
 
     .foursquare-profile-name a:hover
         text-decoration: underline
+
+    .web-platform-icon-web
+        background-image: url("/media/img/html5-64-black.png")
+        background-size: cover
+        display: block
+        height: 20px
+        width: 20px
+    .web-platform-icon-blog
+        background-image: url("/media/img/web-64-black.png")
+        background-size: cover
+        display: block
+        height: 20px
+        width: 20px
+    .web-platform-icon-android
+        background-image: url("/media/img/android-64-black.png")
+        background-size: cover
+        display: block
+        height: 20px
+        width: 20px
+    .web-platform-icon-ios
+        background-image: url("/media/img/apple-64-black.png")
+        background-size: cover
+        display: block
+        height: 20px
+        width: 20px
+    .web-time
+        color: #999999
+    .web-title
+        margin-top: 5px
+        margin-bottom: 3px
+        font-weight: 600
+        font-size: 12px
+    .expanded-event-datetime
+        margin-bottom: 10px
+        color: #999999
+        .icon-calendar, .icon-time
+            opacity: .5
+    .expanded-event-start
+        border-left: 1px solid #cccccc
+        margin-left: 10px
+        padding-left: 10px
+    .web-description
+        max-height: 80px
+        overflow: hidden
+    .web-view-link
+        margin-top: 5px
+        color: #0072C6
 
 table.table-hover > tbody > tr:first-child > td
     border-top: none
@@ -122,3 +167,16 @@ table.table-hover > tbody > tr:first-child > td
     td
         border-top: none
         border-bottom: 1px solid #ececec
+
+
+.no-data
+    margin-top: 30px
+    margin-bottom: 25px
+    text-align: center
+    color: #cccccc
+    font-weight: 600
+
+#twitter-reply-modal
+    textarea
+        resize: none
+        width: 97%

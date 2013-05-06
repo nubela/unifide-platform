@@ -22,26 +22,52 @@ template name="twitter_activity"
         <input class="search-input" type="text">
         button.btn type=button
             Search
-
+    {{#if check_twitter}}
     table.table-striped.table-hover
         thead
             tr
-                td colspan="3"
-                    Activity
+                td colspan="2"
+                    Activity ({{total}})
+                    > i.icon-chevron-right.pull-right.icon-nav.page-next
+                    .pull-right
+                        {{activity_page}}
+                    > i.icon-chevron-left.pull-right.icon-nav.page-back
         tbody
             {{#each activity_list}}
             tr
                 td.twitter-profile-pic
-                    <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
-                td
-                    <div class="pull-left">
-                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
-                        <div class="twitter-profile-name pull-left">{{user.name}}</div>
-                        <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
-                        </a>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="pull-right">{{created_at}}</div>
-                    <div class="clear"></div>
-                    {{fields.text}}
+                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
+                    td
+                        .pull-left
+                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
+                            <div class="twitter-profile-name pull-left">{{user.name}}</div>
+                            <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
+                            </a>
+                            > div.clear
+                        .pull-right.twitter-tweet-time
+                            {{datetime}}
+                        > div.clear
+                        > input.tweet_id type="hidden" value="{{fields.id_str}}"
+                        > input.tweet_screen_name type="hidden" value="{{fields.user.screen_name}}"
+                        {{{parsed_text}}}
+                        > br
+                        a.twitter-reply href="#"
+                            > i.icon-share-alt.twitter-reply-icon
+                            Reply
             {{/each}}
+            #twitter-reply-modal.modal.hide.fade tabindex="-1" role="dialog" aria-hidden="true"
+                .modal-header
+                    button.close type="button" data-dismiss="modal" aria-hidden="true"
+                        x
+                    h5
+                        Reply text
+                .modal-body
+                    > input.tweet_id type="hidden"
+                    > textarea
+                .modal-footer
+                    button.btn.btn-info.twitter-tweet-reply
+                        Tweet
+    {{else}}
+        .no-data
+            No Twitter activity available.
+    {{/if}}

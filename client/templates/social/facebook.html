@@ -43,37 +43,49 @@
         </button>
     </div>
 
-    <table class="table-striped table-hover">
+    {{#if check_facebook}}
+    <table class="table table-hover table-striped" id="overview-facebook">
         <thead>
             <tr>
-                <td colspan="3">
-                    Activity
+                <td colspan="2">
+                    Activity ({{total}})
+                    <i class="icon-chevron-right pull-right icon-nav page-next" />
+                    <div class="pull-right">
+                        {{activity_page}}
+                    </div>
+                    <i class="icon-chevron-left pull-right icon-nav page-back" />
                 </td>
             </tr>
         </thead>
         <tbody>
             {{#each activity_list}}
-            <tr>
-                <td class="facebook-profile-pic">
-                    <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
-                </td>
-                <td class="facebook-profile">
-                    <div class="facebook-profile-name">
-                        {{name}}
-                    </div>
-                    <div class="facebook-post-time">
-                        {{datetime}}
-                    </div>
-                </td>
-                <td class="facebook-post-content">
-                    {{message}}
-                    <br>
-                    <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
-                </td>
-            </tr>
+                <tr>
+                    <td class="facebook-profile-pic">
+                        <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
+                    </td>
+                    <td>
+                        <div class="facebook-profile-name pull-left">
+                            {{name}}&nbsp;
+                        </div>
+                        {{message}}
+                        <div class="clear" />
+                        <div class="facebook-post-time pull-left">
+                            {{datetime}}
+                        </div>
+                        <a href="{{link}}" onclick="window.open(this.href,'_blank');return false;" class="facebook-view-post pull-right">
+                            View {{type}}
+                        </a>
+                        <div class="clear" />
+                    </td>
+                </tr>
             {{/each}}
         </tbody>
     </table>
+    {{else}}
+        <div class="no-data">
+            No Facebook page activity available.
+        </div>
+    {{/if}}
 </template>
 
 
@@ -83,4 +95,29 @@
             Event activity
         </h4>
     </div>
+
+    <div class="input-append">
+        <input class="search-input" type="text">
+        <button type="button" class="btn">
+            Search
+        </button>
+    </div>
+
+    {{#if check_facebook}}
+    <table class="table table-hover table-striped" id="overview-facebook">
+        <thead>
+            <tr>
+                <td colspan="2">
+                    Activity ({{total}})
+                </td>
+            </tr>
+        </thead>
+        tbody
+    </table>
+
+    {{else}}
+        <div class="no-data">
+            No Facebook event activity available.
+        </div>
+    {{/if}}
 </template>

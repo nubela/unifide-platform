@@ -15,6 +15,10 @@ a, a:hover, a:visited {
     cursor: pointer;
 }
 
+textarea {
+    resize: none;
+}
+
 .header {
     padding: 0 10px;
     height: 40px;
@@ -31,7 +35,7 @@ a, a:hover, a:visited {
 }
 
 .header .logo {
-    margin-top: 3px;
+    margin-top: 9px;
     margin-left: 10px;
     padding-right: 10px;
     border-right: 1px solid #ffffff;
@@ -95,13 +99,14 @@ a, a:hover, a:visited {
 }
 
 .header-settings {
-    margin-top: -7px;
-    background-image: url("/media/img/appbar.cog.png");
+    margin-top: -4px;
+    background-image: url("/media/img/appbar.align.justify.png");
     background-repeat: no-repeat;
     background-size: cover;
     width: 35px;
-    height: 35px;
+    height: 23px;
     display: block;
+    overflow: hidden;
 }
 
 .container, .container-fluid {
@@ -124,7 +129,7 @@ a, a:hover, a:visited {
     padding-left: 190px !important;
     padding-right: 20px !important;
     background-color: #ffffff;
-    height: 1500px;
+    min-height: 1200px;
 }
 
 .hidden {

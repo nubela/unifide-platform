@@ -2,99 +2,22 @@
     <div class="container-fluid">
         <div class="overview">
             <div class="row-fluid">
-
-
-                <!--- facebook block --->
                 <div class="span6">
+                    <!--- facebook block --->
                     {{> overview_facebook}}
-                </div>
 
-
-                <!--- twitter block --->
-                <div class="span6">
+                    <!--- twitter block --->
                     {{> overview_twitter}}
-                </div>
-            </div>
 
-
-            <div class="row-fluid">
-
-                <!--- 4sq block --->
-                <div class="span6">
+                    <!--- 4sq block --->
                     {{> overview_foursquare}}
                 </div>
-
-
-                <!--- web mentions block --->
                 <div class="span6">
-                    <div class="overview-widget container-shadow">
-                        <div class="title">WEB MENTIONS</div>
-                        <div class="overflow">
-                            <table class="table table-hover entry-table">
-                                <tbody>
-                                    {{#each web_mentions_overview}}
-                                    <tr>
-                                        <td>
-                                            <span class="badge">{{keyword}}</span>
-                                        </td>
-                                        <td>
-                                            <a href="{{url}}" target="_blank">
-                                                <p>{{title}}</p>
-                                                <p class="url">
-                                                    <i>{{url}}</i>
-                                                </p>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    {{/each}}
-                                </tbody>
-                            </table>
-                        </div>
-                        <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>
-                    </div>
-                </div>
-            </div>
+                    <!--- website block --->
+                    {{> overview_web}}
 
-
-            <div class="row-fluid">
-
-                <!--- website block --->
-                <div class="span8">
-                    <div class="overview-website container-shadow">
-                        <div class="title">WEBSITE</div>
-                        <table class="table table-hover">
-                            <tbody>
-                                {{#each foursquare_overview}}
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-
-                <div class="span4">
-
-                    <!--- iOS block --->
-                    <div class="overview-mobile container-shadow">
-                        <div class="title">iOS</div>
-                        <table class="table table-hover">
-                            <tbody>
-                                {{#each ios_mentions_overview}}
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!--- android block --->
-                    <div class="overview-mobile container-shadow">
-                        <div class="title">ANDROID</div>
-                        <table class="table table-hover">
-                            <tbody>
-                                {{#each ios_mentions_overview}}
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
+                    <!--- web mentions block --->
+                    {{> overview_brandmention}}
                 </div>
             </div>
         </div>
@@ -102,37 +25,45 @@
 </template>
 
 
-
 <template name="overview_facebook">
     <div class="overview-widget container-shadow">
         <div class="title">FACEBOOK</div>
-        <div class="overflow">
+        {{#if check_facebook}}
             <table class="table table-hover" id="overview-facebook">
                 <tbody>
                     {{#each facebook_overview}}
-                    <tr>
-                        <td class="facebook-profile-pic">
-                            <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
-                        </td>
-                        <td class="facebook-profile">
-                            <div class="facebook-profile-name">
-                                {{name}}
-                            </div>
-                            <div class="facebook-post-time">
-                                {{datetime}}
-                            </div>
-                        </td>
-                        <td class="facebook-post-content">
-                            {{message}}
-                            <br>
-                            <a class="facebook-view-post" href="{{link}}" onclick="window.open(this.href,'_blank');return false;">View Post</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="facebook-profile-pic">
+                                <a href="http://www.facebook.com/profile.php?id={{uid}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="http://graph.facebook.com/{{uid}}/picture"></a>
+                            </td>
+                            <td>
+                                <div class="facebook-profile-name pull-left">
+                                    {{name}}&nbsp;
+                                </div>
+                                {{message}}
+                                <div class="clear" />
+                                <div class="facebook-post-time pull-left">
+                                    {{datetime}}
+                                </div>
+                                <a href="{{link}}" onclick="window.open(this.href,'_blank');return false;" class="facebook-view-post pull-right">
+                                    View {{type}}
+                                </a>
+                                <div class="clear" />
+                            </td>
+                        </tr>
                     {{/each}}
                 </tbody>
             </table>
-        </div>
-        <a href="/facebook/page/activity" class="appnav viewmore">VIEW ALL</a>
+        {{else}}
+            <div class="no-data">
+                No Facebook activity available.
+            </div>
+        {{/if}}
+        {{#if check_facebook}}
+        <a href="/facebook/page/activity" class="appnav viewmore">
+            VIEW ALL
+        </a>
+        {{/if}}
     </div>
 </template>
 
@@ -140,33 +71,69 @@
 <template name="overview_twitter">
     <div class="overview-widget container-shadow">
         <div class="title">TWITTER</div>
-        <div class="overflow">
-            <table class="table table-hover" id="overview-twitter">
-                <tbody>
-                    {{#each twitter_overview}}
-                    <tr>
-                        <td class="twitter-profile-pic">
-                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
-                        </td>
-                        <td>
-                            <div class="pull-left">
-                                <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
-                                <div class="twitter-profile-name pull-left">{{user.name}}</div>
-                                <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
-                                </a>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="pull-right">{{created_at}}</div>
-                            <div class="clear"></div>
-                            {{fields.text}}
-                        </td>
-                    </tr>
+        {{#if check_twitter}}
+        <table class="table table-hover" id="overview-twitter">
+            <tbody>
+                {{#each twitter_overview}}
+                <tr>
+                    <td class="twitter-profile-pic">
+                        <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{user.profile_image_url}}"></a>
+                    </td>
+                    <td>
+                        <div class="pull-left">
+                            <a href="http://www.twitter.com/{{user.screen_name}}" onclick="window.open(this.href,'_blank');return false;">
+                            <div class="twitter-profile-name pull-left">{{user.name}}</div>
+                            <div class="twitter-profile-handle pull-left">@{{user.screen_name}}</div>
+                            </a>
+                            <div class="clear" />
+                        </div>
+                        <div class="pull-right twitter-tweet-time">
+                            {{datetime}}
+                        </div>
+                        <div class="clear" />
+                        <input type="hidden" value="{{fields.id_str}}" class="tweet_id" />
+                        <input type="hidden" value="{{fields.user.screen_name}}" class="tweet_screen_name" />
+                        {{{parsed_text}}}
+                        <br />
+                        <a href="#" class="twitter-reply">
+                            <i class="icon-share-alt twitter-reply-icon" />
+                            Reply
+                        </a>
+                    </td>
+                </tr>
 
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-        <a href="/twitter/activity" class="appnav viewmore">VIEW ALL</a>
+                {{/each}}
+                <div tabindex="-1" role="dialog" aria-hidden="true" class="modal hide fade" id="twitter-reply-modal">
+                    <div class="modal-header">
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">
+                            x
+                        </button>
+                        <h5>
+                            Reply text
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" class="tweet_id" />
+                        <textarea />
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info twitter-tweet-reply">
+                            Tweet
+                        </button>
+                    </div>
+                </div>
+            </tbody>
+        </table>
+        {{else}}
+            <div class="no-data">
+                No Twitter activity available.
+            </div>
+        {{/if}}
+        {{#if check_twitter}}
+        <a href="/twitter/activity" class="appnav viewmore">
+            VIEW ALL
+        </a>
+        {{/if}}
     </div>
 </template>
 
@@ -194,5 +161,87 @@
             </table>
         </div>
         <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>
+    </div>
+</template>
+
+<template name="overview_brandmention">
+    <div class="overview-widget container-shadow">
+        <div class="title">WEB MENTIONS</div>
+        <div class="overflow">
+            <table class="table table-hover entry-table">
+                <tbody>
+                    {{#if web_mentions_overview}}
+                        {{#each web_mentions_overview}}
+                        <tr>
+                            <td>
+                                <span class="badge">{{keyword}}</span>
+                            </td>
+                            <td>
+                                <a href="{{url}}" target="_blank">
+                                    <p>{{title}}</p>
+                                    <p class="url">
+                                        <i>{{url}}</i>
+                                    </p>
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    {{else}}
+                        <div class="no-data">
+                            No web mentions activity available.
+                        </div>
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+        {{#if web_mentions_overview}}
+        <a href="/brand-mention" class="appnav viewmore">
+            VIEW ALL
+        </a>
+        {{/if}}
+    </div>
+</template>
+
+<template name="overview_web">
+    <div class="overview-widget container-shadow">
+        <div class="title">WEB / MOBILE</div>
+        {{#if check_web}}
+        <table class="table table-hover">
+            <tbody>
+                {{#each web_overview}}
+                <tr>
+                    <td>
+                        {{{platforms}}}
+                        <div class="web-time pull-right">
+                            {{datetime}}
+                        </div>
+                        <div class="clear" />
+                        <div class="web-title">
+                            {{title}}
+                        </div>
+                        {{{event}}}
+                        <div class="web-description">
+                            {{{description}}}
+                        </div>
+                        <div class="web-view-link">
+                            <a href="/" class="appnav">
+                                View on website.com
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+            <div class="no-data">
+                No web or mobile activity available.
+            </div>
+        {{/if}}
+        {{#if check_web}}
+        <a href="/web" class="appnav viewmore">
+            VIEW ALL
+        </a>
+        {{/if}}
     </div>
 </template>

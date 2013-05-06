@@ -1,4 +1,6 @@
 var campaign_default_template = "campaign_list";
+var platforms = ["facebook", "twitter", "foursquare", "campaign", "blog", "push"];
+
 
 Template.campaign.view = function() {
     var parse = Session.get("page_template").split("_");
@@ -21,14 +23,28 @@ Template.campaign.events = {
         else { $('#platform-all').text('Select all') }
     },
     'click #btn-publish': function() {
-        /*Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function(error, result) {
+        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function(error, result) {
             if (result.statusCode !== 200) { console.log(result.error); }
             else { Router.navigate('campaign', true); }
-        });*/
-        load_content({}, $('.campaign-type').val(), "published")
+        });
     },
     'click #btn-schedule': function() {
-        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "scheduled"), function(error, result) {
+        $('#schedule-date').datetimepicker({
+            pickTime: false
+        });
+        $('#schedule-time').datetimepicker({
+            pickDate: false,
+            pick12HourFormat: true,
+            pickSeconds: false
+        });
+        $('#schedule_modal').modal();
+    },
+    'click #btn-schedule-modal': function(event) {
+        event.preventDefault();
+        var args = load_content({}, $('.campaign-type').val(), "scheduled")
+        args["scheduled_datetime"] = load_scheduled_datetime();
+        Meteor.call("http_api", "put", "campaign/data/", args, function(error, result) {
+            $('#schedule_modal').modal('hide');
             if (result.statusCode !== 200) { console.log(result.error); }
             else { Router.navigate('campaign', true); }
         });
@@ -36,13 +52,137 @@ Template.campaign.events = {
 }
 
 Template.campaign_promo_new.rendered = function() {
-    input_change('#campaign-title', '.char-count');
-    $('#desc-editor').wysihtml5();
-
     page_render(this);
 }
 
 Template.campaign_event_new.rendered = function() {
+    page_render(this);
+}
+
+Template.campaign_list.rendered = function() {
+    $('.selection input:checkbox').change(function() {
+        var selected = $('.selection input:checkbox:checked').length;
+        var total = $('.selection input:checkbox').length;
+        if (selected > 0) {
+            $('.selected-buttons').css('display', 'block');
+        } else {
+            $('.selected-buttons').css('display', 'none');
+        }
+
+        if (selected === total) { $('#select-all').html('<i class="icon-ok"></i> Unselect All'); }
+        else { $('#select-all').html('<i class="icon-ok"></i> Select All'); }
+    })
+}
+
+Template.campaign_list.events = {
+    'click .page-back': function() {
+        var page = Session.get("campaign_list_page");
+        if (page == 1) { return; }
+        else { Session.set("campaign_list_page", (page-1)); }
+    },
+    'click .page-next': function() {
+        var page = Session.get("campaign_list_page");
+        var total = Template.campaign_list.total();
+        if (page >= (total/10)) { return; }
+        else { Session.set("campaign_list_page", (page+1)); }
+    },
+    'click #select-all': function(event) {
+        var selected = $('.selection input:checkbox:checked').length;
+        var total = $('.selection input:checkbox').length;
+
+        if (selected === total) {
+            $('.selection input:checkbox').prop('checked', false);
+            $('#select-all').html('<i class="icon-ok"></i> Select All');
+        } else {
+            $('.selection input:checkbox').prop('checked', true);
+            $('#select-all').html('<i class="icon-ok"></i> Unselect All');
+        }
+
+        selected = $('.selection input:checkbox:checked').length;
+        if (selected > 0) {
+            $('.selected-buttons').css('display', 'block');
+        } else {
+            $('.selected-buttons').css('display', 'none');
+        }
+    },
+    'click .expand-all': function(event) {
+        $('.collapse').collapse('show');
+        $('.expand-all').html('<i class="icon-arrow-down"></i> Collapse All');
+        $(event.currentTarget).addClass('collapse-all').removeClass('expand-all');
+    },
+    'click .collapse-all': function(event) {
+        $('.collapse').collapse('hide');
+        $('.collapse-all').html('<i class="icon-arrow-down"></i> Expand All');
+        $(event.currentTarget).addClass('expand-all').removeClass('collapse-all');
+    },
+    'click .expanded-edit': function(event) {
+        var campaign_id = $(event.currentTarget).find('.edit-campaign-id').val();
+        var campaign_type = $(event.currentTarget).find('.edit-campaign-type').val();
+        Session.set('edit_campaign_type', campaign_type);
+        Session.set('edit_campaign_id', campaign_id);
+        $('#edit_campaign_modal').modal();
+    },
+    'click .delete-campaign': function(event) {
+        var checked = $('.selection input:checkbox:checked');
+        var campaign_list = [];
+        for (var i=0;i<checked.length;i++) {
+            campaign_list.push($(checked[i]).val());
+        }
+
+        Meteor.call('http_api', 'del', 'campaign/?user_id=' + Meteor.userId() +
+                                                "&brand_name=" + Session.get("selected_brand") +
+                                                "&campaign_list=" + campaign_list,
+            function(error, result) {
+            if (result.statusCode !== 200) { console.log(result.error); }
+        });
+    },
+    'click #btn-edit-modal': function(event) {
+        event.preventDefault();
+        console.log('loaded');
+        var args = {};
+
+        Meteor.call('http_api', 'put', 'campaign/data/update/', load_edited_content(args), function(error, result) {
+            $('#edit_campaign_modal').modal('hide');
+            if (result.statusCode !== 200) { console.log(result.error); }
+        })
+    }
+}
+
+Template.campaign_list.total = function() {
+    return Mappings.find().count();
+}
+
+Template.campaign_list.list_page = function() {
+    Session.setDefault("campaign_list_page", 1);
+    return Session.get("campaign_list_page");
+}
+
+Template.campaign_list.campaigns = function() {
+    var offset = (Session.get("campaign_list_page") * 10) - 10;
+    var mappings = Mappings.find({}, {limit: 10, skip: offset}).fetch();
+    _CampaignsList.remove({});
+    for (var i=0;i<mappings.length;i++) { _CampaignsList.insert(computeCampaign(mappings[i])); }
+
+    return _CampaignsList.find().fetch();
+}
+
+Template.campaign_list.edit_campaign = function() {
+    Session.setDefault('edit_campaign_type', 'promotion');
+    Session.get('edit_campaign_id');
+    var edit_type = Session.get('edit_campaign_type');
+    if (edit_type === 'promotion') { return Template["campaign_promo"](); }
+    else { return Template["campaign_event"](); }
+}
+
+Template.campaign_promo.rendered = function() {
+    input_change('#campaign-title', '.char-count');
+    $('#desc-editor').wysihtml5();
+
+    var id = Session.get('edit_campaign_id');
+    if (id) { loadCampaignData(id) }
+}
+
+Template.campaign_event.rendered = function() {
     input_change('#campaign-title', '.char-count');
     $('#event-date').datetimepicker({
         pickTime: false
@@ -51,47 +191,163 @@ Template.campaign_event_new.rendered = function() {
         pickDate: false,
         pick12HourFormat: true,
         pickSeconds: false
-    })
+    });
     $('#event-time-end').datetimepicker({
         pickDate: false,
         pick12HourFormat: true,
         pickSeconds: false
-    })
+    });
     $('#desc-editor').wysihtml5();
 
-    page_render(this);
+    var id = Session.get('edit_campaign_id');
+    if (id) {
+        campaign = loadCampaignData(id);
+        var datepicker = $('#event-date').data('datetimepicker');
+        var start_timepicker = $('#event-time-start').data('datetimepicker');
+        var end_timepicker = $('#event-time-end').data('datetimepicker');
+        var start = new Date(campaign["obj_start"]);
+        var end = campaign["obj_end"] ? new Date(campaign["obj_end"]) : "";
+        datepicker.setDate(start);
+        start_timepicker.setDate(start)
+        end ? end_timepicker.setDate(end) : "";
+    }
 }
 
-Template.campaign_list.campaigns = function() {
-    var selected_brand = Session.get("selected_brand");
-    _CampaignsList.remove({});
+function loadCampaignData(id) {
+    var campaign = _CampaignsList.findOne({id: id});
+    if (!campaign) { return };
+    campaign.obj_title ? $('textarea#campaign-title').val(campaign.obj_title) : "";
+    $('.char-count').text(campaign.obj_title.length + " characters")
+    $('#desc-editor').val(campaign.obj_desc);
 
-    var client_mapping = Mappings.find({}, {limit: 10}).fetch();
-    for (var i=0;i<client_mapping.length;i++) {
-        var campaign_obj, facebook_obj, twitter_obj, foursquare_obj;
-        console.log(client_mapping[i]);
-        if (client_mapping[i].campaign != undefined) {
-            campaign_obj = Campaigns.findOne({_id: client_mapping[i].campaign});
-        }
-        if (client_mapping[i].facebook != undefined) {
-            facebook_obj = FBPosts.findOne({_id: client_mapping[i].facebook});
-        }
-        if (client_mapping[i].twitter != undefined) {
-            twitter_obj = TWTweets.findOne({_id: client_mapping[i].twitter});
-        }
-        if (client_mapping[i].foursquare != undefined) {
-            foursquare_obj = FSQPageUpdates.findOne({_id: client_mapping[i].foursquare});
-        }
+    return campaign;
+}
 
-        _CampaignsList.insert({campaign: campaign_obj, facebook: facebook_obj, twitter: twitter_obj, foursquare: foursquare_obj});
-        campaign_obj = null, facebook_obj = null, twitter_obj = null, foursquare_obj = null;
+function computeCampaign(mapping) {
+    var dict = {id: "", type: "", platforms: "", title: "", obj_title: "", obj_desc: "", state: "", created: "", scheduled: "", expanded: "" };
+    var time_now = new Date().getTime();
+
+    dict["id"] = mapping._id.toHexString();
+    dict["type"] = mapping.type;
+
+    for (var i=0;i<platforms.length;i++) {
+        if (mapping[platforms[i]]) {
+            if (mapping[platforms[i]] == 1 && platforms[i] === "push") {
+                console.log(mapping[platforms[i]]);
+                dict["platforms"] += '<div class="type-ios pull-left"></div><div class="type-android pull-left"></div>'
+                continue;
+            }
+            dict["platforms"] += '<div class="type-' + platforms[i] + ' pull-left"></div>';
+        }
     }
 
-    return _CampaignsList.find();
+    // web/mobile campaign
+    if (mapping.campaign || mapping.blog) {
+        var campaign = Campaigns.findOne({_id: mapping.campaign});
+        dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description))) : "";
+        dict["obj_title"] = value_check(campaign, "title");
+        dict["obj_desc"] = value_check(campaign, "description");
+        dict["obj_start"] = value_check(campaign, "happening_datetime_start") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_start")) : undefined;
+        dict["obj_end"] = value_check(campaign, "happening_datetime_end") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_end")) : undefined;
+    }
+    // web/mobile blog
+    else if (mapping.blog) {
+        var campaign = Campaigns.findOne({_id: mapping.campaign});
+        dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description))) : "";
+        dict["obj_title"] = value_check(campaign, "title");
+        dict["obj_desc"] = value_check(campaign, "description");
+        dict["obj_start"] = value_check(campaign, "happening_datetime_start") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_start")) : undefined;
+        dict["obj_end"] = value_check(campaign, "happening_datetime_end") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_end")) : undefined;
+    }
+    // facebook event
+    else if (mapping.facebook && mapping.type === "event") {
+        var fb = FBEvents.findOne({_id: mapping.facebook});
+        dict["title"] = fb ? wrapTitleContainer(wrapBold(fb.fields.name) + " - " + wrapGray(stripHTML(fb.fields.description))) : "";
+        dict["obj_title"] = fb ? fb.fields.name : "";
+        dict["obj_desc"] = fb ? convertNewLine(fb.fields.description) : "";
+        dict["obj_start"] = fb ? fb.fields.start_time : "";
+        dict["obj_end"] = fb ? fb.fields.end_time : "";
+    // facebook status/link/photo
+    } else if (mapping.facebook && mapping.type === "promotion") {
+        var fb = FBPosts.findOne({_id: mapping.facebook});
+        dict["title"] = fb ? wrapTitleContainer(wrapBold(fb.fields.message)) : "";
+        dict["obj_title"] = fb ? fb.fields.message : "";
+    // twitter tweet
+    } else if (mapping.twitter) {
+        var tw = TWTweets.findOne({_id: mapping.twitter});
+        dict["title"] = tw ? wrapTitleContainer(wrapBold(tw.fields.text)) : "";
+        dict["obj_title"] = tw ? tw.fields.text : "";
+    // foursquare page update
+    } else if (mapping.foursquare) {
+        var fsq = FSQPageUpdates.findOne({_id: mapping.foursquare});
+        dict["title"] = fsq ? wrapTitleContainer("") : "";
+        dict["obj_title"] = fsq ? "" : "";
+    }
+
+    dict["state"] = mapping.state === "published" ? "<i class='icon-ok-sign'></i>" : "<i class='icon-time'></i>"
+    dict["created"] = timeDifference(time_now, new Date(mapping.timestamp_utc).getTime());
+    dict["expanded"] = loadCampaignCard(mapping, dict);
+
+    return dict;
 }
 
-Template.campaign_list.rendered = function() {
-    page_render(this);
+function value_check(obj, attr) {
+    if (obj) { return obj[attr] ? obj[attr] : undefined; }
+    else return undefined;
+}
+
+function loadCampaignCard(mapping, dict) {
+    var card = '';
+    var title = dict["obj_title"];
+    var desc = dict["obj_desc"];
+
+    card += '<div class="expanded-title">' + title + '</div>';
+    var startDate = new Date(dict["obj_start"]);
+    var endDate = new Date(dict["obj_end"]);
+    if (dict["obj_start"]) {
+        card += '<div class="expanded-event-datetime"><i class="icon-calendar"></i> ' + startDate.toDateString() + '<span class="expanded-event-start"><i class="icon-time"></i> ' + startDate.toLocaleTimeString();
+    }
+    if (dict["obj_end"]) {
+        card += ' until ' + endDate.toLocaleTimeString();
+    }
+    if (dict["obj_start"]) {
+        card += '</span></div>';
+    }
+    card += desc ? '<div class="expanded-desc">' + desc + '</div>' : '';
+    card += '<hr>';
+
+    var ts = new Date(mapping.timestamp_utc);
+    var scheduled = new Date(mapping.publish_datetime);
+    card += '<div class="expanded-edit pull-left"><i class="icon-edit"></i>' +
+            '<input type="hidden" class="edit-campaign-type" value="' + dict["type"] + '">' +
+            '<input type="hidden" class="edit-campaign-id" value="' + dict["id"] + '"> Edit campaign</div>';
+    card += mapping.state === "published" ?
+            '<span class="expanded-datetime pull-left">Published on ' + ts.toDateString() + ' ' + ts.toLocaleTimeString() + '</span>' :
+            '<span class="expanded-datetime pull-left">Scheduled for ' + scheduled.toDateString() + ' ' + scheduled.toLocaleTimeString() + '</span>';
+    card += '<div class="clear"></div>';
+
+    return card;
+}
+
+function convertNewLine(val) {
+    return val.replace(/\n/g, '<br>');
+}
+
+function wrapTitleContainer(val) {
+    return "<div class='title-shorten pull-left'>" + val + "</div>";
+}
+
+function wrapBold(val) {
+    return "<span class='title-bold'>" + val + "</span>";
+}
+
+function wrapGray(val) {
+    return "<span class='title-gray'>" + val + "</span>";
+}
+
+function stripHTML(val) {
+    val = val.replace(/\<br\>/g," ");
+    return val.replace(/<(?:.|\n)*?>/gm, '');
 }
 
 function input_change(id, display_div) {
@@ -117,17 +373,77 @@ function load_content(args, type, state) {
         var date = $('.campaign-post-date-input').val();
         var time_start = $('.campaign-post-time-from-input').val();
         var time_end = $('.campaign-post-time-to-input').val();
-        var epoch_start = new Date(date + " " + time_start).getTime()/1000;
-        var epoch_end = new Date(date + " " + time_end).getTime()/1000;
-        args["datetime_start"] = epoch_start;
-        args["datetime_end"] = epoch_end;
+        if (time_start) {
+            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            args["datetime_start"] = epoch_start;
+        }
+        if (time_end) {
+            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            args["datetime_end"] = epoch_end;
+        }
     }
 
     return args;
+}
+
+function load_edited_content(args) {
+    args["user_id"] = Meteor.userId();
+    args["brand_name"] = Session.get("selected_brand");
+    args["campaign_id"] = Session.get('edit_campaign_id');
+    args["title"] = $('#campaign-title').val();
+    args["description"] = $('#desc-editor').val();
+    if ($('.campaign-post-datetime') != undefined) {
+        var date = $('.campaign-post-date-input').val();
+        var time_start = $('.campaign-post-time-from-input').val();
+        var time_end = $('.campaign-post-time-to-input').val();
+        if (time_start) {
+            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            args["datetime_start"] = epoch_start;
+        }
+        if (time_end) {
+            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            args["datetime_end"] = epoch_end;
+        }
+    }
+    return args;
+}
+
+
+function load_scheduled_datetime(){
+    var date = $('.campaign-post-date-input-schedule').val();
+    var time = $('.campaign-post-time-from-input-schedule').val();
+    var epoch = new Date(date + " " + time).getTime()/1000;
+    return epoch;
 }
 
 function page_render(obj) {
     $(obj.firstNode).css({'opacity': 0});
     $(obj.firstNode).css({'position': 'relative', 'left': 100});
     $(obj.firstNode).animate({'opacity': 1, 'left': '0'}, 100);
+}
+
+function timeDifference(current, previous, format) {
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+         return Math.round(elapsed/1000) + ' seconds ago';
+    }
+    else if (elapsed < msPerHour) {
+         return Math.round(elapsed/msPerMinute) + ' minutes ago';
+    }
+    else if (elapsed < msPerDay ) {
+         return Math.round(elapsed/msPerHour ) + ' hours ago';
+    }
+    /*else if (elapsed < msPerMonth) {
+        return Math.round(elapsed/msPerDay) + ' days ago';
+    }*/
+    else {
+        var d = new Date(previous);
+        return format ? d.toDateString() + " " + d.toLocaleTimeString() : d.toDateString();
+    }
 }

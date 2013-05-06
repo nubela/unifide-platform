@@ -75,6 +75,7 @@ Template.account_brand.events = {
     'click #del_facebook_page': function (event) {
         event.preventDefault();
         Meteor.call("del_facebook_page", Session.get("account_brand"), function (error, result) {
+            clear_cache();
         });
     },
     'click #add_twitter': function (event) {
@@ -272,4 +273,13 @@ function page_render(obj) {
     $(obj.firstNode).css({'opacity': 0});
     $(obj.firstNode).css({'position': 'relative', 'left': 100});
     $(obj.firstNode).animate({'opacity': 1, 'left': '0'}, 100);
+}
+
+function clear_cache() {
+    _FBOverview.remove({});
+    _FBActivity.remove({});
+    _TWOverview.remove({});
+    _TWActivity.remove({});
+    _FSQOverview.remove({});
+    _FSQActivity.remove({});
 }
