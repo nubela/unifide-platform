@@ -233,7 +233,6 @@ function computeCampaign(mapping) {
     for (var i=0;i<platforms.length;i++) {
         if (mapping[platforms[i]]) {
             if (mapping[platforms[i]] == 1 && platforms[i] === "push") {
-                console.log(mapping[platforms[i]]);
                 dict["platforms"] += '<div class="type-ios pull-left"></div><div class="type-android pull-left"></div>'
                 continue;
             }

@@ -112,7 +112,6 @@ Template.overview_web.web_overview = function() {
     _WebOverview.remove({});
 
     var mappings = Mappings.find({$or: [{campaign: {$ne: null}}, {blog: {$ne: null}}], state: "published"}, {limit: 5}).fetch();
-    console.log(mappings.length);
     for (var i=0;i<mappings.length;i++) {
         var m = mappings[i];
         var content = getContentCampaign(m);
@@ -135,11 +134,9 @@ function loadEventDetails(content) {
     var val = "";
     var event_start = value_check(content, "happening_datetime_start");
     var event_end = value_check(content, "happening_datetime_end");
-    console.log(content);
 
     if (event_start) {
         var startDate = getTimeFromUTC(event_start);
-        console.log(startDate);
         val += '<div class="expanded-event-datetime"><i class="icon-calendar"></i> ' + startDate.toDateString() + '<span class="expanded-event-start"><i class="icon-time"></i> ' + startDate.toLocaleTimeString();
     }
     if (event_end) { var endDate = getTimeFromUTC(event_end); val += ' until ' + endDate.toLocaleTimeString(); }
