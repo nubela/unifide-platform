@@ -102,9 +102,80 @@ Template.overview_brandmention.web_mentions_overview = function() {
     return BrandMentions.find({}, {sort: {modification_timestamp_utc: -1}, limit: 4}).fetch();
 }
 
+Template.overview_web.check_web = function() {
+    if (Campaigns.find().count() == 0) { return false; }
+    return true;
+}
+
 Template.overview_web.web_overview = function() {
+    var time_now = new Date().getTime();
+    _WebOverview.remove({});
+
+    var mappings = Mappings.find({$or: [{campaign: {$ne: null}}, {blog: {$ne: null}}], state: "published"}, {limit: 5}).fetch();
+    console.log(mappings.length);
+    for (var i=0;i<mappings.length;i++) {
+        var m = mappings[i];
+        var content = getContentCampaign(m);
+        _WebOverview.insert({platforms: loadPlatforms(m),
+                            event: loadEventDetails(content),
+                            title: content.title,
+                            description: stripHTML(content.description),
+                            datetime: timeDifference(time_now, new Date(m.timestamp_utc))});
+    }
+
     return _WebOverview.find().fetch();
 };
+
+function getContentCampaign(mapping) {
+    var objId = mapping.campaign ? mapping.campaign : mapping.blog;
+    return Campaigns.findOne({_id: objId});
+}
+
+function loadEventDetails(content) {
+    var val = "";
+    var event_start = value_check(content, "happening_datetime_start");
+    var event_end = value_check(content, "happening_datetime_end");
+    console.log(content);
+
+    if (event_start) {
+        var startDate = getTimeFromUTC(event_start);
+        console.log(startDate);
+        val += '<div class="expanded-event-datetime"><i class="icon-calendar"></i> ' + startDate.toDateString() + '<span class="expanded-event-start"><i class="icon-time"></i> ' + startDate.toLocaleTimeString();
+    }
+    if (event_end) { var endDate = getTimeFromUTC(event_end); val += ' until ' + endDate.toLocaleTimeString(); }
+    if (event_start) { val += '</span></div>'; }
+
+    return val;
+}
+
+function loadPlatforms(mapping) {
+    var val = "";
+
+    if (mapping.campaign) { val += '<div class="web-platform-icon-web pull-left"></div>'; }
+    if (mapping.blog) { val += '<div class="web-platform-icon-blog pull-left"></div>' }
+    if (mapping.push) {
+        val += '<div class="web-platform-icon-android pull-left"></div>';
+        val += '<div class="web-platform-icon-ios pull-left"></div>'
+    }
+
+    return val;
+}
+
+function stripHTML(val) {
+    val = val.replace(/\<br\>/g," ");
+    return val.replace(/<(?:.|\n)*?>/gm, '');
+}
+
+function value_check(obj, attr) {
+    if (obj) { return obj[attr] ? obj[attr] : undefined; }
+    else return undefined;
+}
+
+function getTimeFromUTC(epoch) {
+    var d = new Date(0);
+    d.setUTCSeconds(epoch);
+    return d;
+}
 
 function detect_selected_brand(brand, platform) {
     if (BrandMappings.findOne({uid: Meteor.userId(), brand_name: brand}) == undefined) { return null; }

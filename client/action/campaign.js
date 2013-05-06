@@ -39,7 +39,8 @@ Template.campaign.events = {
         });
         $('#schedule_modal').modal();
     },
-    'click #btn-schedule-modal': function() {
+    'click #btn-schedule-modal': function(event) {
+        event.preventDefault();
         var args = load_content({}, $('.campaign-type').val(), "scheduled")
         args["scheduled_datetime"] = load_scheduled_datetime();
         Meteor.call("http_api", "put", "campaign/data/", args, function(error, result) {
@@ -51,29 +52,10 @@ Template.campaign.events = {
 }
 
 Template.campaign_promo_new.rendered = function() {
-    input_change('#campaign-title', '.char-count');
-    $('#desc-editor').wysihtml5();
-
     page_render(this);
 }
 
 Template.campaign_event_new.rendered = function() {
-    input_change('#campaign-title', '.char-count');
-    $('#event-date').datetimepicker({
-        pickTime: false
-    });
-    $('#event-time-start').datetimepicker({
-        pickDate: false,
-        pick12HourFormat: true,
-        pickSeconds: false
-    });
-    $('#event-time-end').datetimepicker({
-        pickDate: false,
-        pick12HourFormat: true,
-        pickSeconds: false
-    });
-    $('#desc-editor').wysihtml5();
-
     page_render(this);
 }
 
@@ -134,7 +116,11 @@ Template.campaign_list.events = {
         $(event.currentTarget).addClass('expand-all').removeClass('collapse-all');
     },
     'click .expanded-edit': function(event) {
-        console.log('load edit modal');
+        var campaign_id = $(event.currentTarget).find('.edit-campaign-id').val();
+        var campaign_type = $(event.currentTarget).find('.edit-campaign-type').val();
+        Session.set('edit_campaign_type', campaign_type);
+        Session.set('edit_campaign_id', campaign_id);
+        $('#edit_campaign_modal').modal();
     },
     'click .delete-campaign': function(event) {
         var checked = $('.selection input:checkbox:checked');
@@ -149,6 +135,16 @@ Template.campaign_list.events = {
             function(error, result) {
             if (result.statusCode !== 200) { console.log(result.error); }
         });
+    },
+    'click #btn-edit-modal': function(event) {
+        event.preventDefault();
+        console.log('loaded');
+        var args = {};
+
+        Meteor.call('http_api', 'put', 'campaign/data/update/', load_edited_content(args), function(error, result) {
+            $('#edit_campaign_modal').modal('hide');
+            if (result.statusCode !== 200) { console.log(result.error); }
+        })
     }
 }
 
@@ -170,6 +166,63 @@ Template.campaign_list.campaigns = function() {
     return _CampaignsList.find().fetch();
 }
 
+Template.campaign_list.edit_campaign = function() {
+    Session.setDefault('edit_campaign_type', 'promotion');
+    Session.get('edit_campaign_id');
+    var edit_type = Session.get('edit_campaign_type');
+    if (edit_type === 'promotion') { return Template["campaign_promo"](); }
+    else { return Template["campaign_event"](); }
+}
+
+Template.campaign_promo.rendered = function() {
+    input_change('#campaign-title', '.char-count');
+    $('#desc-editor').wysihtml5();
+
+    var id = Session.get('edit_campaign_id');
+    if (id) { loadCampaignData(id) }
+}
+
+Template.campaign_event.rendered = function() {
+    input_change('#campaign-title', '.char-count');
+    $('#event-date').datetimepicker({
+        pickTime: false
+    });
+    $('#event-time-start').datetimepicker({
+        pickDate: false,
+        pick12HourFormat: true,
+        pickSeconds: false
+    });
+    $('#event-time-end').datetimepicker({
+        pickDate: false,
+        pick12HourFormat: true,
+        pickSeconds: false
+    });
+    $('#desc-editor').wysihtml5();
+
+    var id = Session.get('edit_campaign_id');
+    if (id) {
+        campaign = loadCampaignData(id);
+        var datepicker = $('#event-date').data('datetimepicker');
+        var start_timepicker = $('#event-time-start').data('datetimepicker');
+        var end_timepicker = $('#event-time-end').data('datetimepicker');
+        var start = new Date(campaign["obj_start"]);
+        var end = campaign["obj_end"] ? new Date(campaign["obj_end"]) : "";
+        datepicker.setDate(start);
+        start_timepicker.setDate(start)
+        end ? end_timepicker.setDate(end) : "";
+    }
+}
+
+function loadCampaignData(id) {
+    var campaign = _CampaignsList.findOne({id: id});
+    if (!campaign) { return };
+    campaign.obj_title ? $('textarea#campaign-title').val(campaign.obj_title) : "";
+    $('.char-count').text(campaign.obj_title.length + " characters")
+    $('#desc-editor').val(campaign.obj_desc);
+
+    return campaign;
+}
+
 function computeCampaign(mapping) {
     var dict = {id: "", type: "", platforms: "", title: "", obj_title: "", obj_desc: "", state: "", created: "", scheduled: "", expanded: "" };
     var time_now = new Date().getTime();
@@ -179,7 +232,8 @@ function computeCampaign(mapping) {
 
     for (var i=0;i<platforms.length;i++) {
         if (mapping[platforms[i]]) {
-            if (mapping[platforms[i]] === "push") {
+            if (mapping[platforms[i]] == 1 && platforms[i] === "push") {
+                console.log(mapping[platforms[i]]);
                 dict["platforms"] += '<div class="type-ios pull-left"></div><div class="type-android pull-left"></div>'
                 continue;
             }
@@ -190,37 +244,43 @@ function computeCampaign(mapping) {
     // web/mobile campaign
     if (mapping.campaign || mapping.blog) {
         var campaign = Campaigns.findOne({_id: mapping.campaign});
-        dict["title"] = campaign ? wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description)) : "";
-        dict["obj_title"] = campaign ? campaign.title : "";
-        dict["obj_desc"] = campaign ? campaign.description : "";
+        dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description))) : "";
+        dict["obj_title"] = value_check(campaign, "title");
+        dict["obj_desc"] = value_check(campaign, "description");
+        dict["obj_start"] = value_check(campaign, "happening_datetime_start") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_start")) : undefined;
+        dict["obj_end"] = value_check(campaign, "happening_datetime_end") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_end")) : undefined;
     }
     // web/mobile blog
     else if (mapping.blog) {
         var campaign = Campaigns.findOne({_id: mapping.campaign});
-        dict["title"] = campaign ? wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description)) : "";
-        dict["obj_title"] = campaign ? campaign.title : "";
-        dict["obj_desc"] = campaign ? campaign.description : "";
+        dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description))) : "";
+        dict["obj_title"] = value_check(campaign, "title");
+        dict["obj_desc"] = value_check(campaign, "description");
+        dict["obj_start"] = value_check(campaign, "happening_datetime_start") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_start")) : undefined;
+        dict["obj_end"] = value_check(campaign, "happening_datetime_end") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_end")) : undefined;
     }
     // facebook event
     else if (mapping.facebook && mapping.type === "event") {
         var fb = FBEvents.findOne({_id: mapping.facebook});
-        dict["title"] = fb ? wrapBold(fb.fields.name) + " - " + wrapGray(stripHTML(fb.fields.description)) : "";
+        dict["title"] = fb ? wrapTitleContainer(wrapBold(fb.fields.name) + " - " + wrapGray(stripHTML(fb.fields.description))) : "";
         dict["obj_title"] = fb ? fb.fields.name : "";
-        dict["obj_desc"] = fb ? fb.fields.description : "";
+        dict["obj_desc"] = fb ? convertNewLine(fb.fields.description) : "";
+        dict["obj_start"] = fb ? fb.fields.start_time : "";
+        dict["obj_end"] = fb ? fb.fields.end_time : "";
     // facebook status/link/photo
     } else if (mapping.facebook && mapping.type === "promotion") {
         var fb = FBPosts.findOne({_id: mapping.facebook});
-        dict["title"] = fb ? wrapBold(fb.fields.message) : "";
+        dict["title"] = fb ? wrapTitleContainer(wrapBold(fb.fields.message)) : "";
         dict["obj_title"] = fb ? fb.fields.message : "";
     // twitter tweet
     } else if (mapping.twitter) {
         var tw = TWTweets.findOne({_id: mapping.twitter});
-        dict["title"] = tw ? wrapBold(tw.fields.text) : "";
+        dict["title"] = tw ? wrapTitleContainer(wrapBold(tw.fields.text)) : "";
         dict["obj_title"] = tw ? tw.fields.text : "";
     // foursquare page update
     } else if (mapping.foursquare) {
         var fsq = FSQPageUpdates.findOne({_id: mapping.foursquare});
-        dict["title"] = fsq ? "" : "";
+        dict["title"] = fsq ? wrapTitleContainer("") : "";
         dict["obj_title"] = fsq ? "" : "";
     }
 
@@ -231,23 +291,50 @@ function computeCampaign(mapping) {
     return dict;
 }
 
+function value_check(obj, attr) {
+    if (obj) { return obj[attr] ? obj[attr] : undefined; }
+    else return undefined;
+}
+
 function loadCampaignCard(mapping, dict) {
     var card = '';
     var title = dict["obj_title"];
     var desc = dict["obj_desc"];
 
     card += '<div class="expanded-title">' + title + '</div>';
+    var startDate = new Date(dict["obj_start"]);
+    var endDate = new Date(dict["obj_end"]);
+    if (dict["obj_start"]) {
+        card += '<div class="expanded-event-datetime"><i class="icon-calendar"></i> ' + startDate.toDateString() + '<span class="expanded-event-start"><i class="icon-time"></i> ' + startDate.toLocaleTimeString();
+    }
+    if (dict["obj_end"]) {
+        card += ' until ' + endDate.toLocaleTimeString();
+    }
+    if (dict["obj_start"]) {
+        card += '</span></div>';
+    }
     card += desc ? '<div class="expanded-desc">' + desc + '</div>' : '';
     card += '<hr>';
 
     var ts = new Date(mapping.timestamp_utc);
     var scheduled = new Date(mapping.publish_datetime);
-    card += '<div class="expanded-edit pull-left"><i class="icon-edit"></i> Edit campaign</div>';
-    card += mapping.state === "published" ? '<span class="expanded-datetime pull-left">Published on ' + ts.toDateString() + ' ' + ts.toLocaleTimeString() + '</span>' :
-                                            '<span class="expanded-datetime pull-left">Scheduled to publish on ' + scheduled.toDateString() + ' ' + scheduled.toLocaleTimeString() + '</span>';
+    card += '<div class="expanded-edit pull-left"><i class="icon-edit"></i>' +
+            '<input type="hidden" class="edit-campaign-type" value="' + dict["type"] + '">' +
+            '<input type="hidden" class="edit-campaign-id" value="' + dict["id"] + '"> Edit campaign</div>';
+    card += mapping.state === "published" ?
+            '<span class="expanded-datetime pull-left">Published on ' + ts.toDateString() + ' ' + ts.toLocaleTimeString() + '</span>' :
+            '<span class="expanded-datetime pull-left">Scheduled for ' + scheduled.toDateString() + ' ' + scheduled.toLocaleTimeString() + '</span>';
     card += '<div class="clear"></div>';
 
     return card;
+}
+
+function convertNewLine(val) {
+    return val.replace(/\n/g, '<br>');
+}
+
+function wrapTitleContainer(val) {
+    return "<div class='title-shorten pull-left'>" + val + "</div>";
 }
 
 function wrapBold(val) {
@@ -296,6 +383,28 @@ function load_content(args, type, state) {
         }
     }
 
+    return args;
+}
+
+function load_edited_content(args) {
+    args["user_id"] = Meteor.userId();
+    args["brand_name"] = Session.get("selected_brand");
+    args["campaign_id"] = Session.get('edit_campaign_id');
+    args["title"] = $('#campaign-title').val();
+    args["description"] = $('#desc-editor').val();
+    if ($('.campaign-post-datetime') != undefined) {
+        var date = $('.campaign-post-date-input').val();
+        var time_start = $('.campaign-post-time-from-input').val();
+        var time_end = $('.campaign-post-time-to-input').val();
+        if (time_start) {
+            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            args["datetime_start"] = epoch_start;
+        }
+        if (time_end) {
+            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            args["datetime_end"] = epoch_end;
+        }
+    }
     return args;
 }
 

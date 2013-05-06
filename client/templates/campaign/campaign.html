@@ -9,17 +9,17 @@
                         </li>
                         <a href="/campaign/promo/new" class="appnav">
                             <li>
-                                New Promo Campaign
+                                New Promo
                             </li>
                         </a>
                         <a href="/campaign/event/new" class="appnav">
                             <li>
-                                New Event Campaign
+                                New Event
                             </li>
                         </a>
                         <a href="/campaign" class="appnav">
                             <li>
-                                Manage Campaigns
+                                Manage
                             </li>
                         </a>
                     </ul>
@@ -78,17 +78,7 @@
                         Blog
                     </label>
                 </div>
-                <div class="campaign-post-category">
-                    Title
-                </div>
-                <textarea placeholder="enter a title" id="campaign-title" />
-                <div class="char-count">
-                    0 characters
-                </div>
-                <div class="campaign-post-category">
-                    Description
-                </div>
-                <textarea id="desc-editor" placeholder="enter message"></textarea>
+                {{> campaign_promo}}
             </div>
             <div class="campaign-post-submit">
                 <a class="btn btn-info" id="btn-publish">Publish Now</a>
@@ -189,54 +179,7 @@
                         Blog
                     </label>
                 </div>
-                <div class="campaign-post-date pull-left">
-                    Event Date
-                </div>
-                <div class="campaign-post-time pull-left">
-                    Time
-                </div>
-                <div class="clear"></div>
-                <div class="campaign-post-datetime">
-                    <div class="input-append pull-left" id="event-date">
-                        <input type="text" data-format="yyyy-MM-dd" placeholder="select date" class="campaign-post-date-input" />
-                        <span class="add-on">
-                            <i data-date-icon="icon-calendar">
-                                &nbsp;
-                            </i>
-                        </span>
-                    </div>
-                    <div class="input-append pull-left" id="event-time-start">
-                        <input type="text" data-format="hh:mm" placeholder="start time" class="campaign-post-time-from-input pull-left" />
-                        <span class="add-on">
-                            <i data-time-icon="icon-time">
-                                &nbsp;
-                            </i>
-                        </span>
-                    </div>
-                    <div class="campaign-post-to pull-left">
-                        to
-                    </div>
-                    <div class="input-append pull-left" id="event-time-end">
-                        <input type="text" data-format="hh:mm" placeholder="end time" class="campaign-post-time-to-input pull-left" />
-                        <span class="add-on">
-                            <i data-time-icon="icon-time">
-                                &nbsp;
-                            </i>
-                        </span>
-                    </div>
-                    <div class="clear" />
-                </div>
-                <div class="campaign-post-category">
-                    Title
-                </div>
-                <textarea placeholder="enter a title" id="campaign-title" />
-                <div class="char-count">
-                    0 characters
-                </div>
-                <div class="campaign-post-category">
-                    Description
-                </div>
-                <textarea id="desc-editor" placeholder="enter message"></textarea>
+                {{> campaign_event}}
             </div>
             <div class="campaign-post-submit">
                 <a class="btn btn-info" id="btn-publish">Publish Now</a>
@@ -374,7 +317,98 @@
                     </td>
                 </tr>
                 {{/each}}
+                <div tab-index="-1" role="dialog" aria-hidden="true" class="modal hide fade" id="edit_campaign_modal">
+                    <div class="modal-header">
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">
+                            x
+                        </button>
+                        <h5>
+                            Edit Campaign
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="edit-campaign">
+                            <div class="social-limitation">
+                                Campaign edits will only be reflected on your <strong>website</strong>, <strong>blogs</strong> and <strong>Facebook events</strong> due to social network limitations
+                            </div>
+                            {{{edit_campaign}}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn">
+                            Close
+                        </button>
+                        <button class="btn btn-info" id="btn-edit-modal">
+                            Update
+                        </button>
+                    </div>
+                </div>
             </tbody>
         </table>
     </div>
+</template>
+
+<template name="campaign_promo">
+    <div class="campaign-post-category">
+        Title
+    </div>
+    <textarea placeholder="enter a title" id="campaign-title" />
+    <div class="char-count">
+        0 characters
+    </div>
+    <div class="campaign-post-category">
+        Description
+    </div>
+    <textarea placeholder="enter message" id="desc-editor" />
+</template>
+
+<template name="campaign_event">
+    <div class="campaign-post-date pull-left">
+        Event Date
+    </div>
+    <div class="campaign-post-time pull-left">
+        Time
+    </div>
+    <div class="clear"></div>
+    <div class="campaign-post-datetime">
+        <div class="input-append pull-left" id="event-date">
+            <input type="text" data-format="yyyy-MM-dd" placeholder="select date" class="campaign-post-date-input" />
+            <span class="add-on">
+                <i data-date-icon="icon-calendar">
+                    &nbsp;
+                </i>
+            </span>
+        </div>
+        <div class="input-append pull-left" id="event-time-start">
+            <input type="text" data-format="hh:mm" placeholder="start time" class="campaign-post-time-from-input pull-left" />
+            <span class="add-on">
+                <i data-time-icon="icon-time">
+                    &nbsp;
+                </i>
+            </span>
+        </div>
+        <div class="campaign-post-to pull-left">
+            to
+        </div>
+        <div class="input-append pull-left" id="event-time-end">
+            <input type="text" data-format="hh:mm" placeholder="end time" class="campaign-post-time-to-input pull-left" />
+            <span class="add-on">
+                <i data-time-icon="icon-time">
+                    &nbsp;
+                </i>
+            </span>
+        </div>
+        <div class="clear" />
+    </div>
+    <div class="campaign-post-category">
+        Title
+    </div>
+    <textarea placeholder="enter a title" id="campaign-title" />
+    <div class="char-count">
+        0 characters
+    </div>
+    <div class="campaign-post-category">
+        Description
+    </div>
+    <textarea id="desc-editor" placeholder="enter message"></textarea>
 </template>

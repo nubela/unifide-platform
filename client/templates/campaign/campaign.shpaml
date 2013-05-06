@@ -8,13 +8,13 @@ template name="campaign"
                             Campaigns
                         a.appnav href="/campaign/promo/new"
                             li
-                                New Promo Campaign
+                                New Promo
                         a.appnav href="/campaign/event/new"
                             li
-                                New Event Campaign
+                                New Event
                         a.appnav href="/campaign"
                             li
-                                Manage Campaigns
+                                Manage
 
                 .span12.span-fixed-sidebar
                     {{{view}}}
@@ -54,14 +54,7 @@ template name="campaign_promo_new"
                     label.checkbox.inline
                         <input type="checkbox" class="platform-check" value="blog">
                         Blog
-                .campaign-post-category
-                    Title
-                > textarea#campaign-title placeholder="enter a title"
-                .char-count
-                    0 characters
-                .campaign-post-category
-                    Description
-                <textarea id="desc-editor" placeholder="enter message"></textarea>
+                {{> campaign_promo}}
             .campaign-post-submit
                 <a class="btn btn-info" id="btn-publish">Publish Now</a>
                 <a class="btn" id="btn-schedule">Schedule Later</a>
@@ -130,38 +123,7 @@ template name="campaign_event_new"
                     label.checkbox.inline
                         <input type="checkbox" class="platform-check" value="blog">
                         Blog
-                .campaign-post-date.pull-left
-                    Event Date
-                .campaign-post-time.pull-left
-                    Time
-                <div class="clear"></div>
-                .campaign-post-datetime
-                    #event-date.input-append.pull-left
-                        > input.campaign-post-date-input type="text" data-format="yyyy-MM-dd" placeholder="select date"
-                        span.add-on
-                            i data-date-icon="icon-calendar"
-                                &nbsp;
-                    #event-time-start.input-append.pull-left
-                        > input.campaign-post-time-from-input.pull-left type="text" data-format="hh:mm" placeholder="start time"
-                        span.add-on
-                            i data-time-icon="icon-time"
-                                &nbsp;
-                    .campaign-post-to.pull-left
-                        to
-                    #event-time-end.input-append.pull-left
-                        > input.campaign-post-time-to-input.pull-left type="text" data-format="hh:mm" placeholder="end time"
-                        span.add-on
-                            i data-time-icon="icon-time"
-                                &nbsp;
-                    > div.clear
-                .campaign-post-category
-                    Title
-                > textarea#campaign-title placeholder="enter a title"
-                .char-count
-                    0 characters
-                .campaign-post-category
-                    Description
-                <textarea id="desc-editor" placeholder="enter message"></textarea>
+                {{> campaign_event}}
             .campaign-post-submit
                 <a class="btn btn-info" id="btn-publish">Publish Now</a>
                 <a class="btn" id="btn-schedule">Schedule Later</a>
@@ -253,3 +215,63 @@ template name="campaign_list"
                             .expanded
                                 {{{expanded}}}
                 {{/each}}
+                #edit_campaign_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
+                    .modal-header
+                        button.close type="button" data-dismiss="modal" aria-hidden="true"
+                            x
+                        h5
+                            Edit Campaign
+                    .modal-body
+                        .edit-campaign
+                            .social-limitation
+                                Campaign edits will only be reflected on your <strong>website</strong>, <strong>blogs</strong> and <strong>Facebook events</strong> due to social network limitations
+                            {{{edit_campaign}}}
+                    .modal-footer
+                        button.btn data-dismiss="modal"
+                            Close
+                        button.btn.btn-info#btn-edit-modal
+                            Update
+
+template name="campaign_promo"
+    .campaign-post-category
+        Title
+    > textarea#campaign-title placeholder="enter a title"
+    .char-count
+        0 characters
+    .campaign-post-category
+        Description
+    > textarea#desc-editor placeholder="enter message"
+
+template name="campaign_event"
+    .campaign-post-date.pull-left
+        Event Date
+    .campaign-post-time.pull-left
+        Time
+    <div class="clear"></div>
+    .campaign-post-datetime
+        #event-date.input-append.pull-left
+            > input.campaign-post-date-input type="text" data-format="yyyy-MM-dd" placeholder="select date"
+            span.add-on
+                i data-date-icon="icon-calendar"
+                    &nbsp;
+        #event-time-start.input-append.pull-left
+            > input.campaign-post-time-from-input.pull-left type="text" data-format="hh:mm" placeholder="start time"
+            span.add-on
+                i data-time-icon="icon-time"
+                    &nbsp;
+        .campaign-post-to.pull-left
+            to
+        #event-time-end.input-append.pull-left
+            > input.campaign-post-time-to-input.pull-left type="text" data-format="hh:mm" placeholder="end time"
+            span.add-on
+                i data-time-icon="icon-time"
+                    &nbsp;
+        > div.clear
+    .campaign-post-category
+        Title
+    > textarea#campaign-title placeholder="enter a title"
+    .char-count
+        0 characters
+    .campaign-post-category
+        Description
+    <textarea id="desc-editor" placeholder="enter message"></textarea>

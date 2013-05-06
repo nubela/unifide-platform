@@ -51,6 +51,8 @@
   font-weight: 600; }
 .overview-widget .facebook-view-post, .facebook .facebook-view-post, .twitter .facebook-view-post, .foursquare .facebook-view-post {
   color: #0072c6; }
+.overview-widget .twitter-profile-pic, .facebook .twitter-profile-pic, .twitter .twitter-profile-pic, .foursquare .twitter-profile-pic {
+  padding-top: 15px; }
 .overview-widget .twitter-profile-name, .facebook .twitter-profile-name, .twitter .twitter-profile-name, .foursquare .twitter-profile-name {
   font-weight: bold; }
 .overview-widget .twitter-profile-handle, .facebook .twitter-profile-handle, .twitter .twitter-profile-handle, .foursquare .twitter-profile-handle {
@@ -73,6 +75,52 @@
   color: #999999; }
 .overview-widget .foursquare-profile-name a:hover, .facebook .foursquare-profile-name a:hover, .twitter .foursquare-profile-name a:hover, .foursquare .foursquare-profile-name a:hover {
   text-decoration: underline; }
+.overview-widget .web-platform-icon-web, .facebook .web-platform-icon-web, .twitter .web-platform-icon-web, .foursquare .web-platform-icon-web {
+  background-image: url("/media/img/html5-64-black.png");
+  background-size: cover;
+  display: block;
+  height: 20px;
+  width: 20px; }
+.overview-widget .web-platform-icon-blog, .facebook .web-platform-icon-blog, .twitter .web-platform-icon-blog, .foursquare .web-platform-icon-blog {
+  background-image: url("/media/img/web-64-black.png");
+  background-size: cover;
+  display: block;
+  height: 20px;
+  width: 20px; }
+.overview-widget .web-platform-icon-android, .facebook .web-platform-icon-android, .twitter .web-platform-icon-android, .foursquare .web-platform-icon-android {
+  background-image: url("/media/img/android-64-black.png");
+  background-size: cover;
+  display: block;
+  height: 20px;
+  width: 20px; }
+.overview-widget .web-platform-icon-ios, .facebook .web-platform-icon-ios, .twitter .web-platform-icon-ios, .foursquare .web-platform-icon-ios {
+  background-image: url("/media/img/apple-64-black.png");
+  background-size: cover;
+  display: block;
+  height: 20px;
+  width: 20px; }
+.overview-widget .web-time, .facebook .web-time, .twitter .web-time, .foursquare .web-time {
+  color: #999999; }
+.overview-widget .web-title, .facebook .web-title, .twitter .web-title, .foursquare .web-title {
+  margin-top: 5px;
+  margin-bottom: 3px;
+  font-weight: 600;
+  font-size: 12px; }
+.overview-widget .expanded-event-datetime, .facebook .expanded-event-datetime, .twitter .expanded-event-datetime, .foursquare .expanded-event-datetime {
+  margin-bottom: 10px;
+  color: #999999; }
+  .overview-widget .expanded-event-datetime .icon-calendar, .overview-widget .expanded-event-datetime .icon-time, .facebook .expanded-event-datetime .icon-calendar, .facebook .expanded-event-datetime .icon-time, .twitter .expanded-event-datetime .icon-calendar, .twitter .expanded-event-datetime .icon-time, .foursquare .expanded-event-datetime .icon-calendar, .foursquare .expanded-event-datetime .icon-time {
+    opacity: 0.5; }
+.overview-widget .expanded-event-start, .facebook .expanded-event-start, .twitter .expanded-event-start, .foursquare .expanded-event-start {
+  border-left: 1px solid #cccccc;
+  margin-left: 10px;
+  padding-left: 10px; }
+.overview-widget .web-description, .facebook .web-description, .twitter .web-description, .foursquare .web-description {
+  max-height: 80px;
+  overflow: hidden; }
+.overview-widget .web-view-link, .facebook .web-view-link, .twitter .web-view-link, .foursquare .web-view-link {
+  margin-top: 5px;
+  color: #0072c6; }
 
 table.table-hover > tbody > tr:first-child > td {
   border-top: none; }

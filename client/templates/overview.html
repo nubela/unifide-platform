@@ -8,17 +8,16 @@
 
                     <!--- twitter block --->
                     {{> overview_twitter}}
-                </div>
 
+                    <!--- 4sq block --->
+                    {{> overview_foursquare}}
+                </div>
                 <div class="span6">
                     <!--- website block --->
                     {{> overview_web}}
 
                     <!--- web mentions block --->
                     {{> overview_brandmention}}
-
-                    <!--- 4sq block --->
-                    {{> overview_foursquare}}
                 </div>
             </div>
         </div>
@@ -205,20 +204,41 @@
 
 <template name="overview_web">
     <div class="overview-widget container-shadow">
-        <div class="title">WEBSITE</div>
+        <div class="title">WEB / MOBILE</div>
+        {{#if check_web}}
         <table class="table table-hover">
             <tbody>
-                {{#if web_overview}}
-                    {{#each web_overview}}
-                    {{/each}}
-                {{else}}
-                    <div class="no-data">
-                        No web or mobile activity available.
-                    </div>
-                {{/if}}
+                {{#each web_overview}}
+                <tr>
+                    <td>
+                        {{{platforms}}}
+                        <div class="web-time pull-right">
+                            {{datetime}}
+                        </div>
+                        <div class="clear" />
+                        <div class="web-title">
+                            {{title}}
+                        </div>
+                        {{{event}}}
+                        <div class="web-description">
+                            {{{description}}}
+                        </div>
+                        <div class="web-view-link">
+                            <a href="/" class="appnav">
+                                View on website.com
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
             </tbody>
         </table>
-        {{#if web_overview}}
+        {{else}}
+            <div class="no-data">
+                No web or mobile activity available.
+            </div>
+        {{/if}}
+        {{#if check_web}}
         <a href="/web" class="appnav viewmore">
             VIEW ALL
         </a>

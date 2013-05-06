@@ -26,7 +26,7 @@ Meteor.publish("mapping", function () {
     return [
         BrandMappings.find({uid: this.userId}),
         Mappings.find({uid: this.userId, is_deleted: null}, {sort: {timestamp_utc: -1}}),
-        Campaigns.find({uid: this.userId, is_deleted: null})
+        Campaigns.find({uid: this.userId, is_deleted: null}, {sort: {timestamp_utc: -1}})
     ];
 });
 
