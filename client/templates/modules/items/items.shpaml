@@ -64,7 +64,8 @@ template name="item_view"
                 {{/if}}
         .span6
             .login-form
-                h3 | {{item.name}}
+                h3
+                    {{item.name}}
                 p
                     strong | S${{item.price}}
                 p | {{item.description}}
@@ -83,6 +84,9 @@ template name="item_compose"
                 <!--- hidden fields --->
                 > input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}'
                 > input type="hidden" name="redirect_to" id="redirect_to" value='{{redirect_to}}'
+                > input#custom-tag-lis type="hidden" name="tags" value='[]'
+                > input#custom-attr-lis type="hidden" name="custom_attr_lis" value='[]'
+                > input#custom-img-lis type="hidden" name="custom_media_lis" value='[]'
 
                 .control-group
                     label for="name" | Item name
@@ -105,12 +109,29 @@ template name="item_compose"
                     > input type="number" placeholder="100" name="quantity" id="quantity"
 
                 .control-group
-                    label | Add a custom attribute
-                    button.btn.btn-inverse | New custom attribute
+                    label | Tags
+                    .tag.hidden#tag-template
+                        span | Works
+                        > a.tagsinput-remove-link.fui-cross-16
+                    .tagsinput#tagsinput
+                        .tagsinput-add-container#tagsinput_addTag
+                            > div.tagsinput-add.fui-plus-16
+                            > input#tagsinput_tag data
 
+                .control-group.hidden#custom-attr-template
+                    label for="quantity" | Quantity
+                    > input name="quantity" id="quantity"
+
+                .control-group.hidden#custom-img-template
+                    label for="media_file" | Media
+                    > input type="file" name="media_file" id="media_file"
+
+                .control-group#custom-ctrl-grp
+                    span.btn.btn-inverse#add-custom-attr-btn | Add custom attribute
+                    span.btn.btn-inverse#add-custom-img-btn | Add additional images
+
+                > br
                 .control-group
-                    a.appnav href="{{back_url}}"
-                        button.btn-large.btn | Cancel
                     button.btn-large.btn.btn-primary.submit-btn | Save item
 
 

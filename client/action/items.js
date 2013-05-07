@@ -7,6 +7,9 @@ ITEM_SESSION = {
     VIEW_TYPE: "ITMViewType",
     SUBURL: "ITMSubUrl",
     ITEM_ID: "ITMItemId",
+    CUSTOM_ATTRS: "ITMCustomAttr",
+    CUSTOM_IMGS: "ITMCustomImg",
+    CUSTOM_TAGS: "ITMCustomTags",
     SORT_METHOD: "ITMSortMethod"
 };
 
@@ -116,13 +119,113 @@ Template.items.events = {
 
 //------ item-container compose functions ------//
 
+Template.item_compose.rendered = function () {
+    $("#tagsinput_tag").keypress(function (e) {
+        if (e.which == 13) {
+            e.preventDefault();
+
+            //get tag val
+            var val = $(this).val();
+            if (!val) {
+                return;
+            }
+
+            //add to list and input
+            var customtagLis = Session.get(ITEM_SESSION.CUSTOM_TAGS);
+            if (!_.contains(customtagLis, val)) {
+                customtagLis.push(val);
+            }
+            Session.set(ITEM_SESSION.CUSTOM_TAGS, customtagLis);
+            $("#custom-tag-lis").attr("value", JSON.stringify(customtagLis));
+
+            //add to ui
+            var random_id = Math.random().toString(36).substr(2, 16);
+            var custom_grp = $("#tag-template").clone().removeAttr("id").removeClass("hidden");
+            custom_grp.find("span").text(val);
+            $("#tagsinput").prepend(custom_grp);
+
+            //remove focus and text
+            $(this).val("");
+            $(this).blur();
+        }
+    });
+};
+
 Template.item_compose.events = {
     'click .submit-btn': function (evt) {
         if ($("#item-compose-form").parsley("validate")) {
             $("#item-compose-form").submit();
         }
+        $("#custom-attr-lis").attr("value", "");
+    },
+
+    'click #add-custom-attr-btn': function (evt) {
+        bootbox.prompt("Attribute name without spaces? (Example: \"price_in_euro\")", function (attr_name) {
+            if (!attr_name) {
+                return;
+            }
+
+            //add custom attr name
+            var customAttrLis = Session.get(ITEM_SESSION.CUSTOM_ATTRS);
+            if (!_.contains(customAttrLis, attr_name)) {
+                customAttrLis.push(attr_name);
+            }
+            Session.set(ITEM_SESSION.CUSTOM_ATTRS, customAttrLis);
+            $("#custom-attr-lis").attr("value", JSON.stringify(customAttrLis));
+
+            //add control group
+            var random_id = Math.random().toString(36).substr(2, 16);
+            var custom_grp = $("#custom-attr-template").clone().removeAttr("id").removeClass("hidden");
+            custom_grp.find("label").attr("for", random_id).text(attr_name);
+            custom_grp.find("input").attr("id", random_id).attr("name", attr_name);
+            $("#custom-ctrl-grp").before(custom_grp);
+        });
+    },
+
+    'click #add-custom-img-btn': function (evt) {
+        bootbox.prompt("Image attribute name without spaces? (Example: \"color\")", function (attr_name) {
+            if (!attr_name) {
+                return;
+            }
+
+            //add custom attr name
+            var customImgLis = Session.get(ITEM_SESSION.CUSTOM_IMGS);
+            if (!_.contains(customImgLis, attr_name)) {
+                customImgLis.push(attr_name);
+            }
+            Session.set(ITEM_SESSION.CUSTOM_IMGS, customImgLis);
+            $("#custom-img-lis").attr("value", JSON.stringify(customImgLis));
+
+            //add control group
+            var random_id = Math.random().toString(36).substr(2, 16);
+            var custom_grp = $("#custom-img-template").clone().removeAttr("id", random_id).removeClass("hidden");
+            custom_grp.find("label").attr("for", random_id).text(attr_name);
+            custom_grp.find("input").attr("id", random_id).attr("name", attr_name);
+            $("#custom-ctrl-grp").before(custom_grp);
+        });
+    },
+
+    'click #tagsinput_addTag': function (evt) {
+        $("#tagsinput_tag").focus();
+    },
+
+    'click .tagsinput-remove-link': function (evt) {
+        bootbox.confirm("Confirm remove tag?", function (res) {
+            if (res) {
+                //remove from list
+                var tag_name = $(evt.target).parent().find("span").text();
+                var customtagLis = Session.get(ITEM_SESSION.CUSTOM_TAGS);
+                customtagLis = _.without(customtagLis, tag_name);
+                console.log(customtagLis);
+                Session.set(ITEM_SESSION.CUSTOM_TAGS, customtagLis);
+                $("#custom-tag-lis").attr("value", JSON.stringify(customtagLis));
+
+                //remove from ui
+                $(evt.target).parent().remove();
+            }
+        });
     }
-}
+};
 
 Template.item_compose.back_url = suburl_to_current_path();
 
@@ -312,6 +415,9 @@ function init_items() {
     Session.set(ITEM_SESSION.MATERIALIZED_PATH, null);
     Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.CONTAINER);
     Session.set(ITEM_SESSION.SORT_METHOD, ITEM_SORT_METHOD.DATE_ADDED);
+    Session.set(ITEM_SESSION.CUSTOM_ATTRS, []);
+    Session.set(ITEM_SESSION.CUSTOM_IMGS, []);
+    Session.set(ITEM_SESSION.CUSTOM_TAGS, []);
 
     //now lets overwrite the defaults
     var path_lis_str = Session.get(ITEM_SESSION.SUBURL);

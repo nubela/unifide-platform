@@ -85,7 +85,9 @@
         </div>
         <div class="span6">
             <div class="login-form">
-                <h3>{{item.name}}</h3>
+                <h3>
+                    {{item.name}}
+                </h3>
                 <p>
                     <strong>S${{item.price}}</strong>
                 </p>
@@ -109,6 +111,9 @@
                 <!--- hidden fields --->
                 <input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}' />
                 <input type="hidden" name="redirect_to" id="redirect_to" value='{{redirect_to}}' />
+                <input type="hidden" name="tags" value='[]' id="custom-tag-lis" />
+                <input type="hidden" name="custom_attr_lis" value='[]' id="custom-attr-lis" />
+                <input type="hidden" name="custom_media_lis" value='[]' id="custom-img-lis" />
 
                 <div class="control-group">
                     <label for="name">Item name</label>
@@ -136,14 +141,36 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Add a custom attribute</label>
-                    <button class="btn btn-inverse">New custom attribute</button>
+                    <label>Tags</label>
+                    <div class="tag hidden" id="tag-template">
+                        <span>Works</span>
+                        <a class="tagsinput-remove-link fui-cross-16" />
+                    </div>
+                    <div class="tagsinput" id="tagsinput">
+                        <div class="tagsinput-add-container" id="tagsinput_addTag">
+                            <div class="tagsinput-add fui-plus-16" />
+                            <input data id="tagsinput_tag" />
+                        </div>
+                    </div>
                 </div>
 
+                <div class="control-group hidden" id="custom-attr-template">
+                    <label for="quantity">Quantity</label>
+                    <input name="quantity" id="quantity" />
+                </div>
+
+                <div class="control-group hidden" id="custom-img-template">
+                    <label for="media_file">Media</label>
+                    <input type="file" name="media_file" id="media_file" />
+                </div>
+
+                <div class="control-group" id="custom-ctrl-grp">
+                    <span class="btn btn-inverse" id="add-custom-attr-btn">Add custom attribute</span>
+                    <span class="btn btn-inverse" id="add-custom-img-btn">Add additional images</span>
+                </div>
+
+                <br />
                 <div class="control-group">
-                    <a href="{{back_url}}" class="appnav">
-                        <button class="btn-large btn">Cancel</button>
-                    </a>
                     <button class="btn-large btn btn-primary submit-btn">Save item</button>
                 </div>
             </fieldset>
