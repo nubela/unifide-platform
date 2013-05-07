@@ -84,6 +84,7 @@ function static_url() {
     var url = Backbone.history.fragment;
     Session.set("page", url);
     Session.set("page_template", (url == "") ? "overview" : parse_url(url));
+    window.scrollTo(x-coord, y-coord);
 };
 
 function bizinfo_url() {

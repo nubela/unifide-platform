@@ -56,8 +56,8 @@ template name="campaign_promo_new"
                         Blog
                 {{> campaign_promo}}
             .campaign-post-submit
-                <a class="btn btn-info" id="btn-publish">Publish Now</a>
-                <a class="btn" id="btn-schedule">Schedule Later</a>
+                <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
+                <a class="btn btn-large" id="btn-schedule">Schedule Later</a>
                 #schedule_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
                     .modal-header
                         button.close type="button" data-dismiss="modal" aria-hidden="true"
@@ -125,8 +125,8 @@ template name="campaign_event_new"
                         Blog
                 {{> campaign_event}}
             .campaign-post-submit
-                <a class="btn btn-info" id="btn-publish">Publish Now</a>
-                <a class="btn" id="btn-schedule">Schedule Later</a>
+                <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
+                <a class="btn btn-large" id="btn-schedule">Schedule Later</a>
                 #schedule_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
                     .modal-header
                         button.close type="button" data-dismiss="modal" aria-hidden="true"
@@ -164,10 +164,8 @@ template name="campaign_list"
             h4
                 Campaigns List
 
-        .input-append
-            > input.search-input type="text"
-            button.btn type=button
-                Search
+
+
         > div.clear
         > div.spacing20
         .base-buttons.pull-left

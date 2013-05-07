@@ -1,7 +1,7 @@
 template name="items"
-    .container-fluid
-        .row-fluid
-            .account
+    .container-fluid.full-container
+        .row-fluid.full-row
+            .body-container
                 <!--- navbar --->
                 .sidebar-nav-fixed
                     ul.unstyled.side-nav
@@ -47,7 +47,7 @@ template name="item_breadcrumb"
 
 template name="select-container"
     .select-container
-        .tooltip.fade.right.in.span2
+        .tooltip.fade.right.in.span2#item-tooltip
             > div.tooltip-arrow style
             .tooltip-inner
                 To begin, select <strong>Container</strong> from the left

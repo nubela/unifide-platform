@@ -57,10 +57,13 @@
   margin-top: 5px; }
 
 .select-container {
-  padding-top: 60px; }
+  margin-top: 60px; }
 
 .container-entry .icon {
   font-family: "heydings"; }
 
 .new_container {
   font-size: 12px; }
+
+#item-tooltip {
+  z-index: 0; }
