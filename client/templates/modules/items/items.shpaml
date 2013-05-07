@@ -128,7 +128,7 @@ template name="item_compose"
 
                 .control-group#custom-ctrl-grp
                     span.btn.btn-inverse#add-custom-attr-btn | Add custom attribute
-                    span.btn.btn-inverse#add-custom-img-btn | Add additional images
+                    span.btn.btn-inverse#add-custom-img-btn | Add media
 
                 > br
                 .control-group

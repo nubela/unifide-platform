@@ -183,7 +183,7 @@ Template.item_compose.events = {
     },
 
     'click #add-custom-img-btn': function (evt) {
-        bootbox.prompt("Image attribute name without spaces? (Example: \"color\")", function (attr_name) {
+        bootbox.prompt("Media attribute name without spaces? (Example: \"color\")", function (attr_name) {
             if (!attr_name) {
                 return;
             }
