@@ -90,8 +90,12 @@ textarea {
     margin-top: -4px;
 }
 
+.header-user .dropdown {
+    height: 30px;
+}
+
 .header-user .dropdown-menu {
-    top: 100%;
+    top: 65%;
     left: -40%;
 }
 
