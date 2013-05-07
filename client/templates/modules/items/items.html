@@ -93,7 +93,7 @@
                 </p>
                 <p>{{item.description}}</p>
                 <br>
-                <a class="btn btn-primary btn-large btn-block">Update</a>
+                <a href="{{update_url}}" class="btn btn-primary btn-large btn-block">Update</a>
             </div>
         </div>
     </div>
@@ -105,19 +105,24 @@
     <!--- new item compose --->
     <div class="compose-new-item well">
         <form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley" id="item-compose-form">
+            {{#if item_to_update}}
+            <legend>Update {{item_to_update.name}}</legend>
+            {{else}}
             <legend>New Item</legend>
+            {{/if}}
             <fieldset>
 
                 <!--- hidden fields --->
+                <input type="hidden" name="id" id="id" {{#if item_to_update}}value="{{item_to_update._id}}"{{/if}} />
                 <input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}' />
                 <input type="hidden" name="redirect_to" id="redirect_to" value='{{redirect_to}}' />
-                <input type="hidden" name="tags" value='[]' id="custom-tag-lis" />
-                <input type="hidden" name="custom_attr_lis" value='[]' id="custom-attr-lis" />
-                <input type="hidden" name="custom_media_lis" value='[]' id="custom-img-lis" />
+                <input type="hidden" name="tags" value='{{tags_json}}' id="custom-tag-lis" />
+                <input type="hidden" name="custom_attr_lis" value='{{custom_attr_lis_json}}' id="custom-attr-lis" />
+                <input type="hidden" name="custom_media_lis" value='{{custom_media_lis_json}}' id="custom-img-lis" />
 
                 <div class="control-group">
                     <label for="name">Item name</label>
-                    <input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" />
+                    <input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}} />
                 </div>
 
                 <div class="control-group">
@@ -127,17 +132,21 @@
 
                 <div class="control-group">
                     <label id="description">Description</label>
+                    {{#if item_to_update}}
+                    <textarea rows="3" name="description" id="description">{{item_to_update.description}}</textarea>
+                    {{else}}
                     <textarea rows="3" name="description" id="description" />
+                    {{/if}}
                 </div>
 
                 <div class="control-group">
                     <label for="price">Price ($)</label>
-                    <input type="number" placeholder="4.95" name="price" id="price" />
+                    <input type="number" placeholder="4.95" name="price" id="price" {{#if item_to_update}}value="{{item_to_update.price}}"{{/if}} />
                 </div>
 
                 <div class="control-group">
                     <label for="quantity">Quantity</label>
-                    <input type="number" placeholder="100" name="quantity" id="quantity" />
+                    <input type="number" placeholder="100" name="quantity" id="quantity" {{#if item_to_update}}value="{{item_to_update.quantity}}"{{/if}} />
                 </div>
 
                 <div class="control-group">
@@ -147,6 +156,12 @@
                         <a class="tagsinput-remove-link fui-cross-16" />
                     </div>
                     <div class="tagsinput" id="tagsinput">
+                        {{#each item_to_update.tags}}
+                        <div class="tag">
+                            <span>{{this}}</span>
+                            <a class="tagsinput-remove-link fui-cross-16" />
+                        </div>
+                        {{/each}}
                         <div class="tagsinput-add-container" id="tagsinput_addTag">
                             <div class="tagsinput-add fui-plus-16" />
                             <input data id="tagsinput_tag" />
@@ -168,6 +183,20 @@
                     <span class="btn btn-inverse" id="add-custom-attr-btn">Add custom attribute</span>
                     <span class="btn btn-inverse" id="add-custom-img-btn">Add media</span>
                 </div>
+
+                {{#each extra_attr}}
+                <div class="control-group">
+                    <label>{{this.k}}</label>
+                    <input name="{{this.k}}" value="{{this.v}}" />
+                </div>
+                {{/each}}
+
+                {{#each item_to_update.custom_media_lis}}
+                <div class="control-group">
+                    <label>{{this}}</label>
+                    <input type="file" name="{{this}}" />
+                </div>
+                {{/each}}
 
                 <br />
                 <div class="control-group">
