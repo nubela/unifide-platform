@@ -7,6 +7,9 @@ ITEM_SESSION = {
     VIEW_TYPE: "ITMViewType",
     SUBURL: "ITMSubUrl",
     ITEM_ID: "ITMItemId",
+    CUSTOM_ATTRS: "ITMCustomAttr",
+    CUSTOM_MEDIA: "ITMCustomImg",
+    CUSTOM_TAGS: "ITMCustomTags",
     SORT_METHOD: "ITMSortMethod"
 };
 
@@ -25,7 +28,7 @@ ITEM_TEMPLATE = {
     ITEM_VIEW: "item_view"
 };
 
-ITEM_RESERVED_KEYWORDS = ["new", "item"];
+ITEM_RESERVED_KEYWORDS = ["new", "item", "update"];
 
 ITEM_SORT_METHOD = {
     DATE_ADDED: "date_added",
@@ -63,7 +66,7 @@ Template.items.view = function () {
         } else {
             return Template[ITEM_TEMPLATE.ITEMS]();
         }
-    } else if (Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE) {
+    } else if (Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE || Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE) {
         return Template[ITEM_TEMPLATE.COMPOSE]();
     } else if (Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.ITEM) {
         return Template[ITEM_TEMPLATE.ITEM_VIEW]();
@@ -116,13 +119,177 @@ Template.items.events = {
 
 //------ item-container compose functions ------//
 
+Template.item_compose.tags_json = function () {
+    if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
+        var item_id = Session.get(ITEM_SESSION.ITEM_ID);
+        var obj = ITMItems.findOne({_id: item_id });
+        if (obj) {
+            Session.set(ITEM_SESSION.CUSTOM_TAGS, obj.tags);
+            return JSON.stringify(obj.tags);
+        }
+    }
+    return JSON.stringify([]);
+};
+
+Template.item_compose.custom_media_lis_json = function () {
+    if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
+        var item_id = Session.get(ITEM_SESSION.ITEM_ID);
+        var obj = ITMItems.findOne({_id: item_id });
+        if (obj) {
+            Session.set(ITEM_SESSION.CUSTOM_MEDIA, obj.custom_media_lis);
+            return JSON.stringify(obj.custom_media_lis);
+        }
+    }
+    return JSON.stringify([]);
+};
+
+Template.item_compose.custom_attr_lis_json = function () {
+    if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
+        var item_id = Session.get(ITEM_SESSION.ITEM_ID);
+        var obj = ITMItems.findOne({_id: item_id });
+        if (obj) {
+            Session.set(ITEM_SESSION.CUSTOM_ATTRS, obj.custom_attr_lis);
+            return JSON.stringify(obj.custom_attr_lis);
+        }
+    }
+    return JSON.stringify([]);
+};
+
+Template.item_compose.extra_attr = function () {
+    if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
+        var lis = [];
+        var item_id = Session.get(ITEM_SESSION.ITEM_ID);
+        var obj = ITMItems.findOne({_id: item_id });
+        if (obj) {
+            console.log(obj);
+            _.each(obj.custom_attr_lis, function (attr) {
+                lis.push({
+                    k: attr,
+                    v: obj[attr]
+                });
+            });
+            return lis;
+        }
+    }
+    return null;
+};
+
+Template.item_compose.item_to_update = function () {
+    console.log(Session.get(ITEM_SESSION.VIEW_TYPE));
+    if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
+        var item_id = Session.get(ITEM_SESSION.ITEM_ID);
+        return ITMItems.findOne({_id: item_id });
+    }
+    return null;
+};
+
+Template.item_compose.rendered = function () {
+    $("#tagsinput_tag").keypress(function (e) {
+        if (e.which == 13) {
+            e.preventDefault();
+
+            //get tag val
+            var val = $(this).val();
+            if (!val) {
+                return;
+            }
+
+            //add to list and input
+            var customtagLis = Session.get(ITEM_SESSION.CUSTOM_TAGS);
+            if (!_.contains(customtagLis, val)) {
+                customtagLis.push(val);
+            }
+            Session.set(ITEM_SESSION.CUSTOM_TAGS, customtagLis);
+            $("#custom-tag-lis").attr("value", JSON.stringify(customtagLis));
+
+            //add to ui
+            var random_id = Math.random().toString(36).substr(2, 16);
+            var custom_grp = $("#tag-template").clone().removeAttr("id").removeClass("hidden");
+            custom_grp.find("span").text(val);
+            $("#tagsinput").prepend(custom_grp);
+
+            //remove focus and text
+            $(this).val("");
+            $(this).blur();
+        }
+    });
+};
+
 Template.item_compose.events = {
     'click .submit-btn': function (evt) {
         if ($("#item-compose-form").parsley("validate")) {
             $("#item-compose-form").submit();
         }
+        $("#custom-attr-lis").attr("value", "");
+    },
+
+    'click #add-custom-attr-btn': function (evt) {
+        bootbox.prompt("Attribute name without spaces? (Example: \"price_in_euro\")", function (attr_name) {
+            if (!attr_name) {
+                return;
+            }
+
+            //add custom attr name
+            var customAttrLis = Session.get(ITEM_SESSION.CUSTOM_ATTRS);
+            if (!_.contains(customAttrLis, attr_name)) {
+                customAttrLis.push(attr_name);
+            }
+            Session.set(ITEM_SESSION.CUSTOM_ATTRS, customAttrLis);
+            $("#custom-attr-lis").attr("value", JSON.stringify(customAttrLis));
+
+            //add control group
+            var random_id = Math.random().toString(36).substr(2, 16);
+            var custom_grp = $("#custom-attr-template").clone().removeAttr("id").removeClass("hidden");
+            custom_grp.find("label").attr("for", random_id).text(attr_name);
+            custom_grp.find("input").attr("id", random_id).attr("name", attr_name);
+            $("#custom-ctrl-grp").before(custom_grp);
+        });
+    },
+
+    'click #add-custom-img-btn': function (evt) {
+        bootbox.prompt("Media attribute name without spaces? (Example: \"color\")", function (attr_name) {
+            if (!attr_name) {
+                return;
+            }
+
+            //add custom attr name
+            var customImgLis = Session.get(ITEM_SESSION.CUSTOM_MEDIA);
+            if (!_.contains(customImgLis, attr_name)) {
+                customImgLis.push(attr_name);
+            }
+            Session.set(ITEM_SESSION.CUSTOM_MEDIA, customImgLis);
+            $("#custom-img-lis").attr("value", JSON.stringify(customImgLis));
+
+            //add control group
+            var random_id = Math.random().toString(36).substr(2, 16);
+            var custom_grp = $("#custom-img-template").clone().removeAttr("id", random_id).removeClass("hidden");
+            custom_grp.find("label").attr("for", random_id).text(attr_name);
+            custom_grp.find("input").attr("id", random_id).attr("name", attr_name);
+            $("#custom-ctrl-grp").before(custom_grp);
+        });
+    },
+
+    'click #tagsinput_addTag': function (evt) {
+        $("#tagsinput_tag").focus();
+    },
+
+    'click .tagsinput-remove-link': function (evt) {
+        bootbox.confirm("Confirm remove tag?", function (res) {
+            if (res) {
+                //remove from list
+                var tag_name = $(evt.target).parent().find("span").text();
+                var customtagLis = Session.get(ITEM_SESSION.CUSTOM_TAGS);
+                customtagLis = _.without(customtagLis, tag_name);
+                console.log(customtagLis);
+                Session.set(ITEM_SESSION.CUSTOM_TAGS, customtagLis);
+                $("#custom-tag-lis").attr("value", JSON.stringify(customtagLis));
+
+                //remove from ui
+                $(evt.target).parent().remove();
+            }
+        });
     }
-}
+};
 
 Template.item_compose.back_url = suburl_to_current_path();
 
@@ -167,6 +334,12 @@ Template.item_breadcrumb.active = function () {
 };
 
 //------ item_view template functions ------//
+
+Template.item_view.update_url = function () {
+    var url = suburl_to_current_path();
+    var item_id = Session.get(ITEM_SESSION.ITEM_ID);
+    return url + "/update/" + item_id;
+}
 
 Template.item_view.item = function () {
     var item_id = Session.get(ITEM_SESSION.ITEM_ID);
@@ -215,7 +388,6 @@ Template.item_container.sort_by_date = function () {
 }
 
 Template.item_container.sort_by_name = function () {
-    console.log(Session.get(ITEM_SESSION.SORT_METHOD));
     return Session.get(ITEM_SESSION.SORT_METHOD) == ITEM_SORT_METHOD.NAME;
 }
 
@@ -291,7 +463,6 @@ function rehash_container_items() {
     ITMItems.remove({});
     var path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
     Meteor.call("get_child_containers_and_items", path_lis, function (error, content) {
-        console.log(content.description);
         Session.set(ITEM_SESSION.CONTAINER_DESC, content.description);
         _.each(content.items, function (item) {
             ITMItems.insert(item);
@@ -312,6 +483,9 @@ function init_items() {
     Session.set(ITEM_SESSION.MATERIALIZED_PATH, null);
     Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.CONTAINER);
     Session.set(ITEM_SESSION.SORT_METHOD, ITEM_SORT_METHOD.DATE_ADDED);
+    Session.set(ITEM_SESSION.CUSTOM_ATTRS, []);
+    Session.set(ITEM_SESSION.CUSTOM_MEDIA, []);
+    Session.set(ITEM_SESSION.CUSTOM_TAGS, []);
 
     //now lets overwrite the defaults
     var path_lis_str = Session.get(ITEM_SESSION.SUBURL);
@@ -329,7 +503,7 @@ function init_items() {
         //first keyword
         if (_.contains(ITEM_RESERVED_KEYWORDS, keyword)) {
             Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis.slice(0, path_lis.length));
-            if (keyword == "new") {
+            if (keyword === "new") {
                 Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.CREATE);
             }
         }
@@ -337,9 +511,12 @@ function init_items() {
         var keyword2 = path_lis.pop();
         if (_.contains(ITEM_RESERVED_KEYWORDS, keyword2)) {
             Session.set(ITEM_SESSION.MATERIALIZED_PATH, path_lis.slice(0, path_lis.length));
-            if (keyword2 == "item") {
+            if (keyword2 === "item") {
                 Session.set(ITEM_SESSION.ITEM_ID, keyword);
                 Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.ITEM);
+            } else if (keyword2 === "update") {
+                Session.set(ITEM_SESSION.ITEM_ID, keyword);
+                Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.UPDATE);
             }
         }
     }

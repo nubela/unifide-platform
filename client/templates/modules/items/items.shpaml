@@ -64,12 +64,13 @@ template name="item_view"
                 {{/if}}
         .span6
             .login-form
-                h3 | {{item.name}}
+                h3
+                    {{item.name}}
                 p
                     strong | S${{item.price}}
                 p | {{item.description}}
                 <br>
-                a.btn.btn-primary.btn-large.btn-block | Update
+                a.btn.btn-primary.btn-large.btn-block href="{{update_url}}" | Update
 
 
 
@@ -77,16 +78,24 @@ template name="item_compose"
     <!--- new item compose --->
     div.compose-new-item.well
         form#item-compose-form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley"
+            {{#if item_to_update}}
+            legend | Update {{item_to_update.name}}
+            {{else}}
             legend | New Item
+            {{/if}}
             fieldset
 
                 <!--- hidden fields --->
+                > input type="hidden" name="id" id="id" {{#if item_to_update}}value="{{item_to_update._id}}"{{/if}}
                 > input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}'
                 > input type="hidden" name="redirect_to" id="redirect_to" value='{{redirect_to}}'
+                > input#custom-tag-lis type="hidden" name="tags" value='{{tags_json}}'
+                > input#custom-attr-lis type="hidden" name="custom_attr_lis" value='{{custom_attr_lis_json}}'
+                > input#custom-img-lis type="hidden" name="custom_media_lis" value='{{custom_media_lis_json}}'
 
                 .control-group
                     label for="name" | Item name
-                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first"
+                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}}
 
                 .control-group
                     label for="media_file" | Media
@@ -94,23 +103,61 @@ template name="item_compose"
 
                 .control-group
                     label id="description" | Description
+                    {{#if item_to_update}}
+                    textarea rows="3" name="description" id="description" | {{item_to_update.description}}
+                    {{else}}
                     > textarea rows="3" name="description" id="description"
+                    {{/if}}
 
                 .control-group
                     label for="price" | Price ($)
-                    > input type="number" placeholder="4.95" name="price" id="price"
+                    > input type="number" placeholder="4.95" name="price" id="price" {{#if item_to_update}}value="{{item_to_update.price}}"{{/if}}
 
                 .control-group
                     label for="quantity" | Quantity
-                    > input type="number" placeholder="100" name="quantity" id="quantity"
+                    > input type="number" placeholder="100" name="quantity" id="quantity" {{#if item_to_update}}value="{{item_to_update.quantity}}"{{/if}}
 
                 .control-group
-                    label | Add a custom attribute
-                    button.btn.btn-inverse | New custom attribute
+                    label | Tags
+                    .tag.hidden#tag-template
+                        span | Works
+                        > a.tagsinput-remove-link.fui-cross-16
+                    .tagsinput#tagsinput
+                        {{#each item_to_update.tags}}
+                        .tag
+                            span | {{this}}
+                            > a.tagsinput-remove-link.fui-cross-16
+                        {{/each}}
+                        .tagsinput-add-container#tagsinput_addTag
+                            > div.tagsinput-add.fui-plus-16
+                            > input#tagsinput_tag data
 
+                .control-group.hidden#custom-attr-template
+                    label for="quantity" | Quantity
+                    > input name="quantity" id="quantity"
+
+                .control-group.hidden#custom-img-template
+                    label for="media_file" | Media
+                    > input type="file" name="media_file" id="media_file"
+
+                .control-group#custom-ctrl-grp
+                    span.btn.btn-inverse#add-custom-attr-btn | Add custom attribute
+                    span.btn.btn-inverse#add-custom-img-btn | Add media
+
+                {{#each extra_attr}}
                 .control-group
-                    a.appnav href="{{back_url}}"
-                        button.btn-large.btn | Cancel
+                    label | {{this.k}}
+                    > input name="{{this.k}}" value="{{this.v}}"
+                {{/each}}
+
+                {{#each item_to_update.custom_media_lis}}
+                .control-group
+                    label | {{this}}
+                    > input type="file" name="{{this}}"
+                {{/each}}
+
+                > br
+                .control-group
                     button.btn-large.btn.btn-primary.submit-btn | Save item
 
 

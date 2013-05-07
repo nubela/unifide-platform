@@ -1,4 +1,4 @@
-@import "../typography.sass"
+@import "../../typography"
 
 .side-header
     .icon
@@ -63,8 +63,15 @@
     margin-top: 20px
 
     form
-        input, textarea, select
+        input, textarea, select, .tagsinput
             width: 60%
+
+        .tagsinput
+            border-color: #cccccc
+            background-color: white
+            border-width: 1px
+            .tag
+                background-color: #34495e
 
 .show-item
     .login-form
@@ -80,6 +87,8 @@
 
 .new_container
     font-size: 12px
+
+
 
 #item-tooltip
     z-index: 0
