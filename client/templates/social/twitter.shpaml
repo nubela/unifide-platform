@@ -7,6 +7,7 @@ template name="twitter"
                         li.side-header
                             Twitter
                         li
+                            > i.icon-th-list
                             Tweets activity
 
                 .span12.span-fixed-sidebar

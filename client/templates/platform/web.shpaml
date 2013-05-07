@@ -1,0 +1,54 @@
+template name="web"
+    .container-fluid
+        .row-fluid
+            .web
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header
+                            Web / Mobile
+                        a.appnav href="/web"
+                            li
+                                > i.icon-th-list
+                                Campaigns Activity
+
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+template name="web_campaign_activity"
+    .rendering
+        .main-title
+            h4
+                Campaigns Activity
+
+        {{#if check_web}}
+        table.table-striped.table-hover
+            thead
+                tr
+                    td
+                        Activity ({{total}})
+                        > i.icon-chevron-right.pull-right.icon-nav.page-next
+                        .pull-right
+                            {{activity_page}}
+                        > i.icon-chevron-left.pull-right.icon-nav.page-back
+            tbody
+                {{#each activity_list}}
+                tr
+                    td
+                        {{{platforms}}}
+                        .web-time.pull-right
+                            {{datetime}}
+                        > div.clear
+                        .web-title
+                            {{title}}
+                        {{{event}}}
+                        .web-description
+                            {{{description}}}
+                        .web-view-link
+                            a.appnav href="/"
+                                View on website.com
+                {{/each}}
+
+        {{else}}
+            .no-data
+                No campaigns activity available.
+        {{/if}}

@@ -55,7 +55,7 @@ Template.twitter_activity.check_twitter = function() {
 Template.twitter_activity.total = function() {
     _TWActivity.remove({}, {reactive: false});
     var time_now = new Date().getTime();
-    var tw_tweets = TWTweets.find({}).fetch();
+    var tw_tweets = TWTweets.find({}, {sort: {created_at: -1}}).fetch();
     for (var i = 0; i < tw_tweets.length; i++) {
         var tweet = tw_tweets[i]
         tweet["datetime"] = timeDifference(time_now, new Date(tweet.created_at).getTime());

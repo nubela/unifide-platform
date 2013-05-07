@@ -30,6 +30,14 @@
     return "" + url + "bizinfo";
   };
 
+  Template.bizinfo_update.user_id = function() {
+    return Meteor.userId();
+  };
+
+  Template.bizinfo_update.brand_name = function() {
+    return Session.get("selected_brand");
+  };
+
   Template.bizinfo_update.submit_url = function() {
     var url;
 

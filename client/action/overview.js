@@ -77,7 +77,7 @@ Template.overview_twitter.check_twitter = function() {
 Template.overview_twitter.twitter_overview = function() {
     _TWOverview.remove({}, {reactive: false});
     var time_now = new Date().getTime();
-    var tw_tweets = TWTweets.find({}, {limit: 5}).fetch();
+    var tw_tweets = TWTweets.find({}, {limit: 5, sort: {created_at: -1}}).fetch();
     for (var i = 0; i < tw_tweets.length; i++) {
         var tweet = tw_tweets[i]
         tweet["datetime"] = timeDifference(time_now, new Date(tweet.created_at).getTime());
@@ -111,7 +111,7 @@ Template.overview_web.web_overview = function() {
     var time_now = new Date().getTime();
     _WebOverview.remove({});
 
-    var mappings = Mappings.find({$or: [{campaign: {$ne: null}}, {blog: {$ne: null}}], state: "published"}, {limit: 5}).fetch();
+    var mappings = Mappings.find({$or: [{campaign: {$ne: null}}, {blog: {$ne: null}}], state: "published"}, {limit: 5, sort: {timestamp_utc: -1}}).fetch();
     for (var i=0;i<mappings.length;i++) {
         var m = mappings[i];
         var content = getContentCampaign(m);
@@ -130,6 +130,19 @@ function getContentCampaign(mapping) {
     return Campaigns.findOne({_id: objId});
 }
 
+function loadPlatforms(mapping) {
+    var val = "";
+
+    if (mapping.campaign) { val += '<div class="web-platform-icon-web pull-left"></div>'; }
+    if (mapping.blog) { val += '<div class="web-platform-icon-blog pull-left"></div>' }
+    if (mapping.push) {
+        val += '<div class="web-platform-icon-android pull-left"></div>';
+        val += '<div class="web-platform-icon-ios pull-left"></div>'
+    }
+
+    return val;
+}
+
 function loadEventDetails(content) {
     var val = "";
     var event_start = value_check(content, "happening_datetime_start");
@@ -141,19 +154,6 @@ function loadEventDetails(content) {
     }
     if (event_end) { var endDate = getTimeFromUTC(event_end); val += ' until ' + endDate.toLocaleTimeString(); }
     if (event_start) { val += '</span></div>'; }
-
-    return val;
-}
-
-function loadPlatforms(mapping) {
-    var val = "";
-
-    if (mapping.campaign) { val += '<div class="web-platform-icon-web pull-left"></div>'; }
-    if (mapping.blog) { val += '<div class="web-platform-icon-blog pull-left"></div>' }
-    if (mapping.push) {
-        val += '<div class="web-platform-icon-android pull-left"></div>';
-        val += '<div class="web-platform-icon-ios pull-left"></div>'
-    }
 
     return val;
 }

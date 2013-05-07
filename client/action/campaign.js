@@ -121,6 +121,10 @@ Template.campaign_list.events = {
         Session.set('edit_campaign_type', campaign_type);
         Session.set('edit_campaign_id', campaign_id);
         $('#edit_campaign_modal').modal();
+        $('#edit_campaign_modal').on('hidden', function() {
+            Session.set('edit_campaign_type', '');
+            Session.set('edit_campaign_id', '');
+        });
     },
     'click .delete-campaign': function(event) {
         var checked = $('.selection input:checkbox:checked');
@@ -159,11 +163,11 @@ Template.campaign_list.list_page = function() {
 
 Template.campaign_list.campaigns = function() {
     var offset = (Session.get("campaign_list_page") * 10) - 10;
-    var mappings = Mappings.find({}, {limit: 10, skip: offset}).fetch();
+    var mappings = Mappings.find({}, {limit: 10, skip: offset, sort: {timestamp_utc: -1}}).fetch();
     _CampaignsList.remove({});
     for (var i=0;i<mappings.length;i++) { _CampaignsList.insert(computeCampaign(mappings[i])); }
 
-    return _CampaignsList.find().fetch();
+    return _CampaignsList.find({}).fetch();
 }
 
 Template.campaign_list.edit_campaign = function() {
@@ -241,7 +245,7 @@ function computeCampaign(mapping) {
     }
 
     // web/mobile campaign
-    if (mapping.campaign || mapping.blog) {
+    if (mapping.campaign) {
         var campaign = Campaigns.findOne({_id: mapping.campaign});
         dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description))) : "";
         dict["obj_title"] = value_check(campaign, "title");
@@ -251,7 +255,7 @@ function computeCampaign(mapping) {
     }
     // web/mobile blog
     else if (mapping.blog) {
-        var campaign = Campaigns.findOne({_id: mapping.campaign});
+        var campaign = Campaigns.findOne({_id: mapping.blog});
         dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description))) : "";
         dict["obj_title"] = value_check(campaign, "title");
         dict["obj_desc"] = value_check(campaign, "description");

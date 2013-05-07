@@ -171,6 +171,6 @@ template name="overview_web"
                 No web or mobile activity available.
         {{/if}}
         {{#if check_web}}
-        a.appnav.viewmore href="/web"
+        a.appnav.viewmore href="/web/campaign/activity"
             VIEW ALL
         {{/if}}

@@ -19,9 +19,8 @@ var myAppRouter = Backbone.Router.extend({
         "foursquare": "static_url",
         "foursquare/venue/activity": "static_url",
         "brand-mention": "static_url",
-        "web-platform": "static_url",
-        "ios-platform": "static_url",
-        "android-platform": "static_url",
+        "web": "static_url",
+        "web/campaign/activity": "static_url",
         "campaign": "static_url",
         "campaign/promo/new": "static_url",
         "campaign/event/new": "static_url",
@@ -92,8 +91,11 @@ function bizinfo_url() {
         BIZINFObj.remove({});
         var id = BIZINFObj.insert({
             name: resp.name,
+            info: resp.info,
             description: resp.description,
+            website: resp.website,
             email: resp.email,
+            phone: resp.phone,
             address: resp.address
         });
     });

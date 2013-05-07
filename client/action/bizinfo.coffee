@@ -22,6 +22,12 @@ Template.bizinfo_update.redirect_url = ->
     url = PLATFORM_URL
     "#{ url }bizinfo"
 
+Template.bizinfo_update.user_id = ->
+    Meteor.userId()
+
+Template.bizinfo_update.brand_name = ->
+    Session.get("selected_brand")
+
 Template.bizinfo_update.submit_url = ->
     url = BACKEND_URL
     "#{ url }business/info/"

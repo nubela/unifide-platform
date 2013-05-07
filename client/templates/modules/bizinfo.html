@@ -66,6 +66,18 @@
                         </strong>
                     </td>
                 </tr>
+
+                <tr>
+                    <td>
+                        Company Info
+                    </td>
+                    <td>
+                        <strong>
+                            {{info.info}}
+                        </strong>
+                    </td>
+                </tr>
+
                 <tr>
                     <td>
                         Company Description
@@ -79,11 +91,33 @@
 
                 <tr>
                     <td>
+                        Company Website
+                    </td>
+                    <td>
+                        <strong>
+                            {{info.website}}
+                        </strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
                         Main address
                     </td>
                     <td>
                         <strong>
                             {{info.address}}
+                        </strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Contact phone number
+                    </td>
+                    <td>
+                        <strong>
+                            {{info.phone}}
                         </strong>
                     </td>
                 </tr>
@@ -117,11 +151,28 @@
             <fieldset>
                 <!--- hidden fields --->
                 <input type="hidden" name="redirect_to" value='{{redirect_url}}' />
+                <input type="hidden" name="user_id" value='{{user_id}}' />
+                <input type="hidden" name="brand_name" value='{{brand_name}}' />
 
                 <div class="control-group">
                     <label for="name">Business name</label>
                     <input type="text" placeholder="ABC Company" name="name" id="name" data-required="true" data-focus="first" {{#if info.name}}value="{{info.name}}"{{/if}} />
                 </div>
+
+                <div class="control-group">
+                    <label for="info">Business Info (140 characters)</label>
+                    {{#if info.info}}
+                    <textarea rows="3" name="info" id="info" placeholder="Short information of your business">{{info.info}}</textarea>
+                    {{else}}
+                    <textarea rows="3" name="info" id="info" placeholder="Short information of your business" />
+                    {{/if}}
+                </div>
+
+                <div class="control-group">
+                    <label id="website">Business Website</label>
+                    <input type="text" placeholder="www.unifide.sg" name="website" id="website" {{#if info.website}}value="{{info.website}}"{{/if}} />
+                </div>
+
 
                 <div class="control-group">
                     <label id="description">Business Description</label>
@@ -135,6 +186,11 @@
                 <div class="control-group">
                     <label for="address">Address</label>
                     <input type="text" placeholder="1 Orchard Rd" name="address" id="address" data-required="true" data-focus="first" {{#if info.address}}value="{{info.address}}"{{/if}} />
+                </div>
+
+                <div class="control-group">
+                    <label for="phone">Contact Phone Number</label>
+                    <input type="text" placeholder="1234 5678" name="phone" id="phone" {{#if info.phone}}value="{{info.phone}}"{{/if}} />
                 </div>
 
                 <div class="control-group">
