@@ -8,11 +8,11 @@ template name="campaign"
                             Campaigns
                         a.appnav href="/campaign/promo/new"
                             li
-                                > i.icon-pencil
+                                > i.icon-plus
                                 New Promo
                         a.appnav href="/campaign/event/new"
                             li
-                                > i.icon-calendar
+                                > i.icon-plus
                                 New Event
                         a.appnav href="/campaign"
                             li

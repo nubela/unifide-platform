@@ -34,7 +34,7 @@ var myAppRouter = Backbone.Router.extend({
         "account/auth/foursquare/:str": "social_auth_foursquare",
         "bizinfo": "bizinfo_url",
         "bizinfo/update": "bizinfo_url",
-        "profile": "static_url",
+        "comments": "static_url",
         "items": "items_url",
         "items/*suburl": "items_url",
         "order": "order_url",

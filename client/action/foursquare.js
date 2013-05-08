@@ -37,7 +37,7 @@ Template.foursquare_venue_activity.activity_page = function() {
 
 Template.foursquare_venue_activity.activity_list = function() {
     var offset = (Session.get("foursquare_activity_page") * 10) - 10;
-    return _FSQActivity.find({}, {limit: 10, skip: offset}).fetch();
+    return _FSQActivity.find({}, {sort: {created_utc: -1}, limit: 10, skip: offset}).fetch();
 };
 
 Template.foursquare_venue_activity.total = function() {
@@ -54,7 +54,7 @@ Template.foursquare_venue_activity.total = function() {
         _FSQActivity.insert(getFSQPageTipOverview(page_tip[i]));
     }
 
-    return _FSQActivity.find({}, { reactive: false}).count();
+    return _FSQActivity.find({}, {reactive: false}).count();
 }
 
 function getFSQUpdateOverview(pageupdate) {
@@ -83,6 +83,7 @@ function getFSQPageTipOverview(pagetip) {
         },
         text: pagetip.fields.text,
         createdAt: timeDifference(time_now, getTimeFromUTC(pagetip.fields.createdAt)),
+        created_utc: pagetip.fields.createdAt,
         canonicalUrl: pagetip.fields.canonicalUrl,
         type: "page tip"
     }

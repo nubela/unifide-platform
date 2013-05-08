@@ -109,7 +109,7 @@ Template.overview_foursquare.foursquare_overview = function() {
         _FSQOverview.insert(getFSQPageTipOverview(page_tip[i]));
     }
 
-    return _FSQOverview.find({}, {limit: 5, sort: {"createdAt": 1}, reactive: false});
+    return _FSQOverview.find({}, {limit: 5, sort: {"created_utc": -1}, reactive: false}).fetch();
 }
 
 function getFSQUpdateOverview(pageupdate) {
@@ -138,6 +138,7 @@ function getFSQPageTipOverview(pagetip) {
         },
         text: pagetip.fields.text,
         createdAt: timeDifference(time_now, getTimeFromUTC(pagetip.fields.createdAt)),
+        created_utc: pagetip.fields.createdAt,
         canonicalUrl: pagetip.fields.canonicalUrl,
         type: "page tip"
     }

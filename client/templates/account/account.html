@@ -6,12 +6,12 @@
                     <ul class="unstyled side-nav">
                         <li class="side-header">Options</li>
                         {{#each brands}}
-                        <a class="appnav" href="/account/b/{{brand_name}}"><li class="active">{{brand_name}}</li></a>
+                        <a class="appnav" href="/account/b/{{brand_name}}"><li class="active"><i class="icon-user"></i> {{brand_name}}</li></a>
                         {{/each}}
                     </ul>
                     <div class="side-nav-line"></div>
                     <ul class="unstyled side-nav">
-                        <a class="appnav" href="/account/update"><li>Account Details</li></a>
+                        <a class="appnav" href="/account/update"><li><i class="icon-cog"></i> Account Details</li></a>
                     </ul>
                     </div>
                 </div>
@@ -179,13 +179,92 @@
 <template name="account_details">
     <div class="account_details">
         <div class="account-brand-title">Account Details</div>
-        <div class="account-brand-add-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-    </div>
-</template>
-
-<template name="account_usage">
-    <div class="account_usage">
-        <div class="account-brand-title">Account Usage Limits</div>
-        <div class="account-brand-add-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+        <div class="account-brand-add-desc">
+            Keep your account details up-to-date so we can inform you of upcoming changes and new features !
+        </div>
+        <div class="account-brand-sub-title">Brand Name</div>
+        <div class="account-brand-container">
+            <table>
+                <tr>
+                    <td>
+                        {{{brand_name}}}
+                    </td>
+                    <td class="change-icon">
+                        <a id="edit_brand_name" class="appnav" href="#">Edit name</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="edit_brand_name_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h5>Enter New Brand Name</h5>
+            </div>
+            <div class="modal-body">
+                <label for="new_brand_name">New Brand Name</label>
+                <input id="new_brand_name" type="text" placeholder="{{brand_name}}">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal">Close</button>
+                <button id="edit_brand_name_btn" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+        <div class="account-brand-sub-title">Account Password</div>
+        <div class="account-brand-container">
+            <table>
+                <tr>
+                    <td>
+                        **************
+                    </td>
+                    <td class="change-icon">
+                        <a id="edit_account_password" class="appnav" href="#">Change password</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="change_password_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h5>Change Account Password</h5>
+            </div>
+            <div class="modal-body">
+                <label for="old_pass">Old Password</label>
+                <input id="old_pass" type="password" placeholder="********">
+                <label for="new_pass">New Password</label>
+                <input id="new_pass" type="password" placeholder="********">
+                <label id="change_password_error"></label>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal">Close</button>
+                <button id="change_password_btn" class="btn btn-primary">Change password</button>
+            </div>
+        </div>
+        <div class="account-brand-sub-title">Account Email</div>
+        <div class="account-brand-container">
+            <table>
+                <tr>
+                    <td>
+                        {{{account_email}}}
+                    </td>
+                    <td class="change-icon">
+                        <a id="edit_account_email" class="appnav" href="#">Change email</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="change_email_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h5>Change Email</h5>
+            </div>
+            <div class="modal-body">
+                <label for="new_email">New Email</label>
+                <input id="new_email" type="text" placeholder="{{account_email}}">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal">Close</button>
+                <button id="change_email_btn" class="btn btn-primary">Update email</button>
+            </div>
+        </div>
     </div>
 </template>
