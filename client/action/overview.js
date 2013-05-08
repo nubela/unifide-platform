@@ -1,7 +1,7 @@
 Template.overview_facebook.check_facebook = function() {
     var brand_obj = detect_selected_brand(Session.get("selected_brand"), "facebook");
     if (!brand_obj) { return false; }
-    if (!brand_obj.id && FBPosts.find().count() > 0) { return false; }
+    if (!brand_obj.id || FBPosts.find().count() == 0) { return false; }
     return true;
 }
 
@@ -70,7 +70,7 @@ Template.overview_twitter.events = {
 Template.overview_twitter.check_twitter = function() {
     var brand_obj = detect_selected_brand(Session.get("selected_brand"), "twitter");
     if (!brand_obj) { return false; }
-    if (!brand_obj.id && TWTweets.find().count() > 0) { return false; }
+    if (!brand_obj.id || TWTweets.find().count() == 0) { return false; }
     return true;
 }
 
@@ -88,14 +88,59 @@ Template.overview_twitter.twitter_overview = function() {
     return _TWOverview.find({}, {reactive: false}).fetch();
 };
 
+Template.overview_foursquare.check_foursquare = function() {
+    var brand_obj = detect_selected_brand(Session.get("selected_brand"), "foursquare");
+    if (!brand_obj) { return false; }
+    if (!brand_obj.id || (FSQTips.find().count() == 0 && FSQPageUpdates.find().count() == 0)) { return false; }
+    return true;
+}
+
 Template.overview_foursquare.foursquare_overview = function() {
-    _FSQOverview.remove({});
-    var client_FSQTips = FSQTips.find({}, {limit: 4}).fetch();
-    for (var i=0; i < client_FSQTips.length;i++) {
-        _FSQOverview.insert(client_FSQTips[i]);
+    _FSQOverview.remove({}, {reactive: false});
+
+    var page_tip = FSQTips.find({}, {limit: 5, sort: {"fields.createdAt": -1}}).fetch();
+    var page_updates = FSQPageUpdates.find({}, {limit: 5, sort: {"fields.createdAt": -1}}).fetch();
+
+    for (var i=0;i<page_updates.length;i++) {
+        _FSQOverview.insert(getFSQUpdateOverview(page_updates[i]));
     }
 
-    return _FSQOverview.find().fetch();
+    for (var i=0;i<page_tip.length;i++) {
+        _FSQOverview.insert(getFSQPageTipOverview(page_tip[i]));
+    }
+
+    return _FSQOverview.find({}, {limit: 5, sort: {"createdAt": 1}, reactive: false});
+}
+
+function getFSQUpdateOverview(pageupdate) {
+    var time_now = new Date().getTime();
+    return {
+        user: {
+            image: pageupdate.fields.creator.photo.prefix + "64x64" + pageupdate.fields.creator.photo.suffix,
+            name: pageupdate.fields.creator.firstName,
+            id: pageupdate.fields.creator.id
+        },
+        text: pageupdate.fields.shout,
+        createdAt: timeDifference(time_now, getTimeFromUTC(pageupdate.fields.createdAt)),
+        created_utc: pageupdate.fields.createdAt,
+        canonicalUrl: pageupdate.fields.canonicalUrl,
+        type: "page update"
+    }
+}
+
+function getFSQPageTipOverview(pagetip) {
+    var time_now = new Date().getTime();
+    return {
+        user : {
+            image: pagetip.fields.user.photo.prefix + "64x64" + pagetip.fields.user.photo.suffix,
+            name: pagetip.fields.user.firstName,
+            id: pagetip.fields.user.id
+        },
+        text: pagetip.fields.text,
+        createdAt: timeDifference(time_now, getTimeFromUTC(pagetip.fields.createdAt)),
+        canonicalUrl: pagetip.fields.canonicalUrl,
+        type: "page tip"
+    }
 }
 
 Template.overview_brandmention.web_mentions_overview = function() {

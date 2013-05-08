@@ -24,18 +24,38 @@ template name="foursquare_venue_activity"
         button.btn type=button
             Search
 
+    {{#if check_foursquare}}
     table.table-striped.table-hover
         thead
             tr
-                td colspan="3"
-                    Activity
+                td colspan="2"
+                    Activity ({{total}})
+                    > i.icon-chevron-right.pull-right.icon-nav.page-next
+                    .pull-right
+                        {{activity_page}}
+                    > i.icon-chevron-left.pull-right.icon-nav.page-back
         tbody
             {{#each activity_list}}
             tr
                 td.foursquare-profile-pic
-                    <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{fields.user.photo.prefix}}64x64{{fields.user.photo.suffix}}"></a>
+                    a href="https://foursquare.com/user/{{user.id}}" onclick="window.open(this.href,'_blank');return false;"
+                        > img.img-rounded src="{{user.image}}"
                 td.foursquare-tip-content
-                    {{text}}
+                    .foursquare-overview-text
+                        {{text}}
                     .foursquare-profile-name
-                        <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;">{{fields.user.firstName}}</a> · <a href="https://foursquare.com/user/{{fields.canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;">{{createdAt}}</a>
+                        .pull-left
+                            a href="https://foursquare.com/user/{{user.id}}" onclick="window.open(this.href,'_blank');return false;"
+                                {{user.name}}
+                            .
+                            a href="https://foursquare.com{{canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;"
+                                {{createdAt}}
+                        .pull-right
+                            a.foursquare-view-more href="https://foursquare.com{{canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;"
+                                view {{type}}
+                        > div.clear
             {{/each}}
+    {{else}}
+        .no-data
+            No Foursquare activity available
+    {{/if}}

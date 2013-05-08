@@ -283,8 +283,8 @@ function computeCampaign(mapping) {
     // foursquare page update
     } else if (mapping.foursquare) {
         var fsq = FSQPageUpdates.findOne({_id: mapping.foursquare});
-        dict["title"] = fsq ? wrapTitleContainer("") : "";
-        dict["obj_title"] = fsq ? "" : "";
+        dict["title"] = fsq ? wrapTitleContainer(wrapBold(fsq.fields.shout)) : "";
+        dict["obj_title"] = fsq ? fsq.fields.shout : "";
     }
 
     dict["state"] = mapping.state === "published" ? "<i class='icon-ok-sign'></i>" : "<i class='icon-time'></i>"

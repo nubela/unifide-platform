@@ -49,7 +49,7 @@
   font-size: 10px;
   color: #999999;
   font-weight: 600; }
-.overview-widget .facebook-view-post, .facebook .facebook-view-post, .twitter .facebook-view-post, .foursquare .facebook-view-post, .web .facebook-view-post {
+.overview-widget .facebook-view-post, .overview-widget .foursquare-view-more, .facebook .facebook-view-post, .facebook .foursquare-view-more, .twitter .facebook-view-post, .twitter .foursquare-view-more, .foursquare .facebook-view-post, .foursquare .foursquare-view-more, .web .facebook-view-post, .web .foursquare-view-more {
   color: #0072c6; }
 .overview-widget .twitter-profile-pic, .facebook .twitter-profile-pic, .twitter .twitter-profile-pic, .foursquare .twitter-profile-pic, .web .twitter-profile-pic {
   padding-top: 15px; }

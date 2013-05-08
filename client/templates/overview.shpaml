@@ -104,19 +104,37 @@ template name="overview_twitter"
 template name="overview_foursquare"
     .overview-widget.container-shadow
         .title | FOURSQUARE
-        .overflow
-            table.table.table-hover#overview-foursquare
-                tbody
-                    {{#each foursquare_overview}}
-                    tr
-                        td.foursquare-profile-pic
-                            <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;"><img class="img-rounded" src="{{fields.user.photo.prefix}}64x64{{fields.user.photo.suffix}}"></a>
-                        td.foursquare-tip-content
+        {{#if check_foursquare}}
+        table.table.table-hover#overview-foursquare
+            tbody
+                {{#each foursquare_overview}}
+                tr
+                    td.foursquare-profile-pic
+                        a href="https://foursquare.com/user/{{user.id}}" onclick="window.open(this.href,'_blank');return false;"
+                            > img.img-rounded src="{{user.image}}"
+                    td.foursquare-tip-content
+                        .foursquare-overview-text
                             {{text}}
-                            .foursquare-profile-name
-                                <a href="https://foursquare.com/user/{{fields.user.id}}" onclick="window.open(this.href,'_blank');return false;">{{fields.user.firstName}}</a> · <a href="https://foursquare.com/user/{{fields.canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;">{{createdAt}}</a>
-                    {{/each}}
-        <a href="/foursquare" class="appnav viewmore">VIEW ALL</a>
+                        .foursquare-profile-name
+                            .pull-left
+                                a href="https://foursquare.com/user/{{user.id}}" onclick="window.open(this.href,'_blank');return false;"
+                                    {{user.name}}
+                                .
+                                a href="https://foursquare.com{{canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;"
+                                    {{createdAt}}
+                            .pull-right
+                                a.foursquare-view-more href="https://foursquare.com{{canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;"
+                                    view {{type}}
+                            > div.clear
+                {{/each}}
+        {{else}}
+            .no-data
+                No Foursquare activity available.
+        {{/if}}
+        {{#if check_foursquare}}
+        a.appnav.viewmore href="/foursquare/venue/activity"
+            VIEW ALL
+        {{/if}}
 
 template name="overview_brandmention"
     .overview-widget.container-shadow
