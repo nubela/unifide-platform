@@ -1,0 +1,33 @@
+<template name="comments">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="comments">
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">
+                            Comments
+                        </li>
+                        <a href="/comments" class="appnav">
+                            <li>
+                                <i class="icon-comment" />
+                                Manage
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="comments_manage">
+    <div class="main-title">
+        <h4>
+            Comments Management
+        </h4>
+    </div>
+</template>

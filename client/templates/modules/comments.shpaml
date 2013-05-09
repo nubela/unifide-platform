@@ -1,0 +1,20 @@
+template name="comments"
+    .container-fluid
+        .row-fluid
+            .comments
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        li.side-header
+                            Comments
+                        a.appnav href="/comments"
+                            li
+                                > i.icon-comment
+                                Manage
+
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+template name="comments_manage"
+    .main-title
+        h4
+            Comments Management

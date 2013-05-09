@@ -8,12 +8,15 @@ template name="campaign"
                             Campaigns
                         a.appnav href="/campaign/promo/new"
                             li
+                                > i.icon-plus
                                 New Promo
                         a.appnav href="/campaign/event/new"
                             li
+                                > i.icon-plus
                                 New Event
                         a.appnav href="/campaign"
                             li
+                                > i.icon-th-list
                                 Manage
 
                 .span12.span-fixed-sidebar
@@ -177,7 +180,7 @@ template name="campaign_list"
                 Expand All
         .selected-buttons.pull-left
             button.btn.delete-campaign
-                > i.icon-remove
+                > i.icon-trash
         > div.clear
         table.table-hover.campaign-manage
             thead
@@ -245,7 +248,7 @@ template name="campaign_event"
         Event Date
     .campaign-post-time.pull-left
         Time
-    <div class="clear"></div>
+    > div.clear
     .campaign-post-datetime
         #event-date.input-append.pull-left
             > input.campaign-post-date-input type="text" data-format="yyyy-MM-dd" placeholder="select date"
@@ -272,4 +275,4 @@ template name="campaign_event"
         0 characters
     .campaign-post-category
         Description
-    <textarea id="desc-editor" placeholder="enter message"></textarea>
+    > textarea#desc-editor placeholder="enter message"

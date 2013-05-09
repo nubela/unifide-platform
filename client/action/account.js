@@ -253,11 +253,59 @@ Template.account_details.rendered = function () {
     page_render(this);
 }
 
-Template.account_usage.rendered = function () {
-    $('.side-nav li').removeClass("active");
-    $($('a[href$="/account/usage"]').children()[0]).addClass("active");
+Template.account_details.events = {
+    'click #edit_brand_name': function() {
+        $('#edit_brand_name_modal').modal();
+    },
+    'click #edit_account_password': function() {
+        $('#change_password_modal').on('hide', function() {
+            $('#change_password_error').text('');
+        })
+        $('#change_password_modal').modal();
+    },
+    'click #edit_account_email': function() {
+        $('#change_email_modal').modal();
+    },
+    'click #edit_brand_name_btn': function() {
+        var new_brand = $('#new_brand_name').val()
+        var args = {user_id: Meteor.userId(),
+                    brand_name: Session.get("account_brand"),
+                    new_brand_name: new_brand}
+        Meteor.call('http_api', 'put', 'account/info/', args, function(error, result) {
+            if (result.statusCode !== 200) {
+                console.log(error);
+            } else {
+                Session.set("account_brand", new_brand);
+                Session.set("selected_brand", new_brand);
+            }
+            $('#edit_brand_name_modal').modal('hide');
+        })
+    },
+    'click #change_password_btn': function() {
+        Accounts.changePassword($('#old_pass').val(), $('#new_pass').val(), function(error) {
+            if (error) {
+                $('#change_password_error').text(error.reason);
+                console.log(error);
+            } else { $('#change_password_modal').modal('hide'); }
+        });
+    },
+    'click #change_email_btn': function() {
+        var args = {user_id: Meteor.userId(),
+                    email: $('#new_email').val()};
+        Meteor.call('http_api', 'put', 'account/info/', args, function(error, result) {
+            if (result.statusCode !== 200) {
+                console.log(error);
+            } else { $('#change_email_modal').modal('hide'); }
+        })
+    }
+}
 
-    page_render(this);
+Template.account_details.brand_name = function() {
+    return Session.get("account_brand");
+}
+
+Template.account_details.account_email = function() {
+    return Meteor.user().emails[0].address;
 }
 
 function page_loading(bool) {

@@ -1,31 +1,82 @@
-<template name="web_platform">
-    <div class="campaign container-shadow">
-        <div class="row">
-            <div class="span12">
-                <div class="row">
-                    <div class="span2">
-                        <div class="campaign-nav">
-                            <div class="campaign-title">Web Platform</div>
-                            <div class="campaign-grey-title">Manage posts</div>
-                            <ul class="unstyled campaign-nav-submenu nav nav-pills">
-                                <li class="active"><a class="appnav" href="/web-platform">All posts<div class="pull-right">12</div></a></li>
-                                <li><a class="appnav" href="/web-platform">Recent comments</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="span10">
-                        {{{view}}}
-                    </div>
+<template name="web">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="web">
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <li class="side-header">
+                            Web / Mobile
+                        </li>
+                        <a href="/web" class="appnav">
+                            <li>
+                                <i class="icon-th-list" />
+                                Campaigns Activity
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<template name="web_platform_list">
-    <div class="campaign-content">
-        <div class="campaign-title">
-            All Posts
+<template name="web_campaign_activity">
+    <div class="rendering">
+        <div class="main-title">
+            <h4>
+                Campaigns Activity
+            </h4>
         </div>
+
+        {{#if check_web}}
+        <table class="table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>
+                        Activity ({{total}})
+                        <i class="icon-chevron-right pull-right icon-nav page-next" />
+                        <div class="pull-right">
+                            {{activity_page}}
+                        </div>
+                        <i class="icon-chevron-left pull-right icon-nav page-back" />
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each activity_list}}
+                <tr>
+                    <td>
+                        {{{platforms}}}
+                        <div class="web-time pull-right">
+                            {{datetime}}
+                        </div>
+                        <div class="clear" />
+                        <div class="web-title">
+                            {{title}}
+                        </div>
+                        {{{event}}}
+                        <div class="web-description">
+                            {{{description}}}
+                        </div>
+                        <div class="web-view-link">
+                            <a href="/" class="appnav">
+                                View on website.com
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        {{else}}
+            <div class="no-data">
+                No campaigns activity available.
+            </div>
+        {{/if}}
     </div>
 </template>

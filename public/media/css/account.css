@@ -53,6 +53,10 @@
       color: #0072c6; }
   .account-brand-container .delete-icon {
     width: 20px; }
+  .account-brand-container .change-icon {
+    width: 120px;
+    color: #0072c6;
+    text-align: right; }
   .account-brand-container .table {
     margin-bottom: 0px; }
   .account-brand-container .add_facebook_page, .account-brand-container .add_foursquare_venue {
@@ -68,7 +72,8 @@
 
 .account-brand-add-desc {
   margin-top: 15px;
-  width: 640px; }
+  width: 640px;
+  font-size: 13px; }
 
 .account-brand-add {
   margin-top: 10px;
@@ -80,3 +85,11 @@
   border-top: 1px solid #cccccc;
   width: 640px;
   display: block; }
+
+#edit_brand_name_modal label, #change_password_modal label, #change_email_modal label {
+  font-weight: 600; }
+#edit_brand_name_modal input, #change_password_modal input, #change_email_modal input {
+  padding: 10px;
+  width: 96%; }
+#edit_brand_name_modal #change_password_error, #change_password_modal #change_password_error, #change_email_modal #change_password_error {
+  color: red; }

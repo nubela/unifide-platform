@@ -8,9 +8,11 @@ template name="facebook"
                             Facebook
                         a.appnav href="/facebook/page/activity"
                             li
+                                > i.icon-th-list
                                 Page activity
                         a.appnav href="/facebook/event/activity"
                             li
+                                > i.icon-th-list
                                 Events activity
 
                 .span12.span-fixed-sidebar

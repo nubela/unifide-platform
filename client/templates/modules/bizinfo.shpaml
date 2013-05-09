@@ -41,6 +41,14 @@ template name="bizinfo_overview"
                     td
                         strong
                             {{info.name}}
+
+                tr
+                    td
+                        Company Info
+                    td
+                        strong
+                            {{info.info}}
+
                 tr
                     td
                         Company Description
@@ -50,10 +58,24 @@ template name="bizinfo_overview"
 
                 tr
                     td
+                        Company Website
+                    td
+                        strong
+                            {{info.website}}
+
+                tr
+                    td
                         Main address
                     td
                         strong
                             {{info.address}}
+
+                tr
+                    td
+                        Contact phone number
+                    td
+                        strong
+                            {{info.phone}}
 
                 tr
                     td
@@ -75,10 +97,25 @@ template name="bizinfo_update"
             fieldset
                 <!--- hidden fields --->
                 > input type="hidden" name="redirect_to" value='{{redirect_url}}'
+                > input type="hidden" name="user_id" value='{{user_id}}'
+                > input type="hidden" name="brand_name" value='{{brand_name}}'
 
                 .control-group
                     label for="name" | Business name
                     > input type="text" placeholder="ABC Company" name="name" id="name" data-required="true" data-focus="first" {{#if info.name}}value="{{info.name}}"{{/if}}
+
+                .control-group
+                    label for="info" | Business Info (140 characters)
+                    {{#if info.info}}
+                    textarea rows="3" name="info" id="info" placeholder="Short information of your business" | {{info.info}}
+                    {{else}}
+                    > textarea rows="3" name="info" id="info" placeholder="Short information of your business"
+                    {{/if}}
+
+                .control-group
+                    label id="website" | Business Website
+                    > input type="text" placeholder="www.unifide.sg" name="website" id="website" {{#if info.website}}value="{{info.website}}"{{/if}}
+
 
                 .control-group
                     label id="description" | Business Description
@@ -91,6 +128,10 @@ template name="bizinfo_update"
                 .control-group
                     label for="address" | Address
                     > input type="text" placeholder="1 Orchard Rd" name="address" id="address" data-required="true" data-focus="first" {{#if info.address}}value="{{info.address}}"{{/if}}
+
+                .control-group
+                    label for="phone" | Contact Phone Number
+                    > input type="text" placeholder="1234 5678" name="phone" id="phone" {{#if info.phone}}value="{{info.phone}}"{{/if}}
 
                 .control-group
                     label for="email" | Contact Email Address

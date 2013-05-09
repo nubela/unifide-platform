@@ -1,0 +1,74 @@
+.rendering {
+  min-height: 800px; }
+
+.web .main-title {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid #cccccc; }
+.web .spacing20 {
+  height: 20px;
+  display: block; }
+.web table {
+  margin-top: 30px !important;
+  margin-bottom: 60px !important;
+  width: 100%; }
+  .web table thead td {
+    background: #eeeeee;
+    padding-bottom: 5px;
+    height: 20px !important;
+    font-weight: bold; }
+  .web table td {
+    padding: 10px; }
+  .web table .icon-nav {
+    margin-top: 3px;
+    margin-left: 10px;
+    padding: 5px;
+    cursor: pointer; }
+.web .web-platform-icon-web {
+  background-image: url("/media/img/html5-64-black.png");
+  background-size: cover;
+  display: block;
+  height: 20px;
+  width: 20px; }
+.web .web-platform-icon-blog {
+  background-image: url("/media/img/web-64-black.png");
+  background-size: cover;
+  display: block;
+  height: 20px;
+  width: 20px; }
+.web .web-platform-icon-android {
+  background-image: url("/media/img/android-64-black.png");
+  background-size: cover;
+  display: block;
+  height: 20px;
+  width: 20px; }
+.web .web-platform-icon-ios {
+  background-image: url("/media/img/apple-64-black.png");
+  background-size: cover;
+  display: block;
+  height: 20px;
+  width: 20px; }
+.web .web-time {
+  color: #999999; }
+.web .web-title {
+  margin-top: 5px;
+  margin-bottom: 3px;
+  font-weight: 600;
+  font-size: 12px; }
+.web .expanded-event-datetime {
+  margin-bottom: 10px;
+  color: #999999; }
+  .web .expanded-event-datetime .icon-calendar, .web .expanded-event-datetime .icon-time {
+    opacity: 0.5; }
+.web .expanded-event-start {
+  border-left: 1px solid #cccccc;
+  margin-left: 10px;
+  padding-left: 10px; }
+.web .web-description {
+  max-height: 80px;
+  overflow: hidden; }
+.web .web-view-link {
+  margin-top: 5px;
+  color: #0072c6; }

@@ -99,7 +99,8 @@ Meteor.publish("foursquare", function (brand) {
     var venue_list = brand_obj.venues;
 
     return [
-        FSQTips.find({venue_id: {$exists: true, $in: venue_list}}, {sort: {createdAt: -1}})
+        FSQPageUpdates.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {created_at: -1}}),
+        FSQTips.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {createdAt: -1}})
     ];
 });
 
