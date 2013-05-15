@@ -141,9 +141,7 @@ function del_brand_mention_keyword(keyword) {
 }
 
 function get_child_containers_and_items(path_lis) {
-//    console.log("polling");
     this.unblock();
-//    console.log("unblocked");
     var resp = Meteor.http.get(BACKEND_URL + "container+item/?" + serialize({
         path_lis: JSON.stringify(path_lis)
     }));
@@ -158,6 +156,13 @@ function put_container(path_lis, description) {
     }});
 }
 
+function del_item(item_id) {
+    this.unblock();
+    Meteor.http.del(BACKEND_URL + "item/?" + serialize({
+        item_id: item_id
+    }));
+}
+
 function get_biz_info() {
     this.unblock();
     resp = Meteor.http.get(BACKEND_URL + "business/info/")
@@ -170,6 +175,13 @@ function get_all_orders() {
     return JSON.parse(resp.content);
 }
 
+function del_container(container_id) {
+    this.unblock();
+    Meteor.http.del(BACKEND_URL + "container/?" + serialize({
+        container_id: container_id
+    }));
+}
+
 Meteor.methods({
     get_all_orders: get_all_orders,
     get_biz_info: get_biz_info,
@@ -177,6 +189,8 @@ Meteor.methods({
     get_child_containers_and_items: get_child_containers_and_items,
     put_brand_mention_keyword: put_brand_mention_keyword,
     del_brand_mention_keyword: del_brand_mention_keyword,
+    del_item: del_item,
+    del_container: del_container,
     get_platform_url: function () {
         return PLATFORM_URL;
     },

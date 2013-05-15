@@ -13,7 +13,7 @@
                         </a>
                         {{/if}}
                         {{#each child_containers}}
-                        <a href="{{url}}" class="appnav">
+                        <a href="{{url}}" id="{{id}}" class="appnav anchor-container">
                             <li class="container-entry"><span class="icon">F</span> {{name}}</li>
                         </a>
                         {{/each}}
@@ -95,6 +95,9 @@
                 <br>
                 <a href="{{update_url}}" class="btn btn-primary btn-large btn-block">Update</a>
             </div>
+            <p class="delete-item">
+                <span id="delete-item">Delete item</span>
+            </p>
         </div>
     </div>
 </template>

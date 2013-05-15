@@ -45,7 +45,8 @@ Template.items.child_containers = function () {
     _.each(child_containers, function (cat) {
         container_array.push({
             name: cat.name,
-            url: url + "/" + cat.name
+            url: url + "/" + cat.name,
+            id: cat._id
         });
     });
     return container_array;
@@ -117,6 +118,24 @@ Template.items.events = {
     }
 }
 
+Template.items.rendered = function () {
+    $(".anchor-container").mouseup(function (evt) {
+        clearTimeout(pressTimer)
+    }).mousedown(function (evt) {
+            pressTimer = window.setTimeout(function () {
+                evt.preventDefault();
+                bootbox.confirm("Delete container?", function (res) {
+                    if (res) {
+                        var anchor = $(evt.target).parent();
+                        var container_id = $(anchor).attr("id");
+                        Meteor.call("del_container", container_id);
+                        $(anchor).remove();
+                    }
+                });
+            }, 1000)
+        });
+}
+
 //------ item-container compose functions ------//
 
 Template.item_compose.tags_json = function () {
@@ -161,7 +180,6 @@ Template.item_compose.extra_attr = function () {
         var item_id = Session.get(ITEM_SESSION.ITEM_ID);
         var obj = ITMItems.findOne({_id: item_id });
         if (obj) {
-            console.log(obj);
             _.each(obj.custom_attr_lis, function (attr) {
                 lis.push({
                     k: attr,
@@ -175,7 +193,6 @@ Template.item_compose.extra_attr = function () {
 };
 
 Template.item_compose.item_to_update = function () {
-    console.log(Session.get(ITEM_SESSION.VIEW_TYPE));
     if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
         var item_id = Session.get(ITEM_SESSION.ITEM_ID);
         return ITMItems.findOne({_id: item_id });
@@ -280,7 +297,6 @@ Template.item_compose.events = {
                 var tag_name = $(evt.target).parent().find("span").text();
                 var customtagLis = Session.get(ITEM_SESSION.CUSTOM_TAGS);
                 customtagLis = _.without(customtagLis, tag_name);
-                console.log(customtagLis);
                 Session.set(ITEM_SESSION.CUSTOM_TAGS, customtagLis);
                 $("#custom-tag-lis").attr("value", JSON.stringify(customtagLis));
 
@@ -345,6 +361,20 @@ Template.item_view.item = function () {
     var item_id = Session.get(ITEM_SESSION.ITEM_ID);
     return ITMItems.findOne({_id: item_id });
 };
+
+Template.item_view.events = {
+    "click #delete-item": function () {
+        bootbox.confirm("Confirm delete?", function (res) {
+            if (res) {
+                var item_id = Session.get(ITEM_SESSION.ITEM_ID);
+                var url = suburl_to_current_path();
+                Meteor.call("del_item", item_id, function (error, content) {
+                    Router.navigate(url, true);
+                });
+            }
+        });
+    }
+}
 
 //------ item_container template functions ------//
 

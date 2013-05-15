@@ -127,7 +127,11 @@ template name="bizinfo_update"
 
                 .control-group
                     label for="address" | Address
-                    > input type="text" placeholder="1 Orchard Rd" name="address" id="address" data-required="true" data-focus="first" {{#if info.address}}value="{{info.address}}"{{/if}}
+                    {{#if info.address}}
+                    textarea rows="3" name="address" id="address" placeholder="1 Orchard Rd" | {{info.address}}
+                    {{else}}
+                    > textarea rows="3" name="address" id="address" placeholder="1 Orchard Rd"
+                    {{/if}}
 
                 .control-group
                     label for="phone" | Contact Phone Number

@@ -61,6 +61,13 @@
 
 .show-item .login-form {
   margin-top: 5px; }
+.show-item .delete-item {
+  text-align: right;
+  padding: 5px;
+  color: #999999;
+  font-size: 0.7em; }
+  .show-item .delete-item #delete-item {
+    cursor: pointer; }
 
 .select-container {
   margin-top: 60px; }

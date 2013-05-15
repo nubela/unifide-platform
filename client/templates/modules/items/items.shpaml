@@ -12,7 +12,7 @@ template name="items"
                             li.side-header | Go back <span class="icon">u</span>
                         {{/if}}
                         {{#each child_containers}}
-                        a.appnav href="{{url}}"
+                        a.appnav.anchor-container href="{{url}}" id="{{id}}"
                             li.container-entry | <span class="icon">F</span> {{name}}
                         {{/each}}
                         li.container-entry.new_container | <span class="icon">+</span> Add Container
@@ -71,6 +71,8 @@ template name="item_view"
                 p | {{item.description}}
                 <br>
                 a.btn.btn-primary.btn-large.btn-block href="{{update_url}}" | Update
+            p.delete-item
+                span#delete-item | Delete item
 
 
 
