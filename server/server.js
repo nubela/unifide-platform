@@ -65,12 +65,13 @@ Meteor.publish("facebook", function (brand) {
         postid_list.push(post_list[i].post_id);
     }
 
-    return [
-        FBPages.find({page_id: page_id}),
-        FBPosts.find({page_id: page_id, is_deleted: null}),
-        FBEvents.find({page_id: page_id, is_deleted: null}),
-        FBComments.find({post_id: {$exists: true, $in: postid_list}})
-    ];
+    var return_coll = [];
+    if (FBPages.find().count() > 0) { return_coll.push(FBPages.find({page_id: page_id})) }
+    if (FBPosts.find().count() > 0) { return_coll.push(FBPosts.find({page_id: page_id, is_deleted: null})) }
+    if (FBEvents.find().count() > 0) { return_coll.push(FBEvents.find({page_id: page_id, is_deleted: null})) }
+    if (FBComments.find().count() > 0) { return_coll.push(FBComments.find({post_id: {$exists: true, $in: postid_list}})) }
+
+    return return_coll;
 });
 
 Meteor.publish("twitter", function (brand) {
@@ -83,9 +84,10 @@ Meteor.publish("twitter", function (brand) {
     }
     var twitter_id = brand_obj.id;
 
-    return [
-        TWTweets.find({tw_id: twitter_id, is_deleted: null}, {sort: {created_at: -1}})
-    ];
+    var return_coll = [];
+    if (TWTweets.find().count() > 0) { return_coll.push(TWTweets.find({tw_id: twitter_id, is_deleted: null}, {sort: {created_at: -1}})) }
+
+    return return_coll;
 });
 
 Meteor.publish("foursquare", function (brand) {
@@ -98,10 +100,11 @@ Meteor.publish("foursquare", function (brand) {
     }
     var venue_list = brand_obj.venues;
 
-    return [
-        FSQPageUpdates.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {created_at: -1}}),
-        FSQTips.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {createdAt: -1}})
-    ];
+    var return_coll = [];
+    if (FSQPageUpdates.find().count() > 0) { return_coll.push(FSQPageUpdates.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {created_at: -1}})) }
+    if (FSQTips.find().count() > 0) { return_coll.push(FSQTips.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {createdAt: -1}}))  }
+
+    return return_coll;
 });
 
 
@@ -212,6 +215,7 @@ Meteor.methods({
     },
     get_facebook_pages: function (brand_name) {
         this.unblock();
+        console.log(this.userId);
         var result = Meteor.http.get(BACKEND_URL + "social_connect/facebook/page/", {params: {user_id: this.userId, brand_name: brand_name}});
         if (result.statusCode !== 200) {
             console.log(result.error);
@@ -316,7 +320,6 @@ Meteor.methods({
     },
     http_api: function (verb, url, args) {
         this.unblock();
-        console.log(args);
         var result = Meteor.http[verb](BACKEND_URL + url, {params: args});
         if (result.statusCode !== 200) {
             console.log(result.error);
