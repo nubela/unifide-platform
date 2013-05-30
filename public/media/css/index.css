@@ -15,6 +15,11 @@ a, a:hover, a:visited {
     cursor: pointer;
 }
 
+.clear {
+    clear: both;
+    line-height: 0;
+}
+
 textarea {
     resize: none;
 }

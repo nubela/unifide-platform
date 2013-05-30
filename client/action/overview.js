@@ -265,9 +265,8 @@ function tw_message_template(tweet) {
     var last_indice = 0;
     for (var i=0;i<tweet.fields.entities.urls.length;i++) {
         var entity_url = tweet.fields.entities.urls[i];
-        parsed_text += tweet.fields.text.substring(last_indice,entity_url.indices[0])
-        parsed_text += "<a class='tweet-links' " +
-                        "onclick='window.open(this.href,'_blank');return false;' " +
+        parsed_text += tweet.fields.text.substring(last_indice,entity_url.indices[0]);
+        parsed_text += '<a class="tweet-links" onclick="window.open(this.href,\'_blank\');return false;" ' +
                         "href='" + entity_url.expanded_url + "'>" + entity_url.display_url + "</a>"
         last_indice = entity_url.indices[1];
     }

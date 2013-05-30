@@ -1,3 +1,4 @@
+var CAMPAIGN_CREATION_REDIRECT_TO = "campaign"
 var campaign_default_template = "campaign_list";
 var platforms = ["facebook", "twitter", "foursquare", "campaign", "blog", "push"];
 
@@ -11,22 +12,46 @@ Template.campaign.view = function() {
     return Template[campaign_default_template]();
 }
 
+function toggleContentBox() {
+    var selected_boxes = $('.platform').find(":checkbox:checked");
+
+    if ($(selected_boxes).hasClass('social-network') || $(selected_boxes).hasClass('unifide-web')) { $('.social-content').css('display', 'block'); }
+    else { $('.social-content').css('display', 'none') }
+
+    if ($(selected_boxes).hasClass('social-network')) { $('.add-media').css('display', 'block'); }
+    else { $('.add-media').css('display', 'none') }
+
+    if ($(selected_boxes).hasClass('unifide-web')) { $('.web-content').css('display', 'block'); }
+    else { $('.web-content').css('display', 'none') }
+}
+
 Template.campaign.events = {
     'click #platform-all': function() {
         if ($('#platform-all').text() == 'Select all') { $('.platform').find(":checkbox").prop('checked', true); $('#platform-all').text('Unselect all'); }
         else { $('.platform').find(":checkbox").prop('checked', false); $('#platform-all').text('Select all'); }
+
+        toggleContentBox();
     },
     'click .platform-check': function() {
         var checked = $('.platform').find(":checkbox:checked").length;
         var total = $('.platform').find(":checkbox").length;
         if (checked == total) { $('#platform-all').text('Unselect all'); }
         else { $('#platform-all').text('Select all') }
+
+        toggleContentBox();
     },
     'click #btn-publish': function() {
-        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function(error, result) {
-            if (result.statusCode !== 200) { console.log(result.error); }
-            else { Router.navigate('campaign', true); }
-        });
+        if ($("#campaign-create").parsley("validate")) {
+            var eventDT = loadEventDateTime();
+            for (var i=0;i<eventDT.length;i++) { $(eventDT[i]).appendTo('#campaign-create'); }
+
+            $('<input />').attr('type', 'hidden')
+            .attr('name', 'description')
+            .attr('value', $('#desc-editor').val())
+            .appendTo('#campaign-create');
+            bootbox.dialog('<div class="text-center"><div class="loading-img"></div><h4>Creating campaigns...</h4></div>');
+            $("#campaign-create").submit();
+        }
     },
     'click #btn-schedule': function() {
         $('#schedule-date').datetimepicker({
@@ -41,25 +66,73 @@ Template.campaign.events = {
     },
     'click #btn-schedule-modal': function(event) {
         event.preventDefault();
-        var args = load_content({}, $('.campaign-type').val(), "scheduled")
-        args["scheduled_datetime"] = load_scheduled_datetime();
-        Meteor.call("http_api", "put", "campaign/data/", args, function(error, result) {
-            $('#schedule_modal').modal('hide');
-            if (result.statusCode !== 200) { console.log(result.error); }
-            else { Router.navigate('campaign', true); }
-        });
+        if ($("#campaign-create").parsley("validate")) {
+            var eventDT = loadEventDateTime();
+            for (var i=0;i<eventDT.length;i++) { $(eventDT[i]).appendTo('#campaign-create'); }
+            $('<input />').attr('type', 'hidden')
+            .attr('name', 'scheduled_datetime')
+            .attr('value', load_scheduled_datetime())
+            .appendTo('#campaign-create');
+
+            $('.campaign-state').val('scheduled');
+
+            $('<input />').attr('type', 'hidden')
+            .attr('name', 'description')
+            .attr('value', $('#desc-editor').val())
+            .appendTo('#campaign-create');
+            bootbox.dialog('<div class="text-center"><div class="loading-img"></div><h4>Creating campaigns...</h4></div>');
+            $("#campaign-create").submit();
+        }
     }
 }
 
+Template.campaign_promo_new.user_id = function() {
+    return Meteor.userId();
+}
+
+Template.campaign_promo_new.brand_name = function() {
+    return Session.get("selected_brand");
+}
+
+Template.campaign_promo_new.redirect_to = function() {
+    return PLATFORM_URL + CAMPAIGN_CREATION_REDIRECT_TO;
+}
+
+Template.campaign_event_new.user_id = function() {
+    return Meteor.userId();
+}
+
+Template.campaign_event_new.brand_name = function() {
+    return Session.get("selected_brand");
+}
+
+Template.campaign_event_new.redirect_to = function() {
+    return PLATFORM_URL + CAMPAIGN_CREATION_REDIRECT_TO;
+}
+
 Template.campaign_promo_new.rendered = function() {
+    $('.social-content').css('display', 'none');
+    $('.web-content').css('display', 'none');
     page_render(this);
+}
+
+Template.campaign_promo_new.form_submit_url = function() {
+    return BACKEND_URL + "campaign/data/";
 }
 
 Template.campaign_event_new.rendered = function() {
+    $('.social-content').css('display', 'none');
+    $('.web-content').css('display', 'none');
     page_render(this);
 }
 
+Template.campaign_event_new.form_submit_url = function() {
+    return BACKEND_URL + "campaign/data/";
+}
+
 Template.campaign_list.rendered = function() {
+    $('.social-content').css('display', 'block');
+    $('.web-content').css('display', 'block');
     $('.selection input:checkbox').change(function() {
         var selected = $('.selection input:checkbox:checked').length;
         var total = $('.selection input:checkbox').length;
@@ -387,6 +460,29 @@ function load_content(args, type, state) {
     }
 
     return args;
+}
+
+function loadEventDateTime() {
+    var eventInput = [];
+    if ($('.campaign-post-datetime') != undefined) {
+        var date = $('.campaign-post-date-input').val();
+        var time_start = $('.campaign-post-time-from-input').val();
+        var time_end = $('.campaign-post-time-to-input').val();
+        if (time_start) {
+            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            eventInput[0] = $('<input />').attr('type', 'hidden')
+            .attr('name', 'datetime_start')
+            .attr('value', epoch_start);
+        }
+        if (time_end) {
+            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            eventInput[1] = $('<input />').attr('type', 'hidden')
+            .attr('name', 'datetime_end')
+            .attr('value', epoch_end);
+        }
+    }
+
+    return eventInput;
 }
 
 function load_edited_content(args) {
