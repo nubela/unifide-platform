@@ -50,6 +50,7 @@ Template.campaign.events = {
     },
     'click .select': function(event) {
         event.preventDefault();
+        resetItemSearch();
         $('#addmedia').modal('hide');
     },
     'click .confirm-campaign-item': function(event) {
@@ -61,6 +62,7 @@ Template.campaign.events = {
     },
     'click .web-campaign-items-select': function(event) {
         event.preventDefault();
+        resetItemSearch();
         $('#itemfilter').modal();
     },
     'click #btn-publish': function() {
@@ -280,7 +282,7 @@ Template.campaign_promo.rendered = function() {
     input_change('#campaign-title', '.char-count');
     $('#desc-editor').wysihtml5();
     var li = document.createElement('li')
-    $(li).html('<a class="btn web-campaign-items-select" href="#" unselectable="on"><i class="icon-folder-open"></i></a>');
+    $(li).html('<a class="btn web-campaign-items-select" href="#" title="Get Item Link" unselectable="on"><i class="icon-folder-open"></i></a>');
     $('.wysihtml5-toolbar').append(li);
 
     var id = Session.get('edit_campaign_id');
@@ -304,7 +306,7 @@ Template.campaign_event.rendered = function() {
     });
     $('#desc-editor').wysihtml5();
     var li = document.createElement('li')
-    $(li).html('<a class="btn web-campaign-items-select" href="#" unselectable="on"><i class="icon-folder-open"></i></a>');
+    $(li).html('<a class="btn web-campaign-items-select" href="#" title="Get Item Link" unselectable="on"><i class="icon-folder-open"></i></a>');
     $('.wysihtml5-toolbar').append(li);
 
     var id = Session.get('edit_campaign_id');
@@ -380,7 +382,7 @@ function handleMediaFile() {
         $(changeDiv).addClass("img-polaroid");
         $(changeDiv).addClass("change-media-thumbnail");
         $(changeDiv).addClass("pull-left");
-        $(changeDiv).text("Change Photo/Video");
+        $(changeDiv).text("Change Photo");
         var changeA = document.createElement("a");
         $(changeA).addClass("add-media-modal");
         $(changeA).append(changeDiv);
@@ -403,7 +405,7 @@ function handleItemFile(item_url) {
     $(changeDiv).addClass("img-polaroid");
     $(changeDiv).addClass("change-media-thumbnail");
     $(changeDiv).addClass("pull-left");
-    $(changeDiv).text("Change Photo/Video");
+    $(changeDiv).text("Change Photo");
     var changeA = document.createElement("a");
     $(changeA).addClass("add-media-modal");
     $(changeA).append(changeDiv);
@@ -467,8 +469,8 @@ function computeCampaign(mapping) {
     // facebook status/link/photo
     } else if (mapping.facebook && mapping.type === "promotion") {
         var fb = FBPosts.findOne({_id: mapping.facebook});
-        dict["title"] = fb ? wrapTitleContainer(wrapBold(fb.fields.message)) : "";
-        dict["obj_title"] = fb ? fb.fields.message : "";
+        dict["title"] = fb ? wrapTitleContainer(wrapBold(fb_load_message(fb))) : "";
+        dict["obj_title"] = fb ? fb_load_message(fb) : "";
     // twitter tweet
     } else if (mapping.twitter) {
         var tw = TWTweets.findOne({_id: mapping.twitter});
@@ -486,6 +488,14 @@ function computeCampaign(mapping) {
     dict["expanded"] = loadCampaignCard(mapping, dict);
 
     return dict;
+}
+
+function fb_load_message(fb) {
+    if (fb.fields.message) {
+        return fb.fields.message;
+    } else {
+        return fb.fields.name;
+    }
 }
 
 function value_check(obj, attr) {
@@ -527,7 +537,8 @@ function loadCampaignCard(mapping, dict) {
 }
 
 function convertNewLine(val) {
-    return val.replace(/\n/g, '<br>');
+    if (val) { return val.replace(/\n/g, '<br>'); }
+    else { return ""; }
 }
 
 function wrapTitleContainer(val) {
@@ -543,8 +554,10 @@ function wrapGray(val) {
 }
 
 function stripHTML(val) {
-    val = val.replace(/\<br\>/g," ");
-    return val.replace(/<(?:.|\n)*?>/gm, '');
+    if (val) {
+        val = val.replace(/\<br\>/g," ");
+        return val.replace(/<(?:.|\n)*?>/gm, '');
+    } else { return ""; }
 }
 
 function input_change(id, display_div) {
@@ -634,6 +647,12 @@ function load_scheduled_datetime(){
     var time = $('.campaign-post-time-from-input-schedule').val();
     var epoch = new Date(date + " " + time).getTime()/1000;
     return epoch;
+}
+
+function resetItemSearch() {
+    $('#item_filter_url').val('No item selected.');
+    $('.filtered-results').empty();
+    $('#item_filter_kw').val('');
 }
 
 function page_render(obj) {

@@ -234,7 +234,7 @@ function fb_message_template(status, status_type, args) {
             name: status.owner.name,
             uid: status.owner.id,
             message: " posted on your timeline: \"" + status.fields.message + "\"",
-            link: (_.find(status.fields.actions, function(obj) { return obj.name == "Comment"})).link,
+            link: fb_load_message_link(status),
             datetime: timeDifference(time_now, new Date(status.updated_time).getTime()),
             type: status_type
         }
@@ -257,6 +257,14 @@ function fb_message_template(status, status_type, args) {
             datetime: timeDifference(time_now, new Date(status.fields.updated_time).getTime()),
             type: "link"
         }
+    }
+}
+
+function fb_load_message_link(status) {
+    if (status.fields.actions) {
+        return (_.find(status.fields.actions, function(obj) { return obj.name == "Comment"})).link;
+    } else {
+        return status.fields.link;
     }
 }
 

@@ -253,7 +253,7 @@ template name="campaign_promo"
         > textarea#campaign-title name="title" placeholder="enter a title"
         .add-media
             a.add-media-modal
-                Add Photos/Video
+                Attach Photo
     .web-content
         .campaign-post-category
             Description
@@ -264,7 +264,7 @@ template name="campaign_promo"
             ul.unstyled.inline
                 li
                     a.uploadmedia.upload href="#"
-                        Upload Photos/Video
+                        Upload Photo
                 li
                     a.uploadmedia.select data-target="#itemfilter" data-toggle="modal"
                         Select from Items module
@@ -313,7 +313,7 @@ template name="campaign_event"
         > textarea#campaign-title name="title" placeholder="enter a title"
         .add-media
             a.add-media-modal
-                Add Photos/Video
+                Attach Photo
     .web-content
         .campaign-post-category
             Description
@@ -324,7 +324,7 @@ template name="campaign_event"
             ul.unstyled.inline
                 li
                     a.uploadmedia.upload href="#"
-                        Upload Photos/Video
+                        Upload Photo
                 li
                     a.uploadmedia.select data-target="#itemfilter" data-toggle="modal"
                         Select from Items module
