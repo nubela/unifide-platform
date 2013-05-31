@@ -40,6 +40,29 @@ Template.campaign.events = {
 
         toggleContentBox();
     },
+    'click .add-media-modal': function(event) {
+        event.preventDefault();
+        $('#addmedia').modal();
+    },
+    'click .upload': function(event) {
+        event.preventDefault();
+        $('#campaign_media_file').click();
+    },
+    'click .select': function(event) {
+        event.preventDefault();
+        $('#addmedia').modal('hide');
+    },
+    'click .confirm-campaign-item': function(event) {
+        event.preventDefault();
+        handleItemFile($('#item_filter_url').val());
+        console.log($('.filtered-results>li.ui-selected'));
+        $('#campaign_media_file_url').val($('.filtered-results>li.ui-selected').attr('id'));
+        $('#itemfilter').modal('hide');
+    },
+    'click .web-campaign-items-select': function(event) {
+        event.preventDefault();
+        $('#itemfilter').modal();
+    },
     'click #btn-publish': function() {
         if ($("#campaign-create").parsley("validate")) {
             var eventDT = loadEventDateTime();
@@ -113,6 +136,7 @@ Template.campaign_event_new.redirect_to = function() {
 Template.campaign_promo_new.rendered = function() {
     $('.social-content').css('display', 'none');
     $('.web-content').css('display', 'none');
+    $('#campaign_media_file').bind('change', handleMediaFile);
     page_render(this);
 }
 
@@ -123,6 +147,7 @@ Template.campaign_promo_new.form_submit_url = function() {
 Template.campaign_event_new.rendered = function() {
     $('.social-content').css('display', 'none');
     $('.web-content').css('display', 'none');
+    $('#campaign_media_file').bind('change', handleMediaFile);
     page_render(this);
 }
 
@@ -254,6 +279,9 @@ Template.campaign_list.edit_campaign = function() {
 Template.campaign_promo.rendered = function() {
     input_change('#campaign-title', '.char-count');
     $('#desc-editor').wysihtml5();
+    var li = document.createElement('li')
+    $(li).html('<a class="btn web-campaign-items-select" href="#" unselectable="on"><i class="icon-folder-open"></i></a>');
+    $('.wysihtml5-toolbar').append(li);
 
     var id = Session.get('edit_campaign_id');
     if (id) { loadCampaignData(id) }
@@ -275,6 +303,9 @@ Template.campaign_event.rendered = function() {
         pickSeconds: false
     });
     $('#desc-editor').wysihtml5();
+    var li = document.createElement('li')
+    $(li).html('<a class="btn web-campaign-items-select" href="#" unselectable="on"><i class="icon-folder-open"></i></a>');
+    $('.wysihtml5-toolbar').append(li);
 
     var id = Session.get('edit_campaign_id');
     if (id) {
@@ -288,6 +319,96 @@ Template.campaign_event.rendered = function() {
         start_timepicker.setDate(start)
         end ? end_timepicker.setDate(end) : "";
     }
+}
+
+Template.campaign_select_item.rendered = function() {
+    filter_item_results();
+    $('.filtered-results').selectable({
+        selected: function(event, ui) {
+            $('#item_filter_url').val('Loading...');
+            Meteor.call('http_api', 'get', 'campaign/item/url/', {"obj_id": ui.selected.id}, function(error, result) {
+                if (result.statusCode !== 200) { console.log(result.error); $('#item_filter_url').val('Fail to get item link.'); }
+                $('#item_filter_url').val(result.data.url);
+            })
+        }
+    });
+}
+
+Template.campaign_select_item.events = {
+    'keyup #item_filter_kw': function() {
+        filter_item_results();
+    }
+}
+
+function filter_item_results() {
+    var val = $('#item_filter_kw').val();
+    var items;
+    if (val.length == 0) { items = Items.find({media_id: {$ne: null}}, {limit: 5}).fetch(); }
+    else { items = Items.find({name: {$regex: ".*" + $('#item_filter_kw').val() + ".*"}, media_id: {$ne: null}}, {limit: 5}).fetch(); }
+    $('.filtered-results').empty();
+    for (var i=0;i<items.length;i++) {
+        var item_path = items[i].name;
+        if (items[i].container_id) {
+            var container = ItemContainers.findOne({_id: items[i].container_id});
+            item_path = container.name.concat(" / " + item_path)
+        }
+
+        var li = document.createElement('li');
+        $(li).text(item_path);
+        $(li).attr('id', items[i]._id._str);
+        $('.filtered-results').append(li);
+    }
+}
+
+function handleMediaFile() {
+    var fileList = this.files;
+    $('#addmedia').modal('hide');
+    if (fileList.length > 0) {
+        $('.add-media').empty();
+        var file = fileList[0];
+        var img = document.createElement("img");
+        $(img).addClass("add-media-thumbnail");
+        $(img).addClass("img-polaroid");
+        $(img).addClass("pull-left")
+        img.file = file;
+        $('.add-media').prepend(img);
+        var reader = new FileReader();
+        reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+        reader.readAsDataURL(file);
+        var changeMedia = $('.add-media').children()[1];
+        var changeDiv = document.createElement("div");
+        $(changeDiv).addClass("img-polaroid");
+        $(changeDiv).addClass("change-media-thumbnail");
+        $(changeDiv).addClass("pull-left");
+        $(changeDiv).text("Change Photo/Video");
+        var changeA = document.createElement("a");
+        $(changeA).addClass("add-media-modal");
+        $(changeA).append(changeDiv);
+        $('.add-media').append(changeA);
+        $('.add-media').append('<div class="clear"></div>')
+    }
+}
+
+function handleItemFile(item_url) {
+    $('.add-media').empty();
+    var img = document.createElement("img");
+    $(img).addClass("add-media-thumbnail");
+    $(img).addClass("img-polaroid");
+    $(img).addClass("pull-left");
+    $(img).attr('src', item_url);
+    $('.add-media').prepend(img);
+
+    var changeMedia = $('.add-media').children()[1];
+    var changeDiv = document.createElement("div");
+    $(changeDiv).addClass("img-polaroid");
+    $(changeDiv).addClass("change-media-thumbnail");
+    $(changeDiv).addClass("pull-left");
+    $(changeDiv).text("Change Photo/Video");
+    var changeA = document.createElement("a");
+    $(changeA).addClass("add-media-modal");
+    $(changeA).append(changeDiv);
+    $('.add-media').append(changeA);
+    $('.add-media').append('<div class="clear"></div>')
 }
 
 function loadCampaignData(id) {

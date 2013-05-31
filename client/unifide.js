@@ -169,6 +169,7 @@ Meteor.startup(function () {
         Meteor.subscribe("foursquare", Session.get("selected_brand"));
         Meteor.subscribe("brand_mention");
         Meteor.subscribe("keyword");
+        Meteor.subscribe("items");
     });
 });
 

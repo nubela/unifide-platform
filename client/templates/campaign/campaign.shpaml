@@ -37,6 +37,8 @@ template name="campaign_promo_new"
                     > input.campaign-state name="type" type="hidden" value="promotion"
                     > input name="state" type="hidden" value="published"
                     > input name="redirect_to" type="hidden" value="{{redirect_to}}"
+                    > input type="file" name="media_file" id="campaign_media_file" accept="video/*|image/*"
+                    > input name="media_file_url" type="hidden" id="campaign_media_file_url" value=""
                     .campaign-post-category
                         Platform
                         <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
@@ -110,6 +112,8 @@ template name="campaign_event_new"
                     > input.campaign-state name="type" type="hidden" value="event"
                     > input name="state" type="hidden" value="published"
                     > input name="redirect_to" type="hidden" value="{{redirect_to}}"
+                    > input type="file" name="media_file" id="campaign_media_file" accept="video/*|image/*"
+                    > input name="media_file_url" type="hidden" id="campaign_media_file_url" value=""
                     .campaign-post-category
                         Platform
                         <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
@@ -248,7 +252,7 @@ template name="campaign_promo"
             &nbsp;
         > textarea#campaign-title name="title" placeholder="enter a title"
         .add-media
-            a data-toggle="modal" data-target="#addmedia"
+            a.add-media-modal
                 Add Photos/Video
     .web-content
         .campaign-post-category
@@ -259,11 +263,19 @@ template name="campaign_promo"
         .modal-body
             ul.unstyled.inline
                 li
-                    a.uploadmedia href="#"
+                    a.uploadmedia.upload href="#"
                         Upload Photos/Video
                 li
-                    a.uploadmedia href="#"
+                    a.uploadmedia.select data-target="#itemfilter" data-toggle="modal"
                         Select from Items module
+    #itemfilter.modal.hide.fade
+        .modal-body
+            {{> campaign_select_item}}}
+        .modal-footer
+            button.btn data-dismiss="modal"
+                Close
+            button.btn.confirm-campaign-item
+                Select Item
 
 
 template name="campaign_event"
@@ -300,7 +312,7 @@ template name="campaign_event"
             &nbsp;
         > textarea#campaign-title name="title" placeholder="enter a title"
         .add-media
-            a href="#"
+            a.add-media-modal
                 Add Photos/Video
     .web-content
         .campaign-post-category
@@ -311,8 +323,30 @@ template name="campaign_event"
         .modal-body
             ul.unstyled.inline
                 li
-                    a.uploadmedia href="#"
+                    a.uploadmedia.upload href="#"
                         Upload Photos/Video
                 li
-                    a.uploadmedia href="#"
+                    a.uploadmedia.select data-target="#itemfilter" data-toggle="modal"
                         Select from Items module
+    #itemfilter.modal.hide.fade
+        .modal-body
+            {{> campaign_select_item}}}
+        .modal-footer
+            button.btn data-dismiss="modal"
+                Close
+            button.btn.confirm-campaign-item
+                Select Item
+
+template name="campaign_select_item"
+    .search-item
+        h3 | Enter the item name to search
+        > hr
+        label for="search_item"
+            Item Name
+        > input#item_filter_kw name="search_item" type="text" value=""
+        ul.unstyled.filtered-results
+            li
+                No item
+        label for="item_url"
+            Item Link
+        > input#item_filter_url name="item_url" type="text" value="No item selected" disabled

@@ -53,6 +53,8 @@
                     <input name="type" type="hidden" value="promotion" class="campaign-state" />
                     <input name="state" type="hidden" value="published" />
                     <input name="redirect_to" type="hidden" value="{{redirect_to}}" />
+                    <input type="file" name="media_file" id="campaign_media_file" accept="video/*|image/*" />
+                    <input name="media_file_url" type="hidden" id="campaign_media_file_url" value="" />
                     <div class="campaign-post-category">
                         Platform
                         <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
@@ -159,6 +161,8 @@
                     <input name="type" type="hidden" value="event" class="campaign-state" />
                     <input name="state" type="hidden" value="published" />
                     <input name="redirect_to" type="hidden" value="{{redirect_to}}" />
+                    <input type="file" name="media_file" id="campaign_media_file" accept="video/*|image/*" />
+                    <input name="media_file_url" type="hidden" id="campaign_media_file_url" value="" />
                     <div class="campaign-post-category">
                         Platform
                         <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
@@ -367,7 +371,7 @@
         </div>
         <textarea name="title" placeholder="enter a title" id="campaign-title" />
         <div class="add-media">
-            <a data-toggle="modal" data-target="#addmedia">
+            <a class="add-media-modal">
                 Add Photos/Video
             </a>
         </div>
@@ -383,16 +387,29 @@
         <div class="modal-body">
             <ul class="unstyled inline">
                 <li>
-                    <a href="#" class="uploadmedia">
+                    <a href="#" class="uploadmedia upload">
                         Upload Photos/Video
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="uploadmedia">
+                    <a data-target="#itemfilter" data-toggle="modal" class="uploadmedia select">
                         Select from Items module
                     </a>
                 </li>
             </ul>
+        </div>
+    </div>
+    <div class="modal hide fade" id="itemfilter">
+        <div class="modal-body">
+            {{> campaign_select_item}}}
+        </div>
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn">
+                Close
+            </button>
+            <button class="btn confirm-campaign-item">
+                Select Item
+            </button>
         </div>
     </div>
 </template>
@@ -448,7 +465,7 @@
         </div>
         <textarea name="title" placeholder="enter a title" id="campaign-title" />
         <div class="add-media">
-            <a href="#">
+            <a class="add-media-modal">
                 Add Photos/Video
             </a>
         </div>
@@ -464,16 +481,49 @@
         <div class="modal-body">
             <ul class="unstyled inline">
                 <li>
-                    <a href="#" class="uploadmedia">
+                    <a href="#" class="uploadmedia upload">
                         Upload Photos/Video
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="uploadmedia">
+                    <a data-target="#itemfilter" data-toggle="modal" class="uploadmedia select">
                         Select from Items module
                     </a>
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="modal hide fade" id="itemfilter">
+        <div class="modal-body">
+            {{> campaign_select_item}}}
+        </div>
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn">
+                Close
+            </button>
+            <button class="btn confirm-campaign-item">
+                Select Item
+            </button>
+        </div>
+    </div>
+</template>
+
+<template name="campaign_select_item">
+    <div class="search-item">
+        <h3>Enter the item name to search</h3>
+        <hr />
+        <label for="search_item">
+            Item Name
+        </label>
+        <input name="search_item" type="text" value="" id="item_filter_kw" />
+        <ul class="unstyled filtered-results">
+            <li>
+                No item
+            </li>
+        </ul>
+        <label for="item_url">
+            Item Link
+        </label>
+        <input name="item_url" type="text" value="No item selected" disabled id="item_filter_url" />
     </div>
 </template>

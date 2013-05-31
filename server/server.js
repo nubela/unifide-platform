@@ -107,6 +107,12 @@ Meteor.publish("foursquare", function (brand) {
     return return_coll;
 });
 
+Meteor.publish("items", function() {
+   return [
+       Items.find(),
+       ItemContainers.find()
+   ]
+});
 
 // Add a record for brand mapping on new user registration
 Accounts.onCreateUser(function (options, user) {
