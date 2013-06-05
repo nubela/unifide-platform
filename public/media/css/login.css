@@ -55,6 +55,10 @@
     position: relative;
 }
 
+#register-nav {
+    display: none;
+}
+
 .login-box-home {
     padding-top: 15px;
     padding-right: 15px;

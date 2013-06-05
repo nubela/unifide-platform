@@ -10,7 +10,6 @@ Template.page_controller.view = function() {
     if (isAuth()) {
         return Template['page_index']();
     } else {
-        Router.navigate('login', true);
         return Template['page_login']();
     }
 };
