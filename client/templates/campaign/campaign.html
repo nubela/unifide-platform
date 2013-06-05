@@ -60,33 +60,28 @@
                         <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                     </div>
                     <div class="platform">
+                        {{#each social_types}}
                         <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="facebook">
-                            Facebook
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="{{name}}">
+                            {{name}}
                         </label>
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="twitter">
-                            Twitter
-                        </label>
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="foursquare">
-                            Foursquare
-                        </label>
+                        {{/each}}
                         <br>
+                        {{#each web_types}}
                         <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="web">
-                            Web / Mobile
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="{{name}}">
+                            {{name}}
                         </label>
+                        {{/each}}
+                        <br>
+                        {{#each device_types}}
                         <label class="checkbox inline push">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="push">
-                            Push Notification
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="{{name}}">
+                            {{name}} Notification
                         </label>
-                        <br>
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="blog">
-                            Blog
-                        </label>
+                        {{/each}}
                     </div>
+
                     {{> campaign_promo}}
                 </div>
                 <div class="campaign-post-submit">
@@ -168,33 +163,28 @@
                         <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                     </div>
                     <div class="platform">
+                        {{#each social_types}}
                         <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="facebook">
-                            Facebook
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="{{name}}">
+                            {{name}}
                         </label>
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="twitter">
-                            Twitter
-                        </label>
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="foursquare">
-                            Foursquare
-                        </label>
+                        {{/each}}
                         <br>
+                        {{#each web_types}}
                         <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="web">
-                            Web / Mobile
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="{{name}}">
+                            {{name}}
                         </label>
+                        {{/each}}
+                        <br>
+                        {{#each device_types}}
                         <label class="checkbox inline push">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="push">
-                            Push Notification
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="{{name}}">
+                            {{name}} Notification
                         </label>
-                        <br>
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="blog">
-                            Blog
-                        </label>
+                        {{/each}}
                     </div>
+
                     {{> campaign_event}}
                 </div>
                 <div class="campaign-post-submit">
@@ -369,7 +359,7 @@
         <div class="clear">
             &nbsp;
         </div>
-        <textarea name="title" placeholder="enter a title" id="campaign-title" />
+        <textarea name="title" placeholder="enter a title" data-required="true" id="campaign-title" />
         <div class="add-media">
             <a class="add-media-modal">
                 Attach Photo
@@ -425,7 +415,7 @@
     <div class="clear" />
     <div class="campaign-post-datetime">
         <div class="input-append pull-left" id="event-date">
-            <input type="text" data-format="yyyy-MM-dd" placeholder="select date" class="campaign-post-date-input" />
+            <input type="text" data-format="yyyy-MM-dd" placeholder="select date" data-required="true" data-error-container="date-error-check" class="campaign-post-date-input" />
             <span class="add-on">
                 <i data-date-icon="icon-calendar">
                     &nbsp;
@@ -433,7 +423,7 @@
             </span>
         </div>
         <div class="input-append pull-left" id="event-time-start">
-            <input type="text" data-format="hh:mm" placeholder="start time" class="campaign-post-time-from-input pull-left" />
+            <input type="text" data-format="hh:mm" placeholder="start time" data-required="true" data-error-container="date-error-check" class="campaign-post-time-from-input pull-left" />
             <span class="add-on">
                 <i data-time-icon="icon-time">
                     &nbsp;
@@ -452,6 +442,9 @@
             </span>
         </div>
         <div class="clear" />
+        <div class="date-error-check">
+            &nbsp;
+        </div>
     </div>
     <div class="social-content">
         <div class="campaign-post-category pull-left">
@@ -463,7 +456,7 @@
         <div class="clear">
             &nbsp;
         </div>
-        <textarea name="title" placeholder="enter a title" id="campaign-title" />
+        <textarea name="title" placeholder="enter a title" data-required="true" id="campaign-title" />
         <div class="add-media">
             <a class="add-media-modal">
                 Attach Photo

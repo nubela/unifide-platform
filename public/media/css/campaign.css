@@ -34,6 +34,12 @@
   .campaign table tbody td {
     background-color: #f9f9f9;
     cursor: pointer; }
+.campaign .parsley-error-list {
+  margin-top: -18px;
+  font-size: 80%;
+  margin-bottom: 20px; }
+.campaign .date-error-check {
+  display: none; }
 
 .social-content {
   display: none; }
@@ -75,9 +81,11 @@
     border: 1px solid #cccccc;
     margin-bottom: 20px; }
     .campaign-post-new .platform label {
-      width: 100px; }
+      width: 100px;
+      text-transform: capitalize; }
     .campaign-post-new .platform label.push {
-      width: 300px; }
+      width: 300px;
+      text-transform: capitalize; }
     .campaign-post-new .platform .platform-check {
       opacity: 1 !important;
       filter: alpha(opacity=1); }

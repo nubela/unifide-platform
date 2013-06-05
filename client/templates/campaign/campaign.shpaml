@@ -43,26 +43,24 @@ template name="campaign_promo_new"
                         Platform
                         <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                     .platform
+                        {{#each social_types}}
                         label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="facebook">
-                            Facebook
-                        label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="twitter">
-                            Twitter
-                        label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="foursquare">
-                            Foursquare
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="{{name}}">
+                            {{name}}
+                        {{/each}}
                         <br>
+                        {{#each web_types}}
                         label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="web">
-                            Web / Mobile
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="{{name}}">
+                            {{name}}
+                        {{/each}}
+                        <br>
+                        {{#each device_types}}
                         label.checkbox.inline.push
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="push">
-                            Push Notification
-                        <br>
-                        label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="blog">
-                            Blog
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="{{name}}">
+                            {{name}} Notification
+                        {{/each}}
+
                     {{> campaign_promo}}
                 .campaign-post-submit
                     <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
@@ -118,26 +116,24 @@ template name="campaign_event_new"
                         Platform
                         <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                     .platform
+                        {{#each social_types}}
                         label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="facebook">
-                            Facebook
-                        label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="twitter">
-                            Twitter
-                        label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="foursquare">
-                            Foursquare
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="{{name}}">
+                            {{name}}
+                        {{/each}}
                         <br>
+                        {{#each web_types}}
                         label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="web">
-                            Web / Mobile
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="{{name}}">
+                            {{name}}
+                        {{/each}}
+                        <br>
+                        {{#each device_types}}
                         label.checkbox.inline.push
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="push">
-                            Push Notification
-                        <br>
-                        label.checkbox.inline
-                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="blog">
-                            Blog
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="{{name}}">
+                            {{name}} Notification
+                        {{/each}}
+
                     {{> campaign_event}}
                 .campaign-post-submit
                     <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
@@ -250,7 +246,7 @@ template name="campaign_promo"
             0 characters
         .clear
             &nbsp;
-        > textarea#campaign-title name="title" placeholder="enter a title"
+        > textarea#campaign-title name="title" placeholder="enter a title" data-required="true"
         .add-media
             a.add-media-modal
                 Attach Photo
@@ -286,12 +282,12 @@ template name="campaign_event"
     > div.clear
     .campaign-post-datetime
         #event-date.input-append.pull-left
-            > input.campaign-post-date-input type="text" data-format="yyyy-MM-dd" placeholder="select date"
+            > input.campaign-post-date-input type="text" data-format="yyyy-MM-dd" placeholder="select date" data-required="true" data-error-container="date-error-check"
             span.add-on
                 i data-date-icon="icon-calendar"
                     &nbsp;
         #event-time-start.input-append.pull-left
-            > input.campaign-post-time-from-input.pull-left type="text" data-format="hh:mm" placeholder="start time"
+            > input.campaign-post-time-from-input.pull-left type="text" data-format="hh:mm" placeholder="start time" data-required="true" data-error-container="date-error-check"
             span.add-on
                 i data-time-icon="icon-time"
                     &nbsp;
@@ -303,6 +299,8 @@ template name="campaign_event"
                 i data-time-icon="icon-time"
                     &nbsp;
         > div.clear
+        .date-error-check
+            &nbsp;
     .social-content
         .campaign-post-category.pull-left
             Title / Status
@@ -310,7 +308,7 @@ template name="campaign_event"
             0 characters
         .clear
             &nbsp;
-        > textarea#campaign-title name="title" placeholder="enter a title"
+        > textarea#campaign-title name="title" placeholder="enter a title" data-required="true"
         .add-media
             a.add-media-modal
                 Attach Photo
