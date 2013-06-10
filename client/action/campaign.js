@@ -34,65 +34,89 @@ Template.campaign.view = function () {
 function toggleContentBox() {
     var selected_boxes = $('.platform').find(":checkbox:checked");
 
-    if ($(selected_boxes).hasClass('social-network') || $(selected_boxes).hasClass('unifide-web')) { $('.social-content').css('display', 'block'); }
-    else { $('.social-content').css('display', 'none') }
+    if ($(selected_boxes).hasClass('social-network') || $(selected_boxes).hasClass('unifide-web')) {
+        $('.social-content').css('display', 'block');
+    }
+    else {
+        $('.social-content').css('display', 'none')
+    }
 
-    if ($(selected_boxes).hasClass('social-network')) { $('.add-media').css('display', 'block'); }
-    else { $('.add-media').css('display', 'none') }
+    if ($(selected_boxes).hasClass('social-network')) {
+        $('.add-media').css('display', 'block');
+    }
+    else {
+        $('.add-media').css('display', 'none')
+    }
 
-    if ($(selected_boxes).hasClass('unifide-web')) { $('.web-content').css('display', 'block'); }
-    else { $('.web-content').css('display', 'none') }
+    if ($(selected_boxes).hasClass('unifide-web')) {
+        $('.web-content').css('display', 'block');
+    }
+    else {
+        $('.web-content').css('display', 'none')
+    }
 }
 
 Template.campaign.events = {
-    'click #platform-all': function() {
-        if ($('#platform-all').text() == 'Select all') { $('.platform').find(":checkbox").prop('checked', true); $('#platform-all').text('Unselect all'); }
-        else { $('.platform').find(":checkbox").prop('checked', false); $('#platform-all').text('Select all'); }
+    'click #platform-all': function () {
+        if ($('#platform-all').text() == 'Select all') {
+            $('.platform').find(":checkbox").prop('checked', true);
+            $('#platform-all').text('Unselect all');
+        }
+        else {
+            $('.platform').find(":checkbox").prop('checked', false);
+            $('#platform-all').text('Select all');
+        }
 
         toggleContentBox();
     },
     'click .platform-check': function () {
         var checked = $('.platform').find(":checkbox:checked").length;
         var total = $('.platform').find(":checkbox").length;
-        if (checked == total) { $('#platform-all').text('Unselect all'); }
-        else { $('#platform-all').text('Select all') }
+        if (checked == total) {
+            $('#platform-all').text('Unselect all');
+        }
+        else {
+            $('#platform-all').text('Select all')
+        }
 
         toggleContentBox();
     },
-    'click .add-media-modal': function(event) {
+    'click .add-media-modal': function (event) {
         event.preventDefault();
         $('#addmedia').modal();
     },
-    'click .upload': function(event) {
+    'click .upload': function (event) {
         event.preventDefault();
         $('#campaign_media_file').click();
     },
-    'click .select': function(event) {
+    'click .select': function (event) {
         event.preventDefault();
         resetItemSearch();
         $('#addmedia').modal('hide');
     },
-    'click .confirm-campaign-item': function(event) {
+    'click .confirm-campaign-item': function (event) {
         event.preventDefault();
         handleItemFile($('#item_filter_url').val());
         console.log($('.filtered-results>li.ui-selected'));
         $('#campaign_media_file_url').val($('.filtered-results>li.ui-selected').attr('id'));
         $('#itemfilter').modal('hide');
     },
-    'click .web-campaign-items-select': function(event) {
+    'click .web-campaign-items-select': function (event) {
         event.preventDefault();
         resetItemSearch();
         $('#itemfilter').modal();
     },
-    'click #btn-publish': function() {
+    'click #btn-publish': function () {
         if ($("#campaign-create").parsley("validate")) {
             var eventDT = loadEventDateTime();
-            for (var i=0;i<eventDT.length;i++) { $(eventDT[i]).appendTo('#campaign-create'); }
+            for (var i = 0; i < eventDT.length; i++) {
+                $(eventDT[i]).appendTo('#campaign-create');
+            }
 
             $('<input />').attr('type', 'hidden')
-            .attr('name', 'description')
-            .attr('value', $('#desc-editor').val())
-            .appendTo('#campaign-create');
+                .attr('name', 'description')
+                .attr('value', $('#desc-editor').val())
+                .appendTo('#campaign-create');
             bootbox.dialog('<div class="text-center"><div class="loading-img"></div><h4>Creating campaigns...</h4></div>');
             $("#campaign-create").submit();
         }
@@ -112,49 +136,51 @@ Template.campaign.events = {
         event.preventDefault();
         if ($("#campaign-create").parsley("validate")) {
             var eventDT = loadEventDateTime();
-            for (var i=0;i<eventDT.length;i++) { $(eventDT[i]).appendTo('#campaign-create'); }
+            for (var i = 0; i < eventDT.length; i++) {
+                $(eventDT[i]).appendTo('#campaign-create');
+            }
             $('<input />').attr('type', 'hidden')
-            .attr('name', 'scheduled_datetime')
-            .attr('value', load_scheduled_datetime())
-            .appendTo('#campaign-create');
+                .attr('name', 'scheduled_datetime')
+                .attr('value', load_scheduled_datetime())
+                .appendTo('#campaign-create');
 
             $('.campaign-state').val('scheduled');
 
             $('<input />').attr('type', 'hidden')
-            .attr('name', 'description')
-            .attr('value', $('#desc-editor').val())
-            .appendTo('#campaign-create');
+                .attr('name', 'description')
+                .attr('value', $('#desc-editor').val())
+                .appendTo('#campaign-create');
             bootbox.dialog('<div class="text-center"><div class="loading-img"></div><h4>Creating campaigns...</h4></div>');
             $("#campaign-create").submit();
         }
     }
 }
 
-Template.campaign_promo_new.user_id = function() {
+Template.campaign_promo_new.user_id = function () {
     return Meteor.userId();
 }
 
-Template.campaign_promo_new.brand_name = function() {
+Template.campaign_promo_new.brand_name = function () {
     return Session.get("selected_brand");
 }
 
-Template.campaign_promo_new.redirect_to = function() {
+Template.campaign_promo_new.redirect_to = function () {
     return PLATFORM_URL + CAMPAIGN_CREATION_REDIRECT_TO;
 }
 
-Template.campaign_event_new.user_id = function() {
+Template.campaign_event_new.user_id = function () {
     return Meteor.userId();
 }
 
-Template.campaign_event_new.brand_name = function() {
+Template.campaign_event_new.brand_name = function () {
     return Session.get("selected_brand");
 }
 
-Template.campaign_event_new.redirect_to = function() {
+Template.campaign_event_new.redirect_to = function () {
     return PLATFORM_URL + CAMPAIGN_CREATION_REDIRECT_TO;
 }
 
-Template.campaign_promo_new.rendered = function() {
+Template.campaign_promo_new.rendered = function () {
     $('.social-content').css('display', 'none');
     $('.web-content').css('display', 'none');
     $('#campaign_media_file').bind('change', handleMediaFile);
@@ -164,47 +190,83 @@ Template.campaign_promo_new.rendered = function() {
     page_render(this);
 }
 
-Template.campaign_promo_new.social_types = function() {
+Template.campaign_promo_new.social_types = function () {
+    var brand_config = BrandConfig.findOne({name: "campaign_channel"});
     var brand_obj = BrandMappings.findOne({brand_name: Session.get("selected_brand")});
     var avail_type = [];
-    if (!brand_obj) { return []; }
-    for (var i=0;i<SOCIAL_TYPE.length;i++) {
-        if (brand_obj[SOCIAL_TYPE[i]]) { avail_type.push({name: SOCIAL_TYPE[i]}); }
+    if (!brand_obj) {
+        return [];
+    }
+
+    for (var i = 0; i < SOCIAL_TYPE.length; i++) {
+        if (brand_obj[SOCIAL_TYPE[i]]) {
+            if (brand_config && !_.contains(brand_config["value"], SOCIAL_TYPE[i])) {
+                //do nth
+            } else {
+                avail_type.push({name: SOCIAL_TYPE[i]});
+            }
+        }
     }
     return avail_type;
 }
 
-Template.campaign_promo_new.web_types = function() {
-    return WEB_CAMPAIGN_TYPES;
+Template.campaign_promo_new.web_types = function () {
+    var brand_config = BrandConfig.findOne({name: "campaign_channel"});
+    if (!brand_config) {
+        return WEB_CAMPAIGN_TYPES;
+    }
+
+    var to_ret = [];
+    _.each(WEB_CAMPAIGN_TYPES, function(itm) {
+        if (_.contains(brand_config.value, itm.name)) {
+            to_ret.push(itm);
+        }
+    });
+    return to_ret;
 }
 
-Template.campaign_promo_new.device_types = function() {
-   return DEVICE_CAMPAIGN_TYPES;
+Template.campaign_promo_new.device_types = function () {
+    var brand_config = BrandConfig.findOne({name: "campaign_channel"});
+    if (!brand_config) {
+        return DEVICE_CAMPAIGN_TYPES;
+    }
+
+    var to_ret = [];
+    _.each(DEVICE_CAMPAIGN_TYPES, function(itm) {
+        if (_.contains(brand_config.value, itm.name)) {
+            to_ret.push(itm);
+        }
+    });
+    return to_ret;
 }
 
-Template.campaign_event_new.social_types = function() {
+Template.campaign_event_new.social_types = function () {
     var brand_obj = BrandMappings.findOne({brand_name: Session.get("selected_brand")});
     var avail_type = [];
-    if (!brand_obj) { return []; }
-    for (var i=0;i<SOCIAL_TYPE.length;i++) {
-        if (brand_obj[SOCIAL_TYPE[i]]) { avail_type.push({name: SOCIAL_TYPE[i]}); }
+    if (!brand_obj) {
+        return [];
+    }
+    for (var i = 0; i < SOCIAL_TYPE.length; i++) {
+        if (brand_obj[SOCIAL_TYPE[i]]) {
+            avail_type.push({name: SOCIAL_TYPE[i]});
+        }
     }
     return avail_type;
 }
 
-Template.campaign_event_new.web_types = function() {
+Template.campaign_event_new.web_types = function () {
     return WEB_CAMPAIGN_TYPES;
 }
 
-Template.campaign_event_new.device_types = function() {
-   return DEVICE_CAMPAIGN_TYPES;
+Template.campaign_event_new.device_types = function () {
+    return DEVICE_CAMPAIGN_TYPES;
 }
 
-Template.campaign_promo_new.form_submit_url = function() {
+Template.campaign_promo_new.form_submit_url = function () {
     return BACKEND_URL + "campaign/data/";
 }
 
-Template.campaign_event_new.rendered = function() {
+Template.campaign_event_new.rendered = function () {
     $('.social-content').css('display', 'none');
     $('.web-content').css('display', 'none');
     $('#campaign_media_file').bind('change', handleMediaFile);
@@ -214,14 +276,14 @@ Template.campaign_event_new.rendered = function() {
     page_render(this);
 }
 
-Template.campaign_event_new.form_submit_url = function() {
+Template.campaign_event_new.form_submit_url = function () {
     return BACKEND_URL + "campaign/data/";
 }
 
-Template.campaign_list.rendered = function() {
+Template.campaign_list.rendered = function () {
     $('.social-content').css('display', 'block');
     $('.web-content').css('display', 'block');
-    $('.selection input:checkbox').change(function() {
+    $('.selection input:checkbox').change(function () {
         var selected = $('.selection input:checkbox:checked').length;
         var total = $('.selection input:checkbox').length;
         if (selected > 0) {
@@ -408,13 +470,16 @@ Template.campaign_event.rendered = function () {
     }
 }
 
-Template.campaign_select_item.rendered = function() {
+Template.campaign_select_item.rendered = function () {
     filter_item_results();
     $('.filtered-results').selectable({
-        selected: function(event, ui) {
+        selected: function (event, ui) {
             $('#item_filter_url').val('Loading...');
-            Meteor.call('http_api', 'get', 'campaign/item/url/', {"obj_id": ui.selected.id}, function(error, result) {
-                if (result.statusCode !== 200) { console.log(result.error); $('#item_filter_url').val('Fail to get item link.'); }
+            Meteor.call('http_api', 'get', 'campaign/item/url/', {"obj_id": ui.selected.id}, function (error, result) {
+                if (result.statusCode !== 200) {
+                    console.log(result.error);
+                    $('#item_filter_url').val('Fail to get item link.');
+                }
                 $('#item_filter_url').val(result.data.url);
             })
         }
@@ -422,7 +487,7 @@ Template.campaign_select_item.rendered = function() {
 }
 
 Template.campaign_select_item.events = {
-    'keyup #item_filter_kw': function() {
+    'keyup #item_filter_kw': function () {
         filter_item_results();
     }
 }
@@ -430,10 +495,14 @@ Template.campaign_select_item.events = {
 function filter_item_results() {
     var val = $('#item_filter_kw').val();
     var items;
-    if (val.length == 0) { items = Items.find({media_id: {$ne: null}}, {limit: 5}).fetch(); }
-    else { items = Items.find({name: {$regex: ".*" + $('#item_filter_kw').val() + ".*"}, media_id: {$ne: null}}, {limit: 5}).fetch(); }
+    if (val.length == 0) {
+        items = Items.find({media_id: {$ne: null}}, {limit: 5}).fetch();
+    }
+    else {
+        items = Items.find({name: {$regex: ".*" + $('#item_filter_kw').val() + ".*"}, media_id: {$ne: null}}, {limit: 5}).fetch();
+    }
     $('.filtered-results').empty();
-    for (var i=0;i<items.length;i++) {
+    for (var i = 0; i < items.length; i++) {
         var item_path = items[i].name;
         if (items[i].container_id) {
             var container = ItemContainers.findOne({_id: items[i].container_id});
@@ -460,7 +529,11 @@ function handleMediaFile() {
         img.file = file;
         $('.add-media').prepend(img);
         var reader = new FileReader();
-        reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+        reader.onload = (function (aImg) {
+            return function (e) {
+                aImg.src = e.target.result;
+            };
+        })(img);
         reader.readAsDataURL(file);
         var changeMedia = $('.add-media').children()[1];
         var changeDiv = document.createElement("div");
@@ -559,7 +632,7 @@ function computeCampaign(mapping) {
         var fb = FBPosts.findOne({_id: mapping.facebook});
         dict["title"] = fb ? wrapTitleContainer(wrapBold(fb_load_message(fb))) : "";
         dict["obj_title"] = fb ? fb_load_message(fb) : "";
-    // twitter tweet
+        // twitter tweet
     } else if (mapping.twitter) {
         var tw = TWTweets.findOne({_id: mapping.twitter});
         dict["title"] = tw ? wrapTitleContainer(wrapBold(tw.fields.text)) : "";
@@ -627,8 +700,12 @@ function loadCampaignCard(mapping, dict) {
 }
 
 function convertNewLine(val) {
-    if (val) { return val.replace(/\n/g, '<br>'); }
-    else { return ""; }
+    if (val) {
+        return val.replace(/\n/g, '<br>');
+    }
+    else {
+        return "";
+    }
 }
 
 function wrapTitleContainer(val) {
@@ -645,9 +722,11 @@ function wrapGray(val) {
 
 function stripHTML(val) {
     if (val) {
-        val = val.replace(/\<br\>/g," ");
+        val = val.replace(/\<br\>/g, " ");
         return val.replace(/<(?:.|\n)*?>/gm, '');
-    } else { return ""; }
+    } else {
+        return "";
+    }
 }
 
 function input_change(id, display_div) {
@@ -695,16 +774,16 @@ function loadEventDateTime() {
         var time_start = $('.campaign-post-time-from-input').val();
         var time_end = $('.campaign-post-time-to-input').val();
         if (time_start) {
-            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            var epoch_start = new Date(date + " " + time_start).getTime() / 1000;
             eventInput[0] = $('<input />').attr('type', 'hidden')
-            .attr('name', 'datetime_start')
-            .attr('value', epoch_start);
+                .attr('name', 'datetime_start')
+                .attr('value', epoch_start);
         }
         if (time_end) {
-            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            var epoch_end = new Date(date + " " + time_end).getTime() / 1000;
             eventInput[1] = $('<input />').attr('type', 'hidden')
-            .attr('name', 'datetime_end')
-            .attr('value', epoch_end);
+                .attr('name', 'datetime_end')
+                .attr('value', epoch_end);
         }
     }
 
