@@ -54,32 +54,44 @@
                     <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                 </div>
                 <div class="platform">
+                    {{#if brand_allow_facebook}}
                     <label class="checkbox inline">
                         <input type="checkbox" class="platform-check" value="facebook">
                         Facebook
                     </label>
+                    {{/if}}
+                    {{#if brand_allow_twitter}}
                     <label class="checkbox inline">
                         <input type="checkbox" class="platform-check" value="twitter">
                         Twitter
                     </label>
+                    {{/if}}
+                    {{#if brand_allow_foursquare}}
                     <label class="checkbox inline">
                         <input type="checkbox" class="platform-check" value="foursquare">
                         Foursquare
                     </label>
                     <br>
+                    {{/if}}
+                    {{#if brand_allow_web_mobile}}
                     <label class="checkbox inline">
                         <input type="checkbox" class="platform-check" value="web">
                         Web / Mobile
                     </label>
+                    {{/if}}
+                    {{#if brand_allow_push_notification}}
                     <label class="checkbox inline push">
                         <input type="checkbox" class="platform-check" value="push">
                         Push Notification
                     </label>
                     <br>
+                    {{/if}}
+                    {{#if brand_allow_blog}}
                     <label class="checkbox inline">
                         <input type="checkbox" class="platform-check" value="blog">
                         Blog
                     </label>
+                    {{/if}}
                 </div>
                 {{> campaign_promo}}
             </div>

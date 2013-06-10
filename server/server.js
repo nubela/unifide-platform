@@ -1,4 +1,11 @@
 /*
+ Brand Config
+ */
+Meteor.publish("brand_config", function () {
+    return BrandConfig.find({});
+});
+
+/*
  Navigation Menu
  */
 
@@ -66,10 +73,18 @@ Meteor.publish("facebook", function (brand) {
     }
 
     var return_coll = [];
-    if (FBPages.find().count() > 0) { return_coll.push(FBPages.find({page_id: page_id})) }
-    if (FBPosts.find().count() > 0) { return_coll.push(FBPosts.find({page_id: page_id, is_deleted: null})) }
-    if (FBEvents.find().count() > 0) { return_coll.push(FBEvents.find({page_id: page_id, is_deleted: null})) }
-    if (FBComments.find().count() > 0) { return_coll.push(FBComments.find({post_id: {$exists: true, $in: postid_list}})) }
+    if (FBPages.find().count() > 0) {
+        return_coll.push(FBPages.find({page_id: page_id}))
+    }
+    if (FBPosts.find().count() > 0) {
+        return_coll.push(FBPosts.find({page_id: page_id, is_deleted: null}))
+    }
+    if (FBEvents.find().count() > 0) {
+        return_coll.push(FBEvents.find({page_id: page_id, is_deleted: null}))
+    }
+    if (FBComments.find().count() > 0) {
+        return_coll.push(FBComments.find({post_id: {$exists: true, $in: postid_list}}))
+    }
 
     return return_coll;
 });
@@ -85,7 +100,9 @@ Meteor.publish("twitter", function (brand) {
     var twitter_id = brand_obj.id;
 
     var return_coll = [];
-    if (TWTweets.find().count() > 0) { return_coll.push(TWTweets.find({tw_id: twitter_id, is_deleted: null}, {sort: {created_at: -1}})) }
+    if (TWTweets.find().count() > 0) {
+        return_coll.push(TWTweets.find({tw_id: twitter_id, is_deleted: null}, {sort: {created_at: -1}}))
+    }
 
     return return_coll;
 });
@@ -101,8 +118,12 @@ Meteor.publish("foursquare", function (brand) {
     var venue_list = brand_obj.venues;
 
     var return_coll = [];
-    if (FSQPageUpdates.find().count() > 0) { return_coll.push(FSQPageUpdates.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {created_at: -1}})) }
-    if (FSQTips.find().count() > 0) { return_coll.push(FSQTips.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {createdAt: -1}}))  }
+    if (FSQPageUpdates.find().count() > 0) {
+        return_coll.push(FSQPageUpdates.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {created_at: -1}}))
+    }
+    if (FSQTips.find().count() > 0) {
+        return_coll.push(FSQTips.find({venue_id: {$exists: true, $in: venue_list}, is_deleted: null}, {sort: {createdAt: -1}}))
+    }
 
     return return_coll;
 });

@@ -135,7 +135,6 @@ Template.account_brand.events = {
         bootbox.confirm("Would you like to delete " + keyword_text + "?", function (res) {
             if (res) {
                 Meteor.call("del_brand_mention_keyword", keyword_text);
-//                $(span).remove();
             }
         });
     }

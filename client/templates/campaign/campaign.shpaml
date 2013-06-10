@@ -37,26 +37,38 @@ template name="campaign_promo_new"
                     Platform
                     <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                 .platform
+                    {{#if brand_allow_facebook}}
                     label.checkbox.inline
                         <input type="checkbox" class="platform-check" value="facebook">
                         Facebook
+                    {{/if}}
+                    {{#if brand_allow_twitter}}
                     label.checkbox.inline
                         <input type="checkbox" class="platform-check" value="twitter">
                         Twitter
+                    {{/if}}
+                    {{#if brand_allow_foursquare}}
                     label.checkbox.inline
                         <input type="checkbox" class="platform-check" value="foursquare">
                         Foursquare
                     <br>
+                    {{/if}}
+                    {{#if brand_allow_web_mobile}}
                     label.checkbox.inline
                         <input type="checkbox" class="platform-check" value="web">
                         Web / Mobile
+                    {{/if}}
+                    {{#if brand_allow_push_notification}}
                     label.checkbox.inline.push
                         <input type="checkbox" class="platform-check" value="push">
                         Push Notification
                     <br>
+                    {{/if}}
+                    {{#if brand_allow_blog}}
                     label.checkbox.inline
                         <input type="checkbox" class="platform-check" value="blog">
                         Blog
+                    {{/if}}
                 {{> campaign_promo}}
             .campaign-post-submit
                 <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>

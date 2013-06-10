@@ -2,7 +2,17 @@ var campaign_default_template = "campaign_list";
 var platforms = ["facebook", "twitter", "foursquare", "campaign", "blog", "push"];
 
 
-Template.campaign.view = function() {
+CAMPAIGN_CHANNEL = {
+    FACEBOOK: "facebook",
+    TWITTER: "twitter",
+    FOURSQUARE: "4sq",
+    BLOG: "blog",
+    WEB_MOBILE: "web_and_mobile",
+    PUSH_NOTIFICATION: "push_notification"
+}
+
+
+Template.campaign.view = function () {
     var parse = Session.get("page_template").split("_");
     if (parse.length > 1) {
         return Template[Session.get("page_template")]();
@@ -12,23 +22,37 @@ Template.campaign.view = function() {
 }
 
 Template.campaign.events = {
-    'click #platform-all': function() {
-        if ($('#platform-all').text() == 'Select all') { $('.platform').find(":checkbox").prop('checked', true); $('#platform-all').text('Unselect all'); }
-        else { $('.platform').find(":checkbox").prop('checked', false); $('#platform-all').text('Select all'); }
+    'click #platform-all': function () {
+        if ($('#platform-all').text() == 'Select all') {
+            $('.platform').find(":checkbox").prop('checked', true);
+            $('#platform-all').text('Unselect all');
+        }
+        else {
+            $('.platform').find(":checkbox").prop('checked', false);
+            $('#platform-all').text('Select all');
+        }
     },
-    'click .platform-check': function() {
+    'click .platform-check': function () {
         var checked = $('.platform').find(":checkbox:checked").length;
         var total = $('.platform').find(":checkbox").length;
-        if (checked == total) { $('#platform-all').text('Unselect all'); }
-        else { $('#platform-all').text('Select all') }
+        if (checked == total) {
+            $('#platform-all').text('Unselect all');
+        }
+        else {
+            $('#platform-all').text('Select all')
+        }
     },
-    'click #btn-publish': function() {
-        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function(error, result) {
-            if (result.statusCode !== 200) { console.log(result.error); }
-            else { Router.navigate('campaign', true); }
+    'click #btn-publish': function () {
+        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function (error, result) {
+            if (result.statusCode !== 200) {
+                console.log(result.error);
+            }
+            else {
+                Router.navigate('campaign', true);
+            }
         });
     },
-    'click #btn-schedule': function() {
+    'click #btn-schedule': function () {
         $('#schedule-date').datetimepicker({
             pickTime: false
         });
@@ -39,28 +63,80 @@ Template.campaign.events = {
         });
         $('#schedule_modal').modal();
     },
-    'click #btn-schedule-modal': function(event) {
+    'click #btn-schedule-modal': function (event) {
         event.preventDefault();
         var args = load_content({}, $('.campaign-type').val(), "scheduled")
         args["scheduled_datetime"] = load_scheduled_datetime();
-        Meteor.call("http_api", "put", "campaign/data/", args, function(error, result) {
+        Meteor.call("http_api", "put", "campaign/data/", args, function (error, result) {
             $('#schedule_modal').modal('hide');
-            if (result.statusCode !== 200) { console.log(result.error); }
-            else { Router.navigate('campaign', true); }
+            if (result.statusCode !== 200) {
+                console.log(result.error);
+            }
+            else {
+                Router.navigate('campaign', true);
+            }
         });
     }
 }
 
-Template.campaign_promo_new.rendered = function() {
+Template.campaign_promo_new.rendered = function () {
     page_render(this);
 }
 
-Template.campaign_event_new.rendered = function() {
+Template.campaign_promo_new.brand_allow_facebook = function () {
+    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
+    if (!campaign_channel) {
+        return true;
+    }
+    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.FACEBOOK);
+}
+
+Template.campaign_promo_new.brand_allow_twitter = function () {
+    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
+    if (!campaign_channel) {
+        return true;
+    }
+    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.TWITTER);
+}
+
+Template.campaign_promo_new.brand_allow_foursquare = function () {
+    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
+    if (!campaign_channel) {
+        return true;
+    }
+    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.FOURSQUARE);
+}
+
+Template.campaign_promo_new.brand_allow_web_mobile = function () {
+    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
+    if (!campaign_channel) {
+        return true;
+    }
+    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.WEB_MOBILE);
+}
+
+Template.campaign_promo_new.brand_allow_push_notification = function () {
+    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
+    if (!campaign_channel) {
+        return true;
+    }
+    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.PUSH_NOTIFICATION);
+}
+
+Template.campaign_promo_new.brand_allow_blog = function () {
+    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
+    if (!campaign_channel) {
+        return true;
+    }
+    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.BLOG);
+}
+
+Template.campaign_event_new.rendered = function () {
     page_render(this);
 }
 
-Template.campaign_list.rendered = function() {
-    $('.selection input:checkbox').change(function() {
+Template.campaign_list.rendered = function () {
+    $('.selection input:checkbox').change(function () {
         var selected = $('.selection input:checkbox:checked').length;
         var total = $('.selection input:checkbox').length;
         if (selected > 0) {
@@ -69,24 +145,36 @@ Template.campaign_list.rendered = function() {
             $('.selected-buttons').css('display', 'none');
         }
 
-        if (selected === total) { $('#select-all').html('<i class="icon-ok"></i> Unselect All'); }
-        else { $('#select-all').html('<i class="icon-ok"></i> Select All'); }
+        if (selected === total) {
+            $('#select-all').html('<i class="icon-ok"></i> Unselect All');
+        }
+        else {
+            $('#select-all').html('<i class="icon-ok"></i> Select All');
+        }
     })
 }
 
 Template.campaign_list.events = {
-    'click .page-back': function() {
+    'click .page-back': function () {
         var page = Session.get("campaign_list_page");
-        if (page == 1) { return; }
-        else { Session.set("campaign_list_page", (page-1)); }
+        if (page == 1) {
+            return;
+        }
+        else {
+            Session.set("campaign_list_page", (page - 1));
+        }
     },
-    'click .page-next': function() {
+    'click .page-next': function () {
         var page = Session.get("campaign_list_page");
         var total = Template.campaign_list.total();
-        if (page >= (total/10)) { return; }
-        else { Session.set("campaign_list_page", (page+1)); }
+        if (page >= (total / 10)) {
+            return;
+        }
+        else {
+            Session.set("campaign_list_page", (page + 1));
+        }
     },
-    'click #select-all': function(event) {
+    'click #select-all': function (event) {
         var selected = $('.selection input:checkbox:checked').length;
         var total = $('.selection input:checkbox').length;
 
@@ -105,88 +193,100 @@ Template.campaign_list.events = {
             $('.selected-buttons').css('display', 'none');
         }
     },
-    'click .expand-all': function(event) {
+    'click .expand-all': function (event) {
         $('.collapse').collapse('show');
         $('.expand-all').html('<i class="icon-arrow-down"></i> Collapse All');
         $(event.currentTarget).addClass('collapse-all').removeClass('expand-all');
     },
-    'click .collapse-all': function(event) {
+    'click .collapse-all': function (event) {
         $('.collapse').collapse('hide');
         $('.collapse-all').html('<i class="icon-arrow-down"></i> Expand All');
         $(event.currentTarget).addClass('expand-all').removeClass('collapse-all');
     },
-    'click .expanded-edit': function(event) {
+    'click .expanded-edit': function (event) {
         var campaign_id = $(event.currentTarget).find('.edit-campaign-id').val();
         var campaign_type = $(event.currentTarget).find('.edit-campaign-type').val();
         Session.set('edit_campaign_type', campaign_type);
         Session.set('edit_campaign_id', campaign_id);
         $('#edit_campaign_modal').modal();
-        $('#edit_campaign_modal').on('hidden', function() {
+        $('#edit_campaign_modal').on('hidden', function () {
             Session.set('edit_campaign_type', '');
             Session.set('edit_campaign_id', '');
         });
     },
-    'click .delete-campaign': function(event) {
+    'click .delete-campaign': function (event) {
         var checked = $('.selection input:checkbox:checked');
         var campaign_list = [];
-        for (var i=0;i<checked.length;i++) {
+        for (var i = 0; i < checked.length; i++) {
             campaign_list.push($(checked[i]).val());
         }
 
         Meteor.call('http_api', 'del', 'campaign/?user_id=' + Meteor.userId() +
-                                                "&brand_name=" + Session.get("selected_brand") +
-                                                "&campaign_list=" + campaign_list,
-            function(error, result) {
-            if (result.statusCode !== 200) { console.log(result.error); }
-        });
+            "&brand_name=" + Session.get("selected_brand") +
+            "&campaign_list=" + campaign_list,
+            function (error, result) {
+                if (result.statusCode !== 200) {
+                    console.log(result.error);
+                }
+            });
     },
-    'click #btn-edit-modal': function(event) {
+    'click #btn-edit-modal': function (event) {
         event.preventDefault();
         console.log('loaded');
         var args = {};
 
-        Meteor.call('http_api', 'put', 'campaign/data/update/', load_edited_content(args), function(error, result) {
+        Meteor.call('http_api', 'put', 'campaign/data/update/', load_edited_content(args), function (error, result) {
             $('#edit_campaign_modal').modal('hide');
-            if (result.statusCode !== 200) { console.log(result.error); }
+            if (result.statusCode !== 200) {
+                console.log(result.error);
+            }
         })
     }
 }
 
-Template.campaign_list.total = function() {
+Template.campaign_list.total = function () {
     return Mappings.find().count();
 }
 
-Template.campaign_list.list_page = function() {
+Template.campaign_list.list_page = function () {
     Session.setDefault("campaign_list_page", 1);
     return Session.get("campaign_list_page");
 }
 
-Template.campaign_list.campaigns = function() {
+Template.campaign_list.campaigns = function () {
     var offset = (Session.get("campaign_list_page") * 10) - 10;
     var mappings = Mappings.find({}, {limit: 10, skip: offset, sort: {timestamp_utc: -1}}).fetch();
     _CampaignsList.remove({});
-    for (var i=0;i<mappings.length;i++) { _CampaignsList.insert(computeCampaign(mappings[i])); }
+    for (var i = 0; i < mappings.length; i++) {
+        _CampaignsList.insert(computeCampaign(mappings[i]));
+    }
 
     return _CampaignsList.find({}).fetch();
 }
 
-Template.campaign_list.edit_campaign = function() {
+Template.campaign_list.edit_campaign = function () {
     Session.setDefault('edit_campaign_type', 'promotion');
     Session.get('edit_campaign_id');
     var edit_type = Session.get('edit_campaign_type');
-    if (edit_type === 'promotion') { return Template["campaign_promo"](); }
-    else { return Template["campaign_event"](); }
+    if (edit_type === 'promotion') {
+        return Template["campaign_promo"]();
+    }
+    else {
+        return Template["campaign_event"]();
+    }
 }
 
-Template.campaign_promo.rendered = function() {
+Template.campaign_promo.rendered = function () {
     input_change('#campaign-title', '.char-count');
     $('#desc-editor').wysihtml5();
 
     var id = Session.get('edit_campaign_id');
-    if (id) { loadCampaignData(id) }
+    if (id) {
+        loadCampaignData(id)
+    }
 }
 
-Template.campaign_event.rendered = function() {
+Template.campaign_event.rendered = function () {
     input_change('#campaign-title', '.char-count');
     $('#event-date').datetimepicker({
         pickTime: false
@@ -219,7 +319,10 @@ Template.campaign_event.rendered = function() {
 
 function loadCampaignData(id) {
     var campaign = _CampaignsList.findOne({id: id});
-    if (!campaign) { return };
+    if (!campaign) {
+        return
+    }
+    ;
     campaign.obj_title ? $('textarea#campaign-title').val(campaign.obj_title) : "";
     $('.char-count').text(campaign.obj_title.length + " characters")
     $('#desc-editor').val(campaign.obj_desc);
@@ -234,7 +337,7 @@ function computeCampaign(mapping) {
     dict["id"] = mapping._id.toHexString();
     dict["type"] = mapping.type;
 
-    for (var i=0;i<platforms.length;i++) {
+    for (var i = 0; i < platforms.length; i++) {
         if (mapping[platforms[i]]) {
             if (mapping[platforms[i]] == 1 && platforms[i] === "push") {
                 dict["platforms"] += '<div class="type-ios pull-left"></div><div class="type-android pull-left"></div>'
@@ -270,17 +373,17 @@ function computeCampaign(mapping) {
         dict["obj_desc"] = fb ? convertNewLine(fb.fields.description) : "";
         dict["obj_start"] = fb ? fb.fields.start_time : "";
         dict["obj_end"] = fb ? fb.fields.end_time : "";
-    // facebook status/link/photo
+        // facebook status/link/photo
     } else if (mapping.facebook && mapping.type === "promotion") {
         var fb = FBPosts.findOne({_id: mapping.facebook});
         dict["title"] = fb ? wrapTitleContainer(wrapBold(fb.fields.message)) : "";
         dict["obj_title"] = fb ? fb.fields.message : "";
-    // twitter tweet
+        // twitter tweet
     } else if (mapping.twitter) {
         var tw = TWTweets.findOne({_id: mapping.twitter});
         dict["title"] = tw ? wrapTitleContainer(wrapBold(tw.fields.text)) : "";
         dict["obj_title"] = tw ? tw.fields.text : "";
-    // foursquare page update
+        // foursquare page update
     } else if (mapping.foursquare) {
         var fsq = FSQPageUpdates.findOne({_id: mapping.foursquare});
         dict["title"] = fsq ? wrapTitleContainer(wrapBold(fsq.fields.shout)) : "";
@@ -295,7 +398,9 @@ function computeCampaign(mapping) {
 }
 
 function value_check(obj, attr) {
-    if (obj) { return obj[attr] ? obj[attr] : undefined; }
+    if (obj) {
+        return obj[attr] ? obj[attr] : undefined;
+    }
     else return undefined;
 }
 
@@ -322,11 +427,11 @@ function loadCampaignCard(mapping, dict) {
     var ts = new Date(mapping.timestamp_utc);
     var scheduled = new Date(mapping.publish_datetime);
     card += '<div class="expanded-edit pull-left"><i class="icon-edit"></i>' +
-            '<input type="hidden" class="edit-campaign-type" value="' + dict["type"] + '">' +
-            '<input type="hidden" class="edit-campaign-id" value="' + dict["id"] + '"> Edit campaign</div>';
+        '<input type="hidden" class="edit-campaign-type" value="' + dict["type"] + '">' +
+        '<input type="hidden" class="edit-campaign-id" value="' + dict["id"] + '"> Edit campaign</div>';
     card += mapping.state === "published" ?
-            '<span class="expanded-datetime pull-left">Published on ' + ts.toDateString() + ' ' + ts.toLocaleTimeString() + '</span>' :
-            '<span class="expanded-datetime pull-left">Scheduled for ' + scheduled.toDateString() + ' ' + scheduled.toLocaleTimeString() + '</span>';
+        '<span class="expanded-datetime pull-left">Published on ' + ts.toDateString() + ' ' + ts.toLocaleTimeString() + '</span>' :
+        '<span class="expanded-datetime pull-left">Scheduled for ' + scheduled.toDateString() + ' ' + scheduled.toLocaleTimeString() + '</span>';
     card += '<div class="clear"></div>';
 
     return card;
@@ -349,12 +454,12 @@ function wrapGray(val) {
 }
 
 function stripHTML(val) {
-    val = val.replace(/\<br\>/g," ");
+    val = val.replace(/\<br\>/g, " ");
     return val.replace(/<(?:.|\n)*?>/gm, '');
 }
 
 function input_change(id, display_div) {
-    $(id).bind('input propertychange', function() {
+    $(id).bind('input propertychange', function () {
         $(display_div).text(this.value.length + " characters")
     })
 }
@@ -362,11 +467,13 @@ function input_change(id, display_div) {
 function load_content(args, type, state) {
     var selected_platforms = $('.platform').find(":checkbox:checked");
     var platforms = "";
-    for (var i=0;i<selected_platforms.length;i++) { platforms += selected_platforms[i].value + ","; }
+    for (var i = 0; i < selected_platforms.length; i++) {
+        platforms += selected_platforms[i].value + ",";
+    }
 
     args["user_id"] = Meteor.userId();
     args["brand_name"] = Session.get("selected_brand");
-    args["platform"] = platforms.substr(0, platforms.length-1);
+    args["platform"] = platforms.substr(0, platforms.length - 1);
     args["type"] = type;
     args["title"] = $('#campaign-title').val();
     args["description"] = $('#desc-editor').val();
@@ -377,11 +484,11 @@ function load_content(args, type, state) {
         var time_start = $('.campaign-post-time-from-input').val();
         var time_end = $('.campaign-post-time-to-input').val();
         if (time_start) {
-            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            var epoch_start = new Date(date + " " + time_start).getTime() / 1000;
             args["datetime_start"] = epoch_start;
         }
         if (time_end) {
-            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            var epoch_end = new Date(date + " " + time_end).getTime() / 1000;
             args["datetime_end"] = epoch_end;
         }
     }
@@ -400,11 +507,11 @@ function load_edited_content(args) {
         var time_start = $('.campaign-post-time-from-input').val();
         var time_end = $('.campaign-post-time-to-input').val();
         if (time_start) {
-            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            var epoch_start = new Date(date + " " + time_start).getTime() / 1000;
             args["datetime_start"] = epoch_start;
         }
         if (time_end) {
-            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            var epoch_end = new Date(date + " " + time_end).getTime() / 1000;
             args["datetime_end"] = epoch_end;
         }
     }
@@ -412,10 +519,10 @@ function load_edited_content(args) {
 }
 
 
-function load_scheduled_datetime(){
+function load_scheduled_datetime() {
     var date = $('.campaign-post-date-input-schedule').val();
     var time = $('.campaign-post-time-from-input-schedule').val();
-    var epoch = new Date(date + " " + time).getTime()/1000;
+    var epoch = new Date(date + " " + time).getTime() / 1000;
     return epoch;
 }
 
@@ -434,17 +541,17 @@ function timeDifference(current, previous, format) {
     var elapsed = current - previous;
 
     if (elapsed < msPerMinute) {
-         return Math.round(elapsed/1000) + ' seconds ago';
+        return Math.round(elapsed / 1000) + ' seconds ago';
     }
     else if (elapsed < msPerHour) {
-         return Math.round(elapsed/msPerMinute) + ' minutes ago';
+        return Math.round(elapsed / msPerMinute) + ' minutes ago';
     }
-    else if (elapsed < msPerDay ) {
-         return Math.round(elapsed/msPerHour ) + ' hours ago';
+    else if (elapsed < msPerDay) {
+        return Math.round(elapsed / msPerHour) + ' hours ago';
     }
     /*else if (elapsed < msPerMonth) {
-        return Math.round(elapsed/msPerDay) + ' days ago';
-    }*/
+     return Math.round(elapsed/msPerDay) + ' days ago';
+     }*/
     else {
         var d = new Date(previous);
         return format ? d.toDateString() + " " + d.toLocaleTimeString() : d.toDateString();
