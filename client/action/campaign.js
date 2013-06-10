@@ -241,25 +241,53 @@ Template.campaign_promo_new.device_types = function () {
 }
 
 Template.campaign_event_new.social_types = function () {
+    var brand_config = BrandConfig.findOne({name: "campaign_channel"});
     var brand_obj = BrandMappings.findOne({brand_name: Session.get("selected_brand")});
     var avail_type = [];
     if (!brand_obj) {
         return [];
     }
+
     for (var i = 0; i < SOCIAL_TYPE.length; i++) {
         if (brand_obj[SOCIAL_TYPE[i]]) {
-            avail_type.push({name: SOCIAL_TYPE[i]});
+            if (brand_config && !_.contains(brand_config["value"], SOCIAL_TYPE[i])) {
+                //do nth
+            } else {
+                avail_type.push({name: SOCIAL_TYPE[i]});
+            }
         }
     }
     return avail_type;
 }
 
 Template.campaign_event_new.web_types = function () {
-    return WEB_CAMPAIGN_TYPES;
+    var brand_config = BrandConfig.findOne({name: "campaign_channel"});
+    if (!brand_config) {
+        return WEB_CAMPAIGN_TYPES;
+    }
+
+    var to_ret = [];
+    _.each(WEB_CAMPAIGN_TYPES, function(itm) {
+        if (_.contains(brand_config.value, itm.name)) {
+            to_ret.push(itm);
+        }
+    });
+    return to_ret;
 }
 
 Template.campaign_event_new.device_types = function () {
-    return DEVICE_CAMPAIGN_TYPES;
+    var brand_config = BrandConfig.findOne({name: "campaign_channel"});
+    if (!brand_config) {
+        return DEVICE_CAMPAIGN_TYPES;
+    }
+
+    var to_ret = [];
+    _.each(DEVICE_CAMPAIGN_TYPES, function(itm) {
+        if (_.contains(brand_config.value, itm.name)) {
+            to_ret.push(itm);
+        }
+    });
+    return to_ret;
 }
 
 Template.campaign_promo_new.form_submit_url = function () {
