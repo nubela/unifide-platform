@@ -11,6 +11,7 @@ var myAppRouter = Backbone.Router.extend({
     routes: {
         "": "static_url",
         "login": "static_url",
+        "login/admin-register": "static_url",
         "facebook": "static_url",
         "facebook/page/activity": "static_url",
         "facebook/event/activity": "static_url",
@@ -170,6 +171,7 @@ Meteor.startup(function () {
         Meteor.subscribe("brand_mention");
         Meteor.subscribe("keyword");
         Meteor.subscribe("brand_config");
+        Meteor.subscribe("items");
     });
 });
 

@@ -234,7 +234,7 @@ function fb_message_template(status, status_type, args) {
             name: status.owner.name,
             uid: status.owner.id,
             message: " posted on your timeline: \"" + status.fields.message + "\"",
-            link: (_.find(status.fields.actions, function(obj) { return obj.name == "Comment"})).link,
+            link: fb_load_message_link(status),
             datetime: timeDifference(time_now, new Date(status.updated_time).getTime()),
             type: status_type
         }
@@ -260,14 +260,21 @@ function fb_message_template(status, status_type, args) {
     }
 }
 
+function fb_load_message_link(status) {
+    if (status.fields.actions) {
+        return (_.find(status.fields.actions, function(obj) { return obj.name == "Comment"})).link;
+    } else {
+        return status.fields.link;
+    }
+}
+
 function tw_message_template(tweet) {
     var parsed_text = "";
     var last_indice = 0;
     for (var i=0;i<tweet.fields.entities.urls.length;i++) {
         var entity_url = tweet.fields.entities.urls[i];
-        parsed_text += tweet.fields.text.substring(last_indice,entity_url.indices[0])
-        parsed_text += "<a class='tweet-links' " +
-                        "onclick='window.open(this.href,'_blank');return false;' " +
+        parsed_text += tweet.fields.text.substring(last_indice,entity_url.indices[0]);
+        parsed_text += '<a class="tweet-links" onclick="window.open(this.href,\'_blank\');return false;" ' +
                         "href='" + entity_url.expanded_url + "'>" + entity_url.display_url + "</a>"
         last_indice = entity_url.indices[1];
     }

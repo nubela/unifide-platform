@@ -3,6 +3,22 @@ To run
 1. Modify the args in `RunMeteor` script
 2. ./RunMeteor
 
+
+Facebook Limitations
+--------------------
+1. Page Address cannot be updated. Will be added to Page description instead
+
+
+Twitter Limitations
+-------------------
+N/A
+
+
+Foursquare Limitations
+----------------------
+N/A
+
+
 [SHPAML]
 
 This package uses SHPAML as a transcompilable middleman language for HTML. (Because HTML is too verbose)

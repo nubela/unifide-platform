@@ -10,10 +10,10 @@ template name="facebook"
                             li
                                 > i.icon-th-list
                                 Page activity
-                        a.appnav href="/facebook/event/activity"
+                        <!--a.appnav href="/facebook/event/activity"
                             li
                                 > i.icon-th-list
-                                Events activity
+                                Events activity-->
 
                 .span12.span-fixed-sidebar
                     {{{view}}}

@@ -128,6 +128,12 @@ Meteor.publish("foursquare", function (brand) {
     return return_coll;
 });
 
+Meteor.publish("items", function() {
+   return [
+       Items.find(),
+       ItemContainers.find()
+   ]
+});
 
 // Add a record for brand mapping on new user registration
 Accounts.onCreateUser(function (options, user) {
@@ -236,7 +242,6 @@ Meteor.methods({
     },
     get_facebook_pages: function (brand_name) {
         this.unblock();
-        console.log(this.userId);
         var result = Meteor.http.get(BACKEND_URL + "social_connect/facebook/page/", {params: {user_id: this.userId, brand_name: brand_name}});
         if (result.statusCode !== 200) {
             console.log(result.error);
@@ -341,6 +346,7 @@ Meteor.methods({
     },
     http_api: function (verb, url, args) {
         this.unblock();
+        console.log(args);
         var result = Meteor.http[verb](BACKEND_URL + url, {params: args});
         if (result.statusCode !== 200) {
             console.log(result.error);

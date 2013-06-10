@@ -1,5 +1,11 @@
 Template.page_login.rendered = function() {
     $('body').css('background', 'url("/media/img/login-bg.png") no-repeat center center fixed');
+    var page = Session.get("page");
+    var p = page.split('/');
+    if (p[1] === "admin-register") {
+        var box = $('.slide-login');
+        $(box).html(Template['page_login_register']());
+    }
 };
 
 Template.page_login.events = {

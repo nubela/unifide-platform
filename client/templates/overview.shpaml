@@ -120,10 +120,10 @@ template name="overview_foursquare"
                                 a href="https://foursquare.com/user/{{user.id}}" onclick="window.open(this.href,'_blank');return false;"
                                     {{user.name}}
                                 .
-                                a href="https://foursquare.com{{canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;"
+                                a href="{{canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;"
                                     {{createdAt}}
                             .pull-right
-                                a.foursquare-view-more href="https://foursquare.com{{canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;"
+                                a.foursquare-view-more href="{{canonicalUrl}}" onclick="window.open(this.href,'_blank');return false;"
                                     view {{type}}
                             > div.clear
                 {{/each}}

@@ -1,3 +1,13 @@
+var CAMPAIGN_CREATION_REDIRECT_TO = "campaign"
+var SOCIAL_TYPE = ["facebook", "twitter", "foursquare"];
+var WEB_CAMPAIGN_TYPES = [
+    { name: "web" },
+    { name: "blog" }
+];
+var DEVICE_CAMPAIGN_TYPES = [
+    { name: "push" }
+];
+
 var campaign_default_template = "campaign_list";
 var platforms = ["facebook", "twitter", "foursquare", "campaign", "blog", "push"];
 
@@ -21,36 +31,71 @@ Template.campaign.view = function () {
     return Template[campaign_default_template]();
 }
 
+function toggleContentBox() {
+    var selected_boxes = $('.platform').find(":checkbox:checked");
+
+    if ($(selected_boxes).hasClass('social-network') || $(selected_boxes).hasClass('unifide-web')) { $('.social-content').css('display', 'block'); }
+    else { $('.social-content').css('display', 'none') }
+
+    if ($(selected_boxes).hasClass('social-network')) { $('.add-media').css('display', 'block'); }
+    else { $('.add-media').css('display', 'none') }
+
+    if ($(selected_boxes).hasClass('unifide-web')) { $('.web-content').css('display', 'block'); }
+    else { $('.web-content').css('display', 'none') }
+}
+
 Template.campaign.events = {
-    'click #platform-all': function () {
-        if ($('#platform-all').text() == 'Select all') {
-            $('.platform').find(":checkbox").prop('checked', true);
-            $('#platform-all').text('Unselect all');
-        }
-        else {
-            $('.platform').find(":checkbox").prop('checked', false);
-            $('#platform-all').text('Select all');
-        }
+    'click #platform-all': function() {
+        if ($('#platform-all').text() == 'Select all') { $('.platform').find(":checkbox").prop('checked', true); $('#platform-all').text('Unselect all'); }
+        else { $('.platform').find(":checkbox").prop('checked', false); $('#platform-all').text('Select all'); }
+
+        toggleContentBox();
     },
     'click .platform-check': function () {
         var checked = $('.platform').find(":checkbox:checked").length;
         var total = $('.platform').find(":checkbox").length;
-        if (checked == total) {
-            $('#platform-all').text('Unselect all');
-        }
-        else {
-            $('#platform-all').text('Select all')
-        }
+        if (checked == total) { $('#platform-all').text('Unselect all'); }
+        else { $('#platform-all').text('Select all') }
+
+        toggleContentBox();
     },
-    'click #btn-publish': function () {
-        Meteor.call("http_api", "put", "campaign/data/", load_content({}, $('.campaign-type').val(), "published"), function (error, result) {
-            if (result.statusCode !== 200) {
-                console.log(result.error);
-            }
-            else {
-                Router.navigate('campaign', true);
-            }
-        });
+    'click .add-media-modal': function(event) {
+        event.preventDefault();
+        $('#addmedia').modal();
+    },
+    'click .upload': function(event) {
+        event.preventDefault();
+        $('#campaign_media_file').click();
+    },
+    'click .select': function(event) {
+        event.preventDefault();
+        resetItemSearch();
+        $('#addmedia').modal('hide');
+    },
+    'click .confirm-campaign-item': function(event) {
+        event.preventDefault();
+        handleItemFile($('#item_filter_url').val());
+        console.log($('.filtered-results>li.ui-selected'));
+        $('#campaign_media_file_url').val($('.filtered-results>li.ui-selected').attr('id'));
+        $('#itemfilter').modal('hide');
+    },
+    'click .web-campaign-items-select': function(event) {
+        event.preventDefault();
+        resetItemSearch();
+        $('#itemfilter').modal();
+    },
+    'click #btn-publish': function() {
+        if ($("#campaign-create").parsley("validate")) {
+            var eventDT = loadEventDateTime();
+            for (var i=0;i<eventDT.length;i++) { $(eventDT[i]).appendTo('#campaign-create'); }
+
+            $('<input />').attr('type', 'hidden')
+            .attr('name', 'description')
+            .attr('value', $('#desc-editor').val())
+            .appendTo('#campaign-create');
+            bootbox.dialog('<div class="text-center"><div class="loading-img"></div><h4>Creating campaigns...</h4></div>');
+            $("#campaign-create").submit();
+        }
     },
     'click #btn-schedule': function () {
         $('#schedule-date').datetimepicker({
@@ -65,78 +110,118 @@ Template.campaign.events = {
     },
     'click #btn-schedule-modal': function (event) {
         event.preventDefault();
-        var args = load_content({}, $('.campaign-type').val(), "scheduled")
-        args["scheduled_datetime"] = load_scheduled_datetime();
-        Meteor.call("http_api", "put", "campaign/data/", args, function (error, result) {
-            $('#schedule_modal').modal('hide');
-            if (result.statusCode !== 200) {
-                console.log(result.error);
-            }
-            else {
-                Router.navigate('campaign', true);
-            }
-        });
+        if ($("#campaign-create").parsley("validate")) {
+            var eventDT = loadEventDateTime();
+            for (var i=0;i<eventDT.length;i++) { $(eventDT[i]).appendTo('#campaign-create'); }
+            $('<input />').attr('type', 'hidden')
+            .attr('name', 'scheduled_datetime')
+            .attr('value', load_scheduled_datetime())
+            .appendTo('#campaign-create');
+
+            $('.campaign-state').val('scheduled');
+
+            $('<input />').attr('type', 'hidden')
+            .attr('name', 'description')
+            .attr('value', $('#desc-editor').val())
+            .appendTo('#campaign-create');
+            bootbox.dialog('<div class="text-center"><div class="loading-img"></div><h4>Creating campaigns...</h4></div>');
+            $("#campaign-create").submit();
+        }
     }
 }
 
-Template.campaign_promo_new.rendered = function () {
+Template.campaign_promo_new.user_id = function() {
+    return Meteor.userId();
+}
+
+Template.campaign_promo_new.brand_name = function() {
+    return Session.get("selected_brand");
+}
+
+Template.campaign_promo_new.redirect_to = function() {
+    return PLATFORM_URL + CAMPAIGN_CREATION_REDIRECT_TO;
+}
+
+Template.campaign_event_new.user_id = function() {
+    return Meteor.userId();
+}
+
+Template.campaign_event_new.brand_name = function() {
+    return Session.get("selected_brand");
+}
+
+Template.campaign_event_new.redirect_to = function() {
+    return PLATFORM_URL + CAMPAIGN_CREATION_REDIRECT_TO;
+}
+
+Template.campaign_promo_new.rendered = function() {
+    $('.social-content').css('display', 'none');
+    $('.web-content').css('display', 'none');
+    $('#campaign_media_file').bind('change', handleMediaFile);
+    $('input:checkbox').prop('checked', false);
+    $('#campaign-create').parsley('destroy');
+    $('#campaign-create').parsley();
     page_render(this);
 }
 
-Template.campaign_promo_new.brand_allow_facebook = function () {
-    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
-    if (!campaign_channel) {
-        return true;
+Template.campaign_promo_new.social_types = function() {
+    var brand_obj = BrandMappings.findOne({brand_name: Session.get("selected_brand")});
+    var avail_type = [];
+    if (!brand_obj) { return []; }
+    for (var i=0;i<SOCIAL_TYPE.length;i++) {
+        if (brand_obj[SOCIAL_TYPE[i]]) { avail_type.push({name: SOCIAL_TYPE[i]}); }
     }
-    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.FACEBOOK);
+    return avail_type;
 }
 
-Template.campaign_promo_new.brand_allow_twitter = function () {
-    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
-    if (!campaign_channel) {
-        return true;
-    }
-    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.TWITTER);
+Template.campaign_promo_new.web_types = function() {
+    return WEB_CAMPAIGN_TYPES;
 }
 
-Template.campaign_promo_new.brand_allow_foursquare = function () {
-    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
-    if (!campaign_channel) {
-        return true;
-    }
-    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.FOURSQUARE);
+Template.campaign_promo_new.device_types = function() {
+   return DEVICE_CAMPAIGN_TYPES;
 }
 
-Template.campaign_promo_new.brand_allow_web_mobile = function () {
-    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
-    if (!campaign_channel) {
-        return true;
+Template.campaign_event_new.social_types = function() {
+    var brand_obj = BrandMappings.findOne({brand_name: Session.get("selected_brand")});
+    var avail_type = [];
+    if (!brand_obj) { return []; }
+    for (var i=0;i<SOCIAL_TYPE.length;i++) {
+        if (brand_obj[SOCIAL_TYPE[i]]) { avail_type.push({name: SOCIAL_TYPE[i]}); }
     }
-    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.WEB_MOBILE);
+    return avail_type;
 }
 
-Template.campaign_promo_new.brand_allow_push_notification = function () {
-    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
-    if (!campaign_channel) {
-        return true;
-    }
-    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.PUSH_NOTIFICATION);
+Template.campaign_event_new.web_types = function() {
+    return WEB_CAMPAIGN_TYPES;
 }
 
-Template.campaign_promo_new.brand_allow_blog = function () {
-    campaign_channel = BrandConfig.findOne({name: "campaign_channel"});
-    if (!campaign_channel) {
-        return true;
-    }
-    return _.contains(campaign_channel["value"], CAMPAIGN_CHANNEL.BLOG);
+Template.campaign_event_new.device_types = function() {
+   return DEVICE_CAMPAIGN_TYPES;
 }
 
-Template.campaign_event_new.rendered = function () {
+Template.campaign_promo_new.form_submit_url = function() {
+    return BACKEND_URL + "campaign/data/";
+}
+
+Template.campaign_event_new.rendered = function() {
+    $('.social-content').css('display', 'none');
+    $('.web-content').css('display', 'none');
+    $('#campaign_media_file').bind('change', handleMediaFile);
+    $('input:checkbox').prop('checked', false);
+    $('#campaign-create').parsley('destroy');
+    $('#campaign-create').parsley();
     page_render(this);
 }
 
-Template.campaign_list.rendered = function () {
-    $('.selection input:checkbox').change(function () {
+Template.campaign_event_new.form_submit_url = function() {
+    return BACKEND_URL + "campaign/data/";
+}
+
+Template.campaign_list.rendered = function() {
+    $('.social-content').css('display', 'block');
+    $('.web-content').css('display', 'block');
+    $('.selection input:checkbox').change(function() {
         var selected = $('.selection input:checkbox:checked').length;
         var total = $('.selection input:checkbox').length;
         if (selected > 0) {
@@ -279,6 +364,9 @@ Template.campaign_list.edit_campaign = function () {
 Template.campaign_promo.rendered = function () {
     input_change('#campaign-title', '.char-count');
     $('#desc-editor').wysihtml5();
+    var li = document.createElement('li')
+    $(li).html('<a class="btn web-campaign-items-select" href="#" title="Get Item Link" unselectable="on"><i class="icon-folder-open"></i></a>');
+    $('.wysihtml5-toolbar').append(li);
 
     var id = Session.get('edit_campaign_id');
     if (id) {
@@ -302,6 +390,9 @@ Template.campaign_event.rendered = function () {
         pickSeconds: false
     });
     $('#desc-editor').wysihtml5();
+    var li = document.createElement('li')
+    $(li).html('<a class="btn web-campaign-items-select" href="#" title="Get Item Link" unselectable="on"><i class="icon-folder-open"></i></a>');
+    $('.wysihtml5-toolbar').append(li);
 
     var id = Session.get('edit_campaign_id');
     if (id) {
@@ -315,6 +406,96 @@ Template.campaign_event.rendered = function () {
         start_timepicker.setDate(start)
         end ? end_timepicker.setDate(end) : "";
     }
+}
+
+Template.campaign_select_item.rendered = function() {
+    filter_item_results();
+    $('.filtered-results').selectable({
+        selected: function(event, ui) {
+            $('#item_filter_url').val('Loading...');
+            Meteor.call('http_api', 'get', 'campaign/item/url/', {"obj_id": ui.selected.id}, function(error, result) {
+                if (result.statusCode !== 200) { console.log(result.error); $('#item_filter_url').val('Fail to get item link.'); }
+                $('#item_filter_url').val(result.data.url);
+            })
+        }
+    });
+}
+
+Template.campaign_select_item.events = {
+    'keyup #item_filter_kw': function() {
+        filter_item_results();
+    }
+}
+
+function filter_item_results() {
+    var val = $('#item_filter_kw').val();
+    var items;
+    if (val.length == 0) { items = Items.find({media_id: {$ne: null}}, {limit: 5}).fetch(); }
+    else { items = Items.find({name: {$regex: ".*" + $('#item_filter_kw').val() + ".*"}, media_id: {$ne: null}}, {limit: 5}).fetch(); }
+    $('.filtered-results').empty();
+    for (var i=0;i<items.length;i++) {
+        var item_path = items[i].name;
+        if (items[i].container_id) {
+            var container = ItemContainers.findOne({_id: items[i].container_id});
+            item_path = container.name.concat(" / " + item_path)
+        }
+
+        var li = document.createElement('li');
+        $(li).text(item_path);
+        $(li).attr('id', items[i]._id._str);
+        $('.filtered-results').append(li);
+    }
+}
+
+function handleMediaFile() {
+    var fileList = this.files;
+    $('#addmedia').modal('hide');
+    if (fileList.length > 0) {
+        $('.add-media').empty();
+        var file = fileList[0];
+        var img = document.createElement("img");
+        $(img).addClass("add-media-thumbnail");
+        $(img).addClass("img-polaroid");
+        $(img).addClass("pull-left")
+        img.file = file;
+        $('.add-media').prepend(img);
+        var reader = new FileReader();
+        reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+        reader.readAsDataURL(file);
+        var changeMedia = $('.add-media').children()[1];
+        var changeDiv = document.createElement("div");
+        $(changeDiv).addClass("img-polaroid");
+        $(changeDiv).addClass("change-media-thumbnail");
+        $(changeDiv).addClass("pull-left");
+        $(changeDiv).text("Change Photo");
+        var changeA = document.createElement("a");
+        $(changeA).addClass("add-media-modal");
+        $(changeA).append(changeDiv);
+        $('.add-media').append(changeA);
+        $('.add-media').append('<div class="clear"></div>')
+    }
+}
+
+function handleItemFile(item_url) {
+    $('.add-media').empty();
+    var img = document.createElement("img");
+    $(img).addClass("add-media-thumbnail");
+    $(img).addClass("img-polaroid");
+    $(img).addClass("pull-left");
+    $(img).attr('src', item_url);
+    $('.add-media').prepend(img);
+
+    var changeMedia = $('.add-media').children()[1];
+    var changeDiv = document.createElement("div");
+    $(changeDiv).addClass("img-polaroid");
+    $(changeDiv).addClass("change-media-thumbnail");
+    $(changeDiv).addClass("pull-left");
+    $(changeDiv).text("Change Photo");
+    var changeA = document.createElement("a");
+    $(changeA).addClass("add-media-modal");
+    $(changeA).append(changeDiv);
+    $('.add-media').append(changeA);
+    $('.add-media').append('<div class="clear"></div>')
 }
 
 function loadCampaignData(id) {
@@ -376,9 +557,9 @@ function computeCampaign(mapping) {
         // facebook status/link/photo
     } else if (mapping.facebook && mapping.type === "promotion") {
         var fb = FBPosts.findOne({_id: mapping.facebook});
-        dict["title"] = fb ? wrapTitleContainer(wrapBold(fb.fields.message)) : "";
-        dict["obj_title"] = fb ? fb.fields.message : "";
-        // twitter tweet
+        dict["title"] = fb ? wrapTitleContainer(wrapBold(fb_load_message(fb))) : "";
+        dict["obj_title"] = fb ? fb_load_message(fb) : "";
+    // twitter tweet
     } else if (mapping.twitter) {
         var tw = TWTweets.findOne({_id: mapping.twitter});
         dict["title"] = tw ? wrapTitleContainer(wrapBold(tw.fields.text)) : "";
@@ -395,6 +576,14 @@ function computeCampaign(mapping) {
     dict["expanded"] = loadCampaignCard(mapping, dict);
 
     return dict;
+}
+
+function fb_load_message(fb) {
+    if (fb.fields.message) {
+        return fb.fields.message;
+    } else {
+        return fb.fields.name;
+    }
 }
 
 function value_check(obj, attr) {
@@ -438,7 +627,8 @@ function loadCampaignCard(mapping, dict) {
 }
 
 function convertNewLine(val) {
-    return val.replace(/\n/g, '<br>');
+    if (val) { return val.replace(/\n/g, '<br>'); }
+    else { return ""; }
 }
 
 function wrapTitleContainer(val) {
@@ -454,8 +644,10 @@ function wrapGray(val) {
 }
 
 function stripHTML(val) {
-    val = val.replace(/\<br\>/g, " ");
-    return val.replace(/<(?:.|\n)*?>/gm, '');
+    if (val) {
+        val = val.replace(/\<br\>/g," ");
+        return val.replace(/<(?:.|\n)*?>/gm, '');
+    } else { return ""; }
 }
 
 function input_change(id, display_div) {
@@ -496,6 +688,29 @@ function load_content(args, type, state) {
     return args;
 }
 
+function loadEventDateTime() {
+    var eventInput = [];
+    if ($('.campaign-post-datetime') != undefined) {
+        var date = $('.campaign-post-date-input').val();
+        var time_start = $('.campaign-post-time-from-input').val();
+        var time_end = $('.campaign-post-time-to-input').val();
+        if (time_start) {
+            var epoch_start = new Date(date + " " + time_start).getTime()/1000;
+            eventInput[0] = $('<input />').attr('type', 'hidden')
+            .attr('name', 'datetime_start')
+            .attr('value', epoch_start);
+        }
+        if (time_end) {
+            var epoch_end = new Date(date + " " + time_end).getTime()/1000;
+            eventInput[1] = $('<input />').attr('type', 'hidden')
+            .attr('name', 'datetime_end')
+            .attr('value', epoch_end);
+        }
+    }
+
+    return eventInput;
+}
+
 function load_edited_content(args) {
     args["user_id"] = Meteor.userId();
     args["brand_name"] = Session.get("selected_brand");
@@ -524,6 +739,12 @@ function load_scheduled_datetime() {
     var time = $('.campaign-post-time-from-input-schedule').val();
     var epoch = new Date(date + " " + time).getTime() / 1000;
     return epoch;
+}
+
+function resetItemSearch() {
+    $('#item_filter_url').val('No item selected.');
+    $('.filtered-results').empty();
+    $('#item_filter_kw').val('');
 }
 
 function page_render(obj) {

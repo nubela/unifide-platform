@@ -15,6 +15,23 @@ a, a:hover, a:visited {
     cursor: pointer;
 }
 
+.clear {
+    clear: both;
+    line-height: 0;
+}
+
+@-moz-document url-prefix() {
+    .header-nav-chevron {
+        top: 0 !important;
+    }
+    .dropdown-menu {
+        top: 100% !important
+    }
+    .header-user .dropdown-menu {
+        top: 65% !important
+    }
+}
+
 textarea {
     resize: none;
 }

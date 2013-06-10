@@ -46,6 +46,19 @@
                 background-color: #F9F9F9
                 cursor: pointer
 
+    .parsley-error-list
+        margin-top: -18px
+        font-size: 80%
+        margin-bottom: 20px
+    .date-error-check
+        display: none
+
+.social-content
+    display: none
+
+.web-content
+    display: none
+
 .campaign-view
     padding: 30px 5px
 
@@ -83,9 +96,11 @@
 
         label
             width: 100px
+            text-transform: capitalize
 
         label.push
             width: 300px
+            text-transform: capitalize
 
         .platform-check
             opacity: 1 !important
@@ -219,12 +234,91 @@
     color: #999999
 
 .char-count
-    margin-top: -20px
-    margin-bottom: 20px
-    margin-right: 10px
+    margin-left: 67.9%
     text-align: right
     font-size: 10px
     color: #cccccc
+
+.add-media
+    display: none
+    margin-top: -10px
+    margin-left: 10px
+    margin-bottom: 20px
+    font-size: 12px
+    color: #0072C6
+
+#addmedia
+    ul
+        border: 1px solid #cccccc
+        -webkit-border-radius: 4px
+        -moz-border-radius: 4px
+        border-radius: 4px
+        li
+            padding: 2px
+            width: 47%
+            text-align: center
+            height: 80px
+            line-height: 80px
+            color: #0072C6
+            font-weight: 600
+        li:nth-child(1)
+            border-right: 1px solid #dddddd
+    .uploadmedia
+        padding: 0 20%
+
+.search-item
+    h3
+        line-height: inherit
+    input
+        width: 97%
+        padding: 5px
+    label
+        font-weight: 600
+    ul
+        margin-bottom: 10px
+
+    .filtered-results
+        li
+            background-color: #eeeeee
+            margin: 2px 0
+            padding: 5px
+            cursor: pointer
+            -webkit-border-radius: 4px
+            -moz-border-radius: 4px
+            border-radius: 4px
+        .ui-selected
+            background-color: #0072C6
+            color: #ffffff
+
+    #item_filter_url
+        cursor: pointer
+
+.add-media-thumbnail
+    width: 100px
+    height: 100px
+
+.change-media-thumbnail
+    margin-left: 10px
+    width: 100px
+    height: 74px
+    text-align: center
+    padding-top: 30px
+
+#campaign_media_file
+    display: none
+
+.text-center
+    text-align: center
+
+.loading-img
+    margin: 0 auto
+    background-image: url("/media/img/Loading.gif")
+    background-position: 50% 50%
+    width: 100px
+    height: 88px
+
+.loading-text
+    text-align: center
 
 .campaign-post-submit
     margin-top: 20px
@@ -419,3 +513,6 @@ textarea
         color: #999999
     .char-count
         margin-bottom: 10px
+
+#edit_campaign_modal
+    width: 590px !important

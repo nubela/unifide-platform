@@ -40,111 +40,101 @@
 <template name="campaign_promo_new">
     <div class="rendering">
         <div class="campaign-view">
-            <div class="campaign-title">
-                New Campaign
-            </div>
-            <div class="campaign-sub-title">
-                PROMO CAMPAIGN
-            </div>
-            <div class="campaign-post-new">
-                <input type="hidden" value="promotion" class="campaign-type" />
-                <input type="hidden" value="published" class="campaign-state" />
-                <div class="campaign-post-category">
-                    Platform
-                    <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
+            <form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley" id="campaign-create">
+                <div class="campaign-title">
+                    New Campaign
                 </div>
-                <div class="platform">
-                    {{#if brand_allow_facebook}}
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="facebook">
-                        Facebook
-                    </label>
-                    {{/if}}
-                    {{#if brand_allow_twitter}}
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="twitter">
-                        Twitter
-                    </label>
-                    {{/if}}
-                    {{#if brand_allow_foursquare}}
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="foursquare">
-                        Foursquare
-                    </label>
-                    <br>
-                    {{/if}}
-                    {{#if brand_allow_web_mobile}}
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="web">
-                        Web / Mobile
-                    </label>
-                    {{/if}}
-                    {{#if brand_allow_push_notification}}
-                    <label class="checkbox inline push">
-                        <input type="checkbox" class="platform-check" value="push">
-                        Push Notification
-                    </label>
-                    <br>
-                    {{/if}}
-                    {{#if brand_allow_blog}}
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="blog">
-                        Blog
-                    </label>
-                    {{/if}}
+                <div class="campaign-sub-title">
+                    PROMO CAMPAIGN
                 </div>
-                {{> campaign_promo}}
-            </div>
-            <div class="campaign-post-submit">
-                <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
-                <a class="btn btn-large" id="btn-schedule">Schedule Later</a>
-                <div tab-index="-1" role="dialog" aria-hidden="true" class="modal hide fade" id="schedule_modal">
-                    <div class="modal-header">
-                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">
-                            x
-                        </button>
-                        <h5>
-                            Select date and time to publish
-                        </h5>
+                <div class="campaign-post-new">
+                    <input name="user_id" type="hidden" value="{{user_id}}" />
+                    <input name="brand_name" type="hidden" value="{{brand_name}}" />
+                    <input name="type" type="hidden" value="promotion" class="campaign-state" />
+                    <input name="state" type="hidden" value="published" />
+                    <input name="redirect_to" type="hidden" value="{{redirect_to}}" />
+                    <input type="file" name="media_file" id="campaign_media_file" accept="video/*|image/*" />
+                    <input name="media_file_url" type="hidden" id="campaign_media_file_url" value="" />
+                    <div class="campaign-post-category">
+                        Platform
+                        <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                     </div>
-                    <div class="modal-body">
-                        <div class="campaign-schedule-datetime">
-                            <div class="schedule-date pull-left">
-                                Event Date
+                    <div class="platform">
+                        {{#each social_types}}
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="{{name}}">
+                            {{name}}
+                        </label>
+                        {{/each}}
+                        <br>
+                        {{#each web_types}}
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="{{name}}">
+                            {{name}}
+                        </label>
+                        {{/each}}
+                        <br>
+                        {{#each device_types}}
+                        <label class="checkbox inline push">
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="{{name}}">
+                            {{name}} Notification
+                        </label>
+                        {{/each}}
+                    </div>
+
+                    {{> campaign_promo}}
+                </div>
+                <div class="campaign-post-submit">
+                    <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
+                    <a class="btn btn-large" id="btn-schedule">Schedule Later</a>
+                    <div tab-index="-1" role="dialog" aria-hidden="true" class="modal hide fade" id="schedule_modal">
+                        <div class="modal-header">
+                            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">
+                                x
+                            </button>
+                            <h5>
+                                Select date and time to publish
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="campaign-schedule-datetime">
+                                <div class="schedule-date pull-left">
+                                    Event Date
+                                </div>
+                                <div class="schedule-time pull-left">
+                                    Time
+                                </div>
+                                <div class="clear" />
+                                <div class="input-append pull-left" id="schedule-date">
+                                    <input type="text" data-format="yyyy-MM-dd" placeholder="select date" class="campaign-post-date-input-schedule" />
+                                    <span class="add-on">
+                                        <i data-date-icon="icon-calendar">
+                                            &nbsp;
+                                        </i>
+                                    </span>
+                                </div>
+                                <div class="input-append pull-left" id="schedule-time">
+                                    <input type="text" data-format="hh:mm" placeholder="time to publish" class="campaign-post-time-from-input-schedule pull-left" />
+                                    <span class="add-on">
+                                        <i data-time-icon="icon-time">
+                                            &nbsp;
+                                        </i>
+                                    </span>
+                                </div>
+                                <div class="clear" />
                             </div>
-                            <div class="schedule-time pull-left">
-                                Time
-                            </div>
-                            <div class="clear" />
-                            <div class="input-append pull-left" id="schedule-date">
-                                <input type="text" data-format="yyyy-MM-dd" placeholder="select date" class="campaign-post-date-input-schedule" />
-                                <span class="add-on">
-                                    <i data-date-icon="icon-calendar">
-                                        &nbsp;
-                                    </i>
-                                </span>
-                            </div>
-                            <div class="input-append pull-left" id="schedule-time">
-                                <input type="text" data-format="hh:mm" placeholder="time to publish" class="campaign-post-time-from-input-schedule pull-left" />
-                                <span class="add-on">
-                                    <i data-time-icon="icon-time">
-                                        &nbsp;
-                                    </i>
-                                </span>
-                            </div>
-                            <div class="clear" />
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn">
+                                Close
+                            </button>
+                            <button class="btn btn-info" id="btn-schedule-modal">
+                                Schedule Campaign
+                            </button>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button data-dismiss="modal" class="btn">
-                            Close
-                        </button>
-                        <button class="btn btn-info" id="btn-schedule-modal">
-                            Schedule Campaign
-                        </button>
-                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </template>
@@ -153,99 +143,101 @@
 <template name="campaign_event_new">
     <div class="rendering">
         <div class="campaign-view">
-            <div class="campaign-title">
-                New Campaign
-            </div>
-            <div class="campaign-sub-title">
-                EVENT CAMPAIGN
-            </div>
-            <div class="campaign-post-new">
-                <input type="hidden" value="event" class="campaign-type" />
-                <input type="hidden" value="published" class="campaign-state" />
-                <div class="campaign-post-category">
-                    Platform
-                    <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
+            <form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley" id="campaign-create">
+                <div class="campaign-title">
+                    New Campaign
                 </div>
-                <div class="platform">
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="facebook">
-                        Facebook
-                    </label>
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="twitter">
-                        Twitter
-                    </label>
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="foursquare">
-                        Foursquare
-                    </label>
-                    <br>
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="web">
-                        Web / Mobile
-                    </label>
-                    <label class="checkbox inline push">
-                        <input type="checkbox" class="platform-check" value="push">
-                        Push Notification
-                    </label>
-                    <br>
-                    <label class="checkbox inline">
-                        <input type="checkbox" class="platform-check" value="blog">
-                        Blog
-                    </label>
+                <div class="campaign-sub-title">
+                    EVENT CAMPAIGN
                 </div>
-                {{> campaign_event}}
-            </div>
-            <div class="campaign-post-submit">
-                <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
-                <a class="btn btn-large" id="btn-schedule">Schedule Later</a>
-                <div tab-index="-1" role="dialog" aria-hidden="true" class="modal hide fade" id="schedule_modal">
-                    <div class="modal-header">
-                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">
-                            x
-                        </button>
-                        <h5>
-                            Select date and time to publish
-                        </h5>
+                <div class="campaign-post-new">
+                    <input name="user_id" type="hidden" value="{{user_id}}" />
+                    <input name="brand_name" type="hidden" value="{{brand_name}}" />
+                    <input name="type" type="hidden" value="event" class="campaign-state" />
+                    <input name="state" type="hidden" value="published" />
+                    <input name="redirect_to" type="hidden" value="{{redirect_to}}" />
+                    <input type="file" name="media_file" id="campaign_media_file" accept="video/*|image/*" />
+                    <input name="media_file_url" type="hidden" id="campaign_media_file_url" value="" />
+                    <div class="campaign-post-category">
+                        Platform
+                        <a class="pull-right appnav" id="platform-all" href="#">Select all</a>
                     </div>
-                    <div class="modal-body">
-                        <div class="campaign-schedule-datetime">
-                            <div class="schedule-date pull-left">
-                                Event Date
+                    <div class="platform">
+                        {{#each social_types}}
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check social-network" value="{{name}}">
+                            {{name}}
+                        </label>
+                        {{/each}}
+                        <br>
+                        {{#each web_types}}
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check unifide-web" value="{{name}}">
+                            {{name}}
+                        </label>
+                        {{/each}}
+                        <br>
+                        {{#each device_types}}
+                        <label class="checkbox inline push">
+                            <input type="checkbox" name="platforms" data-group="platforms" class="platform-check" value="{{name}}">
+                            {{name}} Notification
+                        </label>
+                        {{/each}}
+                    </div>
+
+                    {{> campaign_event}}
+                </div>
+                <div class="campaign-post-submit">
+                    <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
+                    <a class="btn btn-large" id="btn-schedule">Schedule Later</a>
+                    <div tab-index="-1" role="dialog" aria-hidden="true" class="modal hide fade" id="schedule_modal">
+                        <div class="modal-header">
+                            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">
+                                x
+                            </button>
+                            <h5>
+                                Select date and time to publish
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="campaign-schedule-datetime">
+                                <div class="schedule-date pull-left">
+                                    Event Date
+                                </div>
+                                <div class="schedule-time pull-left">
+                                    Time
+                                </div>
+                                <div class="clear" />
+                                <div class="input-append pull-left" id="schedule-date">
+                                    <input type="text" data-format="yyyy-MM-dd" placeholder="select date" class="campaign-post-date-input-schedule" />
+                                    <span class="add-on">
+                                        <i data-date-icon="icon-calendar">
+                                            &nbsp;
+                                        </i>
+                                    </span>
+                                </div>
+                                <div class="input-append pull-left" id="schedule-time">
+                                    <input type="text" data-format="hh:mm" placeholder="time to publish" class="campaign-post-time-from-input-schedule pull-left" />
+                                    <span class="add-on">
+                                        <i data-time-icon="icon-time">
+                                            &nbsp;
+                                        </i>
+                                    </span>
+                                </div>
+                                <div class="clear" />
                             </div>
-                            <div class="schedule-time pull-left">
-                                Time
-                            </div>
-                            <div class="clear" />
-                            <div class="input-append pull-left" id="schedule-date">
-                                <input type="text" data-format="yyyy-MM-dd" placeholder="select date" class="campaign-post-date-input-schedule" />
-                                <span class="add-on">
-                                    <i data-date-icon="icon-calendar">
-                                        &nbsp;
-                                    </i>
-                                </span>
-                            </div>
-                            <div class="input-append pull-left" id="schedule-time">
-                                <input type="text" data-format="hh:mm" placeholder="time to publish" class="campaign-post-time-from-input-schedule pull-left" />
-                                <span class="add-on">
-                                    <i data-time-icon="icon-time">
-                                        &nbsp;
-                                    </i>
-                                </span>
-                            </div>
-                            <div class="clear" />
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn">
+                                Close
+                            </button>
+                            <button class="btn btn-info" id="btn-schedule-modal">
+                                Schedule Campaign
+                            </button>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button data-dismiss="modal" class="btn">
-                            Close
-                        </button>
-                        <button class="btn btn-info" id="btn-schedule-modal">
-                            Schedule Campaign
-                        </button>
-                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </template>
@@ -258,9 +250,6 @@
                 Campaigns List
             </h4>
         </div>
-
-
-
         <div class="clear" />
         <div class="spacing20" />
         <div class="base-buttons pull-left">
@@ -360,18 +349,61 @@
 </template>
 
 <template name="campaign_promo">
-    <div class="campaign-post-category">
-        Title
+    <div class="social-content">
+        <div class="campaign-post-category pull-left">
+            Title / Status
+        </div>
+        <div class="char-count pull-left">
+            0 characters
+        </div>
+        <div class="clear">
+            &nbsp;
+        </div>
+        <textarea name="title" placeholder="enter a title" data-required="true" id="campaign-title" />
+        <div class="add-media">
+            <a class="add-media-modal">
+                Attach Photo
+            </a>
+        </div>
     </div>
-    <textarea placeholder="enter a title" id="campaign-title" />
-    <div class="char-count">
-        0 characters
+    <div class="web-content">
+        <div class="campaign-post-category">
+            Description
+        </div>
+        <textarea placeholder="enter message" id="desc-editor" />
     </div>
-    <div class="campaign-post-category">
-        Description
+
+    <div class="modal hide fade" id="addmedia">
+        <div class="modal-body">
+            <ul class="unstyled inline">
+                <li>
+                    <a href="#" class="uploadmedia upload">
+                        Upload Photo
+                    </a>
+                </li>
+                <li>
+                    <a data-target="#itemfilter" data-toggle="modal" class="uploadmedia select">
+                        Select from Items module
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <textarea placeholder="enter message" id="desc-editor" />
+    <div class="modal hide fade" id="itemfilter">
+        <div class="modal-body">
+            {{> campaign_select_item}}}
+        </div>
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn">
+                Close
+            </button>
+            <button class="btn confirm-campaign-item">
+                Select Item
+            </button>
+        </div>
+    </div>
 </template>
+
 
 <template name="campaign_event">
     <div class="campaign-post-date pull-left">
@@ -383,7 +415,7 @@
     <div class="clear" />
     <div class="campaign-post-datetime">
         <div class="input-append pull-left" id="event-date">
-            <input type="text" data-format="yyyy-MM-dd" placeholder="select date" class="campaign-post-date-input" />
+            <input type="text" data-format="yyyy-MM-dd" placeholder="select date" data-required="true" data-error-container="date-error-check" class="campaign-post-date-input" />
             <span class="add-on">
                 <i data-date-icon="icon-calendar">
                     &nbsp;
@@ -391,7 +423,7 @@
             </span>
         </div>
         <div class="input-append pull-left" id="event-time-start">
-            <input type="text" data-format="hh:mm" placeholder="start time" class="campaign-post-time-from-input pull-left" />
+            <input type="text" data-format="hh:mm" placeholder="start time" data-required="true" data-error-container="date-error-check" class="campaign-post-time-from-input pull-left" />
             <span class="add-on">
                 <i data-time-icon="icon-time">
                     &nbsp;
@@ -410,16 +442,81 @@
             </span>
         </div>
         <div class="clear" />
+        <div class="date-error-check">
+            &nbsp;
+        </div>
     </div>
-    <div class="campaign-post-category">
-        Title
+    <div class="social-content">
+        <div class="campaign-post-category pull-left">
+            Title / Status
+        </div>
+        <div class="char-count pull-left">
+            0 characters
+        </div>
+        <div class="clear">
+            &nbsp;
+        </div>
+        <textarea name="title" placeholder="enter a title" data-required="true" id="campaign-title" />
+        <div class="add-media">
+            <a class="add-media-modal">
+                Attach Photo
+            </a>
+        </div>
     </div>
-    <textarea placeholder="enter a title" id="campaign-title" />
-    <div class="char-count">
-        0 characters
+    <div class="web-content">
+        <div class="campaign-post-category">
+            Description
+        </div>
+        <textarea placeholder="enter message" id="desc-editor" />
     </div>
-    <div class="campaign-post-category">
-        Description
+
+    <div class="modal hide fade" id="addmedia">
+        <div class="modal-body">
+            <ul class="unstyled inline">
+                <li>
+                    <a href="#" class="uploadmedia upload">
+                        Upload Photo
+                    </a>
+                </li>
+                <li>
+                    <a data-target="#itemfilter" data-toggle="modal" class="uploadmedia select">
+                        Select from Items module
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <textarea placeholder="enter message" id="desc-editor" />
+    <div class="modal hide fade" id="itemfilter">
+        <div class="modal-body">
+            {{> campaign_select_item}}}
+        </div>
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn">
+                Close
+            </button>
+            <button class="btn confirm-campaign-item">
+                Select Item
+            </button>
+        </div>
+    </div>
+</template>
+
+<template name="campaign_select_item">
+    <div class="search-item">
+        <h3>Enter the item name to search</h3>
+        <hr />
+        <label for="search_item">
+            Item Name
+        </label>
+        <input name="search_item" type="text" value="" id="item_filter_kw" />
+        <ul class="unstyled filtered-results">
+            <li>
+                No item
+            </li>
+        </ul>
+        <label for="item_url">
+            Item Link
+        </label>
+        <input name="item_url" type="text" value="No item selected" disabled id="item_filter_url" />
+    </div>
 </template>
