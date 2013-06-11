@@ -144,14 +144,12 @@ template name="overview_brandmention"
                 tbody
                     {{#if web_mentions_overview}}
                         {{#each web_mentions_overview}}
-                        tr
-                            td
-                                span.badge | {{keyword}}
-                            td
-                                a href="{{url}}" target="_blank"
+                        a href="{{url}}" target="_blank"
+                            tr
+                                td
+                                    span.badge | {{keyword}}
+                                td
                                     p | {{title}}
-                                    p.url
-                                        i | {{url}}
                         {{/each}}
                     {{else}}
                         .no-data

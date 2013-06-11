@@ -198,19 +198,16 @@
                 <tbody>
                     {{#if web_mentions_overview}}
                         {{#each web_mentions_overview}}
-                        <tr>
-                            <td>
-                                <span class="badge">{{keyword}}</span>
-                            </td>
-                            <td>
-                                <a href="{{url}}" target="_blank">
+                        <a href="{{url}}" target="_blank">
+                            <tr>
+                                <td>
+                                    <span class="badge">{{keyword}}</span>
+                                </td>
+                                <td>
                                     <p>{{title}}</p>
-                                    <p class="url">
-                                        <i>{{url}}</i>
-                                    </p>
-                                </a>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        </a>
                         {{/each}}
                     {{else}}
                         <div class="no-data">

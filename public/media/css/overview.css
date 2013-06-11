@@ -139,7 +139,8 @@ table.table-hover > tbody > tr:first-child > td {
 
 .entry-table .url {
   color: #807e7e;
-  line-height: 0em; }
+  line-height: 0em;
+  white-space: nowrap; }
 .entry-table td {
   border-top: none;
   border-bottom: 1px solid #ececec; }
