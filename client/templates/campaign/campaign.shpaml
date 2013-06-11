@@ -64,7 +64,7 @@ template name="campaign_promo_new"
                     {{> campaign_promo}}
                 .campaign-post-submit
                     <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
-                    <a class="btn btn-large" id="btn-schedule">Schedule Later</a>
+                    <!--<a class="btn btn-large" id="btn-schedule">Schedule Later</a>-->
                     #schedule_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
                         .modal-header
                             button.close type="button" data-dismiss="modal" aria-hidden="true"
@@ -137,7 +137,7 @@ template name="campaign_event_new"
                     {{> campaign_event}}
                 .campaign-post-submit
                     <a class="btn btn-primary btn-large" id="btn-publish">Publish Now</a>
-                    <a class="btn btn-large" id="btn-schedule">Schedule Later</a>
+                    <!--<a class="btn btn-large" id="btn-schedule">Schedule Later</a>-->
                     #schedule_modal.modal.hide.fade tab-index="-1" role="dialog" aria-hidden="true"
                         .modal-header
                             button.close type="button" data-dismiss="modal" aria-hidden="true"
