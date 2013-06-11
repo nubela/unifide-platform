@@ -198,16 +198,19 @@
                 <tbody>
                     {{#if web_mentions_overview}}
                         {{#each web_mentions_overview}}
-                        <a href="{{url}}" target="_blank">
-                            <tr>
-                                <td>
-                                    <span class="badge">{{keyword}}</span>
-                                </td>
-                                <td>
-                                    <p>{{title}}</p>
-                                </td>
-                            </tr>
-                        </a>
+                        <tr>
+                            <td>
+                                <span class="badge">{{keyword}}</span>
+                            </td>
+                            <td>
+                                <p>{{title}}</p>
+                                <div class="web-view-link">
+                                    <a href="{{url}}" target="_blank">
+                                        Go to link
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
                         {{/each}}
                     {{else}}
                         <div class="no-data">
@@ -218,9 +221,11 @@
             </table>
         </div>
         {{#if web_mentions_overview}}
+        <!--
         <a href="/brand-mention" class="appnav viewmore">
             VIEW ALL
         </a>
+        -->
         {{/if}}
     </div>
 </template>
@@ -248,7 +253,7 @@
                         </div>
                         <div class="web-view-link">
                             <a href="/" class="appnav">
-                                View on website.com
+                                View on website
                             </a>
                         </div>
                     </td>

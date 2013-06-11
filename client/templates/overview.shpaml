@@ -144,20 +144,24 @@ template name="overview_brandmention"
                 tbody
                     {{#if web_mentions_overview}}
                         {{#each web_mentions_overview}}
-                        a href="{{url}}" target="_blank"
-                            tr
-                                td
-                                    span.badge | {{keyword}}
-                                td
-                                    p | {{title}}
+                        tr
+                            td
+                                span.badge | {{keyword}}
+                            td
+                                p | {{title}}
+                                .web-view-link
+                                    a href="{{url}}" target="_blank"
+                                        Go to link
                         {{/each}}
                     {{else}}
                         .no-data
                             No web mentions activity available.
                     {{/if}}
         {{#if web_mentions_overview}}
+        <!--
         a.appnav.viewmore href="/brand-mention"
             VIEW ALL
+        -->
         {{/if}}
 
 template name="overview_web"
@@ -180,7 +184,7 @@ template name="overview_web"
                             {{{description}}}
                         .web-view-link
                             a.appnav href="/"
-                                View on website.com
+                                View on website
                 {{/each}}
         {{else}}
             .no-data
