@@ -57,6 +57,18 @@ Template.page_login.events = {
     },
     'mouseleave .login-box-register': function(event) {
         $(event.target).css({'-moz-opacity': '0.25', '-webkit-opacity': '0.25', 'opacity': '0.25'});
+    },
+    'click #forgotpassword-nav': function(event) {
+        var email = prompt("Username to reset ?", "");
+        Meteor.call('get_user_email', email, function(error, result) {
+            if (!result) {
+                console.log(error);
+            }
+            else {
+                console.log(result);
+                Accounts.forgotPassword({email: result});
+            }
+        });
     }
 };
 
@@ -64,7 +76,7 @@ function createUser_callback(error) {
     if (error == null) {
         Router.navigate("", true);
     } else {
-        alert("error signing up. Error: " + error);
+        alert("error signing up. " + error);
     }
 };
 
@@ -72,6 +84,6 @@ function loginUser_callback(error) {
     if (error == null) {
         Router.navigate("", true);
     } else {
-        alert("Error logging in. Error: " + error);
+        alert("Error logging in. " + error);
     }
 };

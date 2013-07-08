@@ -353,5 +353,10 @@ Meteor.methods({
         } else {
             return result;
         }
+    },
+    get_user_email: function(username) {
+        this.unblock();
+        var record = Meteor.users.findOne({username: username});
+        return record.emails[0].address;
     }
 });

@@ -55,7 +55,11 @@
     position: relative;
 }
 
-#register-nav {
+#forgotpassword-nav {
+    font-size: 60%
+}
+
+#register-nav, #forgotpassword-nav {
     display: none;
 }
 
@@ -170,7 +174,7 @@
     display: block;
 }
 
-.login-box-register-text {
+.login-box-register-text, .login-box-forgot-text {
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
