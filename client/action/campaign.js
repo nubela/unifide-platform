@@ -41,7 +41,7 @@ function toggleContentBox() {
         $('.social-content').css('display', 'none')
     }
 
-    if ($(selected_boxes).hasClass('social-network')) {
+    if ($(selected_boxes).hasClass('social-network') || $(selected_boxes).hasClass('unifide-web')) {
         $('.add-media').css('display', 'block');
     }
     else {
@@ -522,6 +522,7 @@ Template.campaign_select_item.events = {
 
 function filter_item_results() {
     var val = $('#item_filter_kw').val();
+    console.log(val);
     var items;
     if (val.length == 0) {
         items = Items.find({media_id: {$ne: null}}, {limit: 5}).fetch();
@@ -534,6 +535,7 @@ function filter_item_results() {
         var item_path = items[i].name;
         if (items[i].container_id) {
             var container = ItemContainers.findOne({_id: items[i].container_id});
+            if (!container) { return; }
             item_path = container.name.concat(" / " + item_path)
         }
 
@@ -640,9 +642,9 @@ function computeCampaign(mapping) {
     }
     // web/mobile blog
     else if (mapping.blog) {
-        var campaign = Campaigns.findOne({_id: mapping.blog});
-        dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.title) + " - " + wrapGray(stripHTML(campaign.description))) : "";
-        dict["obj_title"] = value_check(campaign, "title");
+        var campaign = Items.findOne({_id: mapping.blog});
+        dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.name) + " - " + wrapGray(stripHTML(campaign.description))) : "";
+        dict["obj_title"] = value_check(campaign, "name");
         dict["obj_desc"] = value_check(campaign, "description");
         dict["obj_start"] = value_check(campaign, "happening_datetime_start") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_start")) : undefined;
         dict["obj_end"] = value_check(campaign, "happening_datetime_end") ? new Date(0).setUTCSeconds(value_check(campaign, "happening_datetime_end")) : undefined;
