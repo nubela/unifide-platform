@@ -1,1 +1,1 @@
-PORT=3000 MONGO_URL=mongodb://kianwei:thisisnotsecureatall@localhost:27017/unifide-backend ROOT_URL=. meteor run
+PORT=3000 MONGO_URL=mongodb://localhost:27017/dada ROOT_URL=. meteor run
