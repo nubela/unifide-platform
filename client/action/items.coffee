@@ -55,16 +55,9 @@ is_materialized_path_null = ->
 
 
 rehash_container_items = ->
-    ITMChildCategories.remove({})
-    ITMItems.remove({})
     path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH)
-    Meteor.call "get_child_containers_and_items", path_lis, (error, content) ->
-        Session.set(ITEM_SESSION.CONTAINER_DESC, content.description)
-        _.each content.items, (item) ->
-            ITMItems.insert(item)
-
-        _.each content.child_containers, (cat) ->
-            ITMChildCategories.insert(cat)
+    Meteor.subscribe "child_containers", path_lis
+    Meteor.subscribe "container_items", path_lis
 
 
 is_view_type = (view_type) ->
@@ -83,7 +76,6 @@ init_items = ->
 
     #now lets overwrite the defaults
     path_lis_str = Session.get(ITEM_SESSION.SUBURL)
-    path_lis
     if path_lis_str?
         path_lis_str = decodeURIComponent(path_lis_str)
         path_lis = path_lis_str.split("/")
@@ -115,16 +107,22 @@ init_items = ->
 #------ item template functions ------#
 
 Template.items.child_containers = ->
-    child_containers = ITMChildCategories.find().fetch()
-    url = suburl_to_current_path_for_items()
-    container_array = []
-    _.each child_containers, (cat) ->
-        container_array.push
-            name: cat.name,
-            url: url + "/" + cat.name,
-            id: cat._id
-    container_array
+    container_path_lis = if Session.get(ITEM_SESSION.MATERIALIZED_PATH) then Session.get(ITEM_SESSION.MATERIALIZED_PATH) else []
 
+    main_container = ITMChildCategories.findOne
+        materialized_path: container_path_lis
+    if not main_container? and container_path_lis.length != 0
+        return ITMChildCategories.find {}, limit: 0
+
+    ITMChildCategories.find {
+        parent_id: if container_path_lis.length != 0 then main_container._id else null}, {
+        transform: (doc) ->
+            url = suburl_to_current_path_for_items()
+            doc.url = url + "/" + doc.name
+            doc.id = doc._id
+            doc
+        sort: {name: 1}
+    }
 
 Template.items.is_root_container = ->
     is_materialized_path_null()
@@ -143,6 +141,7 @@ Template.items.view = ->
 
     else if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE or Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         return Template[ITEM_TEMPLATE.COMPOSE]()
+
     else if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.ITEM
         return Template[ITEM_TEMPLATE.ITEM_VIEW]()
 
@@ -184,6 +183,7 @@ Template.items.events =
 
 
 Template.items.rendered = ->
+    pressTimer = null
     $(".anchor-container").mouseup(((evt) ->
         clearTimeout(pressTimer)
     )).mousedown((evt) ->
@@ -373,7 +373,7 @@ Template.item_compose.redirect_to = ->
 Template.item_breadcrumb.breadcrumbs = ->
     lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH)
     array_lis = []
-    for i in [0..lis.length]
+    for i in [0..lis.length - 1]
         itm = lis[i]
         sub_lis = lis.slice(0, i + 1)
         array_lis.push
@@ -464,7 +464,7 @@ Template.item_container.items = ->
 
     all_items = ITMItems.find({}, {sort: sort_method}).fetch()
     item_lis = [
-        {is_empty: true}
+        is_empty: true
     ]
 
     #push all populated items into items_obj

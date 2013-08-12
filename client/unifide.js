@@ -171,7 +171,6 @@ Meteor.startup(function () {
         Meteor.subscribe("brand_mention");
         Meteor.subscribe("keyword");
         Meteor.subscribe("brand_config");
-        Meteor.subscribe("items");
     });
 });
 

@@ -60,18 +60,9 @@
 
   rehash_container_items = function() {
     var path_lis;
-    ITMChildCategories.remove({});
-    ITMItems.remove({});
     path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
-    return Meteor.call("get_child_containers_and_items", path_lis, function(error, content) {
-      Session.set(ITEM_SESSION.CONTAINER_DESC, content.description);
-      _.each(content.items, function(item) {
-        return ITMItems.insert(item);
-      });
-      return _.each(content.child_containers, function(cat) {
-        return ITMChildCategories.insert(cat);
-      });
-    });
+    Meteor.subscribe("child_containers", path_lis);
+    return Meteor.subscribe("container_items", path_lis);
   };
 
   is_view_type = function(view_type) {
@@ -88,7 +79,6 @@
     Session.set(ITEM_SESSION.CUSTOM_MEDIA, []);
     Session.set(ITEM_SESSION.CUSTOM_TAGS, []);
     path_lis_str = Session.get(ITEM_SESSION.SUBURL);
-    path_lis;
     if (path_lis_str != null) {
       path_lis_str = decodeURIComponent(path_lis_str);
       path_lis = path_lis_str.split("/");
@@ -118,18 +108,30 @@
   };
 
   Template.items.child_containers = function() {
-    var child_containers, container_array, url;
-    child_containers = ITMChildCategories.find().fetch();
-    url = suburl_to_current_path_for_items();
-    container_array = [];
-    _.each(child_containers, function(cat) {
-      return container_array.push({
-        name: cat.name,
-        url: url + "/" + cat.name,
-        id: cat._id
-      });
+    var container_path_lis, main_container;
+    container_path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH) ? Session.get(ITEM_SESSION.MATERIALIZED_PATH) : [];
+    main_container = ITMChildCategories.findOne({
+      materialized_path: container_path_lis
     });
-    return container_array;
+    if ((main_container == null) && container_path_lis.length !== 0) {
+      return ITMChildCategories.find({}, {
+        limit: 0
+      });
+    }
+    return ITMChildCategories.find({
+      parent_id: container_path_lis.length !== 0 ? main_container._id : null
+    }, {
+      transform: function(doc) {
+        var url;
+        url = suburl_to_current_path_for_items();
+        doc.url = url + "/" + doc.name;
+        doc.id = doc._id;
+        return doc;
+      },
+      sort: {
+        name: 1
+      }
+    });
   };
 
   Template.items.is_root_container = function() {
@@ -196,10 +198,11 @@
   };
 
   Template.items.rendered = function() {
+    var pressTimer;
+    pressTimer = null;
     return $(".anchor-container").mouseup((function(evt) {
       return clearTimeout(pressTimer);
     })).mousedown(function(evt) {
-      var pressTimer;
       return pressTimer = window.setTimeout((function() {
         evt.preventDefault();
         return bootbox.confirm("Delete container?", function(res) {
@@ -402,7 +405,7 @@
     var array_lis, i, itm, lis, sub_lis, _i, _ref;
     lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH);
     array_lis = [];
-    for (i = _i = 0, _ref = lis.length; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+    for (i = _i = 0, _ref = lis.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
       itm = lis[i];
       sub_lis = lis.slice(0, i + 1);
       array_lis.push({
