@@ -14,13 +14,14 @@ Meteor.publish "child_containers", (container_path_lis=[]) ->
             materialized_path: container_path_lis
 
 
-Meteor.publish "container_items", (container_path_lis) ->
+Meteor.publish "container_items", (container_path_lis=[]) ->
     ###
     Fetches the items for a given container with the provided path_lis
     ###
     main_container = ITMChildCategories.findOne
         materialized_path: container_path_lis
-    if not main_container?
+
+    if container_path_lis.length != 0 and not main_container?
         return ITMItems.find {}, limit: 0
 
     ITMItems.find

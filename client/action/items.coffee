@@ -204,7 +204,7 @@ Template.items.rendered = ->
 Template.item_compose.tags_json = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        obj = ITMItems.findOne({_id: item_id })
+        obj = ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
         if obj?
             Session.set(ITEM_SESSION.CUSTOM_TAGS, obj.tags)
             return JSON.stringify(obj.tags)
@@ -215,7 +215,7 @@ Template.item_compose.tags_json = ->
 Template.item_compose.custom_media_lis_json = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        obj = ITMItems.findOne({_id: item_id })
+        obj = ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
         if obj?
             Session.set ITEM_SESSION.CUSTOM_MEDIA, obj.custom_media_lis
             return JSON.stringify(obj.custom_media_lis)
@@ -225,7 +225,7 @@ Template.item_compose.custom_media_lis_json = ->
 Template.item_compose.custom_attr_lis_json = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        obj = ITMItems.findOne({_id: item_id })
+        obj = ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
         if obj?
             Session.set(ITEM_SESSION.CUSTOM_ATTRS, obj.custom_attr_lis)
             return JSON.stringify(obj.custom_attr_lis)
@@ -237,7 +237,7 @@ Template.item_compose.extra_attr = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         lis = []
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        obj = ITMItems.findOne({_id: item_id })
+        obj = ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
         if obj?
             _.each obj.custom_attr_lis, (attr) ->
                 lis.push
@@ -251,7 +251,7 @@ Template.item_compose.extra_attr = ->
 Template.item_compose.item_to_update = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        return ITMItems.findOne({_id: item_id })
+        return ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
     return null
 
 
@@ -401,7 +401,7 @@ Template.item_view.update_url = ->
 
 Template.item_view.item = ->
     item_id = Session.get(ITEM_SESSION.ITEM_ID)
-    ITMItems.findOne({_id: item_id })
+    ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
 
 
 Template.item_view.events =
@@ -446,7 +446,14 @@ Template.item_container.desc = ->
 
 
 Template.item_container.total_items = ->
-    ITMItems.find().count()
+    container_path_lis = if Session.get(ITEM_SESSION.MATERIALIZED_PATH) then Session.get(ITEM_SESSION.MATERIALIZED_PATH) else []
+    main_container = ITMChildCategories.findOne
+        materialized_path: container_path_lis
+
+    if container_path_lis.length != 0 and not main_container?
+        return ITMItems.find({}, limit: 0).count()
+
+    ITMItems.find({container_id: main_container._id}).count()
 
 
 Template.item_container.sort_by_date = ->
@@ -458,11 +465,17 @@ Template.item_container.sort_by_name = ->
 
 
 Template.item_container.items = ->
-    sort_method = {timestamp_utc: 1}
-    if Session.get(ITEM_SESSION) == ITEM_SORT_METHOD.NAME
-        sort_method = {name: 1}
+    container_path_lis = if Session.get(ITEM_SESSION.MATERIALIZED_PATH) then Session.get(ITEM_SESSION.MATERIALIZED_PATH) else []
+    main_container = ITMChildCategories.findOne
+        materialized_path: container_path_lis
 
-    all_items = ITMItems.find({}, {sort: sort_method}).fetch()
+    if container_path_lis.length != 0 and not main_container?
+        return ITMItems.find({}, limit: 0).count()
+
+    all_items = ITMItems.find({container_id: main_container._id}, {
+        sort: {timestamp_utc: 1}
+    }).fetch()
+
     item_lis = [
         is_empty: true
     ]

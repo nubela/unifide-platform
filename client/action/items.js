@@ -223,7 +223,13 @@
     if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
       item_id = Session.get(ITEM_SESSION.ITEM_ID);
       obj = ITMItems.findOne({
-        _id: item_id
+        $or: [
+          {
+            _id: new Meteor.Collection.ObjectID(item_id)
+          }, {
+            _id: item_id
+          }
+        ]
       });
       if (obj != null) {
         Session.set(ITEM_SESSION.CUSTOM_TAGS, obj.tags);
@@ -238,7 +244,13 @@
     if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
       item_id = Session.get(ITEM_SESSION.ITEM_ID);
       obj = ITMItems.findOne({
-        _id: item_id
+        $or: [
+          {
+            _id: new Meteor.Collection.ObjectID(item_id)
+          }, {
+            _id: item_id
+          }
+        ]
       });
       if (obj != null) {
         Session.set(ITEM_SESSION.CUSTOM_MEDIA, obj.custom_media_lis);
@@ -253,7 +265,13 @@
     if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
       item_id = Session.get(ITEM_SESSION.ITEM_ID);
       obj = ITMItems.findOne({
-        _id: item_id
+        $or: [
+          {
+            _id: new Meteor.Collection.ObjectID(item_id)
+          }, {
+            _id: item_id
+          }
+        ]
       });
       if (obj != null) {
         Session.set(ITEM_SESSION.CUSTOM_ATTRS, obj.custom_attr_lis);
@@ -269,7 +287,13 @@
       lis = [];
       item_id = Session.get(ITEM_SESSION.ITEM_ID);
       obj = ITMItems.findOne({
-        _id: item_id
+        $or: [
+          {
+            _id: new Meteor.Collection.ObjectID(item_id)
+          }, {
+            _id: item_id
+          }
+        ]
       });
       if (obj != null) {
         _.each(obj.custom_attr_lis, function(attr) {
@@ -289,7 +313,13 @@
     if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
       item_id = Session.get(ITEM_SESSION.ITEM_ID);
       return ITMItems.findOne({
-        _id: item_id
+        $or: [
+          {
+            _id: new Meteor.Collection.ObjectID(item_id)
+          }, {
+            _id: item_id
+          }
+        ]
       });
     }
     return null;
@@ -437,7 +467,13 @@
     var item_id;
     item_id = Session.get(ITEM_SESSION.ITEM_ID);
     return ITMItems.findOne({
-      _id: item_id
+      $or: [
+        {
+          _id: new Meteor.Collection.ObjectID(item_id)
+        }, {
+          _id: item_id
+        }
+      ]
     });
   };
 
@@ -490,7 +526,19 @@
   };
 
   Template.item_container.total_items = function() {
-    return ITMItems.find().count();
+    var container_path_lis, main_container;
+    container_path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH) ? Session.get(ITEM_SESSION.MATERIALIZED_PATH) : [];
+    main_container = ITMChildCategories.findOne({
+      materialized_path: container_path_lis
+    });
+    if (container_path_lis.length !== 0 && (main_container == null)) {
+      return ITMItems.find({}, {
+        limit: 0
+      }).count();
+    }
+    return ITMItems.find({
+      container_id: main_container._id
+    }).count();
   };
 
   Template.item_container.sort_by_date = function() {
@@ -502,17 +550,22 @@
   };
 
   Template.item_container.items = function() {
-    var all_items, i, item_lis, j, sort_method, split_lis, sub_lis;
-    sort_method = {
-      timestamp_utc: 1
-    };
-    if (Session.get(ITEM_SESSION) === ITEM_SORT_METHOD.NAME) {
-      sort_method = {
-        name: 1
-      };
+    var all_items, container_path_lis, i, item_lis, j, main_container, split_lis, sub_lis;
+    container_path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH) ? Session.get(ITEM_SESSION.MATERIALIZED_PATH) : [];
+    main_container = ITMChildCategories.findOne({
+      materialized_path: container_path_lis
+    });
+    if (container_path_lis.length !== 0 && (main_container == null)) {
+      return ITMItems.find({}, {
+        limit: 0
+      }).count();
     }
-    all_items = ITMItems.find({}, {
-      sort: sort_method
+    all_items = ITMItems.find({
+      container_id: main_container._id
+    }, {
+      sort: {
+        timestamp_utc: 1
+      }
     }).fetch();
     item_lis = [
       {

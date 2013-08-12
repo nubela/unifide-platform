@@ -26,15 +26,18 @@
   });
 
   Meteor.publish("container_items", function(container_path_lis) {
+    var main_container;
+    if (container_path_lis == null) {
+      container_path_lis = [];
+    }
     /*
     Fetches the items for a given container with the provided path_lis
     */
 
-    var main_container;
     main_container = ITMChildCategories.findOne({
       materialized_path: container_path_lis
     });
-    if (main_container == null) {
+    if (container_path_lis.length !== 0 && (main_container == null)) {
       return ITMItems.find({}, {
         limit: 0
       });

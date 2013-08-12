@@ -70,7 +70,7 @@ template name="item_view"
                     strong | S${{item.price}}
                 p | {{item.description}}
                 <br>
-                a.btn.btn-primary.btn-large.btn-block href="{{update_url}}" | Update
+                a.appnav.btn.btn-primary.btn-large.btn-block href="{{update_url}}" | Update
             p.delete-item
                 span#delete-item | Delete item
 
