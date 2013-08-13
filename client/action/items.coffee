@@ -302,7 +302,11 @@ Template.item_compose.item_to_update = ->
         return ITMItems.findOne({$or: [
             {_id: new Meteor.Collection.ObjectID(item_id)},
             {_id: item_id}
-        ]})
+        ]}, {
+            transform: (doc) ->
+                doc.id = doc._id.valueOf()
+                doc
+        })
     return null
 
 
@@ -342,7 +346,6 @@ Template.item_compose.events =
             createItem()
             url = suburl_to_current_path_for_items()
             Router.navigate(url, true)
-            bootbox.alert "Your item is being created and will appear momentarily. <br>Press [Enter] to dismiss."
 
         $("#custom-attr-lis").attr("value", "")
 
@@ -460,7 +463,14 @@ Template.item_view.item = ->
     ITMItems.findOne({$or: [
         {_id: new Meteor.Collection.ObjectID(item_id)},
         {_id: item_id}
-    ]})
+    ]}, {
+        transform: (doc) ->
+            if doc.media_id?
+                media_obj = ITMMedia.findOne({_id: doc.media_id})
+                if media_obj?
+                    doc.media_url = url_for(media_obj)
+            doc
+    })
 
 
 Template.item_view.events =
@@ -472,8 +482,6 @@ Template.item_view.events =
                 Meteor.call "del_item", item_id, (error, content) ->
                     Router.navigate(url, true)
                 ITMItems.remove({_id: item_id})
-                bootbox.alert "Your item is being deleted and will be removed momentarily. <br>Press [Enter] to dismiss."
-
 
 #------ item_container template functions ------#
 

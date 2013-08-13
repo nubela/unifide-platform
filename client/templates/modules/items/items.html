@@ -116,7 +116,7 @@
             <fieldset>
 
                 <!--- hidden fields --->
-                <input type="hidden" name="id" id="id" {{#if item_to_update}}value="{{item_to_update._id}}"{{/if}} />
+                <input type="hidden" name="id" id="id" {{#if item_to_update}}value="{{item_to_update.id}}"{{/if}} />
                 <input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}' />
                 <input type="hidden" name="redirect_to" id="redirect_to" value='{{redirect_to}}' />
                 <input type="hidden" name="tags" value='{{tags_json}}' id="custom-tag-lis" />

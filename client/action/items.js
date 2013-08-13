@@ -377,6 +377,11 @@
             _id: item_id
           }
         ]
+      }, {
+        transform: function(doc) {
+          doc.id = doc._id.valueOf();
+          return doc;
+        }
       });
     }
     return null;
@@ -415,7 +420,6 @@
         createItem();
         url = suburl_to_current_path_for_items();
         Router.navigate(url, true);
-        bootbox.alert("Your item is being created and will appear momentarily. <br>Press [Enter] to dismiss.");
       }
       return $("#custom-attr-lis").attr("value", "");
     },
@@ -536,6 +540,19 @@
           _id: item_id
         }
       ]
+    }, {
+      transform: function(doc) {
+        var media_obj;
+        if (doc.media_id != null) {
+          media_obj = ITMMedia.findOne({
+            _id: doc.media_id
+          });
+          if (media_obj != null) {
+            doc.media_url = url_for(media_obj);
+          }
+        }
+        return doc;
+      }
     });
   };
 
@@ -549,10 +566,9 @@
           Meteor.call("del_item", item_id, function(error, content) {
             return Router.navigate(url, true);
           });
-          ITMItems.remove({
+          return ITMItems.remove({
             _id: item_id
           });
-          return bootbox.alert("Your item is being deleted and will be removed momentarily. <br>Press [Enter] to dismiss.");
         }
       });
     }
