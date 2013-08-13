@@ -1,4 +1,28 @@
-Meteor.publish "child_containers", (container_path_lis=[]) ->
+Meteor.publish "container_item_media", (container_path_lis = []) ->
+    ###
+    Fetches the media objects found in the given container path lis
+    ###
+    main_container = ITMChildCategories.findOne
+        materialized_path: container_path_lis
+
+    if container_path_lis.length != 0 and not main_container?
+        return ITMItems.find {}, limit: 0
+
+    items = ITMItems.find
+        container_id: main_container._id
+
+    media_ids = []
+    for i in items.fetch()
+        if i.media_id?
+            media_ids.push i.media_id
+        for c in i.custom_media_lis
+            media_ids.push i[c]
+
+    ITMMedia.find
+        _id:
+            $in: media_ids
+
+Meteor.publish "child_containers", (container_path_lis = []) ->
     ###
     Fetches the child containers for a given container with provided path_lis
     ###
@@ -14,7 +38,7 @@ Meteor.publish "child_containers", (container_path_lis=[]) ->
             materialized_path: container_path_lis
 
 
-Meteor.publish "container_items", (container_path_lis=[]) ->
+Meteor.publish "container_items", (container_path_lis = []) ->
     ###
     Fetches the items for a given container with the provided path_lis
     ###
@@ -68,7 +92,7 @@ Meteor.publish "facebook", (brand) ->
     page_id = brand_obj.id
     post_list = FBPosts.find({page_id: page_id}).fetch()
     postid_list = []
-    for i in [0..post_list.length-1]
+    for i in [0..post_list.length - 1]
         postid_list.push post_list[i].post_id
 
     return_coll = []

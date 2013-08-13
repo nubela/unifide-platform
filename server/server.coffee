@@ -203,6 +203,11 @@ get_user_email = (username) ->
     record = Meteor.users.findOne(username: username)
     record.emails[0].address
 
+create_item = (data) ->
+    @unblock()
+    Meteor.http.put "#{BACKEND_URL}item/",
+        params: data
+
 Meteor.methods
     get_all_orders: get_all_orders
     get_biz_info: get_biz_info
@@ -231,3 +236,4 @@ Meteor.methods
     del_foursquare_user: del_4sq_user
     http_api: http_api
     get_user_email: get_user_email
+    create_item: create_item

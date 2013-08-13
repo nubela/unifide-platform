@@ -101,7 +101,7 @@ template name="item_compose"
 
                 .control-group
                     label for="media_file" | Media
-                    > input type="file" name="media_file" id="media_file"
+                    > input#media-file type="file" name="media_file" id="media_file"
 
                 .control-group
                     label id="description" | Description
@@ -136,11 +136,11 @@ template name="item_compose"
 
                 .control-group.hidden#custom-attr-template
                     label for="quantity" | Quantity
-                    > input name="quantity" id="quantity"
+                    > input.custom-attr name="quantity" id="quantity"
 
                 .control-group.hidden#custom-img-template
                     label for="media_file" | Media
-                    > input type="file" name="media_file" id="media_file"
+                    > input.custom-media type="file" name="media_file" id="media_file"
 
                 .control-group#custom-ctrl-grp
                     span.btn.btn-inverse#add-custom-attr-btn | Add custom attribute

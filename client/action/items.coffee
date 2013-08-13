@@ -56,6 +56,7 @@ is_materialized_path_null = ->
 
 rehash_container_items = ->
     path_lis = Session.get(ITEM_SESSION.MATERIALIZED_PATH)
+    Meteor.subscribe "container_item_media", path_lis
     Meteor.subscribe "child_containers", path_lis
     Meteor.subscribe "container_items", path_lis
 
@@ -102,6 +103,41 @@ init_items = ->
                 Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.UPDATE)
 
     rehash_container_items()
+
+createItem = ->
+    all_file_input_load_status = {}
+    submitItemCreation = ->
+        data = {}
+        for obj in data_lis
+            data[obj.name] = obj.value
+        Meteor.call "create_item", data
+
+    fileReaderOnLoad = (e, name_attr) ->
+        base64_encoded_data = e.target.result.match(/,(.*)$/)[1]
+        data_lis.push {name: name_attr, value: base64_encoded_data}
+        all_file_input_load_status[name_attr] = true
+        for k,v of all_file_input_load_status
+            if not v
+                return
+        submitItemCreation()
+
+    data_lis = $("#item-compose-form").serializeArray()
+    all_file_input = $("input[type=file]")
+    for f in all_file_input
+        if f.files and f.files[0]
+            all_file_input_load_status[$(f).attr("name")] = false
+    if Object.keys(all_file_input_load_status).length == 0
+        submitItemCreation()
+
+    for i in [0..all_file_input.length-1]
+        ((idx) ->
+            file_input = all_file_input[idx]
+            if file_input.files and file_input.files[0]
+                file_reader = new FileReader()
+                file_reader.onload = (e) ->
+                    fileReaderOnLoad(e, $(file_input).attr("name"))
+                file_reader.readAsDataURL file_input.files[0]
+        )(i)
 
 
 #------ item template functions ------#
@@ -204,7 +240,10 @@ Template.items.rendered = ->
 Template.item_compose.tags_json = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        obj = ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
+        obj = ITMItems.findOne({$or: [
+            {_id: new Meteor.Collection.ObjectID(item_id)},
+            {_id: item_id}
+        ]})
         if obj?
             Session.set(ITEM_SESSION.CUSTOM_TAGS, obj.tags)
             return JSON.stringify(obj.tags)
@@ -215,7 +254,10 @@ Template.item_compose.tags_json = ->
 Template.item_compose.custom_media_lis_json = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        obj = ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
+        obj = ITMItems.findOne({$or: [
+            {_id: new Meteor.Collection.ObjectID(item_id)},
+            {_id: item_id}
+        ]})
         if obj?
             Session.set ITEM_SESSION.CUSTOM_MEDIA, obj.custom_media_lis
             return JSON.stringify(obj.custom_media_lis)
@@ -225,7 +267,10 @@ Template.item_compose.custom_media_lis_json = ->
 Template.item_compose.custom_attr_lis_json = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        obj = ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
+        obj = ITMItems.findOne({$or: [
+            {_id: new Meteor.Collection.ObjectID(item_id)},
+            {_id: item_id}
+        ]})
         if obj?
             Session.set(ITEM_SESSION.CUSTOM_ATTRS, obj.custom_attr_lis)
             return JSON.stringify(obj.custom_attr_lis)
@@ -237,7 +282,10 @@ Template.item_compose.extra_attr = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         lis = []
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        obj = ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
+        obj = ITMItems.findOne({$or: [
+            {_id: new Meteor.Collection.ObjectID(item_id)},
+            {_id: item_id}
+        ]})
         if obj?
             _.each obj.custom_attr_lis, (attr) ->
                 lis.push
@@ -251,7 +299,10 @@ Template.item_compose.extra_attr = ->
 Template.item_compose.item_to_update = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        return ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
+        return ITMItems.findOne({$or: [
+            {_id: new Meteor.Collection.ObjectID(item_id)},
+            {_id: item_id}
+        ]})
     return null
 
 
@@ -286,10 +337,15 @@ Template.item_compose.rendered = ->
 
 Template.item_compose.events =
     'click .submit-btn': (evt) ->
+        evt.preventDefault()
         if $("#item-compose-form").parsley("validate")
-            $("#item-compose-form").submit()
+            createItem()
+            url = suburl_to_current_path_for_items()
+            Router.navigate(url, true)
+            bootbox.alert "Your item is being created and will appear momentarily. <br>Press [Enter] to dismiss."
 
         $("#custom-attr-lis").attr("value", "")
+
 
     'click #add-custom-attr-btn': (evt) ->
         bootbox.prompt "Attribute name without spaces? (Example: \"price_in_euro\")", (attr_name) ->
@@ -401,7 +457,10 @@ Template.item_view.update_url = ->
 
 Template.item_view.item = ->
     item_id = Session.get(ITEM_SESSION.ITEM_ID)
-    ITMItems.findOne({$or: [{_id: new Meteor.Collection.ObjectID(item_id)},{_id: item_id}]})
+    ITMItems.findOne({$or: [
+        {_id: new Meteor.Collection.ObjectID(item_id)},
+        {_id: item_id}
+    ]})
 
 
 Template.item_view.events =
@@ -412,6 +471,8 @@ Template.item_view.events =
                 url = suburl_to_current_path_for_items()
                 Meteor.call "del_item", item_id, (error, content) ->
                     Router.navigate(url, true)
+                ITMItems.remove({_id: item_id})
+                bootbox.alert "Your item is being deleted and will be removed momentarily. <br>Press [Enter] to dismiss."
 
 
 #------ item_container template functions ------#
@@ -474,6 +535,12 @@ Template.item_container.items = ->
 
     all_items = ITMItems.find({container_id: main_container._id}, {
         sort: {timestamp_utc: 1}
+        transform: (doc) ->
+            if doc.media_id?
+                media_obj = ITMMedia.findOne({_id: doc.media_id})
+                if media_obj?
+                    doc.media_url = url_for(media_obj)
+            doc
     }).fetch()
 
     item_lis = [
