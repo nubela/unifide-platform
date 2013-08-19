@@ -525,10 +525,10 @@ function filter_item_results() {
     console.log(val);
     var items;
     if (val.length == 0) {
-        items = Items.find({media_id: {$ne: null}}, {limit: 5}).fetch();
+        items = ITMItems.find({media_id: {$ne: null}}, {limit: 5}).fetch();
     }
     else {
-        items = Items.find({name: {$regex: ".*" + $('#item_filter_kw').val() + ".*"}, media_id: {$ne: null}}, {limit: 5}).fetch();
+        items = ITMItems.find({name: {$regex: ".*" + $('#item_filter_kw').val() + ".*"}, media_id: {$ne: null}}, {limit: 5}).fetch();
     }
     $('.filtered-results').empty();
     for (var i = 0; i < items.length; i++) {
@@ -642,7 +642,7 @@ function computeCampaign(mapping) {
     }
     // web/mobile blog
     else if (mapping.blog) {
-        var campaign = Items.findOne({_id: mapping.blog});
+        var campaign = ITMItems.findOne({_id: mapping.blog});
         dict["title"] = campaign ? wrapTitleContainer(wrapBold(campaign.name) + " - " + wrapGray(stripHTML(campaign.description))) : "";
         dict["obj_title"] = value_check(campaign, "name");
         dict["obj_desc"] = value_check(campaign, "description");
