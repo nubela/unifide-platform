@@ -40,9 +40,9 @@
     }
     alert = $(".alert-sample").clone().removeClass("hidden").removeClass("alert-sample");
     if (!dismissable) {
-      $(alert).find(".loading-gif").remove();
-    } else {
       $(alert).find(".container-alert-close").remove();
+    } else {
+      $(alert).find(".loading-gif").remove();
     }
     $(alert).find(".alert-title").text(title);
     $(alert).find(".alert-desc").text(description);

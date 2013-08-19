@@ -122,7 +122,7 @@
       return Meteor.call("create_item", data, function() {
         var new_alert;
         $(alert).remove();
-        new_alert = newAlert("Item created!", "Your item will appear momentarily.", false);
+        new_alert = newAlert("Item created!", "Your item will appear momentarily.", true);
         return setTimeout((function() {
           return $(new_alert).remove();
         }), 4000);

@@ -113,7 +113,7 @@ createItem = ->
         alert = newAlert("Creating..", "Your item is being uploaded, please hold on and do not refresh the page.", false)
         Meteor.call "create_item", data, ->
             $(alert).remove()
-            new_alert = newAlert("Item created!", "Your item will appear momentarily.", false)
+            new_alert = newAlert("Item created!", "Your item will appear momentarily.", true)
             setTimeout (->
                 $(new_alert).remove()
             ), 4000
