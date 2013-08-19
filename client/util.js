@@ -33,4 +33,21 @@
     }, "fast");
   };
 
+  this.newAlert = function(title, description, dismissable) {
+    var alert;
+    if (dismissable == null) {
+      dismissable = true;
+    }
+    alert = $(".alert-sample").clone().removeClass("hidden").removeClass("alert-sample");
+    if (!dismissable) {
+      $(alert).find(".loading-gif").remove();
+    } else {
+      $(alert).find(".container-alert-close").remove();
+    }
+    $(alert).find(".alert-title").text(title);
+    $(alert).find(".alert-desc").text(description);
+    $(".alert-container").prepend(alert);
+    return alert;
+  };
+
 }).call(this);

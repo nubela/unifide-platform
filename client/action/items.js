@@ -112,13 +112,21 @@
     var all_file_input, all_file_input_load_status, data_lis, f, fileReaderOnLoad, i, submitItemCreation, _i, _j, _len, _ref, _results;
     all_file_input_load_status = {};
     submitItemCreation = function() {
-      var data, obj, _i, _len;
+      var alert, data, obj, _i, _len;
       data = {};
       for (_i = 0, _len = data_lis.length; _i < _len; _i++) {
         obj = data_lis[_i];
         data[obj.name] = obj.value;
       }
-      return Meteor.call("create_item", data);
+      alert = newAlert("Creating..", "Your item is being uploaded, please hold on and do not refresh the page.", false);
+      return Meteor.call("create_item", data, function() {
+        var new_alert;
+        $(alert).remove();
+        new_alert = newAlert("Item created!", "Your item will appear momentarily.", false);
+        return setTimeout((function() {
+          return $(new_alert).remove();
+        }), 4000);
+      });
     };
     fileReaderOnLoad = function(e, name_attr) {
       var base64_encoded_data, k, v;

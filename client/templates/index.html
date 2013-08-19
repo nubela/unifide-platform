@@ -38,6 +38,12 @@
 <template name="page_index">
     {{> header}}
     {{{view}}}
+    <div class="alert-container">
+        <div class="alert fade in hidden alert-sample">
+            <button type="button" class="container-alert-close" data-dismiss="alert">&times;</button>
+            <strong><img class="loading-gif" src="/media/img/loading2.gif">&nbsp;&nbsp;<span class="alert-title"></span></strong> <span class="alert-desc">Best check yo self, you're not looking too good.</span>
+        </div>
+    </div>
 </template>
 
 <template name="header">

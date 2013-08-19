@@ -110,7 +110,13 @@ createItem = ->
         data = {}
         for obj in data_lis
             data[obj.name] = obj.value
-        Meteor.call "create_item", data
+        alert = newAlert("Creating..", "Your item is being uploaded, please hold on and do not refresh the page.", false)
+        Meteor.call "create_item", data, ->
+            $(alert).remove()
+            new_alert = newAlert("Item created!", "Your item will appear momentarily.", false)
+            setTimeout (->
+                $(new_alert).remove()
+            ), 4000
 
     fileReaderOnLoad = (e, name_attr) ->
         base64_encoded_data = e.target.result.match(/,(.*)$/)[1]

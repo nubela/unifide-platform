@@ -17,3 +17,16 @@
 
 @scrollTop = ->
     $("html, body").animate({ scrollTop: 0 }, "fast")
+
+
+@newAlert = (title, description, dismissable = true) ->
+    alert = $(".alert-sample").clone().removeClass("hidden").removeClass("alert-sample")
+    if not dismissable
+        $(alert).find(".loading-gif").remove()
+    else
+        $(alert).find(".container-alert-close").remove()
+
+    $(alert).find(".alert-title").text(title)
+    $(alert).find(".alert-desc").text(description)
+    $(".alert-container").prepend(alert)
+    alert
