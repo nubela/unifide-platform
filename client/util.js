@@ -13,4 +13,24 @@
     return "" + BACKEND_URL + UPLOAD_RELATIVE_ENDPOINT + "/" + media_obj.file_name;
   };
 
+  this.page_render = function(obj) {
+    $(obj.firstNode).css({
+      'opacity': 0
+    });
+    $(obj.firstNode).css({
+      'position': 'relative',
+      'left': 100
+    });
+    return $(obj.firstNode).animate({
+      'opacity': 1,
+      'left': '0'
+    }, 100);
+  };
+
+  this.scrollTop = function() {
+    return $("html, body").animate({
+      scrollTop: 0
+    }, "fast");
+  };
+
 }).call(this);

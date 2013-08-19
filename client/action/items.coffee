@@ -219,6 +219,7 @@ Template.items.events =
 
 
 Template.items.rendered = ->
+    scrollTop()
     pressTimer = null
     $(".anchor-container").mouseup(((evt) ->
         clearTimeout(pressTimer)
@@ -311,6 +312,7 @@ Template.item_compose.item_to_update = ->
 
 
 Template.item_compose.rendered = ->
+    scrollTop()
     $("#tagsinput_tag").keypress (e) ->
         if e.which == 13
             e.preventDefault()
@@ -494,6 +496,7 @@ Template.item_container.events =
 
 
 Template.item_container.rendered = ->
+    scrollTop()
     width = $(".empty-img").width()
     $(".empty-img").height(width)
     $(".empty-img").css("line-height", width + "px")

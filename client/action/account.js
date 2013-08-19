@@ -316,12 +316,6 @@ function page_loading(bool) {
     }
 }
 
-function page_render(obj) {
-    $(obj.firstNode).css({'opacity': 0});
-    $(obj.firstNode).css({'position': 'relative', 'left': 100});
-    $(obj.firstNode).animate({'opacity': 1, 'left': '0'}, 100);
-}
-
 function clear_cache() {
     _FBOverview.remove({});
     _FBActivity.remove({});

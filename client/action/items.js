@@ -256,6 +256,7 @@
 
   Template.items.rendered = function() {
     var pressTimer;
+    scrollTop();
     pressTimer = null;
     return $(".anchor-container").mouseup((function(evt) {
       return clearTimeout(pressTimer);
@@ -388,6 +389,7 @@
   };
 
   Template.item_compose.rendered = function() {
+    scrollTop();
     return $("#tagsinput_tag").keypress(function(e) {
       var custom_grp, customtagLis, random_id, val;
       if (e.which === 13) {
@@ -585,6 +587,7 @@
 
   Template.item_container.rendered = function() {
     var width;
+    scrollTop();
     width = $(".empty-img").width();
     $(".empty-img").height(width);
     $(".empty-img").css("line-height", width + "px");
