@@ -1,3 +1,9 @@
+Meteor.publish "all_containers",  ->
+    ITMChildCategories.find {}
+
+Meteor.publish "all_items",  ->
+    ITMItems.find {}
+
 Meteor.publish "container_item_media", (container_path_lis = []) ->
     ###
     Fetches the media objects found in the given container path lis

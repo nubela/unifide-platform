@@ -181,6 +181,8 @@ Template.campaign_event_new.redirect_to = function () {
 }
 
 Template.campaign_promo_new.rendered = function () {
+    Meteor.subscribe("all_containers");
+    Meteor.subscribe("all_items");
     $('.social-content').css('display', 'none');
     $('.web-content').css('display', 'none');
     $('#campaign_media_file').bind('change', handleMediaFile);
@@ -217,7 +219,7 @@ Template.campaign_promo_new.web_types = function () {
     }
 
     var to_ret = [];
-    _.each(WEB_CAMPAIGN_TYPES, function(itm) {
+    _.each(WEB_CAMPAIGN_TYPES, function (itm) {
         if (_.contains(brand_config.value, itm.name)) {
             to_ret.push(itm);
         }
@@ -232,7 +234,7 @@ Template.campaign_promo_new.device_types = function () {
     }
 
     var to_ret = [];
-    _.each(DEVICE_CAMPAIGN_TYPES, function(itm) {
+    _.each(DEVICE_CAMPAIGN_TYPES, function (itm) {
         if (_.contains(brand_config.value, itm.name)) {
             to_ret.push(itm);
         }
@@ -267,7 +269,7 @@ Template.campaign_event_new.web_types = function () {
     }
 
     var to_ret = [];
-    _.each(WEB_CAMPAIGN_TYPES, function(itm) {
+    _.each(WEB_CAMPAIGN_TYPES, function (itm) {
         if (_.contains(brand_config.value, itm.name)) {
             to_ret.push(itm);
         }
@@ -282,7 +284,7 @@ Template.campaign_event_new.device_types = function () {
     }
 
     var to_ret = [];
-    _.each(DEVICE_CAMPAIGN_TYPES, function(itm) {
+    _.each(DEVICE_CAMPAIGN_TYPES, function (itm) {
         if (_.contains(brand_config.value, itm.name)) {
             to_ret.push(itm);
         }
@@ -295,6 +297,8 @@ Template.campaign_promo_new.form_submit_url = function () {
 }
 
 Template.campaign_event_new.rendered = function () {
+    Meteor.subscribe("all_containers");
+    Meteor.subscribe("all_items");
     $('.social-content').css('display', 'none');
     $('.web-content').css('display', 'none');
     $('#campaign_media_file').bind('change', handleMediaFile);
@@ -309,8 +313,6 @@ Template.campaign_event_new.form_submit_url = function () {
 }
 
 Template.campaign_list.rendered = function () {
-    $('.social-content').css('display', 'block');
-    $('.web-content').css('display', 'block');
     $('.selection input:checkbox').change(function () {
         var selected = $('.selection input:checkbox:checked').length;
         var total = $('.selection input:checkbox').length;
@@ -522,7 +524,6 @@ Template.campaign_select_item.events = {
 
 function filter_item_results() {
     var val = $('#item_filter_kw').val();
-    console.log(val);
     var items;
     if (val.length == 0) {
         items = ITMItems.find({media_id: {$ne: null}}, {limit: 5}).fetch();
@@ -534,8 +535,10 @@ function filter_item_results() {
     for (var i = 0; i < items.length; i++) {
         var item_path = items[i].name;
         if (items[i].container_id) {
-            var container = ItemContainers.findOne({_id: items[i].container_id});
-            if (!container) { return; }
+            var container = ITMChildCategories.findOne({_id: items[i].container_id});
+            if (!container) {
+                return;
+            }
             item_path = container.name.concat(" / " + item_path)
         }
 
