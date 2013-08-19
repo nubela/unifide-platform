@@ -137,7 +137,7 @@ template name="overview_foursquare"
         {{/if}}
 
 template name="overview_brandmention"
-    .overview-widget.container-shadow
+    .overview-widget.container-shadow.hidden
         .title | WEB MENTIONS
         .overflow
             table.table.table-hover.entry-table
