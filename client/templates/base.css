@@ -38,15 +38,19 @@
 .btn-after-main-desc {
   padding-top: 0; }
 
-.main-description {
+.main-description .description-title {
+  color: #34495e; }
+.main-description small {
+  color: #34495e; }
+
+.highlighted {
   border-left: 3px solid #3498db !important; }
-  .main-description .description-title {
-    color: #34495e; }
-  .main-description small {
-    color: #34495e; }
 
 .dark-blue {
   color: #2980b9; }
 
 .clear {
   clear: both; }
+
+.table-header-input {
+  width: 350px; }
