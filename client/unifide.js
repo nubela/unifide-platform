@@ -40,8 +40,13 @@ var myAppRouter = Backbone.Router.extend({
         "items/*suburl": "items_url",
         "order": "order_url",
         "order/:view_type/:obj_id/page/:page_no": "update_order",
-        "order/:view_type/:obj_id": "update_order"
+        "order/:view_type/:obj_id": "update_order",
+
+        //ecommerce
+        "cashback": "cashback_url",
+        "cashback/*suburl": "cashback_url",
     },
+    cashback_url: cashback_url,
     static_url: static_url,
     account_url: account_url,
     social_auth_facebook: social_auth_facebook,
@@ -52,6 +57,7 @@ var myAppRouter = Backbone.Router.extend({
     order_url: order_url,
     update_order: update_order
 });
+
 
 function update_order(view_type, obj_id, page_no) {
     reset_orders();
@@ -119,6 +125,12 @@ function items_url(suburl) {
     Session.set(ITEM_SESSION.SUBURL, suburl);
     Session.set("page_template", "items");
     _init_items();
+}
+
+function cashback_url(suburl) {
+    set_page_url();
+    Session.set(CASHBACK_SESSION.SUBURL, suburl);
+    Session.set("page_template", "cashback");
 }
 
 function parse_url(url) {
