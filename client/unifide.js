@@ -45,7 +45,14 @@ var myAppRouter = Backbone.Router.extend({
         //ecommerce
         "cashback": "cashback_url",
         "cashback/*suburl": "cashback_url",
+        "discount": "discount_url",
+        "discount/*suburl": "discount_url",
+        "coupon": "coupon_url",
+        "coupon/*suburl": "coupon_url",
+
     },
+    coupon_url: coupon_url,
+    discount_url: discount_url,
     cashback_url: cashback_url,
     static_url: static_url,
     account_url: account_url,
@@ -125,6 +132,18 @@ function items_url(suburl) {
     Session.set(ITEM_SESSION.SUBURL, suburl);
     Session.set("page_template", "items");
     _init_items();
+}
+
+function discount_url(suburl) {
+    set_page_url();
+    Session.set(DISCOUNT_SESSION.SUBURL, suburl);
+    Session.set("page_template", "discount");
+}
+
+function coupon_url(suburl) {
+    set_page_url();
+    Session.set(COUPON_SESSION.SUBURL, suburl);
+    Session.set("page_template", "coupon");
 }
 
 function cashback_url(suburl) {
