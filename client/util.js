@@ -50,4 +50,15 @@
     return alert;
   };
 
+  this.flashAlert = function(title, description, dismissable) {
+    var new_alert;
+    if (dismissable == null) {
+      dismissable = true;
+    }
+    new_alert = newAlert(title, description, dismissable);
+    return setTimeout((function() {
+      return $(new_alert).remove();
+    }), 4000);
+  };
+
 }).call(this);

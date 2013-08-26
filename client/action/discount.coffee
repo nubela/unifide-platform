@@ -9,6 +9,8 @@
     MAIN: "all"
     COMPOSE: "new"
 
+IS_DISCOUNT_CREATING = false
+
 #-- discount --#
 
 Template.discount.rendered = ->
@@ -84,4 +86,21 @@ bindFormElements = ->
 
 createDiscount = ->
     if $("#discount-compose-form").parsley("validate")
-        null
+        if not IS_DISCOUNT_CREATING
+            IS_DISCOUNT_CREATING = true
+            Meteor.call "new_discount", {
+                name: $.trim $("#discount-name").val()
+                description: $.trim $("#description").val()
+                applicable_on: $("#applicable-on").val()
+                item_id: $("#discount-item-id").attr("data-item-id")
+                container_id: $("#discount-item-id").attr("data-container-id")
+                discount_type: $("#discount-type").val()
+                amount: $("#amount").val()
+                min_order: $("#min-spending").val()
+                duration: $("#discount-lifetime-type").val()
+                begins_on: $("#begins-on").val()
+                ends_on: $("#begins-on").val()
+            }, ->
+                IS_DISCOUNT_CREATING = false
+                flashAlert "Discount is created!",""
+                Router.navigate "/discount", true

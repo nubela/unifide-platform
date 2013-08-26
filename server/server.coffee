@@ -208,6 +208,12 @@ create_item = (data) ->
     Meteor.http.put "#{BACKEND_URL}item/",
         params: data
 
+new_discount = (discount) ->
+    @unblock()
+    discount["admin_id"] = Meteor.userId()
+    Meteor.http.put "#{BACKEND_URL}discount/",
+        params: discount
+
 Meteor.methods
     get_all_orders: get_all_orders
     get_biz_info: get_biz_info
@@ -237,3 +243,4 @@ Meteor.methods
     http_api: http_api
     get_user_email: get_user_email
     create_item: create_item
+    new_discount: new_discount
