@@ -10,6 +10,7 @@
     COMPOSE: "new"
 
 IS_DISCOUNT_CREATING = false
+ITEMS_PER_PAGE = 20
 
 #-- discount --#
 
@@ -18,6 +19,41 @@ Template.discount.rendered = ->
 
 Template.discount.view = ->
     Template[getDiscountPage()]()
+
+#-- discount_all --#
+
+Template.discount_all.rendered = ->
+    Meteor.subscribe "all_discounts"
+
+Template.discount_all.current_page = ->
+    getDiscountPageNo()
+
+Template.discount_all.next_page_url = ->
+    page_no = getDiscountPageNo()
+    next_page = page_no + 1
+    return "/discount/#{next_page}"
+
+Template.discount_all.prev_page_url = ->
+    page_no = getDiscountPageNo()
+    prev_page = page_no - 1
+    return "/discount/#{prev_page}"
+
+Template.discount_all.has_next = ->
+    total_items = Discount.find({}).count()
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE)
+    getDiscountPageNo() < total_pages
+
+Template.discount_all.has_prev = ->
+    getDiscountPageNo() >= 2
+
+Template.discount_all.discounts = ->
+    page_no_0_idx = getDiscountPageNo() - 1
+    Discount.find {}, {
+        limit: ITEMS_PER_PAGE
+        skip: page_no_0_idx * ITEMS_PER_PAGE
+        sort:
+            modification_timestamp_utc: -1
+    }
 
 #-- discount_compose --#
 
@@ -33,6 +69,18 @@ Template.discount_compose.events =
         $("#discount-compose-form").submit()
 
 #-- helper --#
+
+getDiscountPageNo = ->
+    slugs = Session.get DISCOUNT_SESSION.SUBURL
+    if not slugs?
+        return 1
+
+    slugs = slugs.split("/")
+    slugs = _.filter slugs, (s) ->
+        s != ""
+    if slugs.length >= 1
+        return parseInt slugs[0]
+    return 1
 
 getDiscountPage = ->
     slugs = Session.get DISCOUNT_SESSION.SUBURL
@@ -102,5 +150,5 @@ createDiscount = ->
                 ends_on: $("#begins-on").val()
             }, ->
                 IS_DISCOUNT_CREATING = false
-                flashAlert "Discount is created!",""
+                flashAlert "Discount is created!", ""
                 Router.navigate "/discount", true
