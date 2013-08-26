@@ -101,5 +101,7 @@
     .faketable .tbody .expanded .expanded-within {
       margin: 20px;
       background-color: white; }
+      .faketable .tbody .expanded .expanded-within p {
+        padding: 10px; }
       .faketable .tbody .expanded .expanded-within .btn-holder {
         padding: 10px; }
