@@ -37,3 +37,22 @@
     setTimeout (->
         $(new_alert).remove()
     ), 4000
+
+
+@getContainer = (container_id) ->
+    ###
+    Returns the container of the item
+    Requisites: all_containers must be subscribed
+    ###
+    ITMChildCategories.findOne({_id: container_id})
+
+
+@getItem = (item_id) ->
+    ###
+    Returns the item_obj and container object of the item
+    Requisites: all_containers and all_items must be subscribed
+    ###
+    item_obj = ITMItems.findOne({_id: item_id})
+    item_obj.container = getContainer(item_obj.container_id)
+    item_obj
+
