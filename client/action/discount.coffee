@@ -23,7 +23,17 @@ Template.discount.view = ->
 #-- discount_all --#
 
 Template.discount_all.rendered = ->
+    Meteor.subscribe "all_containers"
+    Meteor.subscribe "all_items"
     Meteor.subscribe "all_discounts"
+    null
+
+Template.discount_all.events =
+    "click [data-expand]": (evt) ->
+        elem = $(evt.target).parents("[data-expand]")[0]
+        id = $(elem).attr("data-expand")
+        $("[data-expanded]").addClass "hidden"
+        $("[data-expanded=#{id}]").removeClass("hidden")
 
 Template.discount_all.current_page = ->
     getDiscountPageNo()
@@ -53,6 +63,12 @@ Template.discount_all.discounts = ->
         skip: page_no_0_idx * ITEMS_PER_PAGE
         sort:
             modification_timestamp_utc: -1
+        transform: (doc) ->
+            doc["id"] = doc._id.valueOf()
+            doc["item_scope_desc"] = getDiscountItemScopeDesc(doc)
+            doc["duration_desc"] = getDiscountDurationDesc(doc)
+            doc["min_order"] = ""
+            doc
     }
 
 #-- discount_compose --#
@@ -141,14 +157,35 @@ createDiscount = ->
                 description: $.trim $("#description").val()
                 applicable_on: $("#applicable-on").val()
                 item_id: $("#discount-item-id").attr("data-item-id")
-                container_id: $("#discount-item-id").attr("data-container-id")
+                container_id: $("#discount-container-id").attr("data-container-id")
                 discount_type: $("#discount-type").val()
                 amount: $("#amount").val()
                 min_order: $("#min-spending").val()
                 duration: $("#discount-lifetime-type").val()
                 begins_on: $("#begins-on").val()
-                ends_on: $("#begins-on").val()
+                ends_on: $("#ends-on").val()
             }, ->
                 IS_DISCOUNT_CREATING = false
-                flashAlert "Discount is created!", ""
                 Router.navigate "/discount", true
+                flashAlert "Discount is created!", "Your discount item will appear momentarily."
+
+getDiscountItemScopeDesc = (doc) ->
+    if doc.discount_scope == "item_only"
+        item_obj = getItem(doc.obj_id)
+        item_repr = item_obj.container.materialized_path.join(" / ") + " / " + item_obj.name
+        return "This discount is applicable on the item: <strong>#{item_repr}</strong>.<br>"
+    else if doc.discount_scope == "container_wide"
+        container_obj = getContainer(doc.obj_id)
+        container_repr = container_obj.materialized_path.join(" / ")
+        return "This discount is applicable on the container: <strong>#{container_repr}</strong>.<br>"
+    return "This discount is <strong>applicable on all items</strong><br>"
+
+getDiscountDurationDesc = (doc) ->
+    if doc.discount_lifetime_type == "limited"
+        begins = moment(doc.begins_utc_datetime)
+        ends = moment(doc.expire_utc_datetime)
+        begins_str = begins.format('MMMM Do YYYY')
+        ends_str = ends.format('MMMM Do YYYY')
+
+        return "This discount is valid from #{begins_str} till #{ends_str}<br>"
+    return "It is valid until you disable or delete it.<br>"

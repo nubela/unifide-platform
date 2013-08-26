@@ -83,7 +83,6 @@
       var cb;
       cb = SEARCH_CONTAINER_CALLBACK;
       if (cb != null) {
-        console.log(true, $(this).attr("data-container-id"), $(this).attr("data-container-name"));
         cb(true, $(this).attr("data-container-id"), $(this).attr("data-container-name"));
       }
       return $("#search-container-modal").modal("hide");

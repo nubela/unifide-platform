@@ -51,7 +51,6 @@ Template.search_container_widget.rendered = ->
     $(".select-container").on "click", ->
         cb = SEARCH_CONTAINER_CALLBACK
         if cb?
-            console.log true, $(this).attr("data-container-id"), $(this).attr("data-container-name")
             cb true, $(this).attr("data-container-id"), $(this).attr("data-container-name")
         $("#search-container-modal").modal("hide")
 

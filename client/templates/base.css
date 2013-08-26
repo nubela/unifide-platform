@@ -72,3 +72,34 @@
 
 .pointer {
   cursor: pointer; }
+
+.faketable {
+  margin-top: 20px; }
+  .faketable .thead {
+    background-color: #eeeeee;
+    overflow: hidden; }
+    .faketable .thead div {
+      color: #333333;
+      font-size: 12px;
+      font-weight: bold;
+      padding-left: 10px;
+      line-height: 30px; }
+  .faketable .tbody .tr {
+    background-color: #f9f9f9;
+    height: 38px; }
+    .faketable .tbody .tr div {
+      color: #333333;
+      font-size: 12.5px;
+      padding-left: 10px;
+      line-height: 38px; }
+  .faketable .tbody .tr:hover {
+    background-color: whitesmoke;
+    cursor: pointer; }
+  .faketable .tbody .expanded {
+    overflow: hidden;
+    background-color: #f9f9f9; }
+    .faketable .tbody .expanded .expanded-within {
+      margin: 20px;
+      background-color: white; }
+      .faketable .tbody .expanded .expanded-within .btn-holder {
+        padding: 10px; }

@@ -74,3 +74,35 @@
 
 .pointer
     cursor: pointer
+
+.faketable
+    margin-top: 20px
+    .thead
+        background-color: #eeeeee
+        overflow: hidden
+        div
+            color: #333333
+            font-size: 12px
+            font-weight: bold
+            padding-left: 10px
+            line-height: 30px
+    .tbody
+        .tr
+            background-color: #f9f9f9
+            height: 38px
+            div
+                color: #333333
+                font-size: 12.5px
+                padding-left: 10px
+                line-height: 38px
+        .tr:hover
+            background-color: #f5f5f5
+            cursor: pointer
+        .expanded
+            overflow: hidden
+            background-color: #f9f9f9
+            .expanded-within
+                margin: 20px
+                background-color: white
+                .btn-holder
+                    padding: 10px

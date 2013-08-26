@@ -61,4 +61,29 @@
     }), 4000);
   };
 
+  this.getContainer = function(container_id) {
+    /*
+    Returns the container of the item
+    Requisites: all_containers must be subscribed
+    */
+
+    return ITMChildCategories.findOne({
+      _id: container_id
+    });
+  };
+
+  this.getItem = function(item_id) {
+    /*
+    Returns the item_obj and container object of the item
+    Requisites: all_containers and all_items must be subscribed
+    */
+
+    var item_obj;
+    item_obj = ITMItems.findOne({
+      _id: item_id
+    });
+    item_obj.container = getContainer(item_obj.container_id);
+    return item_obj;
+  };
+
 }).call(this);
