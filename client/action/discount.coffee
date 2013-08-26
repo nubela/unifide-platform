@@ -35,6 +35,44 @@ Template.discount_all.events =
         $("[data-expanded]").addClass "hidden"
         $("[data-expanded=#{id}]").removeClass("hidden")
 
+    "click #enable-discount": (evt) ->
+        elem = $(evt.target).parents("[data-expanded]")[0]
+        id = $(elem).attr("data-expanded")
+        Discount.update {
+            _id: new Meteor.Collection.ObjectID(id)
+        }, {
+            $set:
+                status: "enabled"
+        }
+        flashAlert "Discount enabled", ""
+
+    "click #disable-discount": (evt) ->
+        elem = $(evt.target).parents("[data-expanded]")[0]
+        id = $(elem).attr("data-expanded")
+        bootbox.confirm "Confirm disable this discount?", (res) ->
+            if res
+                Discount.update {
+                    _id: new Meteor.Collection.ObjectID(id)
+                }, {
+                    $set:
+                        status: "disabled"
+                }
+                flashAlert "Discount disabled", ""
+
+    "click #delete-discount": (evt) ->
+        elem = $(evt.target).parents("[data-expanded]")[0]
+        id = $(elem).attr("data-expanded")
+        bootbox.confirm "This step is irreversible. Confirm to delete this discount?", (res) ->
+            if res
+                Discount.remove {
+                    _id: new Meteor.Collection.ObjectID(id)
+                }
+                flashAlert "Discount deleted", ""
+
+    "click #update-discount": (evt) ->
+        elem = $(evt.target).parents("[data-expanded]")[0]
+        id = $(elem).attr("data-expanded")
+
 Template.discount_all.current_page = ->
     getDiscountPageNo()
 
@@ -67,7 +105,10 @@ Template.discount_all.discounts = ->
             doc["id"] = doc._id.valueOf()
             doc["item_scope_desc"] = getDiscountItemScopeDesc(doc)
             doc["duration_desc"] = getDiscountDurationDesc(doc)
-            doc["min_order"] = ""
+            doc["min_order"] = "It is only valid for orders with a minimum spending of <strong>$#{doc.order_minimum_spending}</strong>."
+            doc["has_disable_btn"] = doc.status == "enabled"
+            doc["has_enable_btn"] = doc.status == "disabled"
+            console.log doc
             doc
     }
 
