@@ -1,3 +1,6 @@
+Meteor.publish "all_discounts",  ->
+    Discount.find {}
+
 Meteor.publish "all_containers",  ->
     ITMChildCategories.find {}
 
