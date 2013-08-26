@@ -54,3 +54,21 @@
 
 .table-header-input {
   width: 350px; }
+
+.search-widget table {
+  width: 100%; }
+  .search-widget table tr td {
+    padding: 5px 5px; }
+.search-widget .control-group {
+  width: 100%; }
+  .search-widget .control-group input {
+    width: 100%; }
+
+.belize-hole {
+  color: #2980b9; }
+
+.bold {
+  font-weight: bold; }
+
+.pointer {
+  cursor: pointer; }
