@@ -1,0 +1,54 @@
+template name="search_item_widget"
+    #search-item-modal.modal.hide.fade.search-widget
+        .modal-header
+            <button id="search-item-widget-close-btn" type="button" class="close">&times;</button>
+            h3 | Search item
+
+        .modal-body
+            form
+                .control-group
+                    label for="item-search-keyword" | To begin, enter an item name or description
+                    > input#item-search-keyword.input-block-level type="text" placeholder="Apple"
+
+            {{#isolate}}
+            {{#if has_results}}
+            table.table-hover.table-bordered.table-striped
+                caption
+                    small
+                        Click to select an item
+                tbody
+
+                    {{#each results}}
+                    tr
+                        td
+                            {{this.path_lis}} / <span data-item-name="{{this.name}}" data-item-id="{{this.id_str}}" class="select-item pointer belize-hole bold">{{this.name}}</span>
+                    {{/each}}
+            {{/if}}
+            {{/isolate}}
+
+template name="search_container_widget"
+    #search-container-modal.modal.hide.fade.search-widget
+        .modal-header
+            <button id="search-container-widget-close-btn" type="button" class="close">&times;</button>
+            h3 | Search container
+
+        .modal-body
+            form
+                .control-group
+                    label for="container-search-keyword" | To begin, enter an container's name or description
+                    > input#container-search-keyword.input-block-level type="text" placeholder="Container B"
+
+            {{#isolate}}
+            {{#if has_results}}
+            table.table-hover.table-bordered.table-striped
+                caption
+                    small
+                        Click to select a container
+                tbody
+                    {{#each results}}
+                    tr
+                        td
+                            <span data-container-name="{{this.name}}" data-container-id="{{this.id_str}}" class="select-container pointer belize-hole bold">{{this.path_lis}}</span>
+                    {{/each}}
+            {{/if}}
+            {{/isolate}}

@@ -119,7 +119,7 @@ Template.campaign.events = {
                 .appendTo('#campaign-create');
             bootbox.dialog('<div class="text-center"><div class="loading-img"></div><h4>Creating campaigns...</h4></div>');
             $("#campaign-create").submit();
-        }
+        }i
     },
     'click #btn-schedule': function () {
         $('#schedule-date').datetimepicker({
@@ -529,7 +529,7 @@ function filter_item_results() {
         items = ITMItems.find({media_id: {$ne: null}}, {limit: 5}).fetch();
     }
     else {
-        items = ITMItems.find({name: {$regex: ".*" + $('#item_filter_kw').val() + ".*"}, media_id: {$ne: null}}, {limit: 5}).fetch();
+        items = ITMItems.find({name: {$regex: ".*" + $('#item_filter_kw').val() + ".*", $options: 'i'}, media_id: {$ne: null}}, {limit: 5}).fetch();
     }
     $('.filtered-results').empty();
     for (var i = 0; i < items.length; i++) {
