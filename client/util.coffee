@@ -30,3 +30,10 @@
     $(alert).find(".alert-desc").text(description)
     $(".alert-container").prepend(alert)
     alert
+
+
+@flashAlert = (title, description, dismissable = true) ->
+    new_alert = newAlert(title, description, dismissable)
+    setTimeout (->
+        $(new_alert).remove()
+    ), 4000
