@@ -11,7 +11,7 @@ Meteor.publish "all_groups",  ->
     Group.find {}
 
 Meteor.publish "all_users",  ->
-    Meteor.users.find()
+    PlopUser.find()
 
 Meteor.publish "container_item_media", (container_path_lis = []) ->
     ###

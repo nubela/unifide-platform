@@ -127,6 +127,9 @@ Template.search_user_widget.results = ->
             limit: LIMIT_LENGTH
             transform: (doc) ->
                 doc.id_str = doc._id.valueOf()
+                doc.has_email_and_username = doc.username? and doc.email?
+                doc.has_only_email = not doc.username? and doc.email?
+                doc.has_only_username = doc.username? and not doc.email?
                 doc
         }
 

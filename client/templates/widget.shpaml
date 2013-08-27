@@ -76,7 +76,17 @@ template name="search_user_widget"
                     {{#each results}}
                     tr
                         td
-                            <span data-user-email="{{this.email}}" data-user-name="{{this.username}}" data-user-id="{{this.id_str}}" class="select-container pointer belize-hole bold">{{this.username}} / {{this.email}}</span>
+                            {{#if this.has_email_and_username}}
+                            <span data-user-email="{{this.email}}" data-user-name="{{this.username}}" data-user-id="{{this.id_str}}" class="select-user pointer belize-hole bold">{{this.username}} / {{this.email}}</span>
+                            {{/if}}
+
+                            {{#if this.has_only_email}}
+                            <span data-user-email="{{this.email}}" data-user-name="{{this.username}}" data-user-id="{{this.id_str}}" class="select-user pointer belize-hole bold">{{this.email}}</span>
+                            {{/if}}
+
+                            {{#if this.has_only_username}}
+                            <span data-user-email="{{this.email}}" data-user-name="{{this.username}}" data-user-id="{{this.id_str}}" class="select-user pointer belize-hole bold">{{this.username}}</span>
+                            {{/if}}
                     {{/each}}
             {{/if}}
             {{/isolate}}

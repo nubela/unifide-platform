@@ -204,6 +204,9 @@
         limit: LIMIT_LENGTH,
         transform: function(doc) {
           doc.id_str = doc._id.valueOf();
+          doc.has_email_and_username = (doc.username != null) && (doc.email != null);
+          doc.has_only_email = (doc.username == null) && (doc.email != null);
+          doc.has_only_username = (doc.username != null) && (doc.email == null);
           return doc;
         }
       });

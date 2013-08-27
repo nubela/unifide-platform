@@ -17,7 +17,7 @@
   });
 
   Meteor.publish("all_users", function() {
-    return Meteor.users.find();
+    return PlopUser.find();
   });
 
   Meteor.publish("container_item_media", function(container_path_lis) {
