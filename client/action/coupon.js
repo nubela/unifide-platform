@@ -24,6 +24,19 @@
     return Template[getCouponPage()]();
   };
 
+  Template.coupon_compose.rendered = function() {
+    Meteor.subscribe("all_groups");
+    return Meteor.subscribe("all_users");
+  };
+
+  Template.coupon_compose.groups = function() {
+    return Group.find({}, {
+      sort: {
+        name: 1
+      }
+    });
+  };
+
   getCouponPage = function() {
     var slugs;
     slugs = Session.get(COUPON_SESSION.SUBURL);
