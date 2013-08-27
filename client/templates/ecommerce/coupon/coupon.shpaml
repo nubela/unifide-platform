@@ -93,7 +93,7 @@ template name="coupon_all"
 
 Template name="coupon_compose"
     div.compose-new-item.well
-        form method="POST" data-validate="parsley"
+        form#compose-form method="POST" data-validate="parsley"
             legend | New Coupon
             fieldset
 
@@ -116,11 +116,11 @@ Template name="coupon_compose"
                         option value="item" | Specific item
                         option value="container" | A Container
 
-                .control-group.hidden#discount-select-item
+                .control-group.hidden#select-item
                     label for="item-id" | Applicable Item
                     > input#item-id type="text" placeholder="Item A" name="item-id"
 
-                .control-group.hidden#discount-select-container
+                .control-group.hidden#select-container
                     label for="container-id" | Applicable Container
                     > input#container-id type="text" placeholder="Container B" name="container-id"
 
@@ -140,7 +140,7 @@ Template name="coupon_compose"
 
                 .control-group
                     label for="min-spending" | Coupon minimum spending ($)
-                    > input type="number" placeholder="50" name="min-spending" id="min-spending"
+                    > input type="number" placeholder="50" name="min-spending" id="min-spending" data-required="true"
 
                 > hr
                 p.lead
@@ -173,7 +173,7 @@ Template name="coupon_compose"
                         option value="group" | A user group
                         option value="specific_user" | Specific user
 
-                .control-group
+                .control-group.hidden.select-user-grp
                     label for="user-groups"
                         Which user group?
                         p
@@ -184,7 +184,7 @@ Template name="coupon_compose"
                         option value="{{this.name}}" | {{this.description}}
                         {{/each}}
 
-                .control-group
+                .control-group.hidden.select-specific-user
                     label for="user" | Select user
                     > input#user type="text" name="user"
 

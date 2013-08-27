@@ -141,7 +141,7 @@
 
 <Template name="coupon_compose">
     <div class="compose-new-item well">
-        <form method="POST" data-validate="parsley">
+        <form method="POST" data-validate="parsley" id="compose-form">
             <legend>New Coupon</legend>
             <fieldset>
 
@@ -169,12 +169,12 @@
                     </select>
                 </div>
 
-                <div class="control-group hidden" id="discount-select-item">
+                <div class="control-group hidden" id="select-item">
                     <label for="item-id">Applicable Item</label>
                     <input type="text" placeholder="Item A" name="item-id" id="item-id" />
                 </div>
 
-                <div class="control-group hidden" id="discount-select-container">
+                <div class="control-group hidden" id="select-container">
                     <label for="container-id">Applicable Container</label>
                     <input type="text" placeholder="Container B" name="container-id" id="container-id" />
                 </div>
@@ -199,7 +199,7 @@
 
                 <div class="control-group">
                     <label for="min-spending">Coupon minimum spending ($)</label>
-                    <input type="number" placeholder="50" name="min-spending" id="min-spending" />
+                    <input type="number" placeholder="50" name="min-spending" id="min-spending" data-required="true" />
                 </div>
 
                 <hr />
@@ -244,7 +244,7 @@
                     </select>
                 </div>
 
-                <div class="control-group">
+                <div class="control-group hidden select-user-grp">
                     <label for="user-groups">
                         Which user group?
                         <p>
@@ -260,7 +260,7 @@
                     </select>
                 </div>
 
-                <div class="control-group">
+                <div class="control-group hidden select-specific-user">
                     <label for="user">Select user</label>
                     <input type="text" name="user" id="user" />
                 </div>
