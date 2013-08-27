@@ -7,6 +7,12 @@ Meteor.publish "all_containers",  ->
 Meteor.publish "all_items",  ->
     ITMItems.find {}
 
+Meteor.publish "all_groups",  ->
+    Group.find {}
+
+Meteor.publish "all_users",  ->
+    Meteor.users.find()
+
 Meteor.publish "container_item_media", (container_path_lis = []) ->
     ###
     Fetches the media objects found in the given container path lis

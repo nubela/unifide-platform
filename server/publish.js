@@ -12,6 +12,14 @@
     return ITMItems.find({});
   });
 
+  Meteor.publish("all_groups", function() {
+    return Group.find({});
+  });
+
+  Meteor.publish("all_users", function() {
+    return Meteor.users.find();
+  });
+
   Meteor.publish("container_item_media", function(container_path_lis) {
     var c, i, items, main_container, media_ids, _i, _j, _len, _len1, _ref, _ref1;
     if (container_path_lis == null) {

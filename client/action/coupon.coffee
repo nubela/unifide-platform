@@ -9,13 +9,22 @@
     MAIN: "all"
     COMPOSE: "new"
 
-#-- discount --#
+#-- coupon --#
 
 Template.coupon.rendered = ->
     scrollTop()
 
 Template.coupon.view = ->
     Template[getCouponPage()]()
+
+#-- coupon_compose --#
+
+Template.coupon_compose.rendered = ->
+    Meteor.subscribe "all_groups"
+    Meteor.subscribe "all_users"
+
+Template.coupon_compose.groups = ->
+    Group.find({}, {sort: {name: 1}})
 
 #-- helper --#
 
@@ -25,7 +34,8 @@ getCouponPage = ->
         return COUPON_TEMPLATE.MAIN
 
     slugs = slugs.split("/")
-    slugs = _.filter slugs, (s) -> s != ""
+    slugs = _.filter slugs, (s) ->
+        s != ""
     if slugs.length >= 1
         if slugs[0] == COUPON_PAGE.COMPOSE
             return COUPON_TEMPLATE.NEW
