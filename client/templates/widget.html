@@ -76,3 +76,43 @@
         </div>
     </div>
 </template>
+
+
+<template name="search_user_widget">
+    <div class="modal hide fade search-widget" id="search-user-modal">
+        <div class="modal-header">
+            <button id="search-user-widget-close-btn" type="button" class="close">&times;</button>
+            <h3>Search user</h3>
+        </div>
+
+        <div class="modal-body">
+            <form>
+                <div class="control-group">
+                    <label for="user-search-keyword">To begin, enter a user's username or email address</label>
+                    <input type="text" class="input-block-level" id="user-search-keyword" />
+                </div>
+            </form>
+
+            {{#isolate}}
+            {{#if has_results}}
+            <table class="table-hover table-bordered table-striped">
+                <caption>
+                    <small>
+                        Click to select a user
+                    </small>
+                </caption>
+                <tbody>
+                    {{#each results}}
+                    <tr>
+                        <td>
+                            <span data-user-email="{{this.email}}" data-user-name="{{this.username}}" data-user-id="{{this.id_str}}" class="select-container pointer belize-hole bold">{{this.username}} / {{this.email}}</span>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{/if}}
+            {{/isolate}}
+        </div>
+    </div>
+</template>

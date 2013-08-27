@@ -1,0 +1,259 @@
+template name="cashback"
+    .container-fluid.full-container
+        .row-fluid.full-row
+            .body-container
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        a.appnav.anchor-container href="/cashback/"
+                            li.side-header | Cashbacks
+                        a.appnav.anchor-container href="/cashback/"
+                            li.container-entry | <span class="icon">w</span> All Cashbacks
+                        a.appnav.anchor-container href="/cashback/user-credit/"
+                            li.container-entry | <span class="icon">A</span> User Credits
+                        a.appnav.anchor-container href="/cashback/log/"
+                            li.container-entry | <span class="icon">Y</span> Transaction Logs
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+template name="cashback_rules"
+    .right-container
+        .container-title
+            h2
+                Cashback for Purchases
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+        .main-description.well.highlighted
+            h4.description-title
+                <span class="dark-blue">"Lorem Ipsum"</span> cashback rule is active
+            small
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+
+        .btn-holder.btn-after-main-desc
+            a.btn
+                span.heydings | w
+                Update active rule
+
+            a.btn
+                span.heydings | 2
+                Deactivate active rule
+
+            a.appnav.btn href="/cashback/compose"
+                <i class="icon-plus"></i>
+                New rule
+
+        .campaign
+            table.table-hover.campaign-manage
+                thead
+                    tr
+                        td
+                            All Cashbacks (5)
+                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            .pull-right
+                                2
+                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+
+                tbody
+                    tr
+                        td
+
+                            .pull-left
+                                strong | nubela
+                                - 7% cashback with a minimum spending of $20000
+                            .pull-right
+                                Tues 23/4/2013 by jamie
+
+                            <div class="clear spacing10"></div>
+                            .expanded
+                                p
+                                    i
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                > hr
+                                .btn-holder
+                                    a.btn.btn-primary
+                                        span.heydings | 8
+                                        Make active
+
+                                    a.btn
+                                        <i class="icon-minus"></i>
+                                        Delete
+                    tr
+                        td
+                            .pull-left
+                                strong | nubela
+                                - 8% cashback with a minimum spending of $100000
+                            .pull-right
+                                Tues 23/4/2013 by jamie
+                            <div class="spacing10"></div>
+                            .expanded.hidden
+                                asd
+
+template name="cashback_user_values"
+    .right-container
+        .container-title
+            h2
+                Users' stored credits
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+        .campaign
+            table.table-hover.campaign-manage
+                thead
+                    tr
+                        td
+                            > input.table-header-input type="text" placeholder="Search by Username or Email address.."
+                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            .pull-right
+                                2
+                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+
+                tbody
+
+                    tr
+                        td
+                            .pull-left
+                                strong | nubela
+                                - $82.09
+                            .pull-right
+                                Last transaction on Tues 23/4/2013
+
+                            <div class="clear spacing10"></div>
+                            .expanded
+                                p
+                                    Email address: nubela@gmail.com
+                                > hr
+                                .btn-holder
+                                    a.btn
+                                        span.heydings | w
+                                        Adjust credit
+
+                    tr
+                        td
+                            .pull-left
+                                strong | nubela
+                                - $82.10
+                            .pull-right
+                                Last transaction on Tues 23/4/2013
+                            <div class="spacing10"></div>
+
+template name="cashback_compose"
+    div.compose-new-item.well
+        form method="POST" data-validate="parsley"
+            legend | New Cashback Rule
+            fieldset
+
+                .control-group
+                    label for="name" | Give a name to this Cashback Rule
+                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first"
+
+                .control-group
+                    label id="description" | Describe it
+                    > textarea rows="3" name="description" id="description"
+
+                .control-group
+                    label for="price" | Cashback percentage (%)
+                    > input type="number" placeholder="10" name="price" id="price"
+
+                .control-group
+                    label for="quantity" | Minimum spending ($)
+                    > input type="number" placeholder="50" name="quantity" id="quantity"
+
+                > br
+                .control-group
+                    button.btn-large.btn.btn-primary.submit-btn | Save rule and make it active
+                    button.btn-large.btn.submit-btn | Save rule only
+                    a.appnav.btn-large.btn.submit-btn href="/cashback" | Back to Cashbacks
+
+template name="cashback_transaction_log"
+    .right-container
+        .container-title
+            h2
+                Transactional logs
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+        .campaign
+            table.table-hover
+                thead
+                    tr
+                        td
+                            > input type="text" class="input-small" placeholder="Username"
+                        td
+                            > input type="text" class="input-small" placeholder="Email"
+                        td
+                            > input type="text" class="input-small" placeholder="Process by.."
+                        td
+                            Transaction type
+                        td
+                            Value
+                        td
+                            Date
+
+
+                tbody
+
+                    tr
+                        td
+                            strong | nubela
+                        td
+                            nubela@gmail.com
+                        td
+                            Jamie
+                        td
+                            Credit
+                        td
+                            - $3.40
+                        td
+                            24th April 2013
+
+                    tr
+                        td
+                            strong | nubela
+                        td
+                            nubela@gmail.com
+                        td
+                            Jamie
+                        td
+                            Credit
+                        td
+                            - $3.40
+                        td
+                            24th April 2013
+
+                    tr
+                        td
+                            strong | nubela
+                        td
+                            nubela@gmail.com
+                        td
+                            Jamie
+                        td
+                            Credit
+                        td
+                            - $3.40
+                        td
+                            24th April 2013
+
+                thead
+                    tr
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            .pull-right
+                                &nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;
+                            > i.icon-chevron-left.pull-right.icon-nav.page-back

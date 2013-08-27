@@ -1,9 +1,11 @@
 LIMIT_LENGTH = 8
 SEARCH_ITEM_CALLBACK = null
 SEARCH_CONTAINER_CALLBACK = null
+SEARCH_USER_CALLBACK = null
 WIDGET_SESSION =
     ITEM_KEYWORD: "WItemKeyword"
     CONTAINER_KEYWORD: "WContainerKeyword"
+    USER_KEYWORD: "WUserKeyword"
 
 #-- search_item_widget --#
 
@@ -87,6 +89,47 @@ Template.search_container_widget.results = ->
                 doc
         }
 
+#-- search_user_widget --#
+
+Template.search_user_widget.rendered = ->
+    $(".select-user").on "click", ->
+        cb = SEARCH_USER_CALLBACK
+        if cb?
+            cb true, $(this).attr("data-user-id"), $(this).attr("data-user-name"), $(this).attr("data-user-email")
+        $("#search-user-modal").modal("hide")
+
+Template.search_user_widget.has_results = ->
+    kw = Session.get WIDGET_SESSION.USER_KEYWORD
+    if kw?
+        return PlopUser.find({
+            $or: [{
+                username:
+                    {$regex: ".*#{kw}.*", $options: 'i'}},
+                {email:
+                    {$regex: ".*#{kw}.*", $options: 'i'}}
+            ]
+        },
+            {limit: LIMIT_LENGTH}
+        ).fetch().length > 0
+    false
+
+Template.search_user_widget.results = ->
+    kw = Session.get WIDGET_SESSION.USER_KEYWORD
+    if kw?
+        return PlopUser.find {
+            $or: [{
+                username:
+                    {$regex: ".*#{kw}.*", $options: 'i'}},
+                {email:
+                    {$regex: ".*#{kw}.*", $options: 'i'}}
+            ]
+        }, {
+            limit: LIMIT_LENGTH
+            transform: (doc) ->
+                doc.id_str = doc._id.valueOf()
+                doc
+        }
+
 #util methods below
 
 @searchItemId = (cb) ->
@@ -142,6 +185,34 @@ Template.search_container_widget.results = ->
 
     #show modal
     $("#search-container-modal").modal
+        backdrop: "static"
+
+
+@searchUserId = (cb) ->
+    """
+    Opens the user search widget for the admin to search for a specific user,
+    with a callback that takes in 4 arguments, specifically: (success, user_id, username, email)
+    """
+    #reset variable and resubscribe
+    Session.set WIDGET_SESSION.USER_KEYWORD, null
+    SEARCH_USER_CALLBACK = cb
+    Meteor.subscribe "all_users"
+
+    #lets make modal bindings
+    $("#search-user-modal").on "shown", ->
+        $("#user-search-keyword").focus()
+        $("#user-search-keyword").on "change paste keyup", ->
+            kw = $.trim $(this).val()
+            if kw?
+                Session.set WIDGET_SESSION.USER_KEYWORD, kw
+
+    $("#search-user-widget-close-btn").click ->
+        if cb?
+            cb(false)
+        $("#search-user-modal").modal("hide")
+
+    #show modal
+    $("#search-user-modal").modal
         backdrop: "static"
 
 

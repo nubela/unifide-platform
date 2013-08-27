@@ -26,7 +26,8 @@
 
   Template.coupon_compose.rendered = function() {
     Meteor.subscribe("all_groups");
-    return Meteor.subscribe("all_users");
+    Meteor.subscribe("all_users");
+    return searchUserId();
   };
 
   Template.coupon_compose.groups = function() {

@@ -22,6 +22,7 @@ Template.coupon.view = ->
 Template.coupon_compose.rendered = ->
     Meteor.subscribe "all_groups"
     Meteor.subscribe "all_users"
+    searchUserId()
 
 Template.coupon_compose.groups = ->
     Group.find({}, {sort: {name: 1}})
