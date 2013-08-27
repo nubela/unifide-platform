@@ -93,17 +93,17 @@ template name="coupon_all"
 
 Template name="coupon_compose"
     div.compose-new-item.well
-        form#compose-form method="POST" data-validate="parsley"
+        form#coupon-compose-form method="POST" data-validate="parsley"
             legend | New Coupon
             fieldset
 
                 .control-group
                     label for="name" | Give a name to this coupon
-                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first"
+                    > input#name type="text" placeholder="Item A" name="name" data-required="true" data-focus="first"
 
                 .control-group
                     label id="description" | Describe the coupon
-                    > textarea rows="3" name="description" id="description"
+                    > textareadescription rows="3" name="description"
 
                 > hr
                 p.lead
@@ -130,7 +130,7 @@ Template name="coupon_compose"
 
                 .control-group
                     label for="coupon-type" | Coupon type
-                    select#coupon-type name="applicable-on"
+                    select#coupon-type name="coupon-type"
                         option value="percentage" | Percentage (%)
                         option value="absolute" | Absolute amount ($)
 
@@ -139,16 +139,16 @@ Template name="coupon_compose"
                     > input#amount type="number" placeholder="5" name="amount" data-required="true"
 
                 .control-group
-                    label for="min-spending" | Coupon minimum spending ($)
-                    > input type="number" placeholder="50" name="min-spending" id="min-spending" data-required="true"
+                    label for="min-spending" | Minimum spending on order for coupon to be valid ($)
+                    > input#min-spending type="number" placeholder="50" name="min-spending" data-required="true"
 
                 > hr
                 p.lead
                     Does this coupon have any conditions?
 
                 .control-group
-                    label for="discount-lifetime-type" | Duration
-                    select#discount-lifetime-type name="discount-lifetime-type"
+                    label for="lifetime-type" | Duration
+                    select#lifetime-type name="lifetime-type"
                         option value="forever" | Until I disable it
                         option value="duration" | I will select the discount duration
 
