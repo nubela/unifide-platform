@@ -41,99 +41,120 @@
         </div>
 
         <div class="btn-holder btn-after-main-desc">
-            <a class="btn">
+            <a href="/coupon/new" class="appnav btn">
                 <span class="heydings">+</span>
                 New coupon
             </a>
         </div>
 
         <div class="campaign">
-            <table class="table-hover">
-                <thead>
-                    <tr>
-                        <td>
-                            <input type="text" class="input-small" placeholder="Name" />
-                        </td>
-                        <td>
-                            coupon percentage
-                        </td>
-                        <td>
-                            coupon value
-                        </td>
-                        <td>
-                            Transaction type
-                        </td>
-                        <td>
-                            Status
-                        </td>
-                        <td>
-                            Scope
-                        </td>
-                        <td>
-                            Updated
-                        </td>
-                    </tr>
-                </thead>
+            <div class="faketable">
+                <div class="thead">
+                    <div class="span2">
+                        Name
+                    </div>
+                    <div class="span2">
+                        Coupon code
+                    </div>
+                    <div class="span2">
+                        Coupon Value
+                    </div>
+                    <div class="span2">
+                        Percentage
+                    </div>
+                    <div class="span2">
+                        Can be used
+                    </div>
+                    <div class="span2">
+                        Status
+                    </div>
+                </div>
+                <div class="tbody">
+                    {{#each coupons}}
+                    <div data-expand="{{this.id}}" class="tr pointer obj-row">
+                        <div class="span2">
+                            {{this.name}}&nbsp;
+                        </div>
+                        <div class="span2">
+                            {{this.coupon_code}}&nbsp;
+                        </div>
+                        <div class="span2">
+                            {{this.coupon_value}}&nbsp;
+                        </div>
+                        <div class="span2">
+                            {{this.coupon_percentage_off}}&nbsp;
+                        </div>
+                        <div class="span2">
+                            {{this.valid_times}} time(s)
+                        </div>
+                        <div class="span2">
+                            {{this.status}}&nbsp;
+                        </div>
+                    </div>
+                    <div data-expanded="{{this.id}}" class="expanded">
+                        <div class="expanded-within">
+                            {{#if this.description}}
+                            <blockquote>
+                                {{this.description}}
+                            </blockquote>
+                            {{/if}}
+                            <p>
+                                <small>
+                                    {{{this.item_scope_desc}}}<br>
+                                    And it can be used by <strong>all users</strong>.<br>
+                                    {{{this.min_order}}}<br>
+                                    {{{this.duration_desc}}}<br>
+                                </small>
+                            </p>
+                            <hr />
+                            <div class="btn-holder">
+                                <a class="btn btn-primary adjust-valid-times">
+                                    <span class="heydings">+</span>
+                                    Adjust number of times it is valid for
+                                </a>
+
+                                {{#if this.has_disable_btn}}
+                                <a class="btn disable-coupon">
+                                    <span class="heydings">r</span>
+                                    Disable
+                                </a>
+                                {{else}}
+                                <a class="btn enable-coupon">
+                                    <span class="heydings">r</span>
+                                    Enable
+                                </a>
+                                {{/if}}
 
 
-                <tbody>
-
-                    <tr>
-                        <td>
-                            <strong>nubela</strong>
-                        </td>
-                        <td>
-                            nubela@gmail.com
-                        </td>
-                        <td>
-                            Jamie
-                        </td>
-                        <td>
-                            Credit
-                        </td>
-                        <td>
-                            - $3.40
-                        </td>
-                        <td>
-                            24th April 2013
-                        </td>
-                        <td>
-                            24th April 2013
-                        </td>
-                    </tr>
-                </tbody>
-
-
-                <thead>
-                    <tr>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            <i class="icon-chevron-right pull-right icon-nav page-next" />
-                            <div class="pull-right">
-                                &nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;
+                                <a class="btn delete-coupon">
+                                    <span class="heydings">-</span>
+                                    Delete
+                                </a>
                             </div>
+                        </div>
+                    </div>
+
+                    {{/each}}
+                </div>
+
+                <div class="thead">
+                    <div class="pull-right">
+                        {{#if has_next}}
+                        <a href="{{next_page_url}}" class="appnav">
+                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                        </a>
+                        {{/if}}
+                        <div class="pull-right">
+                            &nbsp;&nbsp;&nbsp;{{current_page}}&nbsp;&nbsp;&nbsp;
+                        </div>
+                        {{#if has_prev}}
+                        <a href="{{prev_page_url}}" class="appnav">
                             <i class="icon-chevron-left pull-right icon-nav page-back" />
-                        </td>
-                    </tr>
-                </thead>
-            </table>
+                        </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -179,6 +200,11 @@
                     <input type="text" placeholder="Container B" name="container-id" id="container-id" />
                 </div>
 
+                <div class="control-group">
+                    <label for="coupon-code">Unique coupon code</label>
+                    <input type="text" placeholder="ABCDE" name="coupon-code" data-required="true" id="coupon-code" />
+                </div>
+
                 <hr />
                 <p class="lead">
                     How much of a coupon? Specify either a coupon amount or percentage.
@@ -206,6 +232,11 @@
                 <p class="lead">
                     Does this coupon have any conditions?
                 </p>
+
+                <div class="control-group">
+                    <label for="valid-times">Number of times this coupon can be used</label>
+                    <input type="number" placeholder="1" name="valid-times" data-required="true" value="1" id="valid-times" />
+                </div>
 
                 <div class="control-group">
                     <label for="lifetime-type">Duration</label>

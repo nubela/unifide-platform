@@ -82,8 +82,13 @@
     item_obj = ITMItems.findOne({
       _id: item_id
     });
+    console.log(item_id);
     item_obj.container = getContainer(item_obj.container_id);
     return item_obj;
+  };
+
+  this.isNumber = function(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   };
 
 }).call(this);

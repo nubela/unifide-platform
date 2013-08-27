@@ -53,6 +53,10 @@
     Requisites: all_containers and all_items must be subscribed
     ###
     item_obj = ITMItems.findOne({_id: item_id})
+    console.log item_id
     item_obj.container = getContainer(item_obj.container_id)
     item_obj
 
+
+@isNumber = (n) ->
+    not isNaN(parseFloat(n)) and isFinite(n)
