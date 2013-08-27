@@ -1,0 +1,276 @@
+<template name="coupon">
+    <div class="container-fluid full-container">
+        <div class="row-fluid full-row">
+            <div class="body-container">
+                <!--- navbar --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <a href="/coupon" class="appnav anchor-container">
+                            <li class="side-header">Coupons</li>
+                        </a>
+                        <a href="/coupon" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">w</span> All coupons</li>
+                        </a>
+                        <a href="/coupon/new" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">+</span> New coupon</li>
+                        </a>
+                    </ul>
+                </div>
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<template name="coupon_all">
+    <div class="right-container">
+        <div class="container-title">
+            <h2>
+                All coupons
+            </h2>
+            <p>
+                <small>
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </small>
+            </p>
+        </div>
+
+        <div class="btn-holder btn-after-main-desc">
+            <a class="btn">
+                <span class="heydings">+</span>
+                New coupon
+            </a>
+        </div>
+
+        <div class="campaign">
+            <table class="table-hover">
+                <thead>
+                    <tr>
+                        <td>
+                            <input type="text" class="input-small" placeholder="Name" />
+                        </td>
+                        <td>
+                            coupon percentage
+                        </td>
+                        <td>
+                            coupon value
+                        </td>
+                        <td>
+                            Transaction type
+                        </td>
+                        <td>
+                            Status
+                        </td>
+                        <td>
+                            Scope
+                        </td>
+                        <td>
+                            Updated
+                        </td>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+                        <td>
+                            <strong>nubela</strong>
+                        </td>
+                        <td>
+                            nubela@gmail.com
+                        </td>
+                        <td>
+                            Jamie
+                        </td>
+                        <td>
+                            Credit
+                        </td>
+                        <td>
+                            - $3.40
+                        </td>
+                        <td>
+                            24th April 2013
+                        </td>
+                        <td>
+                            24th April 2013
+                        </td>
+                    </tr>
+                </tbody>
+
+
+                <thead>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                            <div class="pull-right">
+                                &nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</template>
+
+
+<Template name="coupon_compose">
+    <div class="compose-new-item well">
+        <form method="POST" data-validate="parsley">
+            <legend>New Coupon</legend>
+            <fieldset>
+
+                <div class="control-group">
+                    <label for="name">Give a name to this coupon</label>
+                    <input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" />
+                </div>
+
+                <div class="control-group">
+                    <label id="description">Describe the coupon</label>
+                    <textarea rows="3" name="description" id="description" />
+                </div>
+
+                <hr />
+                <p class="lead">
+                    In this next section, describe on what it is applicable on
+                </p>
+
+                <div class="control-group">
+                    <label for="applicable-on">On what is it applicable on?</label>
+                    <select name="applicable-on" id="applicable-on">
+                        <option value="all">All of my inventory</option>
+                        <option value="item">Specific item</option>
+                        <option value="container">A Container</option>
+                    </select>
+                </div>
+
+                <div class="control-group hidden" id="discount-select-item">
+                    <label for="item-id">Applicable Item</label>
+                    <input type="text" placeholder="Item A" name="item-id" id="item-id" />
+                </div>
+
+                <div class="control-group hidden" id="discount-select-container">
+                    <label for="container-id">Applicable Container</label>
+                    <input type="text" placeholder="Container B" name="container-id" id="container-id" />
+                </div>
+
+                <hr />
+                <p class="lead">
+                    How much of a coupon? Specify either a coupon amount or percentage.
+                </p>
+
+                <div class="control-group">
+                    <label for="coupon-type">Coupon type</label>
+                    <select name="applicable-on" id="coupon-type">
+                        <option value="percentage">Percentage (%)</option>
+                        <option value="absolute">Absolute amount ($)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="amount">Amount / Percentage</label>
+                    <input type="number" placeholder="5" name="amount" data-required="true" id="amount" />
+                </div>
+
+                <div class="control-group">
+                    <label for="min-spending">Coupon minimum spending ($)</label>
+                    <input type="number" placeholder="50" name="min-spending" id="min-spending" />
+                </div>
+
+                <hr />
+                <p class="lead">
+                    Does this coupon have any conditions?
+                </p>
+
+                <div class="control-group">
+                    <label for="discount-lifetime-type">Duration</label>
+                    <select name="discount-lifetime-type" id="discount-lifetime-type">
+                        <option value="forever">Until I disable it</option>
+                        <option value="duration">I will select the discount duration</option>
+                    </select>
+                </div>
+
+                <div class="control-group hidden date-selectors input-append">
+                    <label for="begins-on">Begins on</label>
+                    <input type="text" name="begins-on" data-format="dd/MM/yyyy" id="begins-on" />
+                    <span class="add-on">
+                        <i data-date-icon="icon-calendar" class="icon-calendar">
+                            &nbsp;
+                        </i>
+                    </span>
+                </div>
+
+                <div class="control-group hidden date-selectors input-append">
+                    <label for="ends-on">Ends on</label>
+                    <input type="text" name="ends-on" data-format="dd/MM/yyyy" id="ends-on" />
+                    <span class="add-on">
+                        <i data-date-icon="icon-calendar" class="icon-calendar">
+                            &nbsp;
+                        </i>
+                    </span>
+                </div>
+
+                <div class="control-group">
+                    <label for="user-applicable">Applicable on which users?</label>
+                    <select name="user-applicable" id="user-applicable">
+                        <option value="all_users">All users</option>
+                        <option value="group">A user group</option>
+                        <option value="specific_user">Specific user</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="user-groups">
+                        Which user group?
+                        <p>
+                            <small>
+                                <i>Hold CTRL key or ⌘ to select individual blacklists, or hold the SHIFT key to select them together.</i>
+                            </small>
+                        </p>
+                    </label>
+                    <select multiple id="user-groups">
+                        {{#each groups}}
+                        <option value="{{this.name}}">{{this.description}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="user">Select user</label>
+                    <input type="text" name="user" id="user" />
+                </div>
+
+                <br />
+                <div class="control-group">
+                    <button class="btn-large btn btn-primary submit-btn">Save coupon</button>
+                    <a href="/coupon" class="appnav btn-large btn submit-btn">Back to All coupons</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</Template>

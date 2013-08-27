@@ -1,0 +1,194 @@
+template name="coupon"
+    .container-fluid.full-container
+        .row-fluid.full-row
+            .body-container
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        a.appnav.anchor-container href="/coupon"
+                            li.side-header | Coupons
+                        a.appnav.anchor-container href="/coupon"
+                            li.container-entry | <span class="icon">w</span> All coupons
+                        a.appnav.anchor-container href="/coupon/new"
+                            li.container-entry | <span class="icon">+</span> New coupon
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+
+template name="coupon_all"
+    .right-container
+        .container-title
+            h2
+                All coupons
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+        .btn-holder.btn-after-main-desc
+            a.btn
+                span.heydings | +
+                New coupon
+
+        .campaign
+            table.table-hover
+                thead
+                    tr
+                        td
+                            > input type="text" class="input-small" placeholder="Name"
+                        td
+                            coupon percentage
+                        td
+                            coupon value
+                        td
+                            Transaction type
+                        td
+                            Status
+                        td
+                            Scope
+                        td
+                            Updated
+
+
+                tbody
+
+                    tr
+                        td
+                            strong | nubela
+                        td
+                            nubela@gmail.com
+                        td
+                            Jamie
+                        td
+                            Credit
+                        td
+                            - $3.40
+                        td
+                            24th April 2013
+                        td
+                            24th April 2013
+
+
+                thead
+                    tr
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            &nbsp;
+                        td
+                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            .pull-right
+                                &nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;
+                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+
+
+Template name="coupon_compose"
+    div.compose-new-item.well
+        form method="POST" data-validate="parsley"
+            legend | New Coupon
+            fieldset
+
+                .control-group
+                    label for="name" | Give a name to this coupon
+                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first"
+
+                .control-group
+                    label id="description" | Describe the coupon
+                    > textarea rows="3" name="description" id="description"
+
+                > hr
+                p.lead
+                    In this next section, describe on what it is applicable on
+
+                .control-group
+                    label for="applicable-on" | On what is it applicable on?
+                    select#applicable-on name="applicable-on"
+                        option value="all" | All of my inventory
+                        option value="item" | Specific item
+                        option value="container" | A Container
+
+                .control-group.hidden#discount-select-item
+                    label for="item-id" | Applicable Item
+                    > input#item-id type="text" placeholder="Item A" name="item-id"
+
+                .control-group.hidden#discount-select-container
+                    label for="container-id" | Applicable Container
+                    > input#container-id type="text" placeholder="Container B" name="container-id"
+
+                > hr
+                p.lead
+                    How much of a coupon? Specify either a coupon amount or percentage.
+
+                .control-group
+                    label for="coupon-type" | Coupon type
+                    select#coupon-type name="applicable-on"
+                        option value="percentage" | Percentage (%)
+                        option value="absolute" | Absolute amount ($)
+
+                .control-group
+                    label for="amount" | Amount / Percentage
+                    > input#amount type="number" placeholder="5" name="amount" data-required="true"
+
+                .control-group
+                    label for="min-spending" | Coupon minimum spending ($)
+                    > input type="number" placeholder="50" name="min-spending" id="min-spending"
+
+                > hr
+                p.lead
+                    Does this coupon have any conditions?
+
+                .control-group
+                    label for="discount-lifetime-type" | Duration
+                    select#discount-lifetime-type name="discount-lifetime-type"
+                        option value="forever" | Until I disable it
+                        option value="duration" | I will select the discount duration
+
+                .control-group.hidden.date-selectors.input-append
+                    label for="begins-on" | Begins on
+                    > input#begins-on type="text" name="begins-on" data-format="dd/MM/yyyy"
+                    span.add-on
+                        i.icon-calendar data-date-icon="icon-calendar"
+                            &nbsp;
+
+                .control-group.hidden.date-selectors.input-append
+                    label for="ends-on" | Ends on
+                    > input#ends-on type="text" name="ends-on" data-format="dd/MM/yyyy"
+                    span.add-on
+                        i.icon-calendar data-date-icon="icon-calendar"
+                            &nbsp;
+
+                .control-group
+                    label for="user-applicable" | Applicable on which users?
+                    select#user-applicable name="user-applicable"
+                        option value="all_users" | All users
+                        option value="group" | A user group
+                        option value="specific_user" | Specific user
+
+                .control-group
+                    label for="user-groups"
+                        Which user group?
+                        p
+                            small
+                                i | Hold CTRL key or ⌘ to select individual blacklists, or hold the SHIFT key to select them together.
+                    select#user-groups multiple
+                        {{#each groups}}
+                        option value="{{this.name}}" | {{this.description}}
+                        {{/each}}
+
+                .control-group
+                    label for="user" | Select user
+                    > input#user type="text" name="user"
+
+                > br
+                .control-group
+                    button.btn-large.btn.btn-primary.submit-btn | Save coupon
+                    a.appnav.btn-large.btn.submit-btn href="/coupon" | Back to All coupons

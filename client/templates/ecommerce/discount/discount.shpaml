@@ -1,0 +1,182 @@
+template name="discount"
+    .container-fluid.full-container
+        .row-fluid.full-row
+            .body-container
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        a.appnav.anchor-container href="/discount"
+                            li.side-header | Discounts
+                        a.appnav.anchor-container href="/discount"
+                            li.container-entry | <span class="icon">w</span> All Discounts
+                        a.appnav.anchor-container href="/discount/new"
+                            li.container-entry | <span class="icon">+</span> New Discount
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+
+template name="discount_all"
+    .right-container
+        .container-title
+            h2
+                All Discounts
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+        .btn-holder.btn-after-main-desc
+            a.btn.appnav href="/discount/new"
+                span.heydings | +
+                New Discount
+
+        .campaign
+            div.faketable
+                .thead
+                    .span2
+                        Name
+                    .span4
+                        Description
+                    .span2
+                        Discount percentage
+                    .span2
+                        Discount Value
+                    .span2
+                        Status
+                .tbody
+                    {{#each discounts}}
+                    .tr.pointer.discount-obj-row data-expand="{{this.id}}"
+                        .span2
+                            strong | {{this.name}}
+                        .span4
+                            {{this.description}}
+                        .span2
+                            - {{this.discount_percentage}}%
+                        .span2
+                            - ${{this.absolute_discounted_price}}
+                        .span2
+                            {{this.status}}
+                    .expanded.hidden data-expanded="{{this.id}}"
+                        .expanded-within
+                            p
+                                small
+                                    {{{this.item_scope_desc}}}
+                                    {{{this.duration_desc}}}
+                                    {{{this.min_order}}}
+                            > hr
+                            .btn-holder
+                                <!--
+                                a.btn.btn-primary#update-discount
+                                    span.heydings | +
+                                    Update
+                                -->
+                                {{#if this.has_disable_btn}}
+                                a.btn.btn-info#disable-discount
+                                    span.heydings | r
+                                    Disable
+                                {{/if}}
+                                {{#if this.has_enable_btn}}
+                                a.btn.btn-primary#enable-discount
+                                    span.heydings | r
+                                    Enable
+                                {{/if}}
+                                a.btn#delete-discount
+                                    span.heydings | -
+                                    Delete
+
+                    {{/each}}
+
+                .thead
+                    div.pull-right
+                        {{#if has_next}}
+                        a.appnav href="{{next_page_url}}"
+                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                        {{/if}}
+                        .pull-right
+                            &nbsp;&nbsp;&nbsp;{{current_page}}&nbsp;&nbsp;&nbsp;
+                        {{#if has_prev}}
+                        a.appnav href="{{prev_page_url}}"
+                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+                        {{/if}}
+
+
+Template name="discount_compose"
+    div.compose-new-item.well
+        form#discount-compose-form method="POST" data-validate="parsley"
+            legend | New Discount
+            fieldset
+
+                .control-group
+                    label for="discount-name" | Give a name to this Discount
+                    > input#discount-name type="text" placeholder="Discount A" name="name" data-required="true" data-focus="first"
+
+                .control-group
+                    label for="description" | Give a description for this discount
+                    > textarea#description rows="3" name="description"
+
+                > hr
+                p.lead
+                    In this section, describe on what it is applicable on
+
+                .control-group
+                    label for="applicable-on" | On what is it applicable on?
+                    select#applicable-on name="applicable-on"
+                        option value="all" | All of my inventory
+                        option value="item" | Specific item
+                        option value="container" | A Container
+
+                .control-group.hidden#discount-select-item
+                    label for="discount-item-id" | Discounted item
+                    > input#discount-item-id type="text" placeholder="Item A" name="discount-item-id"
+
+                .control-group.hidden#discount-select-container
+                    label for="discount-container-id" | Discounted container
+                    > input#discount-container-id type="text" placeholder="Container B" name="discount-container-id"
+
+                > hr
+                p.lead
+                    How much of a discount? Specify if it is an absolute price off or a percentage off
+
+                .control-group
+                    label for="discount-type" | Discount type
+                    select#discount-type name="applicable-on"
+                        option value="percentage" | Percentage (%)
+                        option value="absolute" | Absolute amount ($)
+
+                .control-group
+                    label for="amount" | Discount amount
+                    > input#amount type="number" placeholder="5" name="amount" data-required="true"
+
+                .control-group
+                    label for="min-spending" | Order minimum spending ($)
+                    > input#min-spending type="number" placeholder="50" name="min-spending" data-required="true"
+
+                > hr
+                p.lead
+                    Does this discount have any conditions?
+
+                .control-group
+                    label for="discount-lifetime-type" | Duration
+                    select#discount-lifetime-type name="discount-lifetime-type"
+                        option value="forever" | Until I disable it
+                        option value="duration" | I will select the discount duration
+
+                .control-group.hidden.date-selectors.input-append
+                    label for="begins-on" | Begins on
+                    > input#begins-on type="text" name="begins-on" data-format="dd/MM/yyyy"
+                    span.add-on
+                        i.icon-calendar data-date-icon="icon-calendar"
+                            &nbsp;
+
+                .control-group.hidden.date-selectors.input-append
+                    label for="ends-on" | Ends on
+                    > input#ends-on type="text" name="ends-on" data-format="dd/MM/yyyy"
+                    span.add-on
+                        i.icon-calendar data-date-icon="icon-calendar"
+                            &nbsp;
+
+                > br
+                .control-group
+                    button.btn-large.btn.btn-primary.submit-btn#save-discount-btn | Save Discount
+                    a.appnav.btn-large.btn.submit-btn href="/discount" | Back to All Discounts

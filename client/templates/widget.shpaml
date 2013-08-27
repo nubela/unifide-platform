@@ -52,3 +52,31 @@ template name="search_container_widget"
                     {{/each}}
             {{/if}}
             {{/isolate}}
+
+
+template name="search_user_widget"
+    #search-user-modal.modal.hide.fade.search-widget
+        .modal-header
+            <button id="search-user-widget-close-btn" type="button" class="close">&times;</button>
+            h3 | Search user
+
+        .modal-body
+            form
+                .control-group
+                    label for="user-search-keyword" | To begin, enter a user's username or email address
+                    > input#user-search-keyword.input-block-level type="text"
+
+            {{#isolate}}
+            {{#if has_results}}
+            table.table-hover.table-bordered.table-striped
+                caption
+                    small
+                        Click to select a user
+                tbody
+                    {{#each results}}
+                    tr
+                        td
+                            <span data-user-email="{{this.email}}" data-user-name="{{this.username}}" data-user-id="{{this.id_str}}" class="select-container pointer belize-hole bold">{{this.username}} / {{this.email}}</span>
+                    {{/each}}
+            {{/if}}
+            {{/isolate}}
