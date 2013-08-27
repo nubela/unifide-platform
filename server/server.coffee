@@ -214,6 +214,12 @@ new_discount = (discount) ->
     Meteor.http.put "#{BACKEND_URL}discount/",
         params: discount
 
+new_coupon = (coupon) ->
+    @unblock()
+    coupon["admin_id"] = Meteor.userId()
+    Meteor.http.put "#{BACKEND_URL}coupon/",
+        params: coupon
+
 Meteor.methods
     get_all_orders: get_all_orders
     get_biz_info: get_biz_info
@@ -244,3 +250,4 @@ Meteor.methods
     get_user_email: get_user_email
     create_item: create_item
     new_discount: new_discount
+    new_coupon: new_coupon

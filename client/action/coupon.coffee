@@ -9,6 +9,8 @@
     MAIN: "all"
     COMPOSE: "new"
 
+ITEMS_PER_PAGE = 20
+
 #-- coupon --#
 
 Template.coupon.rendered = ->
@@ -17,11 +19,74 @@ Template.coupon.rendered = ->
 Template.coupon.view = ->
     Template[getCouponPage()]()
 
-#-- coupon_compose --#
+#-- coupon_all --#
 
-Template.coupon_compose.rendered = ->
+Template.coupon_all.created = ->
+    Meteor.subscribe "all_containers"
+    Meteor.subscribe "all_items"
     Meteor.subscribe "all_groups"
     Meteor.subscribe "all_users"
+    Meteor.subscribe "all_coupons"
+
+Template.coupon_all.coupons = ->
+    page_no_0_idx = getPageNo() - 1
+    Coupon.find {}, {
+        limit: ITEMS_PER_PAGE
+        skip: page_no_0_idx * ITEMS_PER_PAGE
+        sort:
+            modification_timestamp_utc: -1
+        transform: (doc) ->
+            doc["id"] = doc._id.valueOf()
+            doc["item_scope_desc"] = getCouponItemScopeDesc(doc)
+            doc["has_disable_btn"] = doc.status == "available"
+            doc["min_order"] = "It is only valid for orders with a minimum spending of <strong>$#{doc.order_minimum_spending}</strong>."
+            doc["duration_desc"] = getCouponDurationDesc(doc)
+            doc
+    }
+
+Template.coupon_all.events =
+    "click .disable-coupon": (evt) ->
+        coupon_id = $(evt.target).parents("[data-expanded]").attr("data-expanded")
+        Coupon.update {_id: new Meteor.Collection.ObjectID(coupon_id)}, {
+            $set:
+                {status: "disabled"}
+        }
+        flashAlert "Coupon disabled.", ""
+
+    "click .enable-coupon": (evt) ->
+        coupon_id = $(evt.target).parents("[data-expanded]").attr("data-expanded")
+        Coupon.update {_id: new Meteor.Collection.ObjectID(coupon_id)}, {
+            $set:
+                {status: "available"}
+        }
+        flashAlert "Coupon enabled.", ""
+
+    "click .delete-coupon": (evt) ->
+        bootbox.confirm "This step is irreversible. Confirm delete coupon?", (res) ->
+            if res
+                coupon_id = $(evt.target).parents("[data-expanded]").attr("data-expanded")
+                Coupon.remove {_id: new Meteor.Collection.ObjectID(coupon_id)}
+                flashAlert "Coupon disabled.", ""
+
+    "click .adjust-valid-times": (evt) ->
+        bootbox.prompt "Number of times to adjust to?", (num) ->
+            if isNumber num
+                coupon_id = $(evt.target).parents("[data-expanded]").attr("data-expanded")
+                console.log coupon_id
+                Coupon.update {_id: new Meteor.Collection.ObjectID(coupon_id)}, {
+                    $set:
+                        {valid_times: parseInt(num)}
+                }
+                flashAlert "Coupon updated", ""
+
+#-- coupon_compose --#
+
+Template.coupon_compose.created = ->
+    Meteor.subscribe "all_groups"
+    Meteor.subscribe "all_users"
+    Meteor.subscribe "all_coupons"
+
+Template.coupon_compose.rendered = ->
     $("#coupon-compose-form").off "submit"
     bindCouponComposeForm()
     $("#coupon-compose-form").on "submit", (evt) ->
@@ -30,10 +95,6 @@ Template.coupon_compose.rendered = ->
 
 Template.coupon_compose.groups = ->
     Group.find({}, {sort: {name: 1}})
-
-#Template.coupon_compose.events =
-#    "click .submit-btn": ->
-#        $("#coupon-compose-form").submit()
 
 bindCouponComposeForm = ->
     $("#user-applicable").off "change"
@@ -90,6 +151,39 @@ bindCouponComposeForm = ->
 
 #-- helper --#
 
+getCouponItemScopeDesc = (doc) ->
+    if doc.coupon_scope == "item_only"
+        item_obj = getItem(doc.obj_id)
+        item_repr = item_obj.container.materialized_path.join(" / ") + " / " + item_obj.name
+        return "This coupon is applicable on the item: <strong>#{item_repr}</strong>."
+    else if doc.coupon_scope == "container_wide"
+        container_obj = getContainer(doc.obj_id)
+        container_repr = container_obj.materialized_path.join(" / ")
+        return "This coupon is applicable on the container: <strong>#{container_repr}</strong>."
+    return "This coupon is <strong>applicable on all items</strong>"
+
+getCouponDurationDesc = (doc) ->
+    if doc.discount_lifetime_type == "limited"
+        begins = moment(doc.begins_utc_datetime)
+        ends = moment(doc.expire_utc_datetime)
+        begins_str = begins.format('MMMM Do YYYY')
+        ends_str = ends.format('MMMM Do YYYY')
+
+        return "This coupon is valid from #{begins_str} till #{ends_str}<br>"
+    return "It is valid until you disable or delete it.<br>"
+
+getPageNo = ->
+    slugs = Session.get COUPON_SESSION.SUBURL
+    if not slugs?
+        return 1
+
+    slugs = slugs.split("/")
+    slugs = _.filter slugs, (s) ->
+        s != ""
+    if slugs.length >= 1
+        return parseInt slugs[0]
+    return 1
+
 getCouponPage = ->
     slugs = Session.get COUPON_SESSION.SUBURL
     if not slugs?
@@ -111,6 +205,7 @@ createCoupon = ->
         item_id = $("#item-id").attr("data-item-id")
         container_id = $("#container-id").attr("data-container-id")
         user_id = $("#user").attr("data-user-id")
+        coupon_code = $.trim $("#coupon-code").val()
 
         if $("#applicable-on").val() == "item" and not item_id?
             error = true
@@ -132,6 +227,10 @@ createCoupon = ->
             error = true
             flashAlert "Oops","You need to select a user to continue.."
 
+        if Coupon.findOne({coupon_code: coupon_code})?
+            error = true
+            flashAlert "Oops","Coupon code already exists, please try another coupon code..."
+
         if not error
             Meteor.call "new_coupon", {
                 name: $("#name").val()
@@ -148,6 +247,7 @@ createCoupon = ->
                 user_applicable: $("#user-applicable").val()
                 user_groups: $("#user-groups").val()
                 user_id: user_id
+                valid_times: $("#valid-times").val()
+                coupon_code: coupon_code
             }, ->
-                IS_COUPON_CREATING = false
                 Router.navigate "/coupon", true

@@ -1,3 +1,6 @@
+Meteor.publish "all_coupons",  ->
+    Coupon.find()
+
 Meteor.publish "all_discounts",  ->
     Discount.find {}
 
