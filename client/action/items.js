@@ -190,7 +190,7 @@
         var url;
         url = suburl_to_current_path_for_items();
         doc.url = url + "/" + doc.name;
-        doc.id = doc._id;
+        doc.id = doc._id.valueOf();
         return doc;
       },
       sort: {
