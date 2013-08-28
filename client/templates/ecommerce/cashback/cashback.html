@@ -45,30 +45,36 @@
             </p>
         </div>
 
+        {{#if active_rule}}
         <div class="main-description well highlighted">
             <h4 class="description-title">
-                <span class="dark-blue">"Lorem Ipsum"</span> cashback rule is active
+                <span class="dark-blue">"{{active_rule.name}}"</span> cashback rule is active
             </h4>
             <small>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                {{active_rule.quick_desc}}
             </small>
         </div>
+        {{else}}
+        <div class="main-description well highlighted">
+            <h4 class="description-title">
+                <strong>No cashback</strong> is active right now.
+            </h4>
+        </div>
+        {{/if}}
+
 
         <div class="btn-holder btn-after-main-desc">
-            <a class="btn">
-                <span class="heydings">w</span>
-                Update active rule
+            <a href="/cashback/compose" class="appnav btn-primary btn">
+                <i class="icon-plus icon-white"></i>
+                New Cashback Rule
             </a>
 
-            <a class="btn">
+            {{#if active_rule}}
+            <a class="btn" id="disable-active">
                 <span class="heydings">2</span>
-                Deactivate active rule
+                Disable "{{active_rule.name}}"
             </a>
-
-            <a href="/cashback/compose" class="appnav btn">
-                <i class="icon-plus"></i>
-                New rule
-            </a>
+            {{/if}}
         </div>
 
         <div class="campaign">
@@ -76,41 +82,50 @@
                 <thead>
                     <tr>
                         <td>
-                            All Cashbacks (5)
-                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                            All Cashbacks ({{cashbacks_count}})
+                            {{#if has_next}}
+                            <a href="{{next_page_url}}" class="appnav">
+                                <i class="icon-chevron-right pull-right icon-nav page-next" />
+                            </a>
+                            {{/if}}
                             <div class="pull-right">
-                                2
+                                {{current_page}}
                             </div>
-                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                            {{#if has_prev}}
+                            <a href="{{prev_page_url}}" class="appnav">
+                                <i class="icon-chevron-left pull-right icon-nav page-back" />
+                            </a>
+                            {{/if}}
                         </td>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
+                    {{#each cashbacks}}
+                    <tr data-cashback-id="{{this.id}}" class="obj-row">
                         <td>
 
                             <div class="pull-left">
-                                <strong>nubela</strong>
-                                - 7% cashback with a minimum spending of $20000
+                                <strong>{{this.name}}</strong>
+                                - {{this.quick_desc}}
                             </div>
                             <div class="pull-right">
-                                Tues 23/4/2013 by jamie
+                                {{admin.username}} on {{this.last_mod_date}}
                             </div>
 
                             <div class="clear spacing10"></div>
-                            <div class="expanded">
-                                <p>
-                                    <i>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </i>
-                                </p>
+                            <div class="expanded hidden">
+                                <blockquote>
+                                    {{this.description}}
+                                </blockquote>
                                 <hr />
                                 <div class="btn-holder">
-                                    <a class="btn btn-primary">
+                                    {{#if this.is_disabled}}
+                                    <a class="btn btn-primary make-active">
                                         <span class="heydings">8</span>
                                         Make active
                                     </a>
+                                    {{/if}}
 
                                     <a class="btn">
                                         <i class="icon-minus"></i>
@@ -120,21 +135,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div class="pull-left">
-                                <strong>nubela</strong>
-                                - 8% cashback with a minimum spending of $100000
-                            </div>
-                            <div class="pull-right">
-                                Tues 23/4/2013 by jamie
-                            </div>
-                            <div class="spacing10"></div>
-                            <div class="expanded hidden">
-                                asd
-                            </div>
-                        </td>
-                    </tr>
+                    {{/each}}
                 </tbody>
             </table>
         </div>
@@ -160,11 +161,19 @@
                     <tr>
                         <td>
                             <input type="text" placeholder="Search by Username or Email address.." class="table-header-input" />
-                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                            {{#if has_next}}
+                            <a href="{{next_page_url}}" class="appnav">
+                                <i class="icon-chevron-right pull-right icon-nav page-next" />
+                            </a>
+                            {{/if}}
                             <div class="pull-right">
-                                2
+                                {{current_page}}
                             </div>
-                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                            {{#if has_prev}}
+                            <a href="{{prev_page_url}}" class="appnav">
+                                <i class="icon-chevron-left pull-right icon-nav page-back" />
+                            </a>
+                            {{/if}}
                         </td>
                     </tr>
                 </thead>
@@ -227,7 +236,7 @@
                 </div>
 
                 <div class="control-group">
-                    <label id="description">Describe it</label>
+                    <label for="description">Describe it</label>
                     <textarea rows="3" name="description" id="description" />
                 </div>
 

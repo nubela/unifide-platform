@@ -13,6 +13,7 @@
     TRANSACTION: "log"
     USER_CREDIT: "user-credit"
 
+ITEMS_PER_PAGE = 20
 
 #-- cashback --#
 
@@ -21,6 +22,110 @@ Template.cashback.view = ->
 
 Template.cashback.rendered = ->
     scrollTop()
+
+#-- cashback_rules --#
+
+Template.cashback_rules.created = ->
+    Meteor.subscribe "all_admins"
+    Meteor.subscribe "all_cashbacks"
+
+Template.cashback_rules.rendered = ->
+    null
+
+Template.cashback_rules.active_rule = ->
+    Cashback.findOne {
+        status: "enabled"
+    }, {
+        transform: (doc) ->
+            last_mod = moment(doc.modification_timestamp_utc)
+            doc["id"] = doc._id.valueOf()
+            doc["quick_desc"] = "#{doc.cashback_percentage}% cashback with a minimum spending of $#{doc.total_minimum_spending}"
+            doc["last_mod_date"] = last_mod.format('MMMM Do YYYY')
+            doc["admin"] = Meteor.users.findOne {_id: doc.admin_id}
+            doc
+    }
+
+Template.cashback_rules.cashbacks = ->
+    page_no_0_idx = getPageNo() - 1
+    Cashback.find {},{
+        limit: ITEMS_PER_PAGE
+        skip: page_no_0_idx * ITEMS_PER_PAGE
+        sort:
+            modification_timestamp_utc: -1
+        transform: (doc) ->
+            last_mod = moment(doc.modification_timestamp_utc)
+            doc["id"] = doc._id.valueOf()
+            doc["quick_desc"] = "#{doc.cashback_percentage}% cashback with a minimum spending of $#{doc.total_minimum_spending}"
+            doc["last_mod_date"] = last_mod.format('MMMM Do YYYY')
+            doc["admin"] = Meteor.users.findOne {_id: doc.admin_id}
+            doc["is_disabled"] = doc.status == "disabled"
+            doc
+    }
+
+Template.cashback_rules.cashbacks_count = ->
+    Cashback.find().count()
+
+Template.cashback_rules.current_page = ->
+    getPageNo()
+
+Template.cashback_rules.next_page_url = ->
+    page_no = getPageNo()
+    next_page = page_no + 1
+    return "/cashback/#{next_page}"
+
+Template.cashback_rules.prev_page_url = ->
+    page_no = getPageNo()
+    prev_page = page_no - 1
+    return "/cashback/#{prev_page}"
+
+Template.cashback_rules.has_next = ->
+    total_items = Cashback.find({}).count()
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE)
+    getPageNo() < total_pages
+
+Template.cashback_rules.has_prev = ->
+    getPageNo() >= 2
+
+Template.cashback_rules.events =
+    "click #disable-active": (evt) ->
+        bootbox.confirm "Confirm disable cashback?", (res) ->
+            cashback_obj = Cashback.findOne {status: "enabled"}
+            if res and cashback_obj?
+                Cashback.update {
+                    _id: cashback_obj._id
+                }, {
+                    $set: {
+                        status: "disabled"
+                    }
+                }
+                flashAlert "Cashback disabled", ""
+
+    "click .obj-row": (evt) ->
+        $(".expanded").addClass "hidden"
+        $(evt.target).parents(".obj-row").find(".expanded").removeClass "hidden"
+
+    "click .make-active": (evt) ->
+        #disable active cashrule
+        cashback_obj = Cashback.findOne {status: "enabled"}
+        if cashback_obj?
+            Cashback.update {
+                _id: cashback_obj._id
+            }, {
+                $set: {
+                    status: "disabled"
+                }
+            }
+
+        #enable this cashback
+        cashback_id = $(evt.target).parents(".obj-row").attr("data-cashback-id")
+        Cashback.update {
+            _id: new Meteor.Collection.ObjectID(cashback_id)
+        }, {
+            $set: {
+                status: "enabled"
+            }
+        }
+        flashAlert "Cashback enabled!", ""
 
 #-- cashback_compose --#
 
@@ -41,18 +146,31 @@ Template.cashback_compose.events =
 
 #-- util --#
 
+getPageNo = ->
+    slugs = Session.get CASHBACK_SESSION.SUBURL
+    if not slugs?
+        return 1
+
+    slugs = slugs.split("/")
+    slugs = _.filter slugs, (s) ->
+        s != ""
+    if slugs.length >= 1
+        return parseInt slugs[0]
+    return 1
+
 createCashback = (make_active=false) ->
     if $("#cashback-compose-form").parsley("validate")
         dic = {
-            name: $("#name").val
+            name: $("#name").val()
             description: $("#description").val()
             perc: $("#perc").val()
             min_spending: $("#min-spending").val()
             make_active: make_active
         }
-    Meteor.call "new_cashback", dic, ->
-        Router.navigate "/cashback", true
-        flashAlert "Cashback created!", ""
+        console.log dic
+        Meteor.call "new_cashback", dic, ->
+            Router.navigate "/cashback", true
+            flashAlert "Cashback created!", ""
 
 getCashbackTemplate = ->
     slugs = (Session.get CASHBACK_SESSION.SUBURL)

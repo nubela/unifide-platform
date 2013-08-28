@@ -47,8 +47,8 @@ Template.coupon_all.coupons = ->
 Template.coupon_all.current_page = ->
     getPageNo()
 
-Template.discount_all.next_page_url = ->
-    page_no = getDiscountPageNo()
+Template.coupon_all.next_page_url = ->
+    page_no = getPageNo()
     next_page = page_no + 1
     return "/coupon/#{next_page}"
 

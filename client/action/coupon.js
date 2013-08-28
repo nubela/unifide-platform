@@ -58,9 +58,9 @@
     return getPageNo();
   };
 
-  Template.discount_all.next_page_url = function() {
+  Template.coupon_all.next_page_url = function() {
     var next_page, page_no;
-    page_no = getDiscountPageNo();
+    page_no = getPageNo();
     next_page = page_no + 1;
     return "/coupon/" + next_page;
   };

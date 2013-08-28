@@ -1,3 +1,6 @@
+Meteor.publish "all_cashbacks",  ->
+    Cashback.find()
+
 Meteor.publish "all_coupons",  ->
     Coupon.find()
 
@@ -15,6 +18,9 @@ Meteor.publish "all_groups",  ->
 
 Meteor.publish "all_users",  ->
     PlopUser.find()
+
+Meteor.publish "all_admins", ->
+    Meteor.users.find()
 
 Meteor.publish "container_item_media", (container_path_lis = []) ->
     ###
