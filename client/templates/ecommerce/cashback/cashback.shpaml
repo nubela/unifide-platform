@@ -29,70 +29,74 @@ template name="cashback_rules"
                 small
                     <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
 
+        {{#if active_rule}}
         .main-description.well.highlighted
             h4.description-title
-                <span class="dark-blue">"Lorem Ipsum"</span> cashback rule is active
+                <span class="dark-blue">"{{active_rule.name}}"</span> cashback rule is active
             small
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                {{active_rule.quick_desc}}
+        {{else}}
+        .main-description.well.highlighted
+            h4.description-title
+                <strong>No cashback</strong> is active right now.
+        {{/if}}
+
 
         .btn-holder.btn-after-main-desc
-            a.btn
-                span.heydings | w
-                Update active rule
+            a.appnav.btn-primary.btn href="/cashback/compose"
+                <i class="icon-plus icon-white"></i>
+                New Cashback Rule
 
-            a.btn
+            {{#if active_rule}}
+            a.btn#disable-active
                 span.heydings | 2
-                Deactivate active rule
-
-            a.appnav.btn href="/cashback/compose"
-                <i class="icon-plus"></i>
-                New rule
+                Disable "{{active_rule.name}}"
+            {{/if}}
 
         .campaign
             table.table-hover.campaign-manage
                 thead
                     tr
                         td
-                            All Cashbacks (5)
-                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            All Cashbacks ({{cashbacks_count}})
+                            {{#if has_next}}
+                            a.appnav href="{{next_page_url}}"
+                                > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            {{/if}}
                             .pull-right
-                                2
-                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+                                {{current_page}}
+                            {{#if has_prev}}
+                            a.appnav href="{{prev_page_url}}"
+                                > i.icon-chevron-left.pull-right.icon-nav.page-back
+                            {{/if}}
 
                 tbody
-                    tr
+                    {{#each cashbacks}}
+                    tr.obj-row data-cashback-id="{{this.id}}"
                         td
 
                             .pull-left
-                                strong | nubela
-                                - 7% cashback with a minimum spending of $20000
+                                strong | {{this.name}}
+                                - {{this.quick_desc}}
                             .pull-right
-                                Tues 23/4/2013 by jamie
+                                {{admin.username}} on {{this.last_mod_date}}
 
                             <div class="clear spacing10"></div>
-                            .expanded
-                                p
-                                    i
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            .expanded.hidden
+                                blockquote
+                                    {{this.description}}
                                 > hr
                                 .btn-holder
-                                    a.btn.btn-primary
+                                    {{#if this.is_disabled}}
+                                    a.btn.btn-primary.make-active
                                         span.heydings | 8
                                         Make active
+                                    {{/if}}
 
                                     a.btn
                                         <i class="icon-minus"></i>
                                         Delete
-                    tr
-                        td
-                            .pull-left
-                                strong | nubela
-                                - 8% cashback with a minimum spending of $100000
-                            .pull-right
-                                Tues 23/4/2013 by jamie
-                            <div class="spacing10"></div>
-                            .expanded.hidden
-                                asd
+                    {{/each}}
 
 template name="cashback_user_values"
     .right-container
@@ -109,10 +113,16 @@ template name="cashback_user_values"
                     tr
                         td
                             > input.table-header-input type="text" placeholder="Search by Username or Email address.."
-                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            {{#if has_next}}
+                            a.appnav href="{{next_page_url}}"
+                                > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            {{/if}}
                             .pull-right
-                                2
-                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+                                {{current_page}}
+                            {{#if has_prev}}
+                            a.appnav href="{{prev_page_url}}"
+                                > i.icon-chevron-left.pull-right.icon-nav.page-back
+                            {{/if}}
 
                 tbody
 
@@ -154,7 +164,7 @@ template name="cashback_compose"
                     > input#name type="text" placeholder="Cashback A" name="name" data-required="true" data-focus="first"
 
                 .control-group
-                    label id="description" | Describe it
+                    label for="description" | Describe it
                     > textarea#description rows="3" name="description"
 
                 .control-group
