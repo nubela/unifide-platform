@@ -114,8 +114,8 @@ Template.coupon_compose.created = ->
     Meteor.subscribe "all_coupons"
 
 Template.coupon_compose.rendered = ->
-    $("#coupon-compose-form").off "submit"
     bindCouponComposeForm()
+    $("#coupon-compose-form").off "submit"
     $("#coupon-compose-form").on "submit", (evt) ->
         evt.preventDefault()
         createCoupon()

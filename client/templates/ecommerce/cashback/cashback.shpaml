@@ -145,7 +145,7 @@ template name="cashback_user_values"
 
 template name="cashback_compose"
     div.compose-new-item.well
-        form method="POST" data-validate="parsley"
+        form#cashback-compose-form method="POST" data-validate="parsley"
             legend | New Cashback Rule
             fieldset
 
@@ -158,7 +158,7 @@ template name="cashback_compose"
                     > textarea#description rows="3" name="description"
 
                 .control-group
-                    label for="#erc" | Cashback percentage (%)
+                    label for="#perc" | Cashback percentage (%)
                     > input#perc type="number" placeholder="10" name="perc" data-required="true"
 
                 .control-group
@@ -167,8 +167,8 @@ template name="cashback_compose"
 
                 > br
                 .control-group
-                    button.btn-large.btn.btn-primary.submit-btn | Save rule and make it active
-                    button.btn-large.btn.submit-btn | Save rule only
+                    button.btn-large.btn.btn-primary.save-active-btn | Save rule and make it active
+                    button.btn-large.btn.save-btn | Save rule only
                     a.appnav.btn-large.btn.submit-btn href="/cashback" | Back to Cashbacks
 
 template name="cashback_transaction_log"
