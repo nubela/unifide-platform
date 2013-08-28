@@ -22,6 +22,11 @@ Template.cashback.view = ->
 Template.cashback.rendered = ->
     scrollTop()
 
+#-- cashback_compose --#
+
+Template.cashback_compose.rendered = ->
+    null
+
 #-- util --#
 
 getCashbackTemplate = ->

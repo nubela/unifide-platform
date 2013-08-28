@@ -11,6 +11,9 @@
                         <a href="/cashback/" class="appnav anchor-container">
                             <li class="container-entry"><span class="icon">w</span> All Cashbacks</li>
                         </a>
+                        <a href="/cashback/compose" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">+</span> New Cashback</li>
+                        </a>
                         <a href="/cashback/user-credit/" class="appnav anchor-container">
                             <li class="container-entry"><span class="icon">A</span> User Credits</li>
                         </a>
@@ -220,7 +223,7 @@
 
                 <div class="control-group">
                     <label for="name">Give a name to this Cashback Rule</label>
-                    <input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" />
+                    <input type="text" placeholder="Cashback A" name="name" data-required="true" data-focus="first" id="name" />
                 </div>
 
                 <div class="control-group">
@@ -229,13 +232,13 @@
                 </div>
 
                 <div class="control-group">
-                    <label for="price">Cashback percentage (%)</label>
-                    <input type="number" placeholder="10" name="price" id="price" />
+                    <label for="#erc">Cashback percentage (%)</label>
+                    <input type="number" placeholder="10" name="perc" data-required="true" id="perc" />
                 </div>
 
                 <div class="control-group">
-                    <label for="quantity">Minimum spending ($)</label>
-                    <input type="number" placeholder="50" name="quantity" id="quantity" />
+                    <label for="min-spending">Minimum spending ($)</label>
+                    <input type="number" placeholder="50" name="min-spending" data-required="true" id="min-spending" />
                 </div>
 
                 <br />

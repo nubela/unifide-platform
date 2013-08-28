@@ -9,6 +9,8 @@ template name="cashback"
                             li.side-header | Cashbacks
                         a.appnav.anchor-container href="/cashback/"
                             li.container-entry | <span class="icon">w</span> All Cashbacks
+                        a.appnav.anchor-container href="/cashback/compose"
+                            li.container-entry | <span class="icon">+</span> New Cashback
                         a.appnav.anchor-container href="/cashback/user-credit/"
                             li.container-entry | <span class="icon">A</span> User Credits
                         a.appnav.anchor-container href="/cashback/log/"
@@ -149,19 +151,19 @@ template name="cashback_compose"
 
                 .control-group
                     label for="name" | Give a name to this Cashback Rule
-                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first"
+                    > input#name type="text" placeholder="Cashback A" name="name" data-required="true" data-focus="first"
 
                 .control-group
                     label id="description" | Describe it
-                    > textarea rows="3" name="description" id="description"
+                    > textarea#description rows="3" name="description"
 
                 .control-group
-                    label for="price" | Cashback percentage (%)
-                    > input type="number" placeholder="10" name="price" id="price"
+                    label for="#erc" | Cashback percentage (%)
+                    > input#perc type="number" placeholder="10" name="perc" data-required="true"
 
                 .control-group
-                    label for="quantity" | Minimum spending ($)
-                    > input type="number" placeholder="50" name="quantity" id="quantity"
+                    label for="min-spending" | Minimum spending ($)
+                    > input#min-spending type="number" placeholder="50" name="min-spending" data-required="true"
 
                 > br
                 .control-group
