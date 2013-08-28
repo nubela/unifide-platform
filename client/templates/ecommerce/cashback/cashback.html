@@ -217,7 +217,7 @@
 
 <template name="cashback_compose">
     <div class="compose-new-item well">
-        <form method="POST" data-validate="parsley">
+        <form method="POST" data-validate="parsley" id="cashback-compose-form">
             <legend>New Cashback Rule</legend>
             <fieldset>
 
@@ -232,7 +232,7 @@
                 </div>
 
                 <div class="control-group">
-                    <label for="#erc">Cashback percentage (%)</label>
+                    <label for="#perc">Cashback percentage (%)</label>
                     <input type="number" placeholder="10" name="perc" data-required="true" id="perc" />
                 </div>
 
@@ -243,8 +243,8 @@
 
                 <br />
                 <div class="control-group">
-                    <button class="btn-large btn btn-primary submit-btn">Save rule and make it active</button>
-                    <button class="btn-large btn submit-btn">Save rule only</button>
+                    <button class="btn-large btn btn-primary save-active-btn">Save rule and make it active</button>
+                    <button class="btn-large btn save-btn">Save rule only</button>
                     <a href="/cashback" class="appnav btn-large btn submit-btn">Back to Cashbacks</a>
                 </div>
             </fieldset>

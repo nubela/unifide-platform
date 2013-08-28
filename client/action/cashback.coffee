@@ -25,9 +25,34 @@ Template.cashback.rendered = ->
 #-- cashback_compose --#
 
 Template.cashback_compose.rendered = ->
-    null
+    $("#cashback-compose-form").off "submit"
+    $("#cashback-compose-form").on "submit", (evt) ->
+        evt.preventDefault()
+        createCashback "true"
+
+Template.cashback_compose.events =
+    "click .save-active-btn": (evt) ->
+        evt.preventDefault()
+        createCashback "true"
+
+    "click .save-btn": (evt) ->
+        evt.preventDefault()
+        createCashback()
 
 #-- util --#
+
+createCashback = (make_active=false) ->
+    if $("#cashback-compose-form").parsley("validate")
+        dic = {
+            name: $("#name").val
+            description: $("#description").val()
+            perc: $("#perc").val()
+            min_spending: $("#min-spending").val()
+            make_active: make_active
+        }
+    Meteor.call "new_cashback", dic, ->
+        Router.navigate "/cashback", true
+        flashAlert "Cashback created!", ""
 
 getCashbackTemplate = ->
     slugs = (Session.get CASHBACK_SESSION.SUBURL)

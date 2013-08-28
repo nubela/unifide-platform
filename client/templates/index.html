@@ -38,7 +38,9 @@
 
 <template name="page_index">
     {{> header}}
+    {{#isolate}}
     {{{view}}}
+    {{/isolate}}
     <div class="alert-container">
         <div class="alert fade in hidden alert-sample">
             <button type="button" class="container-alert-close" data-dismiss="alert">&times;</button>

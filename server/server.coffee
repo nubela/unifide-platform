@@ -1,7 +1,7 @@
 get_biz_info = ->
-  @unblock()
-  resp = Meteor.http.get(BACKEND_URL + "business/info/")
-  JSON.parse resp.content
+    @unblock()
+    resp = Meteor.http.get(BACKEND_URL + "business/info/")
+    JSON.parse resp.content
 
 serialize = (obj) ->
     str = []
@@ -220,6 +220,12 @@ new_coupon = (coupon) ->
     Meteor.http.put "#{BACKEND_URL}coupon/",
         params: coupon
 
+new_cashback = (cashback) ->
+    @unblock()
+    cashback["admin_id"] = Meteor.userId()
+    Meteor.http.put "#{BACKEND_URL}cashback/",
+        params: cashback
+
 Meteor.methods
     get_all_orders: get_all_orders
     get_biz_info: get_biz_info
@@ -251,3 +257,4 @@ Meteor.methods
     create_item: create_item
     new_discount: new_discount
     new_coupon: new_coupon
+    new_cashback: new_cashback

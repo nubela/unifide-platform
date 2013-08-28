@@ -153,8 +153,8 @@
   };
 
   Template.coupon_compose.rendered = function() {
-    $("#coupon-compose-form").off("submit");
     bindCouponComposeForm();
+    $("#coupon-compose-form").off("submit");
     return $("#coupon-compose-form").on("submit", function(evt) {
       evt.preventDefault();
       return createCoupon();
