@@ -18,6 +18,7 @@ VIEW_TYPE =
     ITEM: "ITM_VT_Item"
     CREATE: "ITM_VT_Create"
     UPDATE: "ITM_VT_Update"
+    CREATE_BASED: "ITM_VT_CREATE_BASED"
 
 
 ITEM_TEMPLATE =
@@ -28,7 +29,7 @@ ITEM_TEMPLATE =
     ITEM_VIEW: "item_view"
 
 
-ITEM_RESERVED_KEYWORDS = ["new", "item", "update"]
+ITEM_RESERVED_KEYWORDS = ["new", "item", "update", "based"]
 
 ITEM_SORT_METHOD =
     DATE_ADDED: "date_added"
@@ -101,6 +102,9 @@ init_items = ->
             else if keyword2 == "update"
                 Session.set(ITEM_SESSION.ITEM_ID, keyword)
                 Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.UPDATE)
+            else if keyword2 == "based"
+                Session.set(ITEM_SESSION.ITEM_ID, keyword)
+                Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.CREATE_BASED)
 
     rehash_container_items()
 
@@ -181,7 +185,7 @@ Template.items.view = ->
         else
             return Template[ITEM_TEMPLATE.ITEMS]()
 
-    else if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE or Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
+    else if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE or Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE or Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE_BASED
         return Template[ITEM_TEMPLATE.COMPOSE]()
 
     else if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.ITEM
@@ -304,7 +308,7 @@ Template.item_compose.extra_attr = ->
 
 
 Template.item_compose.item_to_update = ->
-    if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
+    if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE or Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE_BASED
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
         return ITMItems.findOne({$or: [
             {_id: new Meteor.Collection.ObjectID(item_id)},
@@ -317,8 +321,13 @@ Template.item_compose.item_to_update = ->
     return null
 
 
-Template.item_compose.rendered = ->
+Template.item_compose.to_be_based = ->
+    Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE_BASED
+
+Template.item_compose.created = ->
     scrollTop()
+
+Template.item_compose.rendered = ->
     $("#tagsinput_tag").keypress (e) ->
         if e.which == 13
             e.preventDefault()
@@ -460,11 +469,19 @@ Template.item_breadcrumb.active = ->
 
 #------ item_view template functions ------/#
 
+Template.item_view.rendered = ->
+    $("[data-toggle='tooltip']").tooltip
+        placement: "left"
+
 Template.item_view.update_url = ->
     url = suburl_to_current_path_for_items()
     item_id = Session.get(ITEM_SESSION.ITEM_ID)
     url + "/update/" + item_id
 
+Template.item_view.created_base_url = ->
+    url = suburl_to_current_path_for_items()
+    item_id = Session.get(ITEM_SESSION.ITEM_ID)
+    url + "/based/" + item_id
 
 Template.item_view.item = ->
     item_id = Session.get(ITEM_SESSION.ITEM_ID)

@@ -54,6 +54,17 @@ template name="select-container"
 
 
 template name="item_view"
+    ul.nav.nav-tabs
+        li.active
+            a | Base Item
+        li
+            a | Another item
+        li
+            a | Next item
+        li.pull-right
+            a.appnav data-toggle="tooltip" title="Create another item based on {{item.name}}" href="{{created_base_url}}"
+                <i class="icon-plus"></i>
+
     .show-item
         .span4.item
             .thumbnail
@@ -77,27 +88,44 @@ template name="item_view"
 
 
 template name="item_compose"
+
+    ul.nav.nav-tabs
+        li.active
+            a | Base Item
+        li
+            a | Another item
+        li
+            a | Next item
+
     <!--- new item compose --->
     div.compose-new-item.well
         form#item-compose-form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley"
+            {{#if to_be_based}}
+            legend | Create similar item based on {{item_to_update.name}}
+            {{else}}
             {{#if item_to_update}}
             legend | Update {{item_to_update.name}}
             {{else}}
             legend | New Item
             {{/if}}
             fieldset
+            {{/if}}
 
                 <!--- hidden fields --->
-                > input type="hidden" name="id" id="id" {{#if item_to_update}}value="{{item_to_update.id}}"{{/if}}
                 > input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}'
                 > input type="hidden" name="redirect_to" id="redirect_to" value='{{redirect_to}}'
                 > input#custom-tag-lis type="hidden" name="tags" value='{{tags_json}}'
                 > input#custom-attr-lis type="hidden" name="custom_attr_lis" value='{{custom_attr_lis_json}}'
                 > input#custom-img-lis type="hidden" name="custom_media_lis" value='{{custom_media_lis_json}}'
+                {{#if to_be_based}}
+                > input#group-id type="hidden" name="group-id" value='{{item_to_update.group_id}}'
+                {{else}}
+                > input type="hidden" name="id" id="id" {{#if item_to_update}}value="{{item_to_update.id}}"{{/if}}
+                {{/if}}
 
                 .control-group
                     label for="name" | Item name
-                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}}
+                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}} {{#if to_be_based}}readonly{{/if}}
 
                 .control-group
                     label for="media_file" | Media
@@ -193,6 +221,12 @@ template name="item_container"
                 {{else}}
                 .span2.item
                     a.appnav href="{{item_url}}"
+                        {{#if this.has_group}}
+                        .thumbnail.bg2
+                            &nbsp;
+                        .thumbnail.bg1
+                            &nbsp;
+                        {{/if}}
                         .thumbnail
                             div.img-holder
                                 {{#if media_url}}

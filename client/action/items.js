@@ -19,7 +19,8 @@
     CONTAINER: "ITM_VT_Container",
     ITEM: "ITM_VT_Item",
     CREATE: "ITM_VT_Create",
-    UPDATE: "ITM_VT_Update"
+    UPDATE: "ITM_VT_Update",
+    CREATE_BASED: "ITM_VT_CREATE_BASED"
   };
 
   ITEM_TEMPLATE = {
@@ -30,7 +31,7 @@
     ITEM_VIEW: "item_view"
   };
 
-  ITEM_RESERVED_KEYWORDS = ["new", "item", "update"];
+  ITEM_RESERVED_KEYWORDS = ["new", "item", "update", "based"];
 
   ITEM_SORT_METHOD = {
     DATE_ADDED: "date_added",
@@ -102,6 +103,9 @@
         } else if (keyword2 === "update") {
           Session.set(ITEM_SESSION.ITEM_ID, keyword);
           Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.UPDATE);
+        } else if (keyword2 === "based") {
+          Session.set(ITEM_SESSION.ITEM_ID, keyword);
+          Session.set(ITEM_SESSION.VIEW_TYPE, VIEW_TYPE.CREATE_BASED);
         }
       }
     }
@@ -214,7 +218,7 @@
       } else {
         return Template[ITEM_TEMPLATE.ITEMS]();
       }
-    } else if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.CREATE || Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
+    } else if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.CREATE || Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE || Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.CREATE_BASED) {
       return Template[ITEM_TEMPLATE.COMPOSE]();
     } else if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.ITEM) {
       return Template[ITEM_TEMPLATE.ITEM_VIEW]();
@@ -376,7 +380,7 @@
 
   Template.item_compose.item_to_update = function() {
     var item_id;
-    if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
+    if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE || Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.CREATE_BASED) {
       item_id = Session.get(ITEM_SESSION.ITEM_ID);
       return ITMItems.findOne({
         $or: [
@@ -396,8 +400,15 @@
     return null;
   };
 
+  Template.item_compose.to_be_based = function() {
+    return Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.CREATE_BASED;
+  };
+
+  Template.item_compose.created = function() {
+    return scrollTop();
+  };
+
   Template.item_compose.rendered = function() {
-    scrollTop();
     return $("#tagsinput_tag").keypress(function(e) {
       var custom_grp, customtagLis, random_id, val;
       if (e.which === 13) {
@@ -532,11 +543,24 @@
     }
   };
 
+  Template.item_view.rendered = function() {
+    return $("[data-toggle='tooltip']").tooltip({
+      placement: "left"
+    });
+  };
+
   Template.item_view.update_url = function() {
     var item_id, url;
     url = suburl_to_current_path_for_items();
     item_id = Session.get(ITEM_SESSION.ITEM_ID);
     return url + "/update/" + item_id;
+  };
+
+  Template.item_view.created_base_url = function() {
+    var item_id, url;
+    url = suburl_to_current_path_for_items();
+    item_id = Session.get(ITEM_SESSION.ITEM_ID);
+    return url + "/based/" + item_id;
   };
 
   Template.item_view.item = function() {

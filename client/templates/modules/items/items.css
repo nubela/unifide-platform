@@ -21,21 +21,33 @@
   .item-container .items {
     margin-top: 80px; }
 
-.items .item .thumbnail .img-holder {
-  overflow: hidden; }
-.items .item .thumbnail .text-caption {
-  background-image: url("/media/img/text_gray_bg_dark.png");
-  color: white;
-  width: 100%;
-  height: 30px;
-  float: left;
-  position: relative;
-  top: -30px;
-  font-size: 0.9em;
-  line-height: 30px;
-  font-weight: 200; }
-  .items .item .thumbnail .text-caption p {
-    padding: 0 5px; }
+.items .item {
+  position: relative; }
+  .items .item .thumbnail .img-holder {
+    overflow: hidden; }
+  .items .item .thumbnail .text-caption {
+    background-image: url("/media/img/text_gray_bg_dark.png");
+    color: white;
+    width: 100%;
+    height: 30px;
+    float: left;
+    position: relative;
+    top: -30px;
+    font-size: 0.9em;
+    line-height: 30px;
+    font-weight: 200; }
+    .items .item .thumbnail .text-caption p {
+      padding: 0 5px; }
+  .items .item .bg1, .items .item .bg2 {
+    position: absolute;
+    width: 92%;
+    height: 80%; }
+  .items .item .bg1 {
+    right: -6px;
+    top: -6px; }
+  .items .item .bg2 {
+    right: -12px;
+    top: -12px; }
 .items .empty .empty-img:hover {
   background-color: #e4e4e9; }
 .items .empty .empty-img {

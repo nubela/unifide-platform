@@ -2,6 +2,12 @@ Template.page_controller.events = {
     'click .appnav': router_navigation
 };
 
+Template.page_controller.rendered = function () {
+    $("[data-toggle='tooltip']").tooltip({
+            placement: "left"
+    })
+}
+
 Template.page_controller.view = function() {
 
     if (Meteor.loggingIn()) { return; }
