@@ -91,7 +91,7 @@
                             {{this.status}}&nbsp;
                         </div>
                     </div>
-                    <div data-expanded="{{this.id}}" class="expanded">
+                    <div data-expanded="{{this.id}}" class="expanded hidden">
                         <div class="expanded-within">
                             {{#if this.description}}
                             <blockquote>
@@ -101,7 +101,7 @@
                             <p>
                                 <small>
                                     {{{this.item_scope_desc}}}<br>
-                                    And it can be used by <strong>all users</strong>.<br>
+                                    {{{this.user_scope_desc}}}<br>
                                     {{{this.min_order}}}<br>
                                     {{{this.duration_desc}}}<br>
                                 </small>

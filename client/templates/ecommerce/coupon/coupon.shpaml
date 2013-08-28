@@ -61,7 +61,7 @@ template name="coupon_all"
                             {{this.valid_times}} time(s)
                         .span2
                             {{this.status}}&nbsp;
-                    .expanded data-expanded="{{this.id}}"
+                    .expanded.hidden data-expanded="{{this.id}}"
                         .expanded-within
                             {{#if this.description}}
                             blockquote
@@ -70,7 +70,7 @@ template name="coupon_all"
                             p
                                 small
                                     {{{this.item_scope_desc}}}<br>
-                                    And it can be used by <strong>all users</strong>.<br>
+                                    {{{this.user_scope_desc}}}<br>
                                     {{{this.min_order}}}<br>
                                     {{{this.duration_desc}}}<br>
                             > hr

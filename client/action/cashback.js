@@ -28,6 +28,10 @@
     return scrollTop();
   };
 
+  Template.cashback_compose.rendered = function() {
+    return null;
+  };
+
   getCashbackTemplate = function() {
     var slugs;
     slugs = Session.get(CASHBACK_SESSION.SUBURL);

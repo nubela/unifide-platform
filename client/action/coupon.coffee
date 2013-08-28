@@ -24,7 +24,6 @@ Template.coupon.view = ->
 Template.coupon_all.created = ->
     Meteor.subscribe "all_containers"
     Meteor.subscribe "all_items"
-    Meteor.subscribe "all_groups"
     Meteor.subscribe "all_users"
     Meteor.subscribe "all_coupons"
 
@@ -38,13 +37,41 @@ Template.coupon_all.coupons = ->
         transform: (doc) ->
             doc["id"] = doc._id.valueOf()
             doc["item_scope_desc"] = getCouponItemScopeDesc(doc)
+            doc["user_scope_desc"] = getCouponUserScopeDesc(doc)
             doc["has_disable_btn"] = doc.status == "available"
             doc["min_order"] = "It is only valid for orders with a minimum spending of <strong>$#{doc.order_minimum_spending}</strong>."
             doc["duration_desc"] = getCouponDurationDesc(doc)
             doc
     }
 
+Template.coupon_all.current_page = ->
+    getPageNo()
+
+Template.discount_all.next_page_url = ->
+    page_no = getDiscountPageNo()
+    next_page = page_no + 1
+    return "/coupon/#{next_page}"
+
+Template.coupon_all.prev_page_url = ->
+    page_no = getPageNo()
+    prev_page = page_no - 1
+    return "/coupon/#{prev_page}"
+
+Template.coupon_all.has_next = ->
+    total_items = Coupon.find({}).count()
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE)
+    getPageNo() < total_pages
+
+Template.coupon_all.has_prev = ->
+    getPageNo() >= 2
+
 Template.coupon_all.events =
+    "click [data-expand]": (evt) ->
+        elem = $(evt.target).parents("[data-expand]")[0]
+        id = $(elem).attr("data-expand")
+        $("[data-expanded]").addClass "hidden"
+        $("[data-expanded=#{id}]").removeClass("hidden")
+
     "click .disable-coupon": (evt) ->
         coupon_id = $(evt.target).parents("[data-expanded]").attr("data-expanded")
         Coupon.update {_id: new Meteor.Collection.ObjectID(coupon_id)}, {
@@ -150,6 +177,14 @@ bindCouponComposeForm = ->
                 $(this).attr("data-container-id", id)
 
 #-- helper --#
+
+getCouponUserScopeDesc = (doc) ->
+    if doc.user_scope == "user_group"
+        return "And it can be used by users in the following groups: #{doc.user_group.join(", ")}"
+    else if doc.user_scope == "specific_user"
+        user_obj = User.findOne({_id: doc.user_id})
+        return "And it can be used by the following user: <strong>#{user_obj.username} #{user_obj.email}</strong>"
+    "And it can be used by <strong>all users</strong>."
 
 getCouponItemScopeDesc = (doc) ->
     if doc.coupon_scope == "item_only"
