@@ -6,203 +6,83 @@ template name="order"
                 .sidebar-nav-fixed
                     ul.unstyled.side-nav
                         a.appnav href="/order"
-                            li.side-header | Orders / RSVP
+                            li.side-header | Orders
                         a.appnav href="/order"
                             li.container-entry | <span class="icon">v</span> Overview
+                        a.appnav href="/order/new"
+                            li.container-entry | <span class="icon">+</span> New Order
 
                 <!--- main area --->
                 .span12.span-fixed-sidebar.twitter
 
                     {{{view}}}
 
-template name="order_details"
-    .right-container
-        .container-title
-            h2
-                Order for {{order_info.obj_name}}
-            p
-                span.lead
-                    ({{order_info.id}})
-            p
-                span.badge.badge-info | {{order_info.status}}
-            p
-                small
-                    <span class="heydings">l</span> Order made on <strong>{{order_info.readable_date}}</strong>
-            p
-                small
-                    <span class="heydings">A</span> <strong>{{order_info.user_name}}</strong>
-            p
-                small
-                    <span class="heydings">t</span> Order for <strong>{{order_info.quantity}} unit(s)</strong>
-            {{#if order_info.special_notes}}
-            p
-                small
-                    <span class="heydings">b</span> User noted "<strong>{{order_info.special_notes}}</strong>"
-            {{#if order_info.public_note}}
-            p
-                small
-                    <span class="heydings">b</span> Order note "<strong>{{order_info.public_note}}</strong>"
-            {{/if}}
-            {{#if order_info.private_note}}
-            p
-                small
-                    <span class="heydings">b</span> Private Order note "<strong>{{order_info.private_note}}</strong>"
-            {{/if}}
-            {{/if}}
-            p
-                > br
-                a.btn-large.btn.btn-primary href="/order/update/{{order_info.id}}" | Update Order Status
+template name="order_all"
+    all
 
-        > br
-        > br
-        h3
-            User Details
-        table.table-striped.table-hover
-            thead
-                tr
-                    td
-                        Type
-                    td
-                        Data
-            tbody
-                {{#each user_info}}
-                tr
-                    td
-                        {{key}}
-                    td
-                        strong
-                            {{value}}
-                {{/each}}
-
-template name="order_update"
-    .form-holder.well
-        form#bizinfo-update-form method="POST" action="{{submit_url}}" data-validate="parsley"
-            legend | Update Order
-
+template name="order_compose"
+    div.compose-new-item.well
+        form#order-compose-form method="POST" data-validate="parsley"
+            legend | New Manual Order
             fieldset
-                <!--- hidden fields --->
-                > input type="hidden" name="redirect_to" value='{{redirect_url}}'
-                > input type="hidden" name="order_id" value='{{order_id}}'
 
                 .control-group
-                    label for="order_status" | Order Status
-                    select id="order_status" name="status"
-                        option value="{{current.status}}" selected | (Current Status) {{current.status}}
-                        option value="New" | Fresh Order
+                    label for="user_id" | An order for which user?
+                    > input#user_id type="text" name="user_id" data-required="true"
+
+                .control-group
+                    label for="status" | Order Status
+                    select#status name="status"
+                        option value="New" | New
                         option value="Processing" | Processing
                         option value="Shipped" | Shipped
-                        option value="Cancelled" | Cancel Order
                         option value="On Hold" | On Hold
+                        option value="Cancelled" | Cancelled
 
                 .control-group
-                    label id="description" | Notes (Visible to user)
-                    {{#if current.public_note}}
-                    textarea rows="3" name="public_note" id="description" placeholder="Your order will be expedited!" | {{current.public_note}}
-                    {{else}}
-                    > textarea rows="3" name="public_note" id="description" placeholder="Your order will be expedited!"
-                    {{/if}}
+                    label for="request-notes" | User's special request
+                    <textarea id="request-notes" name="request_notes"></textarea>
 
                 .control-group
-                    label id="description" | Private Notes (Visible only to you)
-                    {{#if current.private_note}}
-                    textarea rows="3" name="private_note" id="description" placeholder="User called and requested for.." | {{current.private_note}}
-                    {{else}}
-                    > textarea rows="3" name="private_note" id="description" placeholder="User called and requested for.."
-                    {{/if}}
-
-                <!---
-                .control-group
-                    label.checkbox for="update_user"
-                        > span.icon
-                        > span.icon-to-fade
-                        > input type="checkbox" id="update_user" name="update_user_email"
-                        Send email to user to update this order status change?
-                --->
+                    label for="admin-notes" | Admin's notes on the order
+                    <textarea id="admin-notes" name="admin_notes"></textarea>
 
                 .control-group
-                    button.btn-large.btn.btn-primary.submit-btn#bizinfo-submit-btn | Update
+                    a.btn.btn-inverse#add-order-item-btn
+                        <i class="icon-plus"></i>
+                        Add order item
 
-template name="order_table"
-    .right-container
-        .container-title
-            .row-fluid
-                h2
-                    Orders and RSVP Overview
-            .row-fluid
-                p
-                    small
-                        <span class="heydings">l</span> Listing {{current_orders}} - {{max_orders}} out of {{total_orders}} newest orders
-            > br
+                <div id="order-item-container"></div>
 
-            {{#if is_filtered}}
-            .row-fluid
-                .span6
-                    .share.mrl#filtered-box
-                        ul
-                            li.text-center
-                                Showing only orders from <br><strong>{{filtered_item_name}}</strong>
-                        a.btn.btn-primary.btn-block.btn-large.appnav href="/order" | Remove filter
-            {{/if}}
+                #order-item-template.control-group.order-item.hidden
+                    > br
+                    label for="order-item"
+                        Order Item <span class="item_no">1</span>&nbsp;&nbsp;
+                        a.btn.btn-inverse.rm-order-item-btn
+                            &times;
+                    > input.item-id type="text" placeholder="(Click to select item)" class="item-selection"
+                    > input.qty type="number" placeholder="Quantity (Example: 23)"
 
-        > br
-        {{#if has_orders}}
-        table.table-striped.table-hover
-            thead
-                tr
-                    td
-                        ID
-                    td
-                        Item/Event
-                    td
-                        User
-                    td
-                        Order Date
-                    td
-                        Status
-                    td
-                        Actions
+                > br
 
-            tbody
-                {{#each orders}}
-                tr.order-entry
-                    td
-                        {{id}}
-                    td
-                        {{item_name}}
-                    td
-                        {{user_name}}
-                    td
-                        {{date}}
-                    td
-                        span.badge.badge-info | {{status}}
-                    td
-                        .btn-toolbar
-                            .btn-group
-                                a.view-details.order-action.btn.btn-disabled.appnav href="/order/details/{{id}}" title="See details on this order"
-                                    > i.fui-eye-16
-                                a.view-list-items.order-action.btn.btn-disabled.appnav href="/order/filtered/{{obj_id}}" title="Show all orders from this item"
-                                    > i.fui-menu-16
-                                a.view-change-statusitems.order-action.btn.btn-disabled.appnav href="/order/update/{{id}}" title="Update order status"
-                                    > i.fui-new-16
-                {{/each}}
-        {{else}}
-        .well.no-orders
-            p.no-order-alert
-                small
-                    No orders so far..
-        {{/if}}
+                .control-group
+                    label for="coupon-code" | Apply coupon code?
+                    > input#coupon-code type="text" name="coupon_code" placeholder="ABCDE"
 
-        {{#if has_pagination}}
-        .pagination
-            ul
-                {{#if pagination.prev.has}}
-                li.previous
-                    a href="{{pagination.prev.url}}"
-                        > img src="/media/img/pager/previous.png"
-                {{/if}}
-                {{#if pagination.next.has}}
-                li.next
-                    a href="{{pagination.next.url}}"
-                        > img src="/media/img/pager/next.png"
-                {{/if}}
-        {{/if}}
+                .control-group
+                    label id="shipping-method" | Use Shipping Method?
+                    select#shipping-method name="shipping_method"
+                        option | None
+                        {{#each shipping_methods}}
+                        option value="{{this.id}}" | {{this.name}}
+                        {{/each}}
+
+                .control-group
+                    label.remove-label
+                        > input#apply-debits-credits type="checkbox" name="apply_debits_credits"
+                        Apply taxes and discounts
+
+                > br
+                .control-group
+                    button.btn-large.btn.btn-primary.submit-btn | Save Order
+                    a.appnav.btn-large.btn.submit-btn href="/order" | Back to managing all orders

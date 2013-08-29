@@ -1,3 +1,6 @@
+Meteor.publish "all_shipping",  ->
+    ShippingRule.find()
+
 Meteor.publish "all_cashbacks",  ->
     Cashback.find()
 

@@ -92,3 +92,6 @@
 
 #item-tooltip {
   z-index: 0; }
+
+input[type="checkbox"] {
+  width: auto !important; }

@@ -22,7 +22,7 @@ Template.tax.view = ->
 #-- tax_compose --#
 
 Template.tax_compose.created = ->
-    null
+    Template[getPage()]()
 
 Template.tax_compose.rendered = ->
     $("#tax-compose-form").off "submit"

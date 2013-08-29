@@ -27,7 +27,7 @@
   };
 
   Template.tax_compose.created = function() {
-    return null;
+    return Template[getPage()]();
   };
 
   Template.tax_compose.rendered = function() {

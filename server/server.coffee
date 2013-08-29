@@ -238,6 +238,12 @@ new_shipping_method = (method) ->
     Meteor.http.put "#{BACKEND_URL}shipping/",
         params: method
 
+new_manual_order = (order) ->
+    @unblock()
+    method["admin_id"] = Meteor.userId()
+    Meteor.http.put "#{BACKEND_URL}order/",
+        params: method
+
 Meteor.methods
     get_all_orders: get_all_orders
     get_biz_info: get_biz_info
@@ -272,3 +278,4 @@ Meteor.methods
     new_cashback: new_cashback
     new_tax: new_tax
     new_shipping_method: new_shipping_method
+    new_manual_order: new_manual_order
