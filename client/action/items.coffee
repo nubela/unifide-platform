@@ -38,6 +38,46 @@ ITEM_SORT_METHOD =
 
 #------ helper functions ------#
 
+filterForSimilarItems = (all_items) ->
+    """
+    Takes a list of items, and remove similar items from the mix, leaving the "base" item in it, while adding
+    an attribute to signify that it has multiple "similar" items.
+    """
+    dic =
+        _legacy: []
+
+    #sort items by group_ids
+    for i in all_items
+        if not "group_id" of i
+            dic["_legacy"].push i
+        else
+            if not dic[i.group_id]?
+                dic[i.group_id] = []
+            dic[i.group_id].push i
+
+    filtered_items = []
+    for k,v of dic
+        if k != "_legacy"
+            if v.length > 1
+                #ok found similar items! lets sort it
+                sorted_v = (_.sortBy v, (itm) -> itm.timestamp_utc).reverse()
+                picked_item = sorted_v[0]
+                picked_item.is_multi = true
+            else
+                picked_item = v[0]
+                picked_item.is_multi = false
+
+            filtered_items.push picked_item
+
+        else
+            filtered_items = filtered_items.concat v
+
+    return filtered_items
+
+
+
+
+
 url_from_path = (path_lis) ->
     url = "/items"
     if path_lis?
@@ -564,8 +604,9 @@ Template.item_container.items = ->
     main_container = ITMChildCategories.findOne
         materialized_path: container_path_lis
 
+    #check that container exists, if not, return empty result
     if container_path_lis.length != 0 and not main_container?
-        return ITMItems.find({}, limit: 0).count()
+        return ITMItems.find({}, limit: 0)
 
     all_items = ITMItems.find({container_id: main_container._id}, {
         sort: {timestamp_utc: 1}
@@ -576,6 +617,8 @@ Template.item_container.items = ->
                     doc.media_url = url_for(media_obj)
             doc
     }).fetch()
+
+    all_items = filterForSimilarItems(all_items)
 
     item_lis = [
         is_empty: true

@@ -105,9 +105,11 @@
                 <h3>
                     {{item.name}}
                 </h3>
+                {{#if item.price}}
                 <p>
-                    <strong>S${{item.price}}</strong>
+                    <strong>${{item.price}}</strong>
                 </p>
+                {{/if}}
                 <p>{{item.description}}</p>
                 <br>
                 <a href="{{update_url}}" class="appnav btn btn-primary btn-large btn-block">Update</a>
@@ -163,7 +165,7 @@
 
                 <div class="control-group">
                     <label for="name">Item name</label>
-                    <input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}} {{#if to_be_based}}readonly{{/if}} />
+                    <input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}} />
                 </div>
 
                 <div class="control-group">
@@ -285,7 +287,7 @@
                 {{else}}
                 <div class="span2 item">
                     <a href="{{item_url}}" class="appnav">
-                        {{#if this.has_group}}
+                        {{#if this.is_multi}}
                         <div class="thumbnail bg2">
                             &nbsp;
                         </div>

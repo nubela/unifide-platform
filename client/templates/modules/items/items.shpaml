@@ -77,8 +77,10 @@ template name="item_view"
             .login-form
                 h3
                     {{item.name}}
+                {{#if item.price}}
                 p
-                    strong | S${{item.price}}
+                    strong | ${{item.price}}
+                {{/if}}
                 p | {{item.description}}
                 <br>
                 a.appnav.btn.btn-primary.btn-large.btn-block href="{{update_url}}" | Update
@@ -125,7 +127,7 @@ template name="item_compose"
 
                 .control-group
                     label for="name" | Item name
-                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}} {{#if to_be_based}}readonly{{/if}}
+                    > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}}
 
                 .control-group
                     label for="media_file" | Media
@@ -221,7 +223,7 @@ template name="item_container"
                 {{else}}
                 .span2.item
                     a.appnav href="{{item_url}}"
-                        {{#if this.has_group}}
+                        {{#if this.is_multi}}
                         .thumbnail.bg2
                             &nbsp;
                         .thumbnail.bg1
