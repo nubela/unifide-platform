@@ -1,0 +1,44 @@
+template name="tax"
+    .container-fluid.full-container
+        .row-fluid.full-row
+            .body-container
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        a.appnav.anchor-container href="/taxes"
+                            li.side-header | Taxes
+                        a.appnav.anchor-container href="/taxes"
+                            li.container-entry | <span class="icon">w</span> All Taxes
+                        a.appnav.anchor-container href="/taxes/new"
+                            li.container-entry | <span class="icon">+</span> New Tax
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+template name="tax_all"
+    asd
+
+template name="tax_compose"
+    div.compose-new-item.well
+        form#tax-compose-form method="POST" data-validate="parsley"
+            legend | New Tax Rule
+            fieldset
+
+                .control-group
+                    label for="name" | Give a name to this Tax Rule
+                    > input#name type="text" placeholder="Good's and Services Tax" name="name" data-required="true" data-focus="first"
+
+                .control-group
+                    label for="description" | Describe it
+                    > textarea#description rows="3" name="description"
+
+                .control-group
+                    label for="#perc" | Tax percentage (%)
+                    > input#perc type="number" placeholder="10" name="perc" data-required="true"
+
+                > br
+                .control-group
+                    button.btn-large.btn.btn-primary.save-active-btn | Save rule and make it active
+                    button.btn-large.btn.save-btn | Save rule only
+                    a.appnav.btn-large.btn.submit-btn href="/taxes" | Back to All Taxes

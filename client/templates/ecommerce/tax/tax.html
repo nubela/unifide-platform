@@ -1,0 +1,63 @@
+<template name="tax">
+    <div class="container-fluid full-container">
+        <div class="row-fluid full-row">
+            <div class="body-container">
+                <!--- navbar --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <a href="/taxes" class="appnav anchor-container">
+                            <li class="side-header">Taxes</li>
+                        </a>
+                        <a href="/taxes" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">w</span> All Taxes</li>
+                        </a>
+                        <a href="/taxes/new" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">+</span> New Tax</li>
+                        </a>
+                    </ul>
+                </div>
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="tax_all">
+    asd
+</template>
+
+<template name="tax_compose">
+    <div class="compose-new-item well">
+        <form method="POST" data-validate="parsley" id="tax-compose-form">
+            <legend>New Tax Rule</legend>
+            <fieldset>
+
+                <div class="control-group">
+                    <label for="name">Give a name to this Tax Rule</label>
+                    <input type="text" placeholder="Good's and Services Tax" name="name" data-required="true" data-focus="first" id="name" />
+                </div>
+
+                <div class="control-group">
+                    <label for="description">Describe it</label>
+                    <textarea rows="3" name="description" id="description" />
+                </div>
+
+                <div class="control-group">
+                    <label for="#perc">Tax percentage (%)</label>
+                    <input type="number" placeholder="10" name="perc" data-required="true" id="perc" />
+                </div>
+
+                <br />
+                <div class="control-group">
+                    <button class="btn-large btn btn-primary save-active-btn">Save rule and make it active</button>
+                    <button class="btn-large btn save-btn">Save rule only</button>
+                    <a href="/taxes" class="appnav btn-large btn submit-btn">Back to All Taxes</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</template>

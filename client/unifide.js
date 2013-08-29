@@ -49,8 +49,13 @@ var myAppRouter = Backbone.Router.extend({
         "discount/*suburl": "discount_url",
         "coupon": "coupon_url",
         "coupon/*suburl": "coupon_url",
-
+        "shipping": "shipping_url",
+        "shipping/*suburl": "shipping_url",
+        "taxes": "tax_url",
+        "taxes/*suburl": "tax_url"
     },
+    tax_url: tax_url,
+    shipping_url: shipping_url,
     coupon_url: coupon_url,
     discount_url: discount_url,
     cashback_url: cashback_url,
@@ -132,6 +137,18 @@ function items_url(suburl) {
     Session.set(ITEM_SESSION.SUBURL, suburl);
     Session.set("page_template", "items");
     _init_items();
+}
+
+function shipping_url(suburl) {
+    set_page_url();
+    Session.set(SHIPPING_SESSION.SUBURL, suburl);
+    Session.set("page_template", "shipping");
+}
+
+function tax_url(suburl) {
+    set_page_url();
+    Session.set(TAX_SESSION.SUBURL, suburl);
+    Session.set("page_template", "tax");
 }
 
 function discount_url(suburl) {

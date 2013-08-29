@@ -18,7 +18,7 @@
 
   ITEMS_PER_PAGE = 20;
 
-  Template.coupon.rendered = function() {
+  Template.coupon.created = function() {
     return scrollTop();
   };
 

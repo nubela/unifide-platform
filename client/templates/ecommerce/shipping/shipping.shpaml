@@ -1,0 +1,63 @@
+template name="shipping"
+    .container-fluid.full-container
+        .row-fluid.full-row
+            .body-container
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        a.appnav.anchor-container href="/shipping"
+                            li.side-header | Shipping
+                        a.appnav.anchor-container href="/shipping"
+                            li.container-entry | <span class="icon">w</span> All Methods
+                        a.appnav.anchor-container href="/shipping/new"
+                            li.container-entry | <span class="icon">+</span> New Method
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+template name="shipping_all"
+    asd
+
+template name="shipping_compose"
+    div.compose-new-item.well
+        form#shipping-compose-form method="POST" data-validate="parsley"
+            legend | New Shipping Method
+            fieldset
+
+                .control-group
+                    label for="name" | Give a name to this shipping method
+                    > input#name type="text" placeholder="DHL Express" name="name" data-required="true" data-focus="first"
+
+                .control-group
+                    label id="description" | Describe it
+                    > textarea#description rows="3" name="description"
+
+                .control-group
+                    label for="price-per-weight" | Price per weight unit
+                    > input#price-per-weight type="number" placeholder="2.50" name="price_per_weight" data-required="true"
+
+                .control-group
+                    label for="base-flat-fee" | Base Flat Fee
+                    > input#base-flat-fee type="number" placeholder="5" name="base_flat_fee" data-required="true"
+
+                .control-group
+                    label for="min-weight" | Minimum shipping weight
+                    > input#min-weight type="number" placeholder="0" name="min_weight" data-required="true"
+
+                .control-group
+                    label for="max-weight" | Maximum shipping weight (Enter a large number if you want it to be unlimited)
+                    > input#max-weight type="number" placeholder="999999999999" name="max_weight" data-required="true"
+
+                .control-group
+                    label for="from" | Valid if shipping from (Leave blank if not applicable)
+                    > input#from type="text" placeholder="Singapore" name="from"
+
+                .control-group
+                    label for="to" | Valid shipping destination (Leave blank if not applicable)
+                    > input#to type="text" placeholder="Australia" name="to"
+
+                > br
+                .control-group
+                    button.btn-large.btn.btn-primary.submit-btn | Save Shipping Method
+                    a.appnav.btn-large.btn.submit-btn href="/shipping" | Back to view all Shipping Methods

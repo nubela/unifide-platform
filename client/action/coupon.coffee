@@ -13,7 +13,7 @@ ITEMS_PER_PAGE = 20
 
 #-- coupon --#
 
-Template.coupon.rendered = ->
+Template.coupon.created = ->
     scrollTop()
 
 Template.coupon.view = ->

@@ -226,6 +226,18 @@ new_cashback = (cashback) ->
     Meteor.http.put "#{BACKEND_URL}cashback/",
         params: cashback
 
+new_tax = (tax) ->
+    @unblock()
+    tax["admin_id"] = Meteor.userId()
+    Meteor.http.put "#{BACKEND_URL}tax/",
+        params: tax
+
+new_shipping_method = (method) ->
+    @unblock()
+    method["admin_id"] = Meteor.userId()
+    Meteor.http.put "#{BACKEND_URL}shipping/",
+        params: method
+
 Meteor.methods
     get_all_orders: get_all_orders
     get_biz_info: get_biz_info
@@ -258,3 +270,5 @@ Meteor.methods
     new_discount: new_discount
     new_coupon: new_coupon
     new_cashback: new_cashback
+    new_tax: new_tax
+    new_shipping_method: new_shipping_method

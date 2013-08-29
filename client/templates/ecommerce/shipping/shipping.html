@@ -1,0 +1,87 @@
+<template name="shipping">
+    <div class="container-fluid full-container">
+        <div class="row-fluid full-row">
+            <div class="body-container">
+                <!--- navbar --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <a href="/shipping" class="appnav anchor-container">
+                            <li class="side-header">Shipping</li>
+                        </a>
+                        <a href="/shipping" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">w</span> All Methods</li>
+                        </a>
+                        <a href="/shipping/new" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">+</span> New Method</li>
+                        </a>
+                    </ul>
+                </div>
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="shipping_all">
+    asd
+</template>
+
+<template name="shipping_compose">
+    <div class="compose-new-item well">
+        <form method="POST" data-validate="parsley" id="shipping-compose-form">
+            <legend>New Shipping Method</legend>
+            <fieldset>
+
+                <div class="control-group">
+                    <label for="name">Give a name to this shipping method</label>
+                    <input type="text" placeholder="DHL Express" name="name" data-required="true" data-focus="first" id="name" />
+                </div>
+
+                <div class="control-group">
+                    <label id="description">Describe it</label>
+                    <textarea rows="3" name="description" id="description" />
+                </div>
+
+                <div class="control-group">
+                    <label for="price-per-weight">Price per weight unit</label>
+                    <input type="number" placeholder="2.50" name="price_per_weight" data-required="true" id="price-per-weight" />
+                </div>
+
+                <div class="control-group">
+                    <label for="base-flat-fee">Base Flat Fee</label>
+                    <input type="number" placeholder="5" name="base_flat_fee" data-required="true" id="base-flat-fee" />
+                </div>
+
+                <div class="control-group">
+                    <label for="min-weight">Minimum shipping weight</label>
+                    <input type="number" placeholder="0" name="min_weight" data-required="true" id="min-weight" />
+                </div>
+
+                <div class="control-group">
+                    <label for="max-weight">Maximum shipping weight (Enter a large number if you want it to be unlimited)</label>
+                    <input type="number" placeholder="999999999999" name="max_weight" data-required="true" id="max-weight" />
+                </div>
+
+                <div class="control-group">
+                    <label for="from">Valid if shipping from (Leave blank if not applicable)</label>
+                    <input type="text" placeholder="Singapore" name="from" id="from" />
+                </div>
+
+                <div class="control-group">
+                    <label for="to">Valid shipping destination (Leave blank if not applicable)</label>
+                    <input type="text" placeholder="Australia" name="to" id="to" />
+                </div>
+
+                <br />
+                <div class="control-group">
+                    <button class="btn-large btn btn-primary submit-btn">Save Shipping Method</button>
+                    <a href="/shipping" class="appnav btn-large btn submit-btn">Back to view all Shipping Methods</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</template>
