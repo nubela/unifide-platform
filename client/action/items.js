@@ -60,9 +60,9 @@
       v = dic[k];
       if (k !== "_legacy") {
         if (v.length > 1) {
-          sorted_v = (_.sortBy(v, function(itm) {
+          sorted_v = _.sortBy(v, function(itm) {
             return itm.timestamp_utc;
-          })).reverse();
+          });
           picked_item = sorted_v[0];
           picked_item.is_multi = true;
         } else {
@@ -348,6 +348,38 @@
     return JSON.stringify([]);
   };
 
+  Template.item_compose.group_items = function() {
+    var actual_item, item_id;
+    item_id = Session.get(ITEM_SESSION.ITEM_ID);
+    actual_item = ITMItems.findOne({
+      $or: [
+        {
+          _id: new Meteor.Collection.ObjectID(item_id)
+        }, {
+          _id: item_id
+        }
+      ]
+    });
+    if (actual_item == null) {
+      return [];
+    }
+    if (!"group_id" in actual_item) {
+      return [];
+    }
+    return ITMItems.find({
+      group_id: actual_item.group_id
+    }, {
+      sort: {
+        timestamp_utc: 1
+      },
+      transform: function(doc) {
+        doc["is_active"] = item_id === doc._id.valueOf();
+        doc["item_url"] = suburl_to_current_path_for_items() + "/update/" + doc._id.valueOf();
+        return doc;
+      }
+    });
+  };
+
   Template.item_compose.custom_media_lis_json = function() {
     var item_id, obj;
     if (Session.get(ITEM_SESSION.VIEW_TYPE) === VIEW_TYPE.UPDATE) {
@@ -624,6 +656,38 @@
             doc.media_url = url_for(media_obj);
           }
         }
+        return doc;
+      }
+    });
+  };
+
+  Template.item_view.group_items = function() {
+    var actual_item, item_id;
+    item_id = Session.get(ITEM_SESSION.ITEM_ID);
+    actual_item = ITMItems.findOne({
+      $or: [
+        {
+          _id: new Meteor.Collection.ObjectID(item_id)
+        }, {
+          _id: item_id
+        }
+      ]
+    });
+    if (actual_item == null) {
+      return [];
+    }
+    if (!"group_id" in actual_item) {
+      return [];
+    }
+    return ITMItems.find({
+      group_id: actual_item.group_id
+    }, {
+      sort: {
+        timestamp_utc: 1
+      },
+      transform: function(doc) {
+        doc["is_active"] = item_id === doc._id.valueOf();
+        doc["item_url"] = suburl_to_current_path_for_items() + "/item/" + doc._id.valueOf();
         return doc;
       }
     });

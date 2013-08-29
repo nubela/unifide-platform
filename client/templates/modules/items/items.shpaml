@@ -55,12 +55,15 @@ template name="select-container"
 
 template name="item_view"
     ul.nav.nav-tabs
+        {{#each group_items}}
+        {{#if this.is_active}}
         li.active
-            a | Base Item
+            a.appnav href="{{this.item_url}}" | {{this.name}}
+        {{else}}
         li
-            a | Another item
-        li
-            a | Next item
+            a.appnav href="{{this.item_url}}" | {{this.name}}
+        {{/if}}
+        {{/each}}
         li.pull-right
             a.appnav data-toggle="tooltip" title="Create another item based on {{item.name}}" href="{{created_base_url}}"
                 <i class="icon-plus"></i>
@@ -92,26 +95,29 @@ template name="item_view"
 template name="item_compose"
 
     ul.nav.nav-tabs
+        {{#each group_items}}
+        {{#if this.is_active}}
         li.active
-            a | Base Item
+            a.appnav href="{{this.item_url}}" | {{this.name}}
+        {{else}}
         li
-            a | Another item
-        li
-            a | Next item
+            a.appnav href="{{this.item_url}}" | {{this.name}}
+        {{/if}}
+        {{/each}}
 
     <!--- new item compose --->
     div.compose-new-item.well
         form#item-compose-form method="POST" action="{{form_submit_url}}" enctype="multipart/form-data" data-validate="parsley"
             {{#if to_be_based}}
-            legend | Create similar item based on {{item_to_update.name}}
+            legend | Create similar item based on "{{item_to_update.name}}"
             {{else}}
             {{#if item_to_update}}
-            legend | Update {{item_to_update.name}}
+            legend | Update "{{item_to_update.name}}"
             {{else}}
             legend | New Item
             {{/if}}
-            fieldset
             {{/if}}
+            fieldset
 
                 <!--- hidden fields --->
                 > input type="hidden" name="path_lis" id="path_lis" value='{{path_lis_json}}'
@@ -144,6 +150,10 @@ template name="item_compose"
                 .control-group
                     label for="price" | Price ($)
                     > input type="number" placeholder="4.95" name="price" id="price" {{#if item_to_update}}value="{{item_to_update.price}}"{{/if}}
+
+                .control-group
+                    label for="weight" | Weight
+                    > input type="number" placeholder="5" name="weight" id="weight" {{#if item_to_update}}value="{{item_to_update.weight}}"{{/if}}
 
                 .control-group
                     label for="quantity" | Quantity

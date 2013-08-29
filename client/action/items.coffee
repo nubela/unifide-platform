@@ -60,7 +60,7 @@ filterForSimilarItems = (all_items) ->
         if k != "_legacy"
             if v.length > 1
                 #ok found similar items! lets sort it
-                sorted_v = (_.sortBy v, (itm) -> itm.timestamp_utc).reverse()
+                sorted_v = (_.sortBy v, (itm) -> itm.timestamp_utc)
                 picked_item = sorted_v[0]
                 picked_item.is_multi = true
             else
@@ -302,6 +302,31 @@ Template.item_compose.tags_json = ->
     return JSON.stringify([])
 
 
+Template.item_compose.group_items = ->
+    item_id = Session.get(ITEM_SESSION.ITEM_ID)
+
+    actual_item = ITMItems.findOne({$or: [
+        {_id: new Meteor.Collection.ObjectID(item_id)},
+        {_id: item_id}
+    ]})
+
+    if not actual_item?
+        return []
+    if not "group_id" of actual_item
+        return []
+
+    ITMItems.find({
+        group_id: actual_item.group_id
+    }, {
+
+        sort: {timestamp_utc: 1}
+        transform: (doc) ->
+            doc["is_active"] = item_id == doc._id.valueOf()
+            doc["item_url"] = suburl_to_current_path_for_items() + "/update/" + doc._id.valueOf()
+            doc
+    })
+
+
 Template.item_compose.custom_media_lis_json = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
@@ -534,6 +559,30 @@ Template.item_view.item = ->
                 media_obj = ITMMedia.findOne({_id: doc.media_id})
                 if media_obj?
                     doc.media_url = url_for(media_obj)
+            doc
+    })
+
+Template.item_view.group_items = ->
+    item_id = Session.get(ITEM_SESSION.ITEM_ID)
+
+    actual_item = ITMItems.findOne({$or: [
+        {_id: new Meteor.Collection.ObjectID(item_id)},
+        {_id: item_id}
+    ]})
+
+    if not actual_item?
+        return []
+    if not "group_id" of actual_item
+        return []
+
+    ITMItems.find({
+        group_id: actual_item.group_id
+    }, {
+
+        sort: {timestamp_utc: 1}
+        transform: (doc) ->
+            doc["is_active"] = item_id == doc._id.valueOf()
+            doc["item_url"] = suburl_to_current_path_for_items() + "/item/" + doc._id.valueOf()
             doc
     })
 
