@@ -17,7 +17,95 @@ template name="shipping"
                     {{{view}}}
 
 template name="shipping_all"
-    asd
+    .right-container
+        .container-title
+            h2
+                An overview of your shipping methods
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+        .btn-holder.btn-after-main-desc
+            a.appnav.btn href="/shipping/new"
+                span.heydings | +
+                Create a new shipping method
+
+        .campaign
+            div.faketable
+                .thead
+                    .span2
+                        Name
+                    .span2
+                        Price per unit weight
+                    .span2
+                        Base flat fee
+                    .span1
+                        Min
+                    .span1
+                        Max
+                    .span2
+                        Admin
+                    .span2
+                        Status
+
+                .tbody
+                    {{#each all_methods}}
+                    .tr.pointer.obj-row data-expand="{{this.id}}"
+                        .span2
+                            {{this.name}}
+                        .span2
+                            {{this.price_per_unit_vol_weight}}
+                        .span2
+                            {{this.flat_price}}
+                        .span1
+                            {{this.min_unit_vol_weight}}/unit
+                        .span1
+                            {{this.max_unit_vol_weight}}/unit
+                        .span2
+                            {{this.admin.username}}
+                        .span2
+                            {{this.status}}
+                    .expanded.hidden data-expanded="{{this.id}}"
+                        .expanded-within
+                            {{#if this.description}}
+                            blockquote
+                                {{this.description}}
+                            {{/if}}
+                            {{#if this.origin_desc}}
+                            p
+                                small
+                                    {{{this.origin_desc}}}<br>
+                            {{/if}}
+                            > hr
+                            .btn-holder
+                                {{#if this.has_disable_btn}}
+                                a.btn.btn-primary.disable-btn
+                                    span.heydings | r
+                                    Disable
+                                {{else}}
+                                a.btn.btn-primary.enable-btn
+                                    span.heydings | r
+                                    Enable
+                                {{/if}}
+
+                                a.btn.delete-btn
+                                    span.heydings | -
+                                    Delete
+
+                    {{/each}}
+
+                .thead
+                    div.pull-right
+                        {{#if has_next}}
+                        a.appnav href="{{next_page_url}}"
+                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                        {{/if}}
+                        .pull-right
+                            &nbsp;&nbsp;&nbsp;{{current_page}}&nbsp;&nbsp;&nbsp;
+                        {{#if has_prev}}
+                        a.appnav href="{{prev_page_url}}"
+                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+                        {{/if}}
 
 template name="shipping_compose"
     div.compose-new-item.well
