@@ -1,3 +1,6 @@
+Meteor.publish "all_taxes",  ->
+    TaxRule.find()
+
 Meteor.publish "all_shipping",  ->
     ShippingRule.find()
 

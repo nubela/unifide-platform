@@ -1,0 +1,109 @@
+<template name="user">
+    <div class="container-fluid full-container">
+        <div class="row-fluid full-row">
+            <div class="body-container">
+                <!--- navbar --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <a href="/user" class="appnav anchor-container">
+                            <li class="side-header">Manage Users</li>
+                        </a>
+                        <a href="/user" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">w</span> Manage users</li>
+                        </a>
+                        <a href="/user/new" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">+</span> New user account</li>
+                        </a>
+                    </ul>
+                </div>
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="user_all">
+    asd
+</template>
+
+<template name="user_compose">
+    <div class="compose-new-item well">
+        <form method="POST" data-validate="parsley" id="user-compose-form">
+            <legend>New User</legend>
+            <fieldset>
+
+                <div class="control-group">
+                    <label for="username">Username</label>
+                    <input type="text" placeholder="some_username" name="username" data-focus="first" id="username" />
+                </div>
+
+                <div class="control-group">
+                    <label for="email">Email address</label>
+                    <input type="text" placeholder="hello@unifide.sg" name="email" data-type="email" id="email" />
+                </div>
+
+                <div class="control-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" data-required="true" id="password" />
+                </div>
+
+                <div class="control-group">
+                    <label for="first-name">First name</label>
+                    <input type="text" name="first_name" id="first-name" />
+                </div>
+
+                <div class="control-group">
+                    <label for="middle-name">Middle name</label>
+                    <input type="text" name="middle_name" id="middle-name" />
+                </div>
+
+                <div class="control-group">
+                    <label for="last-name">Last name</label>
+                    <input type="text" name="last_name" id="last-name" />
+                </div>
+
+                <div class="control-group">
+                    <label for="address">Address</label>
+                    <input type="text" name="address" id="address" />
+                </div>
+
+                <div class="control-group select-user-grp">
+                    <label for="user-groups">
+                        User groups
+                        <p>
+                            <small>
+                                <i>Hold CTRL key or ⌘ to select individual blacklists, or hold the SHIFT key to select them together.</i>
+                            </small>
+                        </p>
+                    </label>
+                    <select multiple name="user_groups" id="user-groups">
+                        {{#each groups}}
+                        <option value="{{this.name}}">{{this.description}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="control-group select-user-grp">
+                    <label for="status">
+                        Status
+                    </label>
+                    <select id="status">
+                        <option value="enabled">Enabled</option>
+                        <option value="disabled">Disabled</option>
+                        <option value="awaiting_confirmation">Awaiting Email Confirmation</option>
+                    </select>
+                </div>
+
+                <br />
+                <div class="control-group">
+                    <button class="btn-large btn btn-primary save-btn">Save User</button>
+                    <a href="/user" class="appnav btn-large btn submit-btn">Back to all users</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</template>

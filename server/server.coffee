@@ -244,6 +244,11 @@ new_manual_order = (order) ->
     Meteor.http.put "#{BACKEND_URL}order/",
         params: method
 
+new_user = (user) ->
+    @unblock()
+    Meteor.http.put "#{BACKEND_URL}user/",
+        params: user
+
 Meteor.methods
     get_all_orders: get_all_orders
     get_biz_info: get_biz_info
@@ -279,3 +284,4 @@ Meteor.methods
     new_tax: new_tax
     new_shipping_method: new_shipping_method
     new_manual_order: new_manual_order
+    new_user: new_user

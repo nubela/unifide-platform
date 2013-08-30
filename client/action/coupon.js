@@ -357,7 +357,7 @@
           begins_on: $("#begins-on").val(),
           ends_on: $("#ends-on").val(),
           user_applicable: $("#user-applicable").val(),
-          user_groups: $("#user-groups").val(),
+          user_groups: JSON.stringify($("#user-groups").val()),
           user_id: user_id,
           valid_times: $("#valid-times").val(),
           coupon_code: coupon_code

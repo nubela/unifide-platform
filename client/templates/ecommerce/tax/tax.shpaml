@@ -17,7 +17,86 @@ template name="tax"
                     {{{view}}}
 
 template name="tax_all"
-    asd
+    .right-container
+        .container-title
+            h2
+                An overview of your tax rules
+            p
+                small
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+        .main-description.well.highlighted
+            h4.description-title
+                {{#if current_tax}}
+                The current tax rule, <span class="dark-blue">"{{current_tax.name}}" of {{current_tax.tax_perc}}% tax</span> is active.
+                {{else}}
+                All tax rules are disabled.
+                {{/if}}
+
+        .btn-holder.btn-after-main-desc
+            a.appnav.btn href="/taxes/new"
+                span.heydings | +
+                Create a new tax rule
+
+        .campaign
+            div.faketable
+                .thead
+                    .span3
+                        Name
+                    .span3
+                        Tax Percentage
+                    .span3
+                        Status
+                    .span3
+                        Admin
+
+                .tbody
+                    {{#each taxes}}
+                    .tr.pointer.obj-row data-expand="{{this.id}}"
+                        .span3
+                            {{this.name}}
+                        .span3
+                            {{this.tax_perc}}
+                        .span3
+                            {{this.status}}
+                        .span3
+                            {{this.admin.username}}
+                    .expanded.hidden data-expanded="{{this.id}}"
+                        .expanded-within
+                            {{#if this.has_description}}
+                            blockquote
+                                {{this.description}}
+                            {{/if}}
+                            > hr
+                            .btn-holder
+                                {{#if this.has_disable_btn}}
+                                a.btn.btn-primary.disable-btn
+                                    span.heydings | r
+                                    Disable
+                                {{else}}
+                                a.btn.btn-primary.enable-btn
+                                    span.heydings | r
+                                    Enable
+                                {{/if}}
+
+                                a.btn.delete-btn
+                                    span.heydings | -
+                                    Delete
+
+                    {{/each}}
+
+                .thead
+                    div.pull-right
+                        {{#if has_next}}
+                        a.appnav href="{{next_page_url}}"
+                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                        {{/if}}
+                        .pull-right
+                            &nbsp;&nbsp;&nbsp;{{current_page}}&nbsp;&nbsp;&nbsp;
+                        {{#if has_prev}}
+                        a.appnav href="{{prev_page_url}}"
+                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+                        {{/if}}
 
 template name="tax_compose"
     div.compose-new-item.well

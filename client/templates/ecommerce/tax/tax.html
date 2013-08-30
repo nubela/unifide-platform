@@ -27,7 +27,120 @@
 </template>
 
 <template name="tax_all">
-    asd
+    <div class="right-container">
+        <div class="container-title">
+            <h2>
+                An overview of your tax rules
+            </h2>
+            <p>
+                <small>
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </small>
+            </p>
+        </div>
+
+        <div class="main-description well highlighted">
+            <h4 class="description-title">
+                {{#if current_tax}}
+                The current tax rule, <span class="dark-blue">"{{current_tax.name}}" of {{current_tax.tax_perc}}% tax</span> is active.
+                {{else}}
+                All tax rules are disabled.
+                {{/if}}
+            </h4>
+        </div>
+
+        <div class="btn-holder btn-after-main-desc">
+            <a href="/taxes/new" class="appnav btn">
+                <span class="heydings">+</span>
+                Create a new tax rule
+            </a>
+        </div>
+
+        <div class="campaign">
+            <div class="faketable">
+                <div class="thead">
+                    <div class="span3">
+                        Name
+                    </div>
+                    <div class="span3">
+                        Tax Percentage
+                    </div>
+                    <div class="span3">
+                        Status
+                    </div>
+                    <div class="span3">
+                        Admin
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    {{#each taxes}}
+                    <div data-expand="{{this.id}}" class="tr pointer obj-row">
+                        <div class="span3">
+                            {{this.name}}
+                        </div>
+                        <div class="span3">
+                            {{this.tax_perc}}
+                        </div>
+                        <div class="span3">
+                            {{this.status}}
+                        </div>
+                        <div class="span3">
+                            {{this.admin.username}}
+                        </div>
+                    </div>
+                    <div data-expanded="{{this.id}}" class="expanded hidden">
+                        <div class="expanded-within">
+                            {{#if this.has_description}}
+                            <blockquote>
+                                {{this.description}}
+                            </blockquote>
+                            {{/if}}
+                            <hr />
+                            <div class="btn-holder">
+                                {{#if this.has_disable_btn}}
+                                <a class="btn btn-primary disable-btn">
+                                    <span class="heydings">r</span>
+                                    Disable
+                                </a>
+                                {{else}}
+                                <a class="btn btn-primary enable-btn">
+                                    <span class="heydings">r</span>
+                                    Enable
+                                </a>
+                                {{/if}}
+
+                                <a class="btn delete-btn">
+                                    <span class="heydings">-</span>
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{/each}}
+                </div>
+
+                <div class="thead">
+                    <div class="pull-right">
+                        {{#if has_next}}
+                        <a href="{{next_page_url}}" class="appnav">
+                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                        </a>
+                        {{/if}}
+                        <div class="pull-right">
+                            &nbsp;&nbsp;&nbsp;{{current_page}}&nbsp;&nbsp;&nbsp;
+                        </div>
+                        {{#if has_prev}}
+                        <a href="{{prev_page_url}}" class="appnav">
+                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                        </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <template name="tax_compose">

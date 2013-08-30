@@ -38,6 +38,8 @@ var myAppRouter = Backbone.Router.extend({
         "comments": "static_url",
         "items": "items_url",
         "items/*suburl": "items_url",
+        "user": "user_url",
+        "user/*suburl": "user_url",
 
         //ecommerce
         "cashback": "cashback_url",
@@ -53,6 +55,7 @@ var myAppRouter = Backbone.Router.extend({
         "order": "order_url",
         "order/*suburl": "order_url"
     },
+    user_url: user_url,
     tax_url: tax_url,
     shipping_url: shipping_url,
     coupon_url: coupon_url,
@@ -142,6 +145,12 @@ function shipping_url(suburl) {
     set_page_url();
     Session.set(SHIPPING_SESSION.SUBURL, suburl);
     Session.set("page_template", "shipping");
+}
+
+function user_url(suburl) {
+    set_page_url();
+    Session.set(USER_SESSION.SUBURL, suburl);
+    Session.set("page_template", "user");
 }
 
 function tax_url(suburl) {

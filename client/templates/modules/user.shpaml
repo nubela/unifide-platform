@@ -1,0 +1,78 @@
+template name="user"
+    .container-fluid.full-container
+        .row-fluid.full-row
+            .body-container
+                <!--- navbar --->
+                .sidebar-nav-fixed
+                    ul.unstyled.side-nav
+                        a.appnav.anchor-container href="/user"
+                            li.side-header | Manage Users
+                        a.appnav.anchor-container href="/user"
+                            li.container-entry | <span class="icon">w</span> Manage users
+                        a.appnav.anchor-container href="/user/new"
+                            li.container-entry | <span class="icon">+</span> New user account
+
+                <!--- main area --->
+                .span12.span-fixed-sidebar
+                    {{{view}}}
+
+template name="user_all"
+    asd
+
+template name="user_compose"
+    div.compose-new-item.well
+        form#user-compose-form method="POST" data-validate="parsley"
+            legend | New User
+            fieldset
+
+                .control-group
+                    label for="username" | Username
+                    > input#username type="text" placeholder="some_username" name="username" data-focus="first"
+
+                .control-group
+                    label for="email" | Email address
+                    > input#email type="text" placeholder="hello@unifide.sg" name="email" data-type="email"
+
+                .control-group
+                    label for="password" | Password
+                    > input#password type="password" name="password" data-required="true"
+
+                .control-group
+                    label for="first-name" | First name
+                    > input#first-name type="text" name="first_name"
+
+                .control-group
+                    label for="middle-name" | Middle name
+                    > input#middle-name type="text" name="middle_name"
+
+                .control-group
+                    label for="last-name" | Last name
+                    > input#last-name type="text" name="last_name"
+
+                .control-group
+                    label for="address" | Address
+                    > input#address type="text" name="address"
+
+                .control-group.select-user-grp
+                    label for="user-groups"
+                        User groups
+                        p
+                            small
+                                i | Hold CTRL key or ⌘ to select individual blacklists, or hold the SHIFT key to select them together.
+                    select#user-groups multiple name="user_groups"
+                        {{#each groups}}
+                        option value="{{this.name}}" | {{this.description}}
+                        {{/each}}
+
+                .control-group.select-user-grp
+                    label for="status"
+                        Status
+                    select#status
+                        option value="enabled" | Enabled
+                        option value="disabled" | Disabled
+                        option value="awaiting_confirmation" | Awaiting Email Confirmation
+
+                > br
+                .control-group
+                    button.btn-large.btn.btn-primary.save-btn | Save User
+                    a.appnav.btn-large.btn.submit-btn href="/user" | Back to all users
