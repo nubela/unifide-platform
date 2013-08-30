@@ -98,6 +98,13 @@ Template.user_compose.created = ->
     Meteor.subscribe "all_users"
     Meteor.subscribe "all_groups"
 
+Template.user_compose.rendered = ->
+    update_user = getUpdateUser()
+    if update_user?
+        $("option[value=#{update_user.account_status}]").attr("selected", true)
+        for grp in update_user.groups
+            $("option[value=#{grp}]").attr("selected", true)
+
 Template.user_compose.groups = ->
     Group.find({}, {sort: {name: 1}})
 
@@ -111,6 +118,13 @@ Template.user_compose.events =
         createUser()
 
 Template.user_compose.update_user = (evt) ->
+    getUpdateUser()
+
+
+
+#-- helper --#
+
+getUpdateUser = ->
     #get slugs
     slugs = Session.get USER_SESSION.SUBURL
     slugs = slugs.split("/")
@@ -126,10 +140,6 @@ Template.user_compose.update_user = (evt) ->
             doc["id"] = doc._id.valueOf()
             doc
     }
-
-
-
-#-- helper --#
 
 getPageNo = ->
     slugs = Session.get USER_SESSION.SUBURL
