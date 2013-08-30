@@ -71,6 +71,27 @@ Template.user_all.events =
             if res
                 PlopUser.remove {_id: new Meteor.Collection.ObjectID(user_id )}
 
+Template.user_all.current_page = ->
+    getPageNo()
+
+Template.user_all.next_page_url = ->
+    page_no = getPageNo()
+    next_page = page_no + 1
+    return "/user/#{next_page}"
+
+Template.user_all.prev_page_url = ->
+    page_no = getPageNo()
+    prev_page = page_no - 1
+    return "/user/#{prev_page}"
+
+Template.user_all.has_next = ->
+    total_items = PlopUser.find({}).count()
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE)
+    getPageNo() < total_pages
+
+Template.user_all.has_prev = ->
+    getPageNo() >= 2
+
 #-- user_compose --#
 
 Template.user_compose.created = ->

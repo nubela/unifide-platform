@@ -104,6 +104,35 @@
     }
   };
 
+  Template.shipping_all.current_page = function() {
+    return getPageNo();
+  };
+
+  Template.shipping_all.next_page_url = function() {
+    var next_page, page_no;
+    page_no = getPageNo();
+    next_page = page_no + 1;
+    return "/shipping/" + next_page;
+  };
+
+  Template.shipping_all.prev_page_url = function() {
+    var page_no, prev_page;
+    page_no = getPageNo();
+    prev_page = page_no - 1;
+    return "/shipping/" + prev_page;
+  };
+
+  Template.shipping_all.has_next = function() {
+    var total_items, total_pages;
+    total_items = ShippingRule.find({}).count();
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE);
+    return getPageNo() < total_pages;
+  };
+
+  Template.shipping_all.has_prev = function() {
+    return getPageNo() >= 2;
+  };
+
   Template.shipping_compose.rendered = function() {
     $("#shipping-compose-form").off("submit");
     return $("#shipping-compose-form").on("submit", function(evt) {

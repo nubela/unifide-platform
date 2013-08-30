@@ -76,6 +76,27 @@ Template.tax_all.events =
             if res
                 TaxRule.remove {_id: new Meteor.Collection.ObjectID(tax_id)}
 
+Template.tax_all.current_page = ->
+    getPageNo()
+
+Template.tax_all.next_page_url = ->
+    page_no = getPageNo()
+    next_page = page_no + 1
+    return "/tax/#{next_page}"
+
+Template.tax_all.prev_page_url = ->
+    page_no = getPageNo()
+    prev_page = page_no - 1
+    return "/tax/#{prev_page}"
+
+Template.tax_all.has_next = ->
+    total_items = TaxRule.find({}).count()
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE)
+    getPageNo() < total_pages
+
+Template.tax_all.has_prev = ->
+    getPageNo() >= 2
+
 #-- tax_compose --#
 
 Template.tax_compose.rendered = ->

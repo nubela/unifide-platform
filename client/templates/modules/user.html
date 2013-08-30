@@ -111,14 +111,14 @@
                 </div>
 
                 <div class="thead">
-                    <div class="pull-right">
+                    <div class="pull-right paged">
                         {{#if has_next}}
                         <a href="{{next_page_url}}" class="appnav">
                             <i class="icon-chevron-right pull-right icon-nav page-next" />
                         </a>
                         {{/if}}
-                        <div class="pull-right">
-                            &nbsp;&nbsp;&nbsp;{{current_page}}&nbsp;&nbsp;&nbsp;
+                        <div class="pull-right page-no">
+                            {{current_page}}
                         </div>
                         {{#if has_prev}}
                         <a href="{{prev_page_url}}" class="appnav">

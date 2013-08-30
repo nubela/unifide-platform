@@ -84,6 +84,12 @@
       font-weight: bold;
       padding-left: 10px;
       line-height: 30px; }
+    .faketable .thead .page-next, .faketable .thead .page-back {
+      margin-top: 8px; }
+    .faketable .thead .paged {
+      padding-right: 10px; }
+      .faketable .thead .paged .page-no {
+        padding: 0 10px; }
   .faketable .thead-search div {
     line-height: 50px; }
   .faketable .thead-search input {

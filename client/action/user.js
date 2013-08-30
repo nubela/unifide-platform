@@ -95,6 +95,35 @@
     }
   };
 
+  Template.user_all.current_page = function() {
+    return getPageNo();
+  };
+
+  Template.user_all.next_page_url = function() {
+    var next_page, page_no;
+    page_no = getPageNo();
+    next_page = page_no + 1;
+    return "/user/" + next_page;
+  };
+
+  Template.user_all.prev_page_url = function() {
+    var page_no, prev_page;
+    page_no = getPageNo();
+    prev_page = page_no - 1;
+    return "/user/" + prev_page;
+  };
+
+  Template.user_all.has_next = function() {
+    var total_items, total_pages;
+    total_items = PlopUser.find({}).count();
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE);
+    return getPageNo() < total_pages;
+  };
+
+  Template.user_all.has_prev = function() {
+    return getPageNo() >= 2;
+  };
+
   Template.user_compose.created = function() {
     Meteor.subscribe("all_users");
     return Meteor.subscribe("all_groups");

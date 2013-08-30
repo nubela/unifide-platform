@@ -107,6 +107,35 @@
     }
   };
 
+  Template.tax_all.current_page = function() {
+    return getPageNo();
+  };
+
+  Template.tax_all.next_page_url = function() {
+    var next_page, page_no;
+    page_no = getPageNo();
+    next_page = page_no + 1;
+    return "/tax/" + next_page;
+  };
+
+  Template.tax_all.prev_page_url = function() {
+    var page_no, prev_page;
+    page_no = getPageNo();
+    prev_page = page_no - 1;
+    return "/tax/" + prev_page;
+  };
+
+  Template.tax_all.has_next = function() {
+    var total_items, total_pages;
+    total_items = TaxRule.find({}).count();
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE);
+    return getPageNo() < total_pages;
+  };
+
+  Template.tax_all.has_prev = function() {
+    return getPageNo() >= 2;
+  };
+
   Template.tax_compose.rendered = function() {
     $("#tax-compose-form").off("submit");
     return $("#tax-compose-form").on("submit", function(evt) {

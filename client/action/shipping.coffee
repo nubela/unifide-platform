@@ -75,6 +75,27 @@ Template.shipping_all.events =
             if res
                 ShippingRule.remove {_id: new Meteor.Collection.ObjectID(shipping_method_id)}
 
+Template.shipping_all.current_page = ->
+    getPageNo()
+
+Template.shipping_all.next_page_url = ->
+    page_no = getPageNo()
+    next_page = page_no + 1
+    return "/shipping/#{next_page}"
+
+Template.shipping_all.prev_page_url = ->
+    page_no = getPageNo()
+    prev_page = page_no - 1
+    return "/shipping/#{prev_page}"
+
+Template.shipping_all.has_next = ->
+    total_items = ShippingRule.find({}).count()
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE)
+    getPageNo() < total_pages
+
+Template.shipping_all.has_prev = ->
+    getPageNo() >= 2
+
 #-- shipping compose --#
 
 Template.shipping_compose.rendered = ->
