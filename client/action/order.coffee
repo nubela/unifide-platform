@@ -10,6 +10,7 @@
 @ORDER_PAGE =
     MAIN: "all"
     COMPOSE: "new"
+    UPDATE: "update"
 
 ITEMS_PER_PAGE = 20
 
@@ -24,13 +25,13 @@ Template.order.view = ->
 #-- order_all --#
 
 Template.order_all.created = ->
-    Meteor.subscribe "all_users"
-    Meteor.subscribe "all_items"
-    Meteor.subscribe "all_orders"
     Session.set ORDER_SESSION.USER_ID_FILTER, null
     Session.set ORDER_SESSION.ID_FILTER, null
 
 Template.order_all.rendered = ->
+    Meteor.subscribe "all_users"
+    Meteor.subscribe "all_items"
+    Meteor.subscribe "all_orders"
     $("#filter-by-id").off "change paste keyup"
     $("#filter-by-id").on "change paste keyup", (evt) ->
         Session.set ORDER_SESSION.ID_FILTER, $(evt.target).val()
@@ -73,7 +74,12 @@ Template.order_all.orders = ->
             last_mod = moment(doc.timestamp_utc)
             doc["id"] = doc._id.valueOf()
             doc["timestamp"] = last_mod.format('MMMM Do YYYY')
+            doc["user"] = PlopUser.findOne
+                _id: new Meteor.Collection.ObjectID(doc.user_id)
+            doc["user"]["full_name"] = "#{doc["user"].first_name} #{doc["user"].middle_name} #{doc["user"].last_name}"
+            doc["user"]["full_name_trunc"] = doc["user"]["full_name"].substring(0,30)
 
+            #item descriptive
             all_items = []
             items_descriptive = []
             _.each doc.items, (item_desc_obj) ->
@@ -82,7 +88,10 @@ Template.order_all.orders = ->
                 all_items.push item.name
                 items_descriptive.push "#{item.name} &times; #{qty}"
             doc["all_items"] = all_items.join ", "
+            if doc["all_items"].length > 30
+                doc["all_items"] = doc["all_items"].substring(0,30) + ".."
             doc["item_descriptive"] = items_descriptive.join "</br>"
+
             doc
     }
 
@@ -113,12 +122,18 @@ Template.order_compose.created = ->
     Meteor.subscribe "all_users"
     Meteor.subscribe "all_shipping"
     Meteor.subscribe "all_items"
+    Meteor.subscribe "all_orders"
 
 Template.order_compose.rendered = ->
     $("#order-compose-form").off "submit"
     $("#order-compose-form").on "submit", (evt) ->
         evt.preventDefault()
         createOrder()
+    rehashOrderItems()
+
+    update_order = getUpdateOrder()
+    if update_order
+        $("option[value=#{update_order.status}]").attr("selected", true)
 
 Template.order_compose.shipping_methods = ->
     ShippingRule.find {},{
@@ -126,6 +141,9 @@ Template.order_compose.shipping_methods = ->
             doc["id"] = doc._id.valueOf()
             doc
     }
+
+Template.order_compose.order_to_update = ->
+    getUpdateOrder()
 
 Template.order_compose.events =
     "click .submit-btn": (evt) ->
@@ -153,6 +171,33 @@ Template.order_compose.events =
 
 #-- helper --#
 
+getUpdateOrder = ->
+    slugs = Session.get ORDER_SESSION.SUBURL
+    slugs = slugs.split("/")
+    slugs = _.filter slugs, (s) ->
+        s != ""
+    if slugs[0] != ORDER_PAGE.UPDATE
+        return null
+
+    Order.findOne {
+        _id: new Meteor.Collection.ObjectID(slugs[1])
+    }, {
+        transform: (doc) ->
+            doc["user"] = PlopUser.findOne {_id: new Meteor.Collection.ObjectID(doc.user_id)}
+            doc["id"] = doc._id.valueOf()
+
+            doc["all_items"] = []
+            _.each doc.items, (item_desc_obj) ->
+                item = ITMItems.findOne {_id: item_desc_obj.obj_id}
+                item.id = item._id.valueOf()
+                qty = item_desc_obj.quantity
+                doc["all_items"].push {
+                    item: item
+                    qty: qty
+                }
+            doc
+    }
+
 getPageNo = ->
     slugs = Session.get ORDER_SESSION.SUBURL
     if not slugs?
@@ -176,6 +221,7 @@ rehashOrderItems = ->
 createOrder = ->
     if $("#order-compose-form").parsley "validate"
         dic =
+            _id: if $("#order-id")? then $("#order-id").val() else null
             apply_debits_credits: $("apply_debits_credits").val()
             user_id: $("#user_id").attr "data-user-id"
             status: $("#status").val()
@@ -187,8 +233,8 @@ createOrder = ->
 
         _.each $(".order-item"), (order_item) ->
             if not $(order_item).attr("id")?
-                quantity = $(".qty").val()
-                item_id = $(".item-selection").attr("data-item-id")
+                quantity = $(order_item).find(".qty").val()
+                item_id = $(order_item).find(".item-selection").attr("data-item-id")
                 dic.items.push {obj_id: item_id, quantity:quantity}
 
         dic.items = JSON.stringify(dic.items)
@@ -206,6 +252,8 @@ getPage = () ->
         s != ""
     if slugs.length >= 1
         if slugs[0] == ORDER_PAGE.COMPOSE
+            return ORDER_TEMPLATE.NEW
+        else if slugs[0] == ORDER_PAGE.UPDATE
             return ORDER_TEMPLATE.NEW
 
     ORDER_TEMPLATE.MAIN

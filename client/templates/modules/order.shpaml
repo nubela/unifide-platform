@@ -39,11 +39,11 @@ template name="order_all"
                 .thead.thead-search
                     .span3
                         > input#filter-by-id type="text" placeholder="Order ID" data-focus="first"
-                    .span1
+                    .span2
                         Status
                     .span2
-                        Timestamp
-                    .span4
+                        Orderee
+                    .span3
                         Items
                     .span2
                         Net total
@@ -53,11 +53,11 @@ template name="order_all"
                     .tr.pointer.obj-row data-expand="{{this.id}}"
                         .span3
                             {{this.id}}
-                        .span1
+                        .span2
                             {{this.status}}
                         .span2
-                            {{this.timestamp}}
-                        .span4
+                            {{this.user.full_name_trunc}}
+                        .span3
                             {{this.all_items}}
                         .span2
                             ${{this.nett_total}}
@@ -71,11 +71,17 @@ template name="order_all"
                                 h4 | Order items and quantity
                                 small
                                     {{{this.item_descriptive}}}
+                                h4 | User details
+                                small
+                                    This order was made on <strong>{{this.timestamp}}</strong> by <strong>{{this.user.full_name}}</strong><br>
                             > hr
                             .btn-holder
                                 a.appnav.btn.btn-primary.update-btn href="/order/update/{{this.id}}"
                                     span.heydings | r
                                     Update
+                                a.appnav.btn.update-btn href="mailto:{{this.user.email}}"
+                                    <i class="icon-envelope"></i>
+                                    Email user
 
                     {{/each}}
 
@@ -95,12 +101,20 @@ template name="order_all"
 template name="order_compose"
     div.compose-new-item.well
         form#order-compose-form method="POST" data-validate="parsley"
+            {{#if order_to_update}}
+            legend | Update Order
+            {{else}}
             legend | New Manual Order
+            {{/if}}
             fieldset
+
+                {{#if order_to_update}}
+                > input#order-id type="hidden" name="_id" value="{{order_to_update.id}}"
+                {{/if}}
 
                 .control-group
                     label for="user_id" | An order for which user?
-                    > input#user_id type="text" name="user_id" data-required="true"
+                    > input#user_id type="text" name="user_id" data-required="true" {{#if order_to_update}}value="{{order_to_update.user.username}} {{order_to_update.user.email}}" data-user-id="{{order_to_update.user_id}}"{{/if}}
 
                 .control-group
                     label for="status" | Order Status
@@ -113,18 +127,31 @@ template name="order_compose"
 
                 .control-group
                     label for="request-notes" | User's special request
-                    <textarea id="request-notes" name="request_notes"></textarea>
+                    <textarea id="request-notes" name="request_notes">{{#if order_to_update}}{{order_to_update.request_notes}}{{/if}}</textarea>
 
                 .control-group
                     label for="admin-notes" | Admin's notes on the order
-                    <textarea id="admin-notes" name="admin_notes"></textarea>
+                    <textarea id="admin-notes" name="admin_notes">{{#if order_to_update}}{{order_to_update.admin_notes}}{{/if}}</textarea>
 
                 .control-group
                     a.btn.btn-inverse#add-order-item-btn
                         <i class="icon-plus"></i>
                         Add order item
 
-                <div id="order-item-container"></div>
+                <div id="order-item-container">
+                {{#if order_to_update}}
+                {{#each order_to_update.all_items}}
+                .control-group.order-item
+                    > br
+                    label for="order-item"
+                        Order Item <span class="item_no">1</span>&nbsp;&nbsp;
+                        a.btn.btn-inverse.rm-order-item-btn
+                            &times;
+                    > input.item-id type="text" placeholder="(Click to select item)" class="item-selection" {{#if order_to_update}}value="{{this.item.name}}" data-item-id="{{this.item.id}}"{{/if}}
+                    > input.qty type="number" placeholder="Quantity (Example: 23)" {{#if order_to_update}}value="{{this.qty}}"{{/if}}
+                {{/each}}
+                {{/if}}
+                </div>
 
                 #order-item-template.control-group.order-item.hidden
                     > br
@@ -157,4 +184,4 @@ template name="order_compose"
                 > br
                 .control-group
                     button.btn-large.btn.btn-primary.submit-btn | Save Order
-                    a.appnav.btn-large.btn.submit-btn href="/order" | Back to managing all orders
+                    a.appnav.btn-large.btn href="/order" | Back to managing all orders

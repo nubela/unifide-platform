@@ -57,13 +57,13 @@
                     <div class="span3">
                         <input type="text" placeholder="Order ID" data-focus="first" id="filter-by-id" />
                     </div>
-                    <div class="span1">
+                    <div class="span2">
                         Status
                     </div>
                     <div class="span2">
-                        Timestamp
+                        Orderee
                     </div>
-                    <div class="span4">
+                    <div class="span3">
                         Items
                     </div>
                     <div class="span2">
@@ -77,13 +77,13 @@
                         <div class="span3">
                             {{this.id}}
                         </div>
-                        <div class="span1">
+                        <div class="span2">
                             {{this.status}}
                         </div>
                         <div class="span2">
-                            {{this.timestamp}}
+                            {{this.user.full_name_trunc}}
                         </div>
-                        <div class="span4">
+                        <div class="span3">
                             {{this.all_items}}
                         </div>
                         <div class="span2">
@@ -102,12 +102,20 @@
                                 <small>
                                     {{{this.item_descriptive}}}
                                 </small>
+                                <h4>User details</h4>
+                                <small>
+                                    This order was made on <strong>{{this.timestamp}}</strong> by <strong>{{this.user.full_name}}</strong><br>
+                                </small>
                             </p>
                             <hr />
                             <div class="btn-holder">
                                 <a href="/order/update/{{this.id}}" class="appnav btn btn-primary update-btn">
                                     <span class="heydings">r</span>
                                     Update
+                                </a>
+                                <a href="mailto:{{this.user.email}}" class="appnav btn update-btn">
+                                    <i class="icon-envelope"></i>
+                                    Email user
                                 </a>
                             </div>
                         </div>
@@ -141,12 +149,20 @@
 <template name="order_compose">
     <div class="compose-new-item well">
         <form method="POST" data-validate="parsley" id="order-compose-form">
+            {{#if order_to_update}}
+            <legend>Update Order</legend>
+            {{else}}
             <legend>New Manual Order</legend>
+            {{/if}}
             <fieldset>
+
+                {{#if order_to_update}}
+                <input type="hidden" name="_id" value="{{order_to_update.id}}" id="order-id" />
+                {{/if}}
 
                 <div class="control-group">
                     <label for="user_id">An order for which user?</label>
-                    <input type="text" name="user_id" data-required="true" id="user_id" />
+                    <input type="text" name="user_id" data-required="true" {{#if order_to_update}}value="{{order_to_update.user.username}} {{order_to_update.user.email}}" data-user-id="{{order_to_update.user_id}}"{{/if}} id="user_id" />
                 </div>
 
                 <div class="control-group">
@@ -162,12 +178,12 @@
 
                 <div class="control-group">
                     <label for="request-notes">User's special request</label>
-                    <textarea id="request-notes" name="request_notes"></textarea>
+                    <textarea id="request-notes" name="request_notes">{{#if order_to_update}}{{order_to_update.request_notes}}{{/if}}</textarea>
                 </div>
 
                 <div class="control-group">
                     <label for="admin-notes">Admin's notes on the order</label>
-                    <textarea id="admin-notes" name="admin_notes"></textarea>
+                    <textarea id="admin-notes" name="admin_notes">{{#if order_to_update}}{{order_to_update.admin_notes}}{{/if}}</textarea>
                 </div>
 
                 <div class="control-group">
@@ -177,7 +193,23 @@
                     </a>
                 </div>
 
-                <div id="order-item-container"></div>
+                <div id="order-item-container">
+                {{#if order_to_update}}
+                {{#each order_to_update.all_items}}
+                <div class="control-group order-item">
+                    <br />
+                    <label for="order-item">
+                        Order Item <span class="item_no">1</span>&nbsp;&nbsp;
+                        <a class="btn btn-inverse rm-order-item-btn">
+                            &times;
+                        </a>
+                    </label>
+                    <input type="text" placeholder="(Click to select item)" class="item-selection" {{#if order_to_update}}value="{{this.item.name}}" data-item-id="{{this.item.id}}"{{/if}} class="item-id" />
+                    <input type="number" placeholder="Quantity (Example: 23)" {{#if order_to_update}}value="{{this.qty}}"{{/if}} class="qty" />
+                </div>
+                {{/each}}
+                {{/if}}
+                </div>
 
                 <div class="control-group order-item hidden" id="order-item-template">
                     <br />
@@ -218,7 +250,7 @@
                 <br />
                 <div class="control-group">
                     <button class="btn-large btn btn-primary submit-btn">Save Order</button>
-                    <a href="/order" class="appnav btn-large btn submit-btn">Back to managing all orders</a>
+                    <a href="/order" class="appnav btn-large btn">Back to managing all orders</a>
                 </div>
             </fieldset>
         </form>
