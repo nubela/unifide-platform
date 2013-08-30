@@ -28,7 +28,114 @@
 </template>
 
 <template name="order_all">
-    all
+    <div class="right-container">
+        <div class="container-title">
+            <h2>
+                Overview of orders
+            </h2>
+            <p>
+                <small>
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </small>
+            </p>
+        </div>
+
+        <div class="btn-holder btn-after-main-desc">
+            <btn class="btn btn-primary" id="search-by-user">
+                <i class="icon-search icon-white"></i>
+                Search order by user
+            </btn>
+            <a href="/order/new" class="appnav btn">
+                <span class="heydings">+</span>
+                Manually create a new order
+            </a>
+        </div>
+
+        <div class="campaign">
+            <div class="faketable">
+                <div class="thead thead-search">
+                    <div class="span3">
+                        <input type="text" placeholder="Order ID" data-focus="first" id="filter-by-id" />
+                    </div>
+                    <div class="span1">
+                        Status
+                    </div>
+                    <div class="span2">
+                        Timestamp
+                    </div>
+                    <div class="span4">
+                        Items
+                    </div>
+                    <div class="span2">
+                        Net total
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    {{#each orders}}
+                    <div data-expand="{{this.id}}" class="tr pointer obj-row">
+                        <div class="span3">
+                            {{this.id}}
+                        </div>
+                        <div class="span1">
+                            {{this.status}}
+                        </div>
+                        <div class="span2">
+                            {{this.timestamp}}
+                        </div>
+                        <div class="span4">
+                            {{this.all_items}}
+                        </div>
+                        <div class="span2">
+                            ${{this.nett_total}}
+                        </div>
+                    </div>
+                    <div data-expanded="{{this.id}}" class="expanded hidden">
+                        <div class="expanded-within">
+                            {{#if this.description}}
+                            <blockquote>
+                                {{this.description}}
+                            </blockquote>
+                            {{/if}}
+                            <p>
+                                <h4>Order items and quantity</h4>
+                                <small>
+                                    {{{this.item_descriptive}}}
+                                </small>
+                            </p>
+                            <hr />
+                            <div class="btn-holder">
+                                <a href="/order/update/{{this.id}}" class="appnav btn btn-primary update-btn">
+                                    <span class="heydings">r</span>
+                                    Update
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{/each}}
+                </div>
+
+                <div class="thead">
+                    <div class="pull-right paged">
+                        {{#if has_next}}
+                        <a href="{{next_page_url}}" class="appnav">
+                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                        </a>
+                        {{/if}}
+                        <div class="pull-right page-no">
+                            {{current_page}}
+                        </div>
+                        {{#if has_prev}}
+                        <a href="{{prev_page_url}}" class="appnav">
+                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                        </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <template name="order_compose">

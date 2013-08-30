@@ -356,9 +356,9 @@
 
   new_manual_order = function(order) {
     this.unblock();
-    method["admin_id"] = Meteor.userId();
+    order["admin_id"] = Meteor.userId();
     return Meteor.http.put("" + BACKEND_URL + "order/", {
-      params: method
+      params: order
     });
   };
 

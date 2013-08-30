@@ -240,9 +240,9 @@ new_shipping_method = (method) ->
 
 new_manual_order = (order) ->
     @unblock()
-    method["admin_id"] = Meteor.userId()
+    order["admin_id"] = Meteor.userId()
     Meteor.http.put "#{BACKEND_URL}order/",
-        params: method
+        params: order
 
 new_user = (user) ->
     @unblock()
