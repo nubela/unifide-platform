@@ -95,7 +95,7 @@
                             {{/if}}
                             <hr />
                             <div class="btn-holder">
-                                <a class="btn btn-primary update-btn">
+                                <a href="/user/update/{{this.id}}" class="appnav btn btn-primary update-btn">
                                     <span class="heydings">r</span>
                                     Update
                                 </a>
@@ -137,40 +137,43 @@
         <form method="POST" data-validate="parsley" id="user-compose-form">
             <legend>New User</legend>
             <fieldset>
+                {{#if update_user}}
+                <input type="hidden" placeholder="some_username" name="_id" {{#if update_user}}value="{{update_user.id}}" readonly{{/if}} />
+                {{/if}}
 
                 <div class="control-group">
                     <label for="username">Username</label>
-                    <input type="text" placeholder="some_username" name="username" data-focus="first" id="username" />
+                    <input type="text" placeholder="some_username" name="username" data-focus="first" {{#if update_user}}value="{{update_user.username}}" readonly{{/if}} id="username" />
                 </div>
 
                 <div class="control-group">
                     <label for="email">Email address</label>
-                    <input type="text" placeholder="hello@unifide.sg" name="email" data-type="email" id="email" />
+                    <input type="text" placeholder="hello@unifide.sg" name="email" data-type="email" {{#if update_user}}value="{{update_user.email}}"{{/if}} id="email" />
                 </div>
 
                 <div class="control-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" data-required="true" id="password" />
+                    <input type="password" name="password" id="password" />
                 </div>
 
                 <div class="control-group">
                     <label for="first-name">First name</label>
-                    <input type="text" name="first_name" id="first-name" />
+                    <input type="text" name="first_name" {{#if update_user}}value="{{update_user.first_name}}"{{/if}} id="first-name" />
                 </div>
 
                 <div class="control-group">
                     <label for="middle-name">Middle name</label>
-                    <input type="text" name="middle_name" id="middle-name" />
+                    <input type="text" name="middle_name" {{#if update_user}}value="{{update_user.middle_name}}"{{/if}} id="middle-name" />
                 </div>
 
                 <div class="control-group">
                     <label for="last-name">Last name</label>
-                    <input type="text" name="last_name" id="last-name" />
+                    <input type="text" name="last_name" {{#if update_user}}value="{{update_user.last_name}}"{{/if}} id="last-name" />
                 </div>
 
                 <div class="control-group">
                     <label for="address">Address</label>
-                    <input type="text" name="address" id="address" />
+                    <input type="text" name="address" {{#if update_user}}value="{{update_user.address}}"{{/if}} id="address" />
                 </div>
 
                 <div class="control-group select-user-grp">

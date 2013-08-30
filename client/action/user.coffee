@@ -10,6 +10,7 @@
 @USER_PAGE =
     MAIN: "all"
     COMPOSE: "new"
+    UPDATE: "update"
 
 ITEMS_PER_PAGE = 20
 
@@ -64,9 +65,16 @@ Template.user_all.events =
         $("[data-expanded]").addClass "hidden"
         $("[data-expanded=#{id}]").removeClass("hidden")
 
+    "click .delete-btn": (evt) ->
+        user_id = $(evt.target).parents("[data-expanded]").attr("data-expanded")
+        bootbox.confirm "Confirm delete?", (res) ->
+            if res
+                PlopUser.remove {_id: new Meteor.Collection.ObjectID(user_id )}
+
 #-- user_compose --#
 
 Template.user_compose.created = ->
+    Meteor.subscribe "all_users"
     Meteor.subscribe "all_groups"
 
 Template.user_compose.groups = ->
@@ -80,6 +88,24 @@ Template.user_compose.events =
     "click .save-btn": (evt) ->
         evt.preventDefault()
         createUser()
+
+Template.user_compose.update_user = (evt) ->
+    #get slugs
+    slugs = Session.get USER_SESSION.SUBURL
+    slugs = slugs.split("/")
+    user_id = slugs[1]
+    if slugs[0] != USER_PAGE.UPDATE
+        return null
+
+    #return user to be updated
+    PlopUser.findOne {
+        _id: new Meteor.Collection.ObjectID(user_id)
+    }, {
+        transform: (doc) ->
+            doc["id"] = doc._id.valueOf()
+            doc
+    }
+
 
 
 #-- helper --#
@@ -105,7 +131,7 @@ createUser = ->
         dic.user_groups = JSON.stringify $("#user-groups").val()
         dic.status = $("#status").val()
         Meteor.call "new_user", dic, ->
-            Router.navigate "/user"
+            Router.navigate("/user", {trigger: true})
 
 
 getPage = () ->
@@ -118,6 +144,8 @@ getPage = () ->
         s != ""
     if slugs.length >= 1
         if slugs[0] == USER_PAGE.COMPOSE
+            return USER_TEMPLATE.NEW
+        else if slugs[0] == USER_PAGE.UPDATE
             return USER_TEMPLATE.NEW
 
     USER_TEMPLATE.MAIN

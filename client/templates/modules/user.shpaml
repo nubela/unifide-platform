@@ -66,7 +66,7 @@ template name="user_all"
                             {{/if}}
                             > hr
                             .btn-holder
-                                a.btn.btn-primary.update-btn
+                                a.appnav.btn.btn-primary.update-btn href="/user/update/{{this.id}}"
                                     span.heydings | r
                                     Update
                                 a.btn.delete-btn
@@ -93,34 +93,37 @@ template name="user_compose"
         form#user-compose-form method="POST" data-validate="parsley"
             legend | New User
             fieldset
+                {{#if update_user}}
+                > input type="hidden" placeholder="some_username" name="_id" {{#if update_user}}value="{{update_user.id}}" readonly{{/if}}
+                {{/if}}
 
                 .control-group
                     label for="username" | Username
-                    > input#username type="text" placeholder="some_username" name="username" data-focus="first"
+                    > input#username type="text" placeholder="some_username" name="username" data-focus="first" {{#if update_user}}value="{{update_user.username}}" readonly{{/if}}
 
                 .control-group
                     label for="email" | Email address
-                    > input#email type="text" placeholder="hello@unifide.sg" name="email" data-type="email"
+                    > input#email type="text" placeholder="hello@unifide.sg" name="email" data-type="email" {{#if update_user}}value="{{update_user.email}}"{{/if}}
 
                 .control-group
                     label for="password" | Password
-                    > input#password type="password" name="password" data-required="true"
+                    > input#password type="password" name="password"
 
                 .control-group
                     label for="first-name" | First name
-                    > input#first-name type="text" name="first_name"
+                    > input#first-name type="text" name="first_name" {{#if update_user}}value="{{update_user.first_name}}"{{/if}}
 
                 .control-group
                     label for="middle-name" | Middle name
-                    > input#middle-name type="text" name="middle_name"
+                    > input#middle-name type="text" name="middle_name" {{#if update_user}}value="{{update_user.middle_name}}"{{/if}}
 
                 .control-group
                     label for="last-name" | Last name
-                    > input#last-name type="text" name="last_name"
+                    > input#last-name type="text" name="last_name" {{#if update_user}}value="{{update_user.last_name}}"{{/if}}
 
                 .control-group
                     label for="address" | Address
-                    > input#address type="text" name="address"
+                    > input#address type="text" name="address" {{#if update_user}}value="{{update_user.address}}"{{/if}}
 
                 .control-group.select-user-grp
                     label for="user-groups"

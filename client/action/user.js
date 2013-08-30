@@ -15,7 +15,8 @@
 
   this.USER_PAGE = {
     MAIN: "all",
-    COMPOSE: "new"
+    COMPOSE: "new",
+    UPDATE: "update"
   };
 
   ITEMS_PER_PAGE = 20;
@@ -80,10 +81,22 @@
       id = $(elem).attr("data-expand");
       $("[data-expanded]").addClass("hidden");
       return $("[data-expanded=" + id + "]").removeClass("hidden");
+    },
+    "click .delete-btn": function(evt) {
+      var user_id;
+      user_id = $(evt.target).parents("[data-expanded]").attr("data-expanded");
+      return bootbox.confirm("Confirm delete?", function(res) {
+        if (res) {
+          return PlopUser.remove({
+            _id: new Meteor.Collection.ObjectID(user_id)
+          });
+        }
+      });
     }
   };
 
   Template.user_compose.created = function() {
+    Meteor.subscribe("all_users");
     return Meteor.subscribe("all_groups");
   };
 
@@ -104,6 +117,24 @@
       evt.preventDefault();
       return createUser();
     }
+  };
+
+  Template.user_compose.update_user = function(evt) {
+    var slugs, user_id;
+    slugs = Session.get(USER_SESSION.SUBURL);
+    slugs = slugs.split("/");
+    user_id = slugs[1];
+    if (slugs[0] !== USER_PAGE.UPDATE) {
+      return null;
+    }
+    return PlopUser.findOne({
+      _id: new Meteor.Collection.ObjectID(user_id)
+    }, {
+      transform: function(doc) {
+        doc["id"] = doc._id.valueOf();
+        return doc;
+      }
+    });
   };
 
   getPageNo = function() {
@@ -134,7 +165,9 @@
       dic.user_groups = JSON.stringify($("#user-groups").val());
       dic.status = $("#status").val();
       return Meteor.call("new_user", dic, function() {
-        return Router.navigate("/user");
+        return Router.navigate("/user", {
+          trigger: true
+        });
       });
     }
   };
@@ -151,6 +184,8 @@
     });
     if (slugs.length >= 1) {
       if (slugs[0] === USER_PAGE.COMPOSE) {
+        return USER_TEMPLATE.NEW;
+      } else if (slugs[0] === USER_PAGE.UPDATE) {
         return USER_TEMPLATE.NEW;
       }
     }
