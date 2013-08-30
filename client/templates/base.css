@@ -84,6 +84,11 @@
       font-weight: bold;
       padding-left: 10px;
       line-height: 30px; }
+  .faketable .thead-search div {
+    line-height: 50px; }
+  .faketable .thead-search input {
+    margin-top: 10px;
+    width: 80%; }
   .faketable .tbody .tr {
     background-color: #f9f9f9;
     height: 38px;

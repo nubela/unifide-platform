@@ -27,7 +27,109 @@
 </template>
 
 <template name="user_all">
-    asd
+    <div class="right-container">
+        <div class="container-title">
+            <h2>
+                User Management
+            </h2>
+            <p>
+                <small>
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </small>
+            </p>
+        </div>
+
+        <div class="btn-holder btn-after-main-desc">
+            <a href="/user/new" class="appnav btn">
+                <span class="heydings">+</span>
+                Create a new user
+            </a>
+        </div>
+
+        <div class="campaign">
+            <div class="faketable">
+                <div class="thead thead-search">
+                    <div class="span2">
+                        <input type="text" placeholder="Username" name="username" data-focus="first" id="filter-by-username" />
+                    </div>
+                    <div class="span2">
+                        <input type="text" placeholder="Email address" id="filter-by-email" />
+                    </div>
+                    <div class="span4">
+                        Full Name
+                    </div>
+                    <div class="span4">
+                        Groups
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    {{#each users}}
+                    <div data-expand="{{this.id}}" class="tr pointer obj-row">
+                        <div class="span2">
+                            {{this.username}}
+                        </div>
+                        <div class="span2">
+                            {{this.email}}
+                        </div>
+                        <div class="span4">
+                            {{this.full_name}}
+                        </div>
+                        <div class="span4">
+                            {{this.groups}}
+                        </div>
+                    </div>
+                    <div data-expanded="{{this.id}}" class="expanded hidden">
+                        <div class="expanded-within">
+                            {{#if this.description}}
+                            <blockquote>
+                                {{this.description}}
+                            </blockquote>
+                            {{/if}}
+                            {{#if this.origin_desc}}
+                            <p>
+                                <small>
+                                    {{{this.origin_desc}}}<br>
+                                </small>
+                            </p>
+                            {{/if}}
+                            <hr />
+                            <div class="btn-holder">
+                                <a class="btn btn-primary update-btn">
+                                    <span class="heydings">r</span>
+                                    Update
+                                </a>
+                                <a class="btn delete-btn">
+                                    <span class="heydings">-</span>
+                                    Delete user
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{/each}}
+                </div>
+
+                <div class="thead">
+                    <div class="pull-right">
+                        {{#if has_next}}
+                        <a href="{{next_page_url}}" class="appnav">
+                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                        </a>
+                        {{/if}}
+                        <div class="pull-right">
+                            &nbsp;&nbsp;&nbsp;{{current_page}}&nbsp;&nbsp;&nbsp;
+                        </div>
+                        {{#if has_prev}}
+                        <a href="{{prev_page_url}}" class="appnav">
+                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                        </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <template name="user_compose">

@@ -1,5 +1,7 @@
 @USER_SESSION =
     SUBURL: "USERSubUrl"
+    USERNAME_FILTER: "USERFilterUsername"
+    EMAIL_FILTER: "USERFilterEmail"
 
 @USER_TEMPLATE =
     MAIN: "user_all"
@@ -11,7 +13,7 @@
 
 ITEMS_PER_PAGE = 20
 
-#-- tax --#
+#-- user --#
 
 Template.user.rendered = ->
     scrollTop()
@@ -19,7 +21,50 @@ Template.user.rendered = ->
 Template.user.view = ->
     Template[getPage()]()
 
-#-- tax_compose --#
+#-- user_all --#
+
+Template.user_all.created = ->
+    Meteor.subscribe "all_users"
+    Session.set USER_SESSION.USERNAME_FILTER, ""
+    Session.set USER_SESSION.EMAIL_FILTER, ""
+
+Template.user_all.rendered = ->
+    $("#filter-by-username").off "change paste keyup"
+    $("#filter-by-username").on "change paste keyup", (evt) ->
+        Session.set USER_SESSION.USERNAME_FILTER, $(evt.target).val()
+
+    $("#filter-by-email").off "change paste keyup"
+    $("#filter-by-email").on "change paste keyup", (evt) ->
+        Session.set USER_SESSION.EMAIL_FILTER, $(evt.target).val()
+
+Template.user_all.users = ->
+    page_no_0_idx = getPageNo() - 1
+    username_filter = Session.get USER_SESSION.USERNAME_FILTER
+    email_filter = Session.get USER_SESSION.EMAIL_FILTER
+    PlopUser.find {
+        username:
+            {$regex: ".*#{username_filter}.*", $options: 'i'}
+        email:
+            {$regex: ".*#{email_filter}.*", $options: 'i'}
+    }, {
+        limit: ITEMS_PER_PAGE
+        skip: page_no_0_idx * ITEMS_PER_PAGE
+        sort:
+            modification_timestamp_utc: -1
+        transform: (doc) ->
+            doc["id"] = doc._id.valueOf()
+            doc["full_name"] = "#{doc.first_name} #{doc.middle_name} #{doc.last_name}"
+            doc
+    }
+
+Template.user_all.events =
+    "click [data-expand]": (evt) ->
+        elem = $(evt.target).parents("[data-expand]")[0]
+        id = $(elem).attr("data-expand")
+        $("[data-expanded]").addClass "hidden"
+        $("[data-expanded=#{id}]").removeClass("hidden")
+
+#-- user_compose --#
 
 Template.user_compose.created = ->
     Meteor.subscribe "all_groups"
@@ -38,6 +83,18 @@ Template.user_compose.events =
 
 
 #-- helper --#
+
+getPageNo = ->
+    slugs = Session.get USER_SESSION.SUBURL
+    if not slugs?
+        return 1
+
+    slugs = slugs.split("/")
+    slugs = _.filter slugs, (s) ->
+        s != ""
+    if slugs.length >= 1
+        return parseInt slugs[0]
+    return 1
 
 createUser = ->
     if $("#user-compose-form").parsley "validate"

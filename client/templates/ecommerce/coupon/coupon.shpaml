@@ -35,17 +35,13 @@ template name="coupon_all"
             div.faketable
                 .thead
                     .span2
+                        Username
+                    .span2
+                        Email
+                    .span4
                         Name
-                    .span2
-                        Coupon code
-                    .span2
-                        Coupon Value
-                    .span2
-                        Percentage
-                    .span2
-                        Can be used
-                    .span2
-                        Status
+                    .span4
+                        Groups
                 .tbody
                     {{#each coupons}}
                     .tr.pointer.obj-row data-expand="{{this.id}}"
