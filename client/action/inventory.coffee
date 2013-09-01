@@ -3,13 +3,15 @@
 
 @INVENTORY_TEMPLATE =
     MAIN: "inventory_all"
-    NEW: "inventory_compose"
+    MONITOR: "inventory_monitor"
 
 @INVENTORY_PAGE =
     MAIN: "all"
-    COMPOSE: "new"
+    MONITOR: "monitor"
 
 ITEMS_PER_PAGE = 20
+DEFAULT_WARNING_QUANTITY = 2
+WARNING_QTY_KEY = "ecommerce_warning_quantity"
 
 #-- inventory --#
 
@@ -25,9 +27,6 @@ Template.inventory_all.created = ->
     Meteor.subscribe "all_items"
     Meteor.subscribe "all_containers"
     Meteor.subscribe "all_inventory"
-
-Template.inventory_all.rendered = ->
-    null
 
 Template.inventory_all.events =
     "click #add-container-to-inventory": (evt) ->
@@ -76,7 +75,77 @@ Template.inventory_all.has_next = ->
 Template.inventory_all.has_prev = ->
     getPageNo() >= 2
 
+
+#-- inventory_compose --#
+
+Template.inventory_monitor.created = ->
+    Meteor.subscribe "all_items"
+    Meteor.subscribe "all_containers"
+    Meteor.subscribe "all_inventory"
+
+Template.inventory_monitor.events =
+    "click #change-warning-qty-btn": (evt) ->
+        bootbox.prompt "Alert you when item quantity is equal or below..", (res) ->
+            if isNumber res
+                setProfileSettings WARNING_QTY_KEY, parseInt(res)
+
+    "click [data-expand]": (evt) ->
+        elem = $(evt.target).parents("[data-expand]")[0]
+        id = $(elem).attr("data-expand")
+        $("[data-expanded]").addClass "hidden"
+        $("[data-expanded=#{id}]").removeClass("hidden")
+
+Template.inventory_monitor.has_warning_items = ->
+    getWarningItems().length > 0
+
+Template.inventory_monitor.warning_items = ->
+    getWarningItems()
+
+Template.inventory_monitor.warning_qtn = ->
+    getWarningQty()
+
 #-- helper --#
+
+getWarningItems = ->
+    #get inventory and containers
+    all_inventory = Inventory.find({}).fetch()
+    all_containers = []
+    for i in all_inventory
+        container = ITMChildCategories.findOne {_id: i.container_id}
+        if container?
+            child_containers = getChildContainers(container)
+            for c in child_containers
+                all_containers.push c
+
+    #get item cursor
+    child_container_ids = _.map all_containers, (c) -> c._id
+    if child_container_ids.length == 0
+        return []
+    all_items = ITMItems.find {
+        container_id:
+            $in: child_container_ids
+    }, {
+        transform: (doc) ->
+            doc.container = ITMChildCategories.findOne {_id: doc.container_id}
+            doc.container_path = doc.container.materialized_path.join(" / ")
+            doc["id"] = doc._id.valueOf()
+            doc.view_url = "/items/#{doc.container.materialized_path.join("/")}/item/#{doc.id}"
+            doc.update_url = "/items/#{doc.container.materialized_path.join("/")}/update/#{doc.id}"
+            doc
+    }
+
+    #check for low qty items
+    all_items = all_items.fetch()
+    warning_qty = getWarningQty()
+    warned_items = []
+    for i in all_items
+        if "quantity" of i and isNumber(i.quantity) and parseInt(i.quantity) <= warning_qty
+            warned_items.push i
+
+    warned_items
+
+getWarningQty = ->
+    if getProfileSettings(WARNING_QTY_KEY) then getProfileSettings(WARNING_QTY_KEY) else DEFAULT_WARNING_QUANTITY
 
 getAllInventory = ->
     page_no_0_idx = getPageNo() - 1
@@ -125,6 +194,18 @@ getPageNo = ->
         return parseInt slugs[0]
     return 1
 
+getMonitorPageNo = ->
+    slugs = Session.get INVENTORY_SESSION.SUBURL
+    if not slugs?
+        return 1
+
+    slugs = slugs.split("/")
+    slugs = _.filter slugs, (s) ->
+        s != ""
+    if slugs.length >= 2
+        return parseInt slugs[1]
+    return 1
+
 getPage = () ->
     slugs = Session.get INVENTORY_SESSION.SUBURL
     if not slugs?
@@ -136,6 +217,8 @@ getPage = () ->
     if slugs.length >= 1
         if slugs[0] == INVENTORY_PAGE.COMPOSE
             return INVENTORY_TEMPLATE.NEW
+        else if slugs[0] == INVENTORY_PAGE.MONITOR
+            return INVENTORY_TEMPLATE.MONITOR
 
     INVENTORY_TEMPLATE.MAIN
 

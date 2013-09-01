@@ -160,7 +160,7 @@
                 <thead>
                     <tr>
                         <td>
-                            <input type="text" placeholder="Search by Username or Email address.." class="table-header-input" />
+                            <input type="text" placeholder="Search by Username or Email address.." class="table-header-input" id="username-email-filter" />
                             {{#if has_next}}
                             <a href="{{next_page_url}}" class="appnav">
                                 <i class="icon-chevron-right pull-right icon-nav page-next" />
@@ -179,25 +179,21 @@
                 </thead>
 
                 <tbody>
-
-                    <tr>
+                    {{#each users}}
+                    <tr data-credit-id="{{this.id}}" class="obj-row">
                         <td>
                             <div class="pull-left">
-                                <strong>nubela</strong>
-                                - $82.09
+                                <strong>{{this.user.username}}</strong>
+                                - ${{this.total_credit}}
                             </div>
                             <div class="pull-right">
-                                Last transaction on Tues 23/4/2013
+                                Last transaction on {{this.last_mod_date}}
                             </div>
 
                             <div class="clear spacing10"></div>
-                            <div class="expanded">
-                                <p>
-                                    Email address: nubela@gmail.com
-                                </p>
-                                <hr />
+                            <div class="expanded hidden">
                                 <div class="btn-holder">
-                                    <a class="btn">
+                                    <a class="btn adjust-btn">
                                         <span class="heydings">w</span>
                                         Adjust credit
                                     </a>
@@ -205,19 +201,7 @@
                             </div>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td>
-                            <div class="pull-left">
-                                <strong>nubela</strong>
-                                - $82.10
-                            </div>
-                            <div class="pull-right">
-                                Last transaction on Tues 23/4/2013
-                            </div>
-                            <div class="spacing10"></div>
-                        </td>
-                    </tr>
+                    {{/each}}
                 </tbody>
             </table>
         </div>

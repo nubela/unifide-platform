@@ -6,11 +6,11 @@ template name="user"
                 .sidebar-nav-fixed
                     ul.unstyled.side-nav
                         a.appnav.anchor-container href="/user"
-                            li.side-header | Manage Users
+                            li.side-header | Users
                         a.appnav.anchor-container href="/user"
-                            li.container-entry | <span class="icon">w</span> Manage users
+                            li.container-entry | <span class="icon">w</span> Manage
                         a.appnav.anchor-container href="/user/new"
-                            li.container-entry | <span class="icon">+</span> New user account
+                            li.container-entry | <span class="icon">+</span> New
 
                 <!--- main area --->
                 .span12.span-fixed-sidebar

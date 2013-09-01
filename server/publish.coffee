@@ -1,3 +1,9 @@
+Meteor.publish "all_credit_stores",  ->
+    CreditStore.find()
+
+Meteor.publish "all_credit_log",  ->
+    CreditLog.find()
+
 Meteor.publish "all_inventory",  ->
     Inventory.find()
 

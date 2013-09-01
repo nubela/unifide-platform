@@ -112,7 +112,7 @@ template name="cashback_user_values"
                 thead
                     tr
                         td
-                            > input.table-header-input type="text" placeholder="Search by Username or Email address.."
+                            > input.table-header-input#username-email-filter type="text" placeholder="Search by Username or Email address.."
                             {{#if has_next}}
                             a.appnav href="{{next_page_url}}"
                                 > i.icon-chevron-right.pull-right.icon-nav.page-next
@@ -125,33 +125,22 @@ template name="cashback_user_values"
                             {{/if}}
 
                 tbody
-
-                    tr
+                    {{#each users}}
+                    tr.obj-row data-credit-id="{{this.id}}"
                         td
                             .pull-left
-                                strong | nubela
-                                - $82.09
+                                strong | {{this.user.username}}
+                                - ${{this.total_credit}}
                             .pull-right
-                                Last transaction on Tues 23/4/2013
+                                Last transaction on {{this.last_mod_date}}
 
                             <div class="clear spacing10"></div>
-                            .expanded
-                                p
-                                    Email address: nubela@gmail.com
-                                > hr
+                            .expanded.hidden
                                 .btn-holder
-                                    a.btn
+                                    a.btn.adjust-btn
                                         span.heydings | w
                                         Adjust credit
-
-                    tr
-                        td
-                            .pull-left
-                                strong | nubela
-                                - $82.10
-                            .pull-right
-                                Last transaction on Tues 23/4/2013
-                            <div class="spacing10"></div>
+                    {{/each}}
 
 template name="cashback_compose"
     div.compose-new-item.well

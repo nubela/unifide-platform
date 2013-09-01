@@ -175,8 +175,8 @@ template name="item_compose"
                             > input#tagsinput_tag data
 
                 .control-group.hidden#custom-attr-template
-                    label for="quantity" | Quantity
-                    > input.custom-attr name="quantity" id="quantity"
+                    label for="meh" | Quantity
+                    > input.custom-attr name="meh" id="meh"
 
                 .control-group.hidden#custom-img-template
                     label for="media_file" | Media

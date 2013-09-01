@@ -60,3 +60,19 @@
 
 @isNumber = (n) ->
     not isNaN(parseFloat(n)) and isFinite(n)
+
+
+@getProfileSettings = (key) ->
+    user = Meteor.user()
+    if "profile" of user
+        return user.profile[key]
+    return null
+
+@setProfileSettings = (key, value) ->
+    set_dic = {}
+    set_dic["profile.#{key}"] = value
+    Meteor.users.update {
+        _id: Meteor.userId()
+    }, {
+        $set: set_dic
+    }

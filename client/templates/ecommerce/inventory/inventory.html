@@ -9,7 +9,7 @@
                             <li class="side-header">Inventory</li>
                         </a>
                         <a href="/inventory" class="appnav anchor-container">
-                            <li class="container-entry"><span class="icon">v</span> Manage Inventory</li>
+                            <li class="container-entry"><span class="icon">v</span> Manage</li>
                         </a>
                         <a href="/inventory/monitor" class="appnav anchor-container">
                             <li class="container-entry"><span class="icon">M</span> Monitor</li>
@@ -101,6 +101,109 @@
                         {{/if}}
                         <div class="pull-right page-no">
                             {{current_page}}
+                        </div>
+                        {{#if has_prev}}
+                        <a href="{{prev_page_url}}" class="appnav">
+                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                        </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<template name="inventory_monitor">
+    <div class="right-container">
+        <div class="container-title">
+            <h2>
+                Monitor inventory
+            </h2>
+            <p>
+                <small>
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </small>
+            </p>
+        </div>
+
+        <div class="main-description well highlighted">
+            <h4 class="description-title">
+                Monitoring items with <span class="dark-blue">less than or equal to than {{warning_qtn}} stock quantity</span>
+            </h4>
+            <small>
+                {{active_rule.quick_desc}}
+            </small>
+        </div>
+
+        <div class="btn-holder btn-after-main-desc">
+            <btn class="btn btn-primary" id="change-warning-qty-btn">
+                <span class="heydings">G</span>
+                I want to change the minimum quantity
+            </btn>
+        </div>
+
+        <div class="campaign">
+            <div class="faketable">
+                <div class="thead">
+                    <div class="span3">
+                        Item name
+                    </div>
+                    <div class="span7">
+                        Container
+                    </div>
+                    <div class="span2">
+                        Quantity left
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    {{#if has_warning_items}}
+                    {{#each warning_items}}
+                    <div data-expand="{{this.id}}" class="tr pointer obj-row">
+                        <div class="span3">
+                            {{this.name}}
+                        </div>
+                        <div class="span7">
+                            {{this.container_path}}
+                        </div>
+                        <div class="span2">
+                            {{this.quantity}}
+                        </div>
+                    </div>
+                    <div data-expanded="{{this.id}}" class="expanded hidden">
+                        <div class="expanded-within">
+                            <div class="btn-holder">
+                                <a href="{{this.view_url}}" class="btn appnav btn-primary">
+                                    <span class="heydings">M</span>
+                                    View item
+                                </a>
+                                <a href="{{this.update_url}}" class="btn appnav">
+                                    <span class="heydings">w</span>
+                                    Update item
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{/each}}
+                    {{else}}
+                    <div class="no-results">
+                        Good news! All your items are above the minimum quantity.
+                    </div>
+                    {{/if}}
+                </div>
+
+                <div class="thead">
+                    <div class="pull-right paged">
+                        {{#if has_next}}
+                        <a href="{{next_page_url}}" class="appnav">
+                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                        </a>
+                        {{/if}}
+                        <div class="pull-right page-no">
+                            &nbsp;
                         </div>
                         {{#if has_prev}}
                         <a href="{{prev_page_url}}" class="appnav">

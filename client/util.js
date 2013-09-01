@@ -91,4 +91,24 @@
     return !isNaN(parseFloat(n)) && isFinite(n);
   };
 
+  this.getProfileSettings = function(key) {
+    var user;
+    user = Meteor.user();
+    if ("profile" in user) {
+      return user.profile[key];
+    }
+    return null;
+  };
+
+  this.setProfileSettings = function(key, value) {
+    var set_dic;
+    set_dic = {};
+    set_dic["profile." + key] = value;
+    return Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $set: set_dic
+    });
+  };
+
 }).call(this);

@@ -172,6 +172,7 @@ createItem = ->
         submitItemCreation()
 
     data_lis = $("#item-compose-form").serializeArray()
+
     all_file_input = $("input[type=file]")
     for f in all_file_input
         if f.files and f.files[0]
