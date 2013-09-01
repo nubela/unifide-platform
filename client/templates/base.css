@@ -118,3 +118,10 @@
         padding: 10px; }
       .faketable .tbody .expanded .expanded-within .btn-holder {
         padding: 10px; }
+
+.no-results {
+  font-style: italic;
+  text-align: center;
+  font-size: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px; }

@@ -53,8 +53,11 @@ var myAppRouter = Backbone.Router.extend({
         "taxes": "tax_url",
         "taxes/*suburl": "tax_url",
         "order": "order_url",
-        "order/*suburl": "order_url"
+        "order/*suburl": "order_url",
+        "inventory": "inventory_url",
+        "inventory/*suburl": "inventory_url"
     },
+    inventory_url: inventory_url,
     user_url: user_url,
     tax_url: tax_url,
     shipping_url: shipping_url,
@@ -139,6 +142,12 @@ function items_url(suburl) {
     Session.set(ITEM_SESSION.SUBURL, suburl);
     Session.set("page_template", "items");
     _init_items();
+}
+
+function inventory_url(suburl) {
+    set_page_url();
+    Session.set(INVENTORY_SESSION.SUBURL, suburl);
+    Session.set("page_template", "inventory");
 }
 
 function shipping_url(suburl) {

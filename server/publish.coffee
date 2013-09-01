@@ -1,3 +1,6 @@
+Meteor.publish "all_inventory",  ->
+    Inventory.find()
+
 Meteor.publish "all_orders",  ->
     Order.find()
 

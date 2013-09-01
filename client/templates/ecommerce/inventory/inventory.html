@@ -1,0 +1,115 @@
+<template name="inventory">
+    <div class="container-fluid full-container">
+        <div class="row-fluid full-row">
+            <div class="body-container">
+                <!--- navbar --->
+                <div class="sidebar-nav-fixed">
+                    <ul class="unstyled side-nav">
+                        <a href="/inventory" class="appnav anchor-container">
+                            <li class="side-header">Inventory</li>
+                        </a>
+                        <a href="/inventory" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">v</span> Manage Inventory</li>
+                        </a>
+                        <a href="/inventory/monitor" class="appnav anchor-container">
+                            <li class="container-entry"><span class="icon">M</span> Monitor</li>
+                        </a>
+                    </ul>
+                </div>
+
+                <!--- main area --->
+                <div class="span12 span-fixed-sidebar">
+                    {{{view}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="inventory_all">
+    <div class="right-container">
+        <div class="container-title">
+            <h2>
+                Manage inventory
+            </h2>
+            <p>
+                <small>
+                    <span class="heydings">l</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </small>
+            </p>
+        </div>
+
+        <div class="btn-holder btn-after-main-desc">
+            <btn class="btn btn-primary" id="add-container-to-inventory">
+                <span class="heydings">+</span>
+                Add an item container to your store inventory
+            </btn>
+
+            <a href="/inventory/monitor" class="appnav btn">
+                <span class="heydings">M</span>
+                Monitor low stock availability
+            </a>
+        </div>
+
+        <div class="campaign">
+            <div class="faketable">
+                <div class="thead">
+                    <div class="span10">
+                        Container
+                    </div>
+                    <div class="span2">
+                        Total items
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    {{#if has_inventory}}
+                    {{#each inventory}}
+                    <div data-expand="{{this.id}}" class="tr pointer obj-row">
+                        <div class="span10">
+                            {{this.container_full_path}}
+                        </div>
+                        <div class="span2">
+                            {{this.item_count}}
+                        </div>
+                    </div>
+                    <div data-expanded="{{this.id}}" class="expanded hidden">
+                        <div class="expanded-within">
+                            <div class="btn-holder">
+                                <a class="btn delete-btn">
+                                    <span class="heydings">-</span>
+                                    Remove from inventory
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{/each}}
+                    {{else}}
+                    <div class="no-results">
+                        There is no inventory added yet.
+                    </div>
+                    {{/if}}
+                </div>
+
+                <div class="thead">
+                    <div class="pull-right paged">
+                        {{#if has_next}}
+                        <a href="{{next_page_url}}" class="appnav">
+                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                        </a>
+                        {{/if}}
+                        <div class="pull-right page-no">
+                            {{current_page}}
+                        </div>
+                        {{#if has_prev}}
+                        <a href="{{prev_page_url}}" class="appnav">
+                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                        </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

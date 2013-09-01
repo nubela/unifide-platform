@@ -249,6 +249,12 @@ new_user = (user) ->
     Meteor.http.put "#{BACKEND_URL}user/",
         params: user
 
+new_inventory_container = (container_id) ->
+    @unblock()
+    Meteor.http.put "#{BACKEND_URL}inventory/container/",
+        params:
+            container_id: container_id
+
 Meteor.methods
     get_all_orders: get_all_orders
     get_biz_info: get_biz_info
@@ -285,3 +291,4 @@ Meteor.methods
     new_shipping_method: new_shipping_method
     new_manual_order: new_manual_order
     new_user: new_user
+    new_inventory_container: new_inventory_container
