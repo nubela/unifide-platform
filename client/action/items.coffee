@@ -202,7 +202,10 @@ Template.items.child_containers = ->
         return ITMChildCategories.find {}, limit: 0
 
     ITMChildCategories.find {
-        parent_id: if container_path_lis.length != 0 then main_container._id else null}, {
+        parent_id: if container_path_lis.length != 0 then main_container._id else null
+        name:
+            $ne: "Org"
+    }, {
         transform: (doc) ->
             url = suburl_to_current_path_for_items()
             doc.url = url + "/" + doc.name

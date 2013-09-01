@@ -227,7 +227,10 @@
       });
     }
     return ITMChildCategories.find({
-      parent_id: container_path_lis.length !== 0 ? main_container._id : null
+      parent_id: container_path_lis.length !== 0 ? main_container._id : null,
+      name: {
+        $ne: "Org"
+      }
     }, {
       transform: function(doc) {
         var url;
