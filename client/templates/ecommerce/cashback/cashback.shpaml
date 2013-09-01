@@ -184,11 +184,11 @@ template name="cashback_transaction_log"
                 thead
                     tr
                         td
-                            > input type="text" class="input-small" placeholder="Username"
+                            Username
                         td
-                            > input type="text" class="input-small" placeholder="Email"
+                            Email
                         td
-                            > input type="text" class="input-small" placeholder="Process by.."
+                            Processed by
                         td
                             Transaction type
                         td
@@ -196,50 +196,22 @@ template name="cashback_transaction_log"
                         td
                             Date
 
-
                 tbody
-
+                    {{#each logs}}
                     tr
                         td
-                            strong | nubela
+                            strong | {{this.user.username}}
                         td
-                            nubela@gmail.com
+                            {{this.user.email}}
                         td
-                            Jamie
+                            {{this.admin.username}}
                         td
-                            Credit
+                            {{this.type}}
                         td
-                            - $3.40
+                            {{this.credited_value}}
                         td
-                            24th April 2013
-
-                    tr
-                        td
-                            strong | nubela
-                        td
-                            nubela@gmail.com
-                        td
-                            Jamie
-                        td
-                            Credit
-                        td
-                            - $3.40
-                        td
-                            24th April 2013
-
-                    tr
-                        td
-                            strong | nubela
-                        td
-                            nubela@gmail.com
-                        td
-                            Jamie
-                        td
-                            Credit
-                        td
-                            - $3.40
-                        td
-                            24th April 2013
+                            {{this.last_mod_date}}
+                    {{/each}}
 
                 thead
                     tr
@@ -254,7 +226,13 @@ template name="cashback_transaction_log"
                         td
                             &nbsp;
                         td
-                            > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            {{#if has_next}}
+                            a.appnav href="{{next_page_url}}"
+                                > i.icon-chevron-right.pull-right.icon-nav.page-next
+                            {{/if}}
                             .pull-right
-                                &nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;
-                            > i.icon-chevron-left.pull-right.icon-nav.page-back
+                                {{current_page}}
+                            {{#if has_prev}}
+                            a.appnav href="{{prev_page_url}}"
+                                > i.icon-chevron-left.pull-right.icon-nav.page-back
+                            {{/if}}

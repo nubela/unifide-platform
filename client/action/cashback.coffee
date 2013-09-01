@@ -158,7 +158,6 @@ Template.cashback_user_values.rendered = ->
         Session.set CASHBACK_SESSION.USER_CREDIT_USERNAME_FILTER, $(evt.target).val()
 
 Template.cashback_user_values.users = ->
-    page_no_0_idx = getSecondaryPageNo() - 1
     username_email_filter = $.trim Session.get CASHBACK_SESSION.USER_CREDIT_USERNAME_FILTER
     users = PlopUser.find({
         $or: [
@@ -181,6 +180,7 @@ Template.cashback_user_values.users = ->
         dic =
             user_id:
                 $in: user_id_lis
+    page_no_0_idx = getSecondaryPageNo() - 1
     CreditStore.find dic,{
         limit: ITEMS_PER_PAGE
         skip: page_no_0_idx * ITEMS_PER_PAGE
@@ -231,6 +231,51 @@ Template.cashback_user_values.has_next = ->
     getSecondaryPageNo() < total_pages
 
 Template.cashback_user_values.has_prev = ->
+    getSecondaryPageNo() >= 2
+
+#-- cashback_transaction_log --#
+
+Template.cashback_transaction_log.created = ->
+    Meteor.subscribe "all_users"
+    Meteor.subscribe "all_admins"
+    Meteor.subscribe "all_credit_log"
+
+Template.cashback_transaction_log.logs = ->
+    page_no_0_idx = getSecondaryPageNo() - 1
+    CreditLog.find {},{
+        limit: ITEMS_PER_PAGE
+        skip: page_no_0_idx * ITEMS_PER_PAGE
+        sort:
+            modification_timestamp_utc: -1
+        transform: (doc) ->
+            last_mod = moment(doc.modification_timestamp_utc)
+            doc["last_mod_date"] = last_mod.format('MMMM Do YYYY')
+            doc["id"] = doc._id.valueOf()
+            doc["user"] = PlopUser.findOne {_id: doc.user_id}
+            doc["admin"] = Meteor.users.findOne {_id: doc.admin_id}
+            doc["admin"] = Meteor.users.findOne {_id: doc.admin_id}
+            doc
+    }
+
+Template.cashback_transaction_log.current_page = ->
+    getSecondaryPageNo()
+
+Template.cashback_transaction_log.next_page_url = ->
+    page_no = getSecondaryPageNo()
+    next_page = page_no + 1
+    return "/cashback/log/#{next_page}"
+
+Template.cashback_transaction_log.prev_page_url = ->
+    page_no = getSecondaryPageNo()
+    prev_page = page_no - 1
+    return "/cashback/log/#{prev_page}"
+
+Template.cashback_transaction_log.has_next = ->
+    total_items = CreditLog.find({}).count()
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE)
+    getSecondaryPageNo() < total_pages
+
+Template.cashback_transaction_log.has_prev = ->
     getSecondaryPageNo() >= 2
 
 #-- util --#

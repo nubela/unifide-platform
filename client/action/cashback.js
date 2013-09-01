@@ -198,7 +198,6 @@
 
   Template.cashback_user_values.users = function() {
     var dic, page_no_0_idx, user_id_lis, username_email_filter, users;
-    page_no_0_idx = getSecondaryPageNo() - 1;
     username_email_filter = $.trim(Session.get(CASHBACK_SESSION.USER_CREDIT_USERNAME_FILTER));
     users = PlopUser.find({
       $or: [
@@ -241,6 +240,7 @@
         }
       };
     }
+    page_no_0_idx = getSecondaryPageNo() - 1;
     return CreditStore.find(dic, {
       limit: ITEMS_PER_PAGE,
       skip: page_no_0_idx * ITEMS_PER_PAGE,
@@ -309,6 +309,69 @@
   };
 
   Template.cashback_user_values.has_prev = function() {
+    return getSecondaryPageNo() >= 2;
+  };
+
+  Template.cashback_transaction_log.created = function() {
+    Meteor.subscribe("all_users");
+    Meteor.subscribe("all_admins");
+    return Meteor.subscribe("all_credit_log");
+  };
+
+  Template.cashback_transaction_log.logs = function() {
+    var page_no_0_idx;
+    page_no_0_idx = getSecondaryPageNo() - 1;
+    return CreditLog.find({}, {
+      limit: ITEMS_PER_PAGE,
+      skip: page_no_0_idx * ITEMS_PER_PAGE,
+      sort: {
+        modification_timestamp_utc: -1
+      },
+      transform: function(doc) {
+        var last_mod;
+        last_mod = moment(doc.modification_timestamp_utc);
+        doc["last_mod_date"] = last_mod.format('MMMM Do YYYY');
+        doc["id"] = doc._id.valueOf();
+        doc["user"] = PlopUser.findOne({
+          _id: doc.user_id
+        });
+        doc["admin"] = Meteor.users.findOne({
+          _id: doc.admin_id
+        });
+        doc["admin"] = Meteor.users.findOne({
+          _id: doc.admin_id
+        });
+        return doc;
+      }
+    });
+  };
+
+  Template.cashback_transaction_log.current_page = function() {
+    return getSecondaryPageNo();
+  };
+
+  Template.cashback_transaction_log.next_page_url = function() {
+    var next_page, page_no;
+    page_no = getSecondaryPageNo();
+    next_page = page_no + 1;
+    return "/cashback/log/" + next_page;
+  };
+
+  Template.cashback_transaction_log.prev_page_url = function() {
+    var page_no, prev_page;
+    page_no = getSecondaryPageNo();
+    prev_page = page_no - 1;
+    return "/cashback/log/" + prev_page;
+  };
+
+  Template.cashback_transaction_log.has_next = function() {
+    var total_items, total_pages;
+    total_items = CreditLog.find({}).count();
+    total_pages = Math.ceil(total_items / ITEMS_PER_PAGE);
+    return getSecondaryPageNo() < total_pages;
+  };
+
+  Template.cashback_transaction_log.has_prev = function() {
     return getSecondaryPageNo() >= 2;
   };
 

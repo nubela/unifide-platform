@@ -263,13 +263,13 @@
                 <thead>
                     <tr>
                         <td>
-                            <input type="text" class="input-small" placeholder="Username" />
+                            Username
                         </td>
                         <td>
-                            <input type="text" class="input-small" placeholder="Email" />
+                            Email
                         </td>
                         <td>
-                            <input type="text" class="input-small" placeholder="Process by.." />
+                            Processed by
                         </td>
                         <td>
                             Transaction type
@@ -283,71 +283,29 @@
                     </tr>
                 </thead>
 
-
                 <tbody>
-
+                    {{#each logs}}
                     <tr>
                         <td>
-                            <strong>nubela</strong>
+                            <strong>{{this.user.username}}</strong>
                         </td>
                         <td>
-                            nubela@gmail.com
+                            {{this.user.email}}
                         </td>
                         <td>
-                            Jamie
+                            {{this.admin.username}}
                         </td>
                         <td>
-                            Credit
+                            {{this.type}}
                         </td>
                         <td>
-                            - $3.40
+                            {{this.credited_value}}
                         </td>
                         <td>
-                            24th April 2013
+                            {{this.last_mod_date}}
                         </td>
                     </tr>
-
-                    <tr>
-                        <td>
-                            <strong>nubela</strong>
-                        </td>
-                        <td>
-                            nubela@gmail.com
-                        </td>
-                        <td>
-                            Jamie
-                        </td>
-                        <td>
-                            Credit
-                        </td>
-                        <td>
-                            - $3.40
-                        </td>
-                        <td>
-                            24th April 2013
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <strong>nubela</strong>
-                        </td>
-                        <td>
-                            nubela@gmail.com
-                        </td>
-                        <td>
-                            Jamie
-                        </td>
-                        <td>
-                            Credit
-                        </td>
-                        <td>
-                            - $3.40
-                        </td>
-                        <td>
-                            24th April 2013
-                        </td>
-                    </tr>
+                    {{/each}}
                 </tbody>
 
                 <thead>
@@ -368,11 +326,19 @@
                             &nbsp;
                         </td>
                         <td>
-                            <i class="icon-chevron-right pull-right icon-nav page-next" />
+                            {{#if has_next}}
+                            <a href="{{next_page_url}}" class="appnav">
+                                <i class="icon-chevron-right pull-right icon-nav page-next" />
+                            </a>
+                            {{/if}}
                             <div class="pull-right">
-                                &nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;
+                                {{current_page}}
                             </div>
-                            <i class="icon-chevron-left pull-right icon-nav page-back" />
+                            {{#if has_prev}}
+                            <a href="{{prev_page_url}}" class="appnav">
+                                <i class="icon-chevron-left pull-right icon-nav page-back" />
+                            </a>
+                            {{/if}}
                         </td>
                     </tr>
                 </thead>
