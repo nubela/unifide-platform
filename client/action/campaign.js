@@ -385,6 +385,7 @@ Template.campaign_list.events = {
         var campaign_type = $(event.currentTarget).find('.edit-campaign-type').val();
         Session.set('edit_campaign_type', campaign_type);
         Session.set('edit_campaign_id', campaign_id);
+        $('.web-content').css('display', 'block');
         $('#edit_campaign_modal').modal();
         $('#edit_campaign_modal').on('hidden', function () {
             Session.set('edit_campaign_type', '');
