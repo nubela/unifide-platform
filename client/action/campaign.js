@@ -389,10 +389,10 @@ Template.campaign_list.events = {
         $("#edit_campaign_modal").on('shown', function() {
             $('.web-content').css('display', 'block');
         })
-        $('#edit_campaign_modal').on('hidden', function () {
-            Session.set('edit_campaign_type', '');
-            Session.set('edit_campaign_id', '');
-        });
+//        $('#edit_campaign_modal').on('hidden', function () {
+//            Session.set('edit_campaign_type', '');
+//            Session.set('edit_campaign_id', '');
+//        });
     },
     'click .delete-campaign': function (event) {
         var checked = $('.selection input:checkbox:checked');
@@ -445,13 +445,14 @@ Template.campaign_list.campaigns = function () {
 }
 
 Template.campaign_list.edit_campaign = function () {
-    Session.setDefault('edit_campaign_type', 'promotion');
-    Session.get('edit_campaign_id');
     var edit_type = Session.get('edit_campaign_type');
+    console.log(edit_type);
     if (edit_type === 'promotion') {
+        console.log("1");
         return Template["campaign_promo"]();
     }
     else {
+        console.log("2");
         return Template["campaign_event"]();
     }
 }
