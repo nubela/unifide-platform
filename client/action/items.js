@@ -491,7 +491,7 @@
         if (val == null) {
           return;
         }
-        customtagLis = Session.get(ITEM_SESSION.CUSTOM_TAGS);
+        customtagLis = Session.get(ITEM_SESSION.CUSTOM_TAGS) ? Session.get(ITEM_SESSION.CUSTOM_TAGS) : [];
         if (!_.contains(customtagLis, val)) {
           customtagLis.push(val);
         }

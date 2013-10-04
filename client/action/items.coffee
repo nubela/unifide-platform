@@ -407,7 +407,7 @@ Template.item_compose.rendered = ->
                 return
 
             #add to list and input
-            customtagLis = Session.get(ITEM_SESSION.CUSTOM_TAGS)
+            customtagLis = if Session.get(ITEM_SESSION.CUSTOM_TAGS) then Session.get(ITEM_SESSION.CUSTOM_TAGS) else []
             if not _.contains(customtagLis, val)
                 customtagLis.push(val)
 
