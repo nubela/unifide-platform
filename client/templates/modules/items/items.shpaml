@@ -94,6 +94,7 @@ template name="item_view"
 
 template name="item_compose"
 
+    {{# if group_items }}
     ul.nav.nav-tabs
         {{#each group_items}}
         {{#if this.is_active}}
@@ -104,6 +105,7 @@ template name="item_compose"
             a.appnav href="{{this.item_url}}" | {{this.name}}
         {{/if}}
         {{/each}}
+    {{/if}}
 
     <!--- new item compose --->
     div.compose-new-item.well
@@ -132,7 +134,7 @@ template name="item_compose"
                 {{/if}}
 
                 .control-group
-                    label for="name" | Item name
+                    label#item-name for="name" | Item name
                     > input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}}
 
                 .control-group

@@ -25,6 +25,9 @@
   position: relative; }
   .items .item .thumbnail .img-holder {
     overflow: hidden; }
+    .items .item .thumbnail .img-holder img {
+      z-index: 3;
+      position: relative; }
   .items .item .thumbnail .text-caption {
     background-image: url("/media/img/text_gray_bg_dark.png");
     color: white;
@@ -32,6 +35,7 @@
     height: 30px;
     float: left;
     position: relative;
+    z-index: 4;
     top: -30px;
     font-size: 0.9em;
     line-height: 30px;

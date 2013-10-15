@@ -127,6 +127,7 @@
 
 <template name="item_compose">
 
+    {{# if group_items }}
     <ul class="nav nav-tabs">
         {{#each group_items}}
         {{#if this.is_active}}
@@ -140,6 +141,7 @@
         {{/if}}
         {{/each}}
     </ul>
+    {{/if}}
 
     <!--- new item compose --->
     <div class="compose-new-item well">
@@ -168,7 +170,7 @@
                 {{/if}}
 
                 <div class="control-group">
-                    <label for="name">Item name</label>
+                    <label for="name" id="item-name">Item name</label>
                     <input type="text" placeholder="Item A" name="name" id="name" data-required="true" data-focus="first" {{#if item_to_update}}value="{{item_to_update.name}}"{{/if}} />
                 </div>
 

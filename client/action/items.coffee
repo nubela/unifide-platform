@@ -318,6 +318,8 @@ Template.item_compose.group_items = ->
         return []
     if not "group_id" of actual_item
         return []
+    if not actual_item.group_id?
+        return []
 
     ITMItems.find({
         group_id: actual_item.group_id
@@ -397,6 +399,8 @@ Template.item_compose.created = ->
     scrollTop()
 
 Template.item_compose.rendered = ->
+    $("#item-name").focus()
+
     $("#tagsinput_tag").keypress (e) ->
         if e.which == 13
             e.preventDefault()
@@ -577,6 +581,8 @@ Template.item_view.group_items = ->
     if not actual_item?
         return []
     if not "group_id" of actual_item
+        return []
+    if not actual_item.group_id?
         return []
 
     ITMItems.find({

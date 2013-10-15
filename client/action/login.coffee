@@ -1,5 +1,5 @@
 Template.page_login.rendered = ->
-    $('body').css('background', 'url("/media/img/login-bg.png") no-repeat center center fixed')
+    $('body').css('background', 'url("/media/img/login-bg.png")')
     page = Session.get("page")
     p = page.split('/')
     if p[1] == "admin-register"
