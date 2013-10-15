@@ -97,7 +97,7 @@ Meteor.publish "brand_config", ->
     BrandConfig.find({})
 
 Meteor.publish "cp_menu", ->
-    CPMenu.find({uid: this.userId})
+    CPMenu.find {}
 
 Meteor.publish "accounts", ->
     [

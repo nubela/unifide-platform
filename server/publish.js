@@ -148,9 +148,7 @@
   });
 
   Meteor.publish("cp_menu", function() {
-    return CPMenu.find({
-      uid: this.userId
-    });
+    return CPMenu.find({});
   });
 
   Meteor.publish("accounts", function() {
