@@ -227,26 +227,28 @@
       return null;
     }
     return Order.findOne({
-      _id: new Meteor.Collection.ObjectID(slugs[1])
+      _id: slugs[1]
     }, {
       transform: function(doc) {
+        var item, item_desc_obj, qty, _i, _len, _ref;
         doc["user"] = PlopUser.findOne({
           _id: new Meteor.Collection.ObjectID(doc.user_id)
         });
         doc["id"] = doc._id.valueOf();
         doc["all_items"] = [];
-        _.each(doc.items, function(item_desc_obj) {
-          var item, qty;
+        _ref = doc.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item_desc_obj = _ref[_i];
           item = ITMItems.findOne({
-            _id: item_desc_obj.obj_id
+            _id: new Meteor.Collection.ObjectID(item_desc_obj.obj_id)
           });
           item.id = item._id.valueOf();
           qty = item_desc_obj.quantity;
-          return doc["all_items"].push({
+          doc["all_items"].push({
             item: item,
             qty: qty
           });
-        });
+        }
         return doc;
       }
     });

@@ -185,15 +185,15 @@ getUpdateOrder = ->
         return null
 
     Order.findOne {
-        _id: new Meteor.Collection.ObjectID(slugs[1])
+        _id: slugs[1]
     }, {
         transform: (doc) ->
             doc["user"] = PlopUser.findOne {_id: new Meteor.Collection.ObjectID(doc.user_id)}
             doc["id"] = doc._id.valueOf()
 
             doc["all_items"] = []
-            _.each doc.items, (item_desc_obj) ->
-                item = ITMItems.findOne {_id: item_desc_obj.obj_id}
+            for item_desc_obj in doc.items
+                item = ITMItems.findOne {_id: new Meteor.Collection.ObjectID(item_desc_obj.obj_id)}
                 item.id = item._id.valueOf()
                 qty = item_desc_obj.quantity
                 doc["all_items"].push {
