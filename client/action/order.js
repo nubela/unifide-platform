@@ -92,14 +92,21 @@
         doc["user"] = PlopUser.findOne({
           _id: new Meteor.Collection.ObjectID(doc.user_id)
         });
-        doc["user"]["full_name"] = "" + doc["user"].first_name + " " + doc["user"].middle_name + " " + doc["user"].last_name;
-        doc["user"]["full_name_trunc"] = doc["user"]["full_name"].substring(0, 30);
+        if (doc["user"] != null) {
+          doc["user"]["full_name"] = "" + doc["user"].first_name + " " + doc["user"].middle_name + " " + doc["user"].last_name;
+          doc["user"]["full_name_trunc"] = doc["user"]["full_name"].substring(0, 30);
+        } else {
+          doc["user"] = {
+            "full_name": "Anonymous",
+            "full_name_trunc": "Anonymous"
+          };
+        }
         all_items = [];
         items_descriptive = [];
         _.each(doc.items, function(item_desc_obj) {
           var item, qty;
           item = ITMItems.findOne({
-            _id: item_desc_obj.obj_id
+            _id: new Meteor.Collection.ObjectID(item_desc_obj.obj_id)
           });
           qty = item_desc_obj.quantity;
           all_items.push(item.name);
