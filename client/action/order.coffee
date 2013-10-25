@@ -64,7 +64,6 @@ Template.order_all.orders = ->
             user_id: user_id_filter
         }
 
-
     Order.find dic, {
         limit: ITEMS_PER_PAGE
         skip: page_no_0_idx * ITEMS_PER_PAGE
@@ -76,24 +75,30 @@ Template.order_all.orders = ->
             doc["timestamp"] = last_mod.format('MMMM Do YYYY')
             doc["user"] = PlopUser.findOne
                 _id: new Meteor.Collection.ObjectID(doc.user_id)
-            doc["user"]["full_name"] = "#{doc["user"].first_name} #{doc["user"].middle_name} #{doc["user"].last_name}"
-            doc["user"]["full_name_trunc"] = doc["user"]["full_name"].substring(0,30)
+            if doc["user"]?
+                doc["user"]["full_name"] = "#{doc["user"].first_name} #{doc["user"].middle_name} #{doc["user"].last_name}"
+                doc["user"]["full_name_trunc"] = doc["user"]["full_name"].substring(0, 30)
+            else
+                doc["user"] =
+                    "full_name": "Anonymous"
+                    "full_name_trunc": "Anonymous"
 
             #item descriptive
             all_items = []
             items_descriptive = []
             _.each doc.items, (item_desc_obj) ->
-                item = ITMItems.findOne {_id: item_desc_obj.obj_id}
+                item = ITMItems.findOne {_id: new Meteor.Collection.ObjectID(item_desc_obj.obj_id)}
                 qty = item_desc_obj.quantity
                 all_items.push item.name
                 items_descriptive.push "#{item.name} &times; #{qty}"
             doc["all_items"] = all_items.join ", "
             if doc["all_items"].length > 30
-                doc["all_items"] = doc["all_items"].substring(0,30) + ".."
+                doc["all_items"] = doc["all_items"].substring(0, 30) + ".."
             doc["item_descriptive"] = items_descriptive.join "</br>"
 
             doc
     }
+
 
 Template.order_all.current_page = ->
     getPageNo()
@@ -136,7 +141,7 @@ Template.order_compose.rendered = ->
         $("option[value=#{update_order.status}]").attr("selected", true)
 
 Template.order_compose.shipping_methods = ->
-    ShippingRule.find {},{
+    ShippingRule.find {}, {
         transform: (doc) ->
             doc["id"] = doc._id.valueOf()
             doc
@@ -180,15 +185,15 @@ getUpdateOrder = ->
         return null
 
     Order.findOne {
-        _id: new Meteor.Collection.ObjectID(slugs[1])
+        _id: slugs[1]
     }, {
         transform: (doc) ->
             doc["user"] = PlopUser.findOne {_id: new Meteor.Collection.ObjectID(doc.user_id)}
             doc["id"] = doc._id.valueOf()
 
             doc["all_items"] = []
-            _.each doc.items, (item_desc_obj) ->
-                item = ITMItems.findOne {_id: item_desc_obj.obj_id}
+            for item_desc_obj in doc.items
+                item = ITMItems.findOne {_id: new Meteor.Collection.ObjectID(item_desc_obj.obj_id)}
                 item.id = item._id.valueOf()
                 qty = item_desc_obj.quantity
                 doc["all_items"].push {
@@ -235,7 +240,7 @@ createOrder = ->
             if not $(order_item).attr("id")?
                 quantity = $(order_item).find(".qty").val()
                 item_id = $(order_item).find(".item-selection").attr("data-item-id")
-                dic.items.push {obj_id: item_id, quantity:quantity}
+                dic.items.push {obj_id: item_id, quantity: quantity}
 
         dic.items = JSON.stringify(dic.items)
 

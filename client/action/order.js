@@ -90,14 +90,21 @@
         doc["user"] = PlopUser.findOne({
           _id: new Meteor.Collection.ObjectID(doc.user_id)
         });
-        doc["user"]["full_name"] = "" + doc["user"].first_name + " " + doc["user"].middle_name + " " + doc["user"].last_name;
-        doc["user"]["full_name_trunc"] = doc["user"]["full_name"].substring(0, 30);
+        if (doc["user"] != null) {
+          doc["user"]["full_name"] = "" + doc["user"].first_name + " " + doc["user"].middle_name + " " + doc["user"].last_name;
+          doc["user"]["full_name_trunc"] = doc["user"]["full_name"].substring(0, 30);
+        } else {
+          doc["user"] = {
+            "full_name": "Anonymous",
+            "full_name_trunc": "Anonymous"
+          };
+        }
         all_items = [];
         items_descriptive = [];
         _.each(doc.items, function(item_desc_obj) {
           var item, qty;
           item = ITMItems.findOne({
-            _id: item_desc_obj.obj_id
+            _id: new Meteor.Collection.ObjectID(item_desc_obj.obj_id)
           });
           qty = item_desc_obj.quantity;
           all_items.push(item.name);
@@ -218,26 +225,28 @@
       return null;
     }
     return Order.findOne({
-      _id: new Meteor.Collection.ObjectID(slugs[1])
+      _id: slugs[1]
     }, {
       transform: function(doc) {
+        var item, item_desc_obj, qty, _i, _len, _ref;
         doc["user"] = PlopUser.findOne({
           _id: new Meteor.Collection.ObjectID(doc.user_id)
         });
         doc["id"] = doc._id.valueOf();
         doc["all_items"] = [];
-        _.each(doc.items, function(item_desc_obj) {
-          var item, qty;
+        _ref = doc.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item_desc_obj = _ref[_i];
           item = ITMItems.findOne({
-            _id: item_desc_obj.obj_id
+            _id: new Meteor.Collection.ObjectID(item_desc_obj.obj_id)
           });
           item.id = item._id.valueOf();
           qty = item_desc_obj.quantity;
-          return doc["all_items"].push({
+          doc["all_items"].push({
             item: item,
             qty: qty
           });
-        });
+        }
         return doc;
       }
     });
