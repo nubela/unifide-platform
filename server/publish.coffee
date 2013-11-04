@@ -31,6 +31,9 @@ Meteor.publish "all_containers",  ->
 Meteor.publish "all_items",  ->
     ITMItems.find {}
 
+Meteor.publish "all_tags", ->
+    ITEMTags.find {}
+
 Meteor.publish "all_groups",  ->
     Group.find {}
 

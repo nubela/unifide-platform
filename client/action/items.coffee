@@ -100,6 +100,7 @@ rehash_container_items = ->
     Meteor.subscribe "container_item_media", path_lis
     Meteor.subscribe "child_containers", path_lis
     Meteor.subscribe "container_items", path_lis
+    Meteor.subscribe "all_tags"
 
 
 is_view_type = (view_type) ->
@@ -190,6 +191,20 @@ createItem = ->
                 file_reader.readAsDataURL file_input.files[0]
         )(i)
 
+getItemTags = (item_obj, item_id) ->
+    tag_lis = ITEMTags.find({$or: [
+        {obj_id: new Meteor.Collection.ObjectID(item_id)},
+        {obj_id: item_id}
+    ]})
+    tag_list = []
+
+    if !item_obj.tags
+        item_obj.tags = []
+
+    for t in tag_lis.fetch()
+        tag_list.push(t.tag)
+
+    return tag_list
 
 #------ item template functions ------#
 
@@ -300,6 +315,7 @@ Template.item_compose.tags_json = ->
             {_id: item_id}
         ]})
         if obj?
+            obj.tags = getItemTags(obj, item_id)
             Session.set(ITEM_SESSION.CUSTOM_TAGS, obj.tags)
             return JSON.stringify(obj.tags)
 
@@ -381,7 +397,7 @@ Template.item_compose.extra_attr = ->
 Template.item_compose.item_to_update = ->
     if Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.UPDATE or Session.get(ITEM_SESSION.VIEW_TYPE) == VIEW_TYPE.CREATE_BASED
         item_id = Session.get(ITEM_SESSION.ITEM_ID)
-        return ITMItems.findOne({$or: [
+        item_obj = ITMItems.findOne({$or: [
             {_id: new Meteor.Collection.ObjectID(item_id)},
             {_id: item_id}
         ]}, {
@@ -389,6 +405,8 @@ Template.item_compose.item_to_update = ->
                 doc.id = doc._id.valueOf()
                 doc
         })
+        item_obj.tags = getItemTags(item_obj, item_id)
+        return item_obj
     return null
 
 
