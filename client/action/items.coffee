@@ -48,7 +48,7 @@ filterForSimilarItems = (all_items) ->
 
     #sort items by group_ids
     for i in all_items
-        if not "group_id" of i
+        if not "group_id" of i or not i.group_id?
             dic["_legacy"].push i
         else
             if not dic[i.group_id]?
